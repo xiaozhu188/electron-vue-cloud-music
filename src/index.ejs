@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>网易云音乐</title>
+    <% if (htmlWebpackPlugin.options.nodeModules) { %>
+    <!-- Add `node_modules/` to global paths so `require` works properly in development -->
+    <script>
+      require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
+    </script>
+    <% } %>
+    <style>
+      .loading-global {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ani_playing {
+        width: 30px;
+        height: 12px;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        display: inline-flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+      .ani_playing .play {
+        animation: bounce ease-in-out infinite alternate forwards;
+      }
+      .ani_playing .play.line {
+        height: 12px;
+        width: 2px;
+        margin-right: 2px;
+        background: #c62f2f;
+        transform-origin: bottom;
+      }
+      .ani_playing .play.line:nth-of-type(1) {
+        height: 6px;
+        animation-duration: 0.4s;
+        -webkit-animation-duration: 0.4s;
+      }
+      .ani_playing .play.line:nth-of-type(2) {
+        height: 12px;
+        animation-duration: 0.6s;
+        -webkit-animation-duration: 0.6s;
+      }
+      .ani_playing .play.line:nth-of-type(3) {
+        height: 10px;
+        animation-duration: 0.7s;
+        -webkit-animation-duration: 0.7s;
+      }
+      .ani_playing .play.line:nth-of-type(4) {
+        height: 8px;
+        animation-duration: 0.5s;
+        -webkit-animation-duration: 0.5s;
+      }
+
+      @keyframes bounce {
+        0% {
+          transform: scaleY(1);
+        }
+        100% {
+          transform: scaleY(0.1);
+        }
+      }
+      * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      @keyframes fade {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      @keyframes enter {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      .welcome {
+        position: fixed;
+        left: 0;
+        z-index: 999998;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        animation: fade .3s ease-in-out reverse;
+        /* display: none; */
+      }
+      .welcome .welcome-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .welcome .welcome-img.fade {
+        animation: fade 1s ease-in-out both;
+      }
+      @keyframes fade {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <div class="loading-global">
+        <div class="ani_playing">
+          <div class="line play"></div>
+          <div class="line play"></div>
+          <div class="line play"></div>
+          <div class="line play"></div>
+        </div>
+      </div> -->
+    </div>
+    <div id="welcome" class="welcome">
+      <img src="static/images/welcome.png" class="welcome-img" />
+    </div>
+    <!-- Set `__static` path to static files in production -->
+    <% if (!process.browser) { %>
+    <script>
+      // const { remote } = require('electron')
+      // console.log(22,remote.getGlobal('useWelcome'))
+      // if(remote.getGlobal('useWelcome')){
+      //   document.getElementById('welcome').style.display='block'
+      // }
+      if (process.env.NODE_ENV !== "development")
+        window.__static = require("path")
+          .join(__dirname, "/static")
+          .replace(/\\/g, "\\\\");
+    </script>
+    <% } %>
+    
+    <!-- webpack builds are automatically injected -->
+  </body>
+</html>

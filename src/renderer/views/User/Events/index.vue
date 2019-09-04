@@ -167,7 +167,7 @@ export default {
 .events-header {
   position: sticky;
   top: 0;
-  z-index: 111;
+  z-index: 12;
   display: flex;
   align-items: center;
   justify-content: space-between;

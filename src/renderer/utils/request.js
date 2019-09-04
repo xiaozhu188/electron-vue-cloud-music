@@ -2,10 +2,9 @@ import axios from 'axios'
 import store from './../store'
 import { Base64 } from 'js-base64'
 import Message from 'ant-design-vue/es/message'
-// http://musicapi.leanapp.cn
 const baseURL = process.env.NODE_ENV === 'development'
   ? 'http://127.0.0.1:3000'
-  : 'http://127.0.0.1:3000' // http://129.204.108.71:3000  http://106.13.145.118:3000
+  : 'http://127.0.0.1:3000'
 
 const instance = axios.create({
   baseURL,

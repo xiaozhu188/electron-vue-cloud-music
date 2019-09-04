@@ -41,7 +41,7 @@
       </div>
     </div>
     <a-icon type="close" class="close" @click="close"></a-icon>
-    <a-icon type="minus" class="hide" @click="hide" v-if="visible" />
+    <a-icon type="minus" class="hide" @click="hide" />
   </div>
 </template>
 
@@ -60,10 +60,15 @@ const getDownloadInfo = function (version) {
       filename: `electron-vue-cloud-music-setup-${version}.exe`,
       url: `${BASE_URL}/v${version}/electron-vue-cloud-music-setup-${version}.exe`
     }
+  } else if (process.platform === 'linux') {
+    return {
+      filename: `${BASE_URL}/v${version}/electron-vue-cloud-music-${version}-x86_64.AppImage`,
+      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-${version}-x86_64.AppImage`
+    }
   } else {
     return {
-      name: `electron-vue-cloud-music-${version}.dmg`,
-      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-setup-${version}.dmg`
+      filename: `electron-vue-cloud-music-${version}.dmg`,
+      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-${version}.dmg`
     }
   }
 }
@@ -77,14 +82,6 @@ export default {
       is_paused: false,
       is_abort: false,
       remoteVersionFromApp: this.$electron.remote.getGlobal('remoteVersion')
-    }
-  },
-  computed: {
-    // ...mapState('Update', [
-    //   'remoteVersion'
-    // ]),
-    visible () {
-      return this.$electron.remote.getGlobal('update_visible')
     }
   },
   methods: {
@@ -163,7 +160,6 @@ export default {
       this._request.resume()
     },
     abort () {
-      console.log('abort', this._request.abort)
       this.state = {}
       this.showDownload = false
       this.is_abort = true

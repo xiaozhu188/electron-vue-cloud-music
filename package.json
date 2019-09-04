@@ -20,7 +20,8 @@
     "postinstall": "npm run lint:fix",
     "patch": "npm version patch && git push origin master && git push origin --tags",
     "minor": "npm version minor && git push origin master && git push origin --tags",
-    "major": "npm version major && git push origin master && git push origin --tags"
+    "major": "npm version major && git push origin master && git push origin --tags",
+    "doc": "docsify serve docs"
   },
   "build": {
     "productName": "网易云音乐",

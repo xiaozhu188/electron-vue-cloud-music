@@ -2,9 +2,9 @@
   <div class="tray">
     <div class="tray-box">
       <div class="control-box">
-        <a-icon type="step-backward" class="control-icon step" title="上一曲" @click.native="backward" />
-        <a-icon :type="playIcon" theme="filled" class="control-icon" :title="playTitle" @click.native="togglePlay" />
-        <a-icon type="step-forward" class="control-icon step" title="下一曲" @click.native="forward" />
+        <a-icon type="step-backward" class="control-icon step" title="上一曲" @click="backward" />
+        <a-icon :type="playIcon" theme="filled" class="control-icon" :title="playTitle" @click="togglePlay" />
+        <a-icon type="step-forward" class="control-icon step" title="下一曲" @click="forward" />
       </div>
 
       <div class="volume-box" :title="`音量:${isMuted ? 0 : volume*100}%`">
@@ -78,10 +78,11 @@ export default {
       'playing',
       'mode',
       'volume',
-      'isMuted'
-    ]),
-    ...mapGetters('play', [
+      'isMuted',
       'showDesktoplyric'
+    ]),
+    ...mapState('play', [
+      'lyric'
     ]),
     playIcon () {
       return this.playing ? 'pause-circle' : 'play-circle'

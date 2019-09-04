@@ -101,10 +101,9 @@ export default {
   },
   methods: {
     togglePlay () {
-      // this.$electron.ipcRenderer.send('toggle-play', {
-      //   value: !this.playing
-      // })
-      this.$store.commit('play/SET_PLAY_STATUS', !this.playing)
+      this.$electron.ipcRenderer.send('toggle-play', {
+        value: !this.playing
+      })
     },
     backward () {
       this.$electron.ipcRenderer.send('prev-play', {

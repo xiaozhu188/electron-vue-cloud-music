@@ -47,6 +47,12 @@ export default {
       if (newVal) {
         this.$nextTick(() => {
           this.initWater()
+          this.timer && cancelAnimationFrame(this.timer)
+        })
+      } else {
+        this.$nextTick(() => {
+          this.init()
+          this.timer2 && cancelAnimationFrame(this.timer2)
         })
       }
     },
@@ -62,8 +68,10 @@ export default {
             this.canvasHeight === 0 ? window.innerHeight : this.canvasHeight
 
           this.init()
-          this.initWater()
         })
+      } else {
+        this.timer && cancelAnimationFrame(this.timer)
+        this.timer2 && cancelAnimationFrame(this.timer2)
       }
     }
   },
@@ -71,7 +79,7 @@ export default {
     this.$nextTick(() => {
       this.canvas = document.getElementById('canvas')
       this.wrap = document.getElementById('wrap')
-      this.audioDom = document.getElementById(this.source)
+      // this.audioDom = document.getElementById(this.source)
     })
     window.onresize = () => {
       this.canvas.width = window.innerWidth
@@ -103,71 +111,71 @@ export default {
           // 创建数据
           this.dataArray = new Uint8Array(length)
           // console.log(this.dataArray)
-          this.context = this.canvas.getContext('2d')
-          this.gradient = this.context.createLinearGradient(
-            0,
-            0,
-            0,
-            this.height
-          )
-          this.gradient.addColorStop('0', '#860000')
-          this.gradient.addColorStop('1.0', '#c62f2f')
-          let _this = this;
-          (function draw () {
-            _this.analyser.getByteFrequencyData(_this.dataArray)
-            _this.context.clearRect(0, 0, _this.width, _this.height)
-            _this.context.beginPath()
-            _this.context.moveTo(0, _this.height)
-            let x = 0
-            let step = 12
-            let length = Math.ceil(_this.width / step)
-            for (let i = 1; i <= length; i++) {
-              let lineHeight = ((_this.dataArray[i] / 256) * _this.height) / 5
-              if (i < length / 10) {
-                _this.context.lineTo(x, _this.height - lineHeight / 2)
-              } else if (i > length - 1) {
-                _this.context.lineTo(x, _this.height)
-              } else {
-                _this.context.lineTo(x, _this.height - lineHeight)
-              }
-              x += step
-            }
-
-            _this.context.fillStyle = _this.gradient
-            _this.context.fill()
-            _this.context.closePath()
-
-            if (_this.audioDom && !_this.audioDom.paused) {
-              _this.context.beginPath()
-              _this.context.moveTo(0, _this.height)
-              let x2 = 0
-              for (let j = 1; j <= length; j++) {
-                let lineHeight2 =
-                  ((_this.dataArray[j] / 256) * _this.height) / 5
-                let diffH = Math.floor(Math.random() * 20 + 1)
-                if (j < length / 10) {
-                  _this.context.lineTo(
-                    x2,
-                    _this.height - lineHeight2 / 2 - diffH
-                  )
-                } else if (j > length - 1) {
-                  _this.context.lineTo(x2, _this.height - diffH)
-                } else {
-                  _this.context.lineTo(x2, _this.height - lineHeight2 - diffH)
-                }
-                x2 += step
-              }
-
-              _this.context.strokeStyle = _this.gradient
-              _this.context.stroke()
-              _this.context.closePath()
-            }
-            requestAnimationFrame(draw)
-          })()
         } catch (error) {
           console.log(error)
         }
       }
+      this.context = this.canvas.getContext('2d')
+      this.gradient = this.context.createLinearGradient(
+        0,
+        0,
+        0,
+        this.height
+      )
+      this.gradient.addColorStop('0', '#860000')
+      this.gradient.addColorStop('1.0', '#c62f2f')
+      let _this = this;
+      (function draw () {
+        _this.analyser.getByteFrequencyData(_this.dataArray)
+        _this.context.clearRect(0, 0, _this.width, _this.height)
+        _this.context.beginPath()
+        _this.context.moveTo(0, _this.height)
+        let x = 0
+        let step = 12
+        let length = Math.ceil(_this.width / step)
+        for (let i = 1; i <= length; i++) {
+          let lineHeight = ((_this.dataArray[i] / 256) * _this.height) / 5
+          if (i < length / 10) {
+            _this.context.lineTo(x, _this.height - lineHeight / 2)
+          } else if (i > length - 1) {
+            _this.context.lineTo(x, _this.height)
+          } else {
+            _this.context.lineTo(x, _this.height - lineHeight)
+          }
+          x += step
+        }
+
+        _this.context.fillStyle = _this.gradient
+        _this.context.fill()
+        _this.context.closePath()
+
+        if (_this.audioDom && !_this.audioDom.paused) {
+          _this.context.beginPath()
+          _this.context.moveTo(0, _this.height)
+          let x2 = 0
+          for (let j = 1; j <= length; j++) {
+            let lineHeight2 =
+                  ((_this.dataArray[j] / 256) * _this.height) / 5
+            let diffH = Math.floor(Math.random() * 20 + 1)
+            if (j < length / 10) {
+              _this.context.lineTo(
+                x2,
+                _this.height - lineHeight2 / 2 - diffH
+              )
+            } else if (j > length - 1) {
+              _this.context.lineTo(x2, _this.height - diffH)
+            } else {
+              _this.context.lineTo(x2, _this.height - lineHeight2 - diffH)
+            }
+            x2 += step
+          }
+
+          _this.context.strokeStyle = _this.gradient
+          _this.context.stroke()
+          _this.context.closePath()
+        }
+        _this.timer = requestAnimationFrame(draw)
+      })()
     },
     initWater () {
       let { width, height } = this.wrap
@@ -253,7 +261,7 @@ export default {
           cxt.stroke()
           cxt.closePath()
         }
-        requestAnimationFrame(drawSpectrum)
+        _this.time2 = requestAnimationFrame(drawSpectrum)
       })()
     },
     toggleWater () {

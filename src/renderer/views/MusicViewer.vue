@@ -7,7 +7,7 @@
           :style="'backgroundImage: url('+current_song.avatar+')'"
           v-if="current_song.avatar"
         ></div>
-        <a-icon type="down" class="icon" @click.native="closeMusicView"></a-icon>
+        <a-icon type="down" class="icon" @click="closeMusicView"></a-icon>
         <music-view ref="viewer" @avatarClick="handleAvatarClick" />
         <div class="lyric" @click="toggleViewer" v-show="showLyric">
           <lyric-list class="view" ref="lyrics" />
@@ -46,16 +46,6 @@ export default {
     MusicView, LyricList
   },
   watch: {
-    current_lyric_line (newLine) {
-      const lines = this.$refs.lyrics.$refs.lyricLine
-      if (lines && lines[newLine]) {
-        let top =
-          lines[newLine].offsetTop > 0
-            ? Number(lines[newLine].offsetTop - LINE_HEIGHT * this.currentLine)
-            : 0
-        this.$refs.lyrics.scrollTo(top, 'smooth')
-      }
-    },
     showView (newVal) {
       if (newVal) {
         this.$nextTick(() => {
@@ -65,10 +55,25 @@ export default {
             this.$refs.lyrics.scrollTo(top)
           }
         })
+        this.unWater = this.$watch('current_lyric_line', (newLine) => {
+          this.handleLineChange(newLine)
+        })
+      } else {
+        this.unWater()
       }
     }
   },
   methods: {
+    handleLineChange (newLine) {
+      const lines = this.$refs.lyrics.$refs.lyricLine
+      if (lines && lines[newLine]) {
+        let top =
+          lines[newLine].offsetTop > 0
+            ? Number(lines[newLine].offsetTop - LINE_HEIGHT * this.currentLine)
+            : 0
+        this.$refs.lyrics.scrollTo(top, 'smooth')
+      }
+    },
     closeMusicView () {
       this.$store.commit('App/SHOW_VIEW', false)
     },

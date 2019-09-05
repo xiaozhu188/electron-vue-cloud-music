@@ -182,11 +182,10 @@ export default {
           item.json = JSON.parse(item.json)
         })
         this.events.push(...res.events)
-        console.log(this.events)
+        $state.loaded()
       }
       if (res.more) {
         this.options.lasttime = res.lasttime
-        $state.loaded()
       } else {
         $state.complete()
       }

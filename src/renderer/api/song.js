@@ -1,7 +1,7 @@
 import request from '@/utils/request.js'
 
 export function getSongUrl (id) {
-  return request.get('/api/song/url', {
+  return request.get('/song/url', {
     params: {
       id
     }
@@ -10,7 +10,7 @@ export function getSongUrl (id) {
 
 // 歌曲详情
 export function getSongDetail (id) {
-  return request.get('/api/song/detail', {
+  return request.get('/song/detail', {
     params: {
       id
     }
@@ -19,7 +19,7 @@ export function getSongDetail (id) {
 
 // 获取歌词
 export function getLyric (id) {
-  return request.get('/api/lyric', {
+  return request.get('/lyric', {
     params: {
       id
     }
@@ -27,12 +27,12 @@ export function getLyric (id) {
 }
 
 export function getNewSong () {
-  return request.get('/api/personalized/newsong')
+  return request.get('/personalized/newsong')
 }
 
 // 心动模式 /playmode/intelligence/list?id=33894312&pid=24381616
 export function getIntelligence (id, pid) {
-  return request.get('/api/playmode/intelligence/list', {
+  return request.get('/playmode/intelligence/list', {
     params: {
       id,
       pid,
@@ -43,7 +43,7 @@ export function getIntelligence (id, pid) {
 
 // 相似音乐
 export function getSimiSong (id) {
-  return request.get('/api/simi/song', {
+  return request.get('/simi/song', {
     params: {
       id
     }
@@ -52,7 +52,7 @@ export function getSimiSong (id) {
 
 // 根据歌曲找到包含这首歌的歌单
 export function getSimiPlaylist (id) {
-  return request.get('/api/simi/playlist', {
+  return request.get('/simi/playlist', {
     params: {
       id
     }
@@ -61,7 +61,7 @@ export function getSimiPlaylist (id) {
 
 // 获取最近 5 个听了这首歌的用户
 export function getSongUsers (id) {
-  return request.get('/api/simi/user', {
+  return request.get('/simi/user', {
     params: {
       id
     }
@@ -75,7 +75,7 @@ export function getSongUsers (id) {
 // 日本:8
 // 韩国:16
 export function getTopSong (type) {
-  return request.get('/api/top/song', {
+  return request.get('/top/song', {
     params: {
       type
     }

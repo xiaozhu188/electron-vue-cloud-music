@@ -1,14 +1,14 @@
 import request from '../utils/request.js'
 
 export function login_cellphone (params) {
-  return request.get('/api/login/cellphone', {
+  return request.get('/login/cellphone', {
     params
   })
 }
 
 // type: 签到类型 , 默认 0, 其中 0 为安卓端签到 ,1 为 web/PC 签到
 export function daily_signin (type) {
-  return request.get('/api/daily_signin', {
+  return request.get('/daily_signin', {
     params: {
       type
     }
@@ -17,7 +17,7 @@ export function daily_signin (type) {
 
 // 用户详情
 export function user_detail (uid) {
-  return request.get('/api/user/detail', {
+  return request.get('/user/detail', {
     params: {
       uid,
       _: new Date().getTime()
@@ -27,7 +27,7 @@ export function user_detail (uid) {
 
 // 获取用户信息 , 歌单，收藏，mv, dj 数量
 export function user_subcount (uid) {
-  return request.get('/api/user/subcount', {
+  return request.get('/user/subcount', {
     params: {
       uid,
       _: new Date().getTime()
@@ -37,28 +37,28 @@ export function user_subcount (uid) {
 
 // 获取用户私信
 export function user_msg_private ({limit = 10, offset = 0}) {
-  return request.get('/api/msg/private', {
+  return request.get('/msg/private', {
     params: {limit, offset}
   })
 }
 
 // 获取用户关注列表
 export function user_follower ({uid, limit = 10, offset = 0}) {
-  return request.get('/api/user/follows', {
+  return request.get('/user/follows', {
     params: {uid, limit, offset}
   })
 }
 
 // 获取用户粉丝列表
 export function user_followed ({uid, limit = 10, lasttime = -1}) {
-  return request.get('/api/user/followeds', {
+  return request.get('/user/followeds', {
     params: {uid, limit, lasttime}
   })
 }
 
 // 关注/取消关注用户
 export function user_follow ({t, id}) {
-  return request.get('/api/follow', {
+  return request.get('/follow', {
     params: {t, id}
   })
 }
@@ -72,13 +72,13 @@ export function getUserPlaylist (uid) {
   if (process.env.NODE_ENV !== 'production') {
     params.timestamp = new Date().getTime()
   }
-  return request.get('/api/user/playlist', {
+  return request.get('/user/playlist', {
     params
   })
 }
 
 export function getUserCloud (uid) {
-  return request.get('/api/user/cloud', {
+  return request.get('/user/cloud', {
     params: {
       uid
     }
@@ -93,14 +93,14 @@ export function getUserLikeSongs (uid) {
   if (process.env.NODE_ENV === 'production') {
     params.timestamp = new Date().getTime()
   }
-  return request.get('/api/likelist', {
+  return request.get('/likelist', {
     params
   })
 }
 
 // 喜欢音乐
 export function likeMusic (musicId, isLike) {
-  return request.get('/api/like', {
+  return request.get('/like', {
     params: {
       id: musicId,
       like: isLike
@@ -110,7 +110,7 @@ export function likeMusic (musicId, isLike) {
 
 // 收藏专辑 t  1:收藏,2:取消收藏
 export function subAlbum ({t, id}) {
-  return request.get('/api/album/sub', {
+  return request.get('/album/sub', {
     params: {
       t,
       id
@@ -120,7 +120,7 @@ export function subAlbum ({t, id}) {
 
 // 收藏歌单 t  1:收藏,2:取消收藏
 export function likePlaylist (t, pid) {
-  return request.get('/api/playlist/subscribe', {
+  return request.get('/playlist/subscribe', {
     params: {
       t,
       id: pid
@@ -130,7 +130,7 @@ export function likePlaylist (t, pid) {
 
 // 删除创建的歌单
 export function deletePlaylist (id) {
-  return request.get('/api/playlist/delete', {
+  return request.get('/playlist/delete', {
     params: {
       id
     }
@@ -149,14 +149,14 @@ export function createPlaylist ({name, privacy}) {
   if (privacy) {
     params.privacy = 10
   }
-  return request.get('/api/playlist/create', {
+  return request.get('/playlist/create', {
     params
   })
 }
 
 // 对歌单添加或删除歌曲
 export function addSongToList ({op, tracks, pid}) {
-  return request.get('/api/playlist/tracks', {
+  return request.get('/playlist/tracks', {
     params: {
       op, tracks, pid
     }
@@ -165,17 +165,17 @@ export function addSongToList ({op, tracks, pid}) {
 
 // 私人fm
 export function getFm () {
-  return request.get('/api/personal_fm?_=' + new Date().getTime())
+  return request.get('/personal_fm?_=' + new Date().getTime())
 }
 
 // 每日推荐歌曲
 export function getRecommendSongs () {
-  return request.get('/api/recommend/songs')
+  return request.get('/recommend/songs')
 }
 
 // 用户动态
 export function getUserEvent ({uid, limit = 30, lasttime = -1}) {
-  return request.get('/api/user/event', {
+  return request.get('/user/event', {
     params: {
       uid, limit, lasttime
     }
@@ -184,7 +184,7 @@ export function getUserEvent ({uid, limit = 30, lasttime = -1}) {
 
 // 动态
 export function getEvent ({pagesize = 30, lasttime = -1}) {
-  return request.get('/api/event', {
+  return request.get('/event', {
     params: {
       pagesize, lasttime
     }
@@ -193,7 +193,7 @@ export function getEvent ({pagesize = 30, lasttime = -1}) {
 
 // 订阅电台 1订阅,0订阅
 export function subDj ({t, rid}) {
-  return request.get('/api/dj/sub', {
+  return request.get('/dj/sub', {
     params: {
       t, rid
     }
@@ -202,7 +202,7 @@ export function subDj ({t, rid}) {
 
 // 收藏歌手 1为收藏,其他取消订阅
 export function subArtist ({t, id}) {
-  return request.get('/api/artist/sub', {
+  return request.get('/artist/sub', {
     params: {
       t, id
     }

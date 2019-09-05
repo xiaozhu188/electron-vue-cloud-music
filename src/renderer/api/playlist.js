@@ -1,11 +1,11 @@
 import request from '@/utils/request.js'
 
 export function getPlaylistTags () {
-  return request.get('/api/playlist/hot')
+  return request.get('/playlist/hot')
 }
 
 export function getUserPlaylist (uid) {
-  return request.get('/api/user/playlist', {
+  return request.get('/user/playlist', {
     params: {
       uid
     }
@@ -13,7 +13,7 @@ export function getUserPlaylist (uid) {
 }
 
 export function getPlaylistDetail (id) {
-  return request.get('/api/playlist/detail', {
+  return request.get('/playlist/detail', {
     params: {
       id,
       _: new Date().getTime()
@@ -22,15 +22,15 @@ export function getPlaylistDetail (id) {
 }
 
 export function getPlaylistCatlist () {
-  return request.get('/api/playlist/catlist')
+  return request.get('/playlist/catlist')
 }
 
 export function getPersonalizedPlaylist () {
-  return request.get('/api/personalized')
+  return request.get('/personalized')
 }
 
 export function getTopPlaylist ({cat = '全部', limit = 10, offset = 0, order = 'new'}) {
-  return request.get('/api/top/playlist', {
+  return request.get('/top/playlist', {
     params: {
       cat,
       limit,
@@ -42,7 +42,7 @@ export function getTopPlaylist ({cat = '全部', limit = 10, offset = 0, order =
 
 // 精品歌单 before: 分页参数,取上一页最后一个歌单的 updateTime 获取下一页数据
 export function getHighPlaylist ({cat = '全部', limit = 20, before = ''}) {
-  return request.get('/api/top/playlist/highquality', {
+  return request.get('/top/playlist/highquality', {
     params: {
       cat,
       limit,
@@ -52,7 +52,7 @@ export function getHighPlaylist ({cat = '全部', limit = 20, before = ''}) {
 }
 
 export function getRelatedPlaylist (id) {
-  return request.get('/api/related/playlist', {
+  return request.get('/related/playlist', {
     params: {
       id
     }
@@ -60,11 +60,11 @@ export function getRelatedPlaylist (id) {
 }
 
 export function getRecommendPlaylist () {
-  return request.get('/api/personalized')
+  return request.get('/personalized')
 }
 
 export function getPlaylistSubscribers ({limit = 20, offset = 0, id}) {
-  return request.get('/api/playlist/subscribers', {
+  return request.get('/playlist/subscribers', {
     params: {
       id,
       limit,

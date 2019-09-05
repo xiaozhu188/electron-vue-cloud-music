@@ -123,16 +123,20 @@ export default {
   },
   methods: {
     async loadmore ($state) {
-      let res = await getAllMV(this.options)
-      $state.loaded()
-      if (res.data.length || res.hasMore) {
-        let mvs = res.data.map(mv => {
-          return normalMV(mv)
-        })
-        this.mvs = this.mvs.concat(mvs)
-        this.options.offset += this.options.limit
-      } else {
-        $state.complete()
+      try {
+        let res = await getAllMV(this.options)
+        $state.loaded()
+        if (res.data.length || res.hasMore) {
+          let mvs = res.data.map(mv => {
+            return normalMV(mv)
+          })
+          this.mvs = this.mvs.concat(mvs)
+          this.options.offset += this.options.limit
+        } else {
+          $state.complete()
+        }
+      } catch (error) {
+        $state.error()
       }
     },
     onAreaChange (tag) {

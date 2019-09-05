@@ -3,8 +3,8 @@ import store from './../store'
 import { Base64 } from 'js-base64'
 import Message from 'ant-design-vue/es/message'
 const baseURL = process.env.NODE_ENV === 'development'
-  ? 'http://127.0.0.1:3000'
-  : 'http://127.0.0.1:3000'
+  ? 'http://localhost:3000/api'
+  : 'http://39.105.232.6:3000'
 
 const instance = axios.create({
   baseURL,
@@ -14,9 +14,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(config => {
   config.headers['sra'] = 'sra'
-  if (process.env.NODE_ENV !== 'development' && config.method == 'get' && config.params) {
-    config.params = {params: Base64.encode(JSON.stringify(config.params))}
-  }
+  // if (process.env.NODE_ENV !== 'development' && config.method == 'get' && config.params) {
+  //   config.params = {params: Base64.encode(JSON.stringify(config.params))}
+  // }
   return config
 }, error => {
   Message.error(error)

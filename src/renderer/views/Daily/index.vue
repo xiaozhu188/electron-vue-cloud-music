@@ -64,17 +64,17 @@ export default {
   components: {
     TrackList
   },
-  created () {
-    this.getSongs()
+  activated () {
+    if (!this.songs.length) {
+      this.getSongs()
+    }
   },
   methods: {
     getSongs () {
       getRecommendSongs().then(res => {
-        let arr = []
-        res.recommend.forEach(song => {
-          arr.push(normalSong(song))
+        this.songs = res.recommend.map(song => {
+          return normalSong(song)
         })
-        this.songs = arr
       })
     },
     async subscribe (op, tracks, pid) {

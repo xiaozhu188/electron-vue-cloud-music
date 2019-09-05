@@ -1,7 +1,7 @@
 import request from '@/utils/request.js'
 
 export function getArtist ({limit = 20, offset = 0}) {
-  return request.get('/api/artist/sublist', {
+  return request.get('/artist/sublist', {
     params: {
       limit,
       offset,
@@ -11,7 +11,7 @@ export function getArtist ({limit = 20, offset = 0}) {
 }
 
 export function getMv ({limit = 50, offset = 0}) {
-  return request.get('/api/mv/sublist', {
+  return request.get('/mv/sublist', {
     params: {
       limit,
       offset,
@@ -21,7 +21,7 @@ export function getMv ({limit = 50, offset = 0}) {
 }
 
 export function getSubAlbum ({limit = 20, offset = 0}) {
-  return request.get('/api/album/sublist', {
+  return request.get('/album/sublist', {
     params: {
       limit,
       offset,

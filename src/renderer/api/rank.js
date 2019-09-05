@@ -2,11 +2,11 @@ import request from '@/utils/request.js'
 
 // 全球榜
 export function getToplist () {
-  return request.get('/api/toplist')
+  return request.get('/toplist')
 }
 
 export function getTopDetail (idx) {
-  return request.get('/api/top/list', {
+  return request.get('/top/list', {
     params: {
       idx
     }
@@ -14,5 +14,5 @@ export function getTopDetail (idx) {
 }
 
 export function getToplistDetail () {
-  return request.get('/api/toplist/detail')
+  return request.get('/toplist/detail')
 }

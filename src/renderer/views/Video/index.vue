@@ -100,16 +100,19 @@ export default {
   },
   methods: {
     async loadmore ($state) {
-      // console.log(this.$route.query.groupId)
-      let groupId = this.selected ? this.groupId : this.$route.query.groupId || this.groupId
-      let res = await getVideo(groupId)
-      $state.loaded()
-      if (res.datas.length || res.hasmore) {
-        res.datas.forEach(item => {
-          this.videos.push(normalVideo(item.data))
-        })
-      } else {
-        $state.complete()
+      try {
+        let groupId = this.selected ? this.groupId : this.$route.query.groupId || this.groupId
+        let res = await getVideo(groupId)
+        $state.loaded()
+        if (res.datas.length || res.hasmore) {
+          res.datas.forEach(item => {
+            this.videos.push(normalVideo(item.data))
+          })
+        } else {
+          $state.complete()
+        }
+      } catch (error) {
+        $state.error()
       }
     },
     async _getVideoCates () {

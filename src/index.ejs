@@ -136,11 +136,6 @@
     <!-- Set `__static` path to static files in production -->
     <% if (!process.browser) { %>
     <script>
-      // const { remote } = require('electron')
-      // console.log(22,remote.getGlobal('useWelcome'))
-      // if(remote.getGlobal('useWelcome')){
-      //   document.getElementById('welcome').style.display='block'
-      // }
       if (process.env.NODE_ENV !== "development")
         window.__static = require("path")
           .join(__dirname, "/static")

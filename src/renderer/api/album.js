@@ -1,7 +1,7 @@
 import request from '@/utils/request.js'
 
 export function getTopAlbum ({limit, offset}) {
-  return request.get('/api/top/album', {
+  return request.get('/top/album', {
     params: {
       limit, offset
     }
@@ -9,7 +9,7 @@ export function getTopAlbum ({limit, offset}) {
 }
 
 export function getNewestAlbum ({limit, offset}) {
-  return request.get('/api/album/newest', {
+  return request.get('/album/newest', {
     params: {
       limit, offset
     }
@@ -17,7 +17,7 @@ export function getNewestAlbum ({limit, offset}) {
 }
 
 export function getAlbum (id) {
-  return request.get('/api/album', {
+  return request.get('/album', {
     params: {
       id
     }

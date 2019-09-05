@@ -72,7 +72,8 @@ export default {
     ]),
     ...mapGetters('User', [
       'userId',
-      'createdList'
+      'createdList',
+      'likedsongIds'
     ])
   },
   components: {
@@ -86,6 +87,7 @@ export default {
       }
       try {
         let { code, trackIds } = await addSongToList(options)
+
         trackIds = JSON.parse(trackIds)
         if (code === 200) {
           let likedsongIds = this.likedsongIds.slice()

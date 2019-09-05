@@ -7,10 +7,11 @@ const createLyricWindow = function (BrowserWindow) {
   const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
   const obj = {
     minWidth: 650,
+    width,
     height: 60,
     show: false,
     frame: false,
-    x: width / 2 - 400,
+    x: 0,
     y: height - 150,
     fullscreenable: false,
     minimizable: false,

@@ -98,7 +98,8 @@ export default {
       this.handleFmChange(newSong)
     }
   },
-  created () {
+  activated () {
+    if (this.current_song.isFm && this.playing) return
     this.init()
   },
   methods: {
@@ -147,7 +148,7 @@ export default {
     async _getFm () {
       let { data } = await getFm()
       let tracks = data.map(song => {
-        return normalSong(song, '290y290')
+        return normalSong(song, '290y290', true)
       })
       return tracks
     },

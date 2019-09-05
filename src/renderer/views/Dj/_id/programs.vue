@@ -65,7 +65,7 @@ export default {
   components: {
     TrackList
   },
-  created () {
+  activated () {
     this._getDjProgram()
   },
   methods: {

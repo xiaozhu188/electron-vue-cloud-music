@@ -3,7 +3,7 @@
     <figure class="info">
       <img class="avatar" v-lazy="dj.picUrl"/>
       <div class="top">
-        付费精品
+        {{ dj.category }}
       </div>
       <div class="bottom" v-if="dj.copywriter">
         <span>{{dj.copywriter}}</span>
@@ -38,6 +38,7 @@
     flex-direction: column;
     _margin-bottom: 20px;
     overflow: hidden;
+    cursor: pointer;
     &.horizon {
       flex-direction: row;
       .info {

@@ -1,7 +1,7 @@
 <template>
   <div class="dj">
     <ul class="list">
-      <dj-item class="list-item" v-for="(item) in list" :dj="item" :key="item.id"/>
+      <dj-item class="list-item" v-for="item in list.slice(0, 6)" :dj="item" :key="item.id"/>
     </ul>
   </div>
 </template>
@@ -21,6 +21,9 @@
     },
     components: {
       djItem
+    },
+    mounted () {
+      console.log(this.list)
     }
   }
 </script>

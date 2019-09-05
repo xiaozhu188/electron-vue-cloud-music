@@ -118,28 +118,28 @@ export default {
     HomeLayout,
     Slider
   },
+  deactivated () {
+    this.$refs.slider.pause()
+    window.removeEventListener('resize', this.handleResize)
+  },
   mounted () {
     this.$nextTick(() => {
       var dom = this.$refs.slider.$el.parentNode
       this.width = dom.clientWidth || 1000
     })
-    window.onresize = () => {
-      this.$nextTick(() => {
-        var dom = this.$refs.slider.$el.parentNode
-        this.width = dom.clientWidth
-      })
-    }
-  },
-  beforeDestroy () {
-    window.onresize = null
+    window.addEventListener('resize', this.handleResize)
   },
   created () {
-    // this._getDjBanner()
-    // this._getDjCatelist()
     this._getDjRecommend()
     this._getDjCate()
   },
   methods: {
+    handleResize () {
+      this.$nextTick(() => {
+        var dom = this.$refs.slider.$el.parentNode
+        this.width = dom.clientWidth
+      })
+    },
     _getDjCate () {
       let promises = []
       getDjCatelist().then(res => {

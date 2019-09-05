@@ -65,6 +65,7 @@ export default {
     width: 18%;
     margin-left: @gutter;
     margin-right: @gutter;
+    margin-bottom: 5px;
     cursor: pointer;
     .date {
       position: relative;

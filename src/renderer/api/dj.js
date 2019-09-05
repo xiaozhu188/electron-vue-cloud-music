@@ -34,6 +34,10 @@ export function getProgramRecommend () {
 export function getDjPaygift () {
   return request.get('/dj/paygift')
 }
+// 热门
+export function getDjHot () {
+  return request.get('/dj/hot')
+}
 // 电台详情
 export function getDjDetail (rid) {
   return request.get('/dj/detail', {

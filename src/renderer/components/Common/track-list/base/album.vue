@@ -6,7 +6,7 @@
         :title="`专辑:${row[col.key].name}`"
       >{{ row[col.key].name }}</router-link>
     </template>
-    <span v-else>{{ row[col.key] ? row[col.key] : '未知专辑' }}</span>
+    <span v-else>{{ row[col.key] && typeof row[col.key] === 'string' ? row[col.key] : '未知专辑' }}</span>
   </span>
 </template>
 

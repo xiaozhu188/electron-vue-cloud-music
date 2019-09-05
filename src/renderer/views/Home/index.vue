@@ -53,7 +53,7 @@ import { getPrivateContent } from '@/api/privatecontent'
 import { getNewSong } from '@/api/song'
 import { getRecommendPlaylist } from '@/api/playlist'
 import { getPersonalizedMV } from '@/api/mv'
-import { getRecommendDjprogram } from '@/api/dj'
+import { getDjHot } from '@/api/dj'
 
 import HomeLayout from '@/layouts/HomeLayout'
 import banner from './components/Banner'
@@ -148,7 +148,7 @@ export default {
         getNewSong(),
         getRecommendPlaylist(),
         getPersonalizedMV(),
-        getRecommendDjprogram()
+        getDjHot()
       ]).then(
         ([
           { banners },
@@ -156,7 +156,7 @@ export default {
           { result: newSong },
           { result: playlist },
           { result: mv },
-          { result: dj }
+          { djRadios: dj }
         ]) => {
           banners.forEach(banner => {
             banner.src = banner.imageUrl

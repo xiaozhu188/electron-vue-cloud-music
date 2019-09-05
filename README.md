@@ -36,7 +36,17 @@
 ## 部分界面预览
 ![mini](https://user-images.githubusercontent.com/20502995/64253818-b014d780-cf50-11e9-8cea-1cccf98fc712.gif)
 
-![QQ截图20190904200739](https://user-images.githubusercontent.com/20502995/64253937-ef432880-cf50-11e9-985a-91b486c44807.png)
+![home](https://user-images.githubusercontent.com/20502995/64253937-ef432880-cf50-11e9-985a-91b486c44807.png)
+
+![home](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/view1.gif)
+
+![home](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/view2.gif)
+
+![home](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/player.png)
+
+![home](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/playlist.png)
+
+
 
 ---
 

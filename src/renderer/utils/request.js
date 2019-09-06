@@ -2,6 +2,7 @@ import axios from 'axios'
 import store from './../store'
 import { Base64 } from 'js-base64'
 import Message from 'ant-design-vue/es/message'
+import Toast from './../components/Toast/toast'
 const baseURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:3000/api'
   : 'http://39.105.232.6:3000'
@@ -17,6 +18,9 @@ instance.interceptors.request.use(config => {
   // if (process.env.NODE_ENV !== 'development' && config.method == 'get' && config.params) {
   //   config.params = {params: Base64.encode(JSON.stringify(config.params))}
   // }
+  if (!store.state.App.isOnliline) {
+    return Promise.reject(new Error('offline!'))
+  }
   return config
 }, error => {
   Message.error(error)
@@ -28,7 +32,6 @@ instance.interceptors.response.use(
     if (typeof response.data === 'string') {
       response.data = JSON.parse(Base64.decode(response.data))
     }
-    // console.log('response', response)
     if (response.data.code && response.data.code === 200) {
       return response.data
     } else {
@@ -36,7 +39,6 @@ instance.interceptors.response.use(
     }
   },
   error => {
-    console.log(error.response)
     if (error.response) {
       let res = error.response
       switch (res.status) {
@@ -73,7 +75,10 @@ instance.interceptors.response.use(
       }
     } else {
       console.log('error', error.message)
-      Message.error('服务器崩溃啦')
+      Toast({
+        icon: 'close',
+        content: '请检查网络连接状态!'
+      })
     }
     return Promise.reject(error.response)
   })

@@ -117,6 +117,7 @@ export default {
       'volume',
       'isMuted'
     ]),
+    ...mapGetters('App', ['isOnliline']),
     ...mapGetters('play', [
       'showDesktoplyric'
     ]),
@@ -221,6 +222,7 @@ export default {
       if (this.current_song.folder && this.current_song.url) {
         this.$refs.audio.src = this.current_song.url
       } else {
+        if (!this.isOnliline) return
         this.getOnlineSong(this.current_song).then(songUrl => {
           if (songUrl) {
             this.$store.commit('play/SET_SOURCE', songUrl)
@@ -246,7 +248,7 @@ export default {
       this.isSongReady = false
       if (newSong.folder) { // 如果是本地歌曲
         this.$store.commit('play/SET_SOURCE', newSong.url)
-        // this.$refs.audio.src = ''
+        this.$refs.audio.src = ''
         this.$refs.audio.src = newSong.url
         setTimeout(() => {
           this.$refs.audio.play()
@@ -256,7 +258,7 @@ export default {
         this.getOnlineSong(newSong).then(songUrl => {
           if (songUrl) {
             this.$store.commit('play/SET_SOURCE', songUrl)
-            // this.$refs.audio.src = ''
+            this.$refs.audio.src = ''
             this.$refs.audio.src = songUrl
             setTimeout(() => {
               this.$refs.audio.play()

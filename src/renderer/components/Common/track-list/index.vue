@@ -285,9 +285,11 @@ export default {
         this.currentColumns = cloneDeep(this.columns)
         this.songs = JSON.parse(JSON.stringify(newTranck))
         this.cacheSongs = JSON.parse(JSON.stringify(newTranck))
-        this._getUserLikelist(this.userId)
       }
     }
+  },
+  activated () {
+    this.$store.state.App.isOnliline && this._getUserLikelist(this.userId)
   },
   created () {
     ipcRenderer.on(
@@ -369,7 +371,6 @@ export default {
       this.targetSong = row
     },
     _getUserLikelist (userId) {
-      if (!userId) return
       this.getUserLikedSongs()
     },
     _handleLikeSong (row, { songId, isLike }) {

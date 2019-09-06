@@ -9,12 +9,12 @@
           <div ref="handle" class="split-handle"></div>
           <basic-sider />
         </a-layout-sider>
-        <a-layout-content class="basic-layout-content">
-          <keep-alive :exclude="keepAliveExcludeList">
+        <a-layout-content class="basic-layout-content" >
+          <keep-alive :exclude="keepAliveExcludeList" v-if="isOnliline || noLimitRoutes.includes($route.name)">
             <router-view v-if="!refresh"></router-view>
           </keep-alive>
+          <offline v-else />
         </a-layout-content>
-        <!-- <offline v-else /> -->
       </a-layout>
       <a-layout-footer class="basic-layout-footer">
         <play-bar/>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import throttle from 'loadsh/throttle'
 import eventBus from '@/utils/eventBus'
 import BasicHeader from '@/components/BasicHeader'
@@ -36,7 +36,6 @@ import Login from '@/components/Login'
 import Player from '@/components/Player'
 import Offline from '@/components/Offline/index'
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-import { setTimeout } from 'timers'
 const SIDER_WIDTH_DEFAULT = 200
 const SIDER_WIDTH_MAX = 400
 export default {
@@ -49,7 +48,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('App', ['isOnliline'])
+    ...mapGetters('App', ['isOnliline']),
+    ...mapState('App', ['noLimitRoutes'])
   },
   components: {
     BasicHeader,
@@ -95,9 +95,6 @@ export default {
     this.$refs.handle.onmousedown = null
     app.onmousemove = null
     app.onmouseup = null
-  },
-  methods: {
-
   }
 }
 </script>

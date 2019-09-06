@@ -80,8 +80,10 @@ let actions = {
     // return playlist
   },
   async getUserLikedSongs ({ commit, getters }) {
-    let { ids } = await getUserLikeSongs(getters.userId)
-    commit('SET_LIKEDSONG_IDS', ids)
+    if (getters.userId) {
+      let { ids } = await getUserLikeSongs(getters.userId)
+      commit('SET_LIKEDSONG_IDS', ids)
+    }
   },
   // 收藏/取消收藏歌单
   async subscribePlatlist ({commit, state}, {t, playlist}) {

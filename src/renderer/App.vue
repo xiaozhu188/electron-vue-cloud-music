@@ -31,12 +31,13 @@ export default {
       }
       this.$store.commit('play/SET_SHOW_DESKTOP_LYRIC', false)
     },
-    handleNetworkChange ({name, title, message}) {
+    handleNetworkChange ({name, title, message}, status = true) {
       let networkNotification = new Notification(name, {
         title,
         body: message,
         icon: 'static/images/icon.ico'
       })
+      this.$store.commit('App/SET_ONLINE', status)
     }
   },
   created () {
@@ -54,7 +55,7 @@ export default {
     }
 
     window.onoffline = () => {
-      this.handleNetworkChange({name: '网易云音乐', title: '网易云音乐', message: '请检查您的网络连接'})
+      this.handleNetworkChange({name: '网易云音乐', title: '网易云音乐', message: '请检查您的网络连接'}, false)
     }
     window.ononline = () => {
       this.handleNetworkChange({name: '网易云音乐', title: '网易云音乐', message: '网络连接成功'})

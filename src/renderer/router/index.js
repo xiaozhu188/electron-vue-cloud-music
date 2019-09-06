@@ -15,7 +15,7 @@ import { searchRoutes } from './modules/search'
 import { videoRoutes } from './modules/video'
 import { userRoutes } from './modules/user'
 import { ipcRenderer } from 'electron'
-
+import Toast from './../components/Toast/toast'
 Vue.use(Router)
 
 const router = new Router({
@@ -82,10 +82,6 @@ const router = new Router({
         require(['@/views/Update/index.vue'], resolve)
       }
     }
-    // {
-    //   path: '*',
-    //   redirect: '/'
-    // }
   ]
 })
 

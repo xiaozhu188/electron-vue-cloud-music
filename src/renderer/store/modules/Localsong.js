@@ -42,28 +42,32 @@ export default {
   },
   actions: {
     async match ({ state, commit }) {
-      let localSongs = state.localSongs.slice()
-      for (let i = 0; i < localSongs.length; i++) {
-        let song = localSongs[i]
-        let res = await getSearchSuggest(song.name)
-        let songs = res.result.songs
+      try {
+        let localSongs = state.localSongs.slice()
+        for (let i = 0; i < localSongs.length; i++) {
+          let song = localSongs[i]
+          let res = await getSearchSuggest(song.name)
+          let songs = res.result.songs
 
-        if (songs && songs.length) {
-          let suggest = songs.find(item => {
-            let artistArr = song.artist.map(artist => artist.name.trim())
-            return item.artists.every(artist => artistArr.includes(artist.name))
-          }) || songs[0]
+          if (songs && songs.length) {
+            let suggest = songs.find(item => {
+              let artistArr = song.artist.map(artist => artist.name.trim())
+              return item.artists.every(artist => artistArr.includes(artist.name))
+            }) || songs[0]
 
-          suggest = normalSong(suggest)
-          localSongs[i] = {
-            ...song,
-            ...suggest,
-            url: song.url,
-            matched: true
+            suggest = normalSong(suggest)
+            localSongs[i] = {
+              ...song,
+              ...suggest,
+              url: song.url,
+              matched: true
+            }
           }
         }
+        commit('set', localSongs)
+      } catch (error) {
+        console.log('match error:', error)
       }
-      commit('set', localSongs)
     },
     async refresh ({ state, commit, dispatch, rootState }, selectedFolders) {
       let folders = selectedFolders && selectedFolders.length ? selectedFolders : state.exportFolders

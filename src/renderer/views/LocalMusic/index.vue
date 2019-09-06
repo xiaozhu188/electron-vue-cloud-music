@@ -114,15 +114,16 @@ export default {
     }
   },
   created () {
-    this.refresh(this.selectedFolder)
-  },
-  activated () {
     this.selectedFolder = this.exportFolders.concat()
+    this.refresh(this.selectedFolder)
     ipcRenderer.on('selectedItem', (event, path) => {
       let folders = uniq(this.selectedFolder.concat(path))
       this.setExportFolders(folders)
       this.selectedFolder = folders
     })
+  },
+  activated () {
+    this.selectedFolder = this.exportFolders.concat()
   }
 }
 </script>

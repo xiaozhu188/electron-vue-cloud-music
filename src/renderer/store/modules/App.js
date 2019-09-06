@@ -6,7 +6,8 @@ const state = {
   partRefreshFlag: false,
   showView: false,
   showDesktoplyric: false,
-  isOnliline: true
+  isOnliline: navigator.onLine,
+  noLimitRoutes: ['music_local', 'music_download', 'setting']
 }
 
 const getters = {

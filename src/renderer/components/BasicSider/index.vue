@@ -69,17 +69,17 @@ export default {
   watch: {
     userId (newVal) {
       if (newVal !== '') {
-        this._getUserPlaylist(newVal)
-        // this.getUserLikedSongs()
-        this.$store.dispatch('User/getUserLikedSongs')
+        if (this.$store.state.App.isOnliline) {
+          this._getUserPlaylist(newVal)
+          this.$store.dispatch('User/getUserLikedSongs')
+        }
       } else {
-        // this.playlist = []
         this.$store.commit('User/SET_USER_PLAYLISTS', [])
       }
     }
   },
   created () {
-    if (this.userId) {
+    if (this.userId && this.$store.state.App.isOnliline) {
       this._getUserPlaylist(this.userId)
     }
   },

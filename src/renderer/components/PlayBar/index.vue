@@ -174,8 +174,10 @@ export default {
             this.getOnlineLyric(this.current_song.id)
           }
         }
+        this.lyricInstance && this.lyricInstance.play()
       } else {
         audio.pause()
+        this.lyricInstance && this.lyricInstance.stop()
       }
     },
     volume (newVal) {
@@ -480,7 +482,6 @@ export default {
         return
       }
       this.$store.commit('play/SET_PLAY_STATUS', !this.playing)
-      this.lyricInstance && this.lyricInstance.togglePlay()
     },
     onpercentChanged (percent) {
       if (!this.isSongReady) {

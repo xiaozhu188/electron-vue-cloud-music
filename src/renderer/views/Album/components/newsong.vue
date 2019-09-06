@@ -1,7 +1,7 @@
 <template>
   <div class="newsong">
     <div class="cates">
-      <a href="#" v-for="(val, key) in cateMap" :key="key" class="item" :class="{'current': key == songType}" @click="songType = key">{{ val }}</a>
+      <a href="#" v-for="(val, key) in cateMap" :key="key" class="item" :class="{'current': key == songType}" @click="changeType(key)">{{ val }}</a>
     </div>
     <div class="tracks">
       <div class="tracks-top">
@@ -13,7 +13,13 @@
         </div>
       </div>
       <div class="tracks-body">
-        <track-list :tracks="songs" :isShowHead="false" :isShowActions="false" @dblclick="play" />
+        <a-spin v-if="loading" />
+        <track-list :columns="columns" :tracks="songs" :isShowHead="false" :isShowActions="false" @dblclick="play">
+          <template slot="name" slot-scope="{ row }">
+            <img v-lazy="`${row.avatar}?param=40y40`" class="avatar" />
+            <span>{{ row.name }}</span>
+          </template>
+        </track-list>
       </div>
     </div>
   </div>
@@ -26,9 +32,33 @@ import TrackList from '@/components/Common/track-list/index.js'
 import { normalSong } from '@/utils/song'
 import { getTopSong } from '@/api/song'
 import { uniqueData } from '@/utils/assist'
+const columns = [
+  {
+    title: '音乐标题',
+    dataIndex: 'name',
+    key: 'name',
+    slot: 'name'
+  },
+  {
+    title: '歌手',
+    dataIndex: 'artist',
+    key: 'artist'
+  },
+  {
+    title: '专辑',
+    dataIndex: 'album',
+    key: 'album'
+  },
+  {
+    title: '时长',
+    dataIndex: 'duration',
+    key: 'duration'
+  }
+]
 export default {
   data () {
     return {
+      columns,
       songs: [],
       loading: false,
       songType: 0,
@@ -71,14 +101,16 @@ export default {
   },
   methods: {
     async getData (songType) {
+      this.loading = true
       try {
         let { data } = await getTopSong(songType)
-        let songs = []
-        data.forEach(song => {
-          songs.push(normalSong(song))
+        this.songs = data.map(song => {
+          return normalSong(song, '40y40')
         })
-        this.songs = songs
-      } catch (error) {}
+        this.loading = false
+      } catch (error) {
+        this.loading = false
+      }
     },
     play (tracks, index) {
       this.$store.dispatch('play/selectPlay', { tracks, index })
@@ -88,6 +120,9 @@ export default {
       let list = current_play_list.concat(this.songs)
       list = uniqueData(list)
       this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+    },
+    changeType (type) {
+      this.songType = type
     }
   }
 }
@@ -101,6 +136,23 @@ export default {
       display: flex;
       justify-content: space-between;
       padding: 10px;
+    }
+    &-body {
+      position: relative;
+      .avatar {
+        width: 40px;
+        height: 40px;
+      }
+      /deep/ .song-item {
+        padding: 5px 0;
+      }
+      /deep/ .ant-spin-spinning {
+        position: absolute;
+        left: 50%;
+        top: 100px;
+        transform: translateX(-50%);
+        z-index: 1;
+      }
     }
   }
   .cates {

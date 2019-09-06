@@ -35,15 +35,24 @@ export default {
   },
   methods: {
     create (notice) {
-      console.log(notice)
+      // console.log(notice)
       const name = notice.name || getUuid()
-      let _notice = Object.assign(
-        {
-          content: '',
-          name: name
-        },
-        notice
-      )
+      let _notice
+      if (typeof notice === 'string') {
+        _notice = {
+          content: notice,
+          name
+        }
+      } else {
+        _notice = Object.assign(
+          {
+            content: '',
+            name
+          },
+          notice
+        )
+      }
+
       this.notices.push(_notice)
       let duration = notice.duration ? notice.duration : this.duration
       setTimeout(() => {
@@ -80,7 +89,7 @@ export default {
 @keyframes zoomOut {
   0% {
     transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+    
   }
   20% {
     transform: translate(-50%, -50%) scale(0.8);
@@ -91,12 +100,12 @@ export default {
     opacity: 1;
   }
   100% {
-    transform: translate(-50%, -50%) scale(0.1);
+    transform: translate(-50%, -50%) scale(0.3);
     opacity: 0;
   }
 }
 .zoomIn {
-  animation-duration: .4s;
+  animation-duration: .2s;
   animation-name: zoomIn;
   animation-timing-function: ease-in;
 }

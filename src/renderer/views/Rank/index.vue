@@ -1,153 +1,126 @@
 <template>
   <home-layout>
-    <div class="rank">
-      <a-row type="flex" :gutter="16" class="rank-row" v-if="!loading">
-        <a-col :xl="4" :lg="6" class="rank-col" v-for="item in cates" :key="item.idx">
-          <router-link class="rank-item" :to="`/rank/${item.idx}?id=${item.idx}`">
+    <div class="rank" v-if="!loading">
+      <header class="header">官方榜</header>
+      <div class="first-four">
+        <dl class="list" v-for="item in firstFour" :key="item.id">
+          <dt class="title" :style="`background-image: url(static/images/rank/rank${item.ToplistType}_bg.jpg)`">
+            <span class="text">{{ item.updateTime | toDate('MM月DD日') }} 更新</span>
+            <a-icon type="play-circle" class="icon-play" @click="play(item.tracks, 0)"></a-icon>
+          </dt>
+          <dd class="item" v-for="(track, i) in item.tracks" :key="track.id" @dblclick="play(item.tracks, i)">
+            <span class="index" :class="{'highlight' : i < 3}">{{ i+1 }}</span>
+            <span class="name">{{ track.name }}</span>
+            <artists :artists="track.artist" class="artist" />
+          </dd>
+          <footer class="footer">
+            <router-link :to="`/rank/${item.id}`">查看全部 <a-icon type="right" /></router-link>
+          </footer>
+        </dl>
+        <dl class="list" v-if="topArtist">
+          <dt class="title" style="background-image: url(static/images/rank/rankA_bg.jpg)">
+            <span class="text">{{ topArtist.updateTime | toDate('MM月DD日') }} 更新</span>
+          </dt>
+          <router-link tag="dd" :to="`/artist/${artist.id}`" class="item" v-for="(artist, i) in topArtist.artists.slice(0, 8)" :key="artist.id" style="cursor: pointer">
+            <span class="index" :class="{'highlight' : i < 3}">{{ i+1 }}</span>
+            <span class="name">{{ artist.name }}</span>
+          </router-link>
+          <footer class="footer">
+            <router-link to="/artist-top">查看全部 <a-icon type="right" /></router-link>
+          </footer>
+        </dl>
+      </div>
+      <header class="header">全球榜</header>
+      <a-row type="flex" :gutter="16" class="rank-row">
+        <a-col :xl="4" :lg="6" class="rank-col" v-for="item in rest" :key="item.id">
+          <router-link class="rank-item" :to="`/rank/${item.id}`">
             <div class="avatar">
-              <img v-lazy="`${item.picUrl}?param=160y160`">
+              <img v-lazy="`${item.coverImgUrl}?param=280y280`" />
+              <div class="top"><a-icon type="customer-service" /> {{ item.playCount | toWan }}</div>
             </div>
-            <div class="name">{{item.title}}</div>
+            <div class="name">{{item.name}}</div>
           </router-link>
         </a-col>
       </a-row>
-      <loading v-else/>
     </div>
+    <loading v-else />
   </home-layout>
 </template>
 
 <script>
 import HomeLayout from '@/layouts/HomeLayout'
 import Loading from '@/components/Common/loading'
-import { getToplist } from '@/api/rank'
+import Artists from '@/components/Common/artists'
+import { getToplist, getTopDetail } from '@/api/rank'
+import { getTopArtist } from '@/api/artist'
+import { normalSong } from '@/utils/song'
+const ToplistType = {
+  N: {
+    idx: 0
+  }, // 云音乐新歌榜
+  H: {
+    idx: 1
+  }, //  云音乐热歌榜
+  O: {
+    idx: 2
+  }, //  网易原创歌曲榜
+  S: {
+    idx: 3
+  } //  云音乐飙升榜
+}
 export default {
   name: 'rank',
   data () {
     return {
       loading: false,
       list: [],
-      cates: [
-        {
-          title: '云音乐飙升榜',
-          picUrl: 'http://p1.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg',
-          idx: 3
-        },
-        {
-          title: '云音乐新歌榜',
-          picUrl: 'http://p1.music.126.net/N2HO5xfYEqyQ8q6oxCw8IQ==/18713687906568048.jpg',
-          idx: 0
-        },
-        {
-          title: '网易原创歌曲榜',
-          picUrl: 'http://p1.music.126.net/sBzD11nforcuh1jdLSgX7g==/18740076185638788.jpg',
-          idx: 2
-        },
-        {
-          title: '云音乐热歌榜',
-          picUrl: 'http://p1.music.126.net/GhhuF6Ep5Tq9IEvLsyCN7w==/18708190348409091.jpg',
-          idx: 1
-        },
-        {
-          title: '云音乐电音榜',
-          picUrl: 'http://p1.music.126.net/4mh2HWH-bd5sRufQb-61bg==/3302932937414659.jpg',
-          idx: 4
-        },
-        {
-          title: 'Beatport全球电子舞曲榜',
-          picUrl: 'http://p1.music.126.net/A61n94BjWAb-ql4xpwpYcg==/18613632348448741.jpg',
-          idx: 21
-        },
-        {
-          title: '云音乐ACG音乐榜',
-          picUrl: 'http://p1.music.126.net/vttjtRjL75Q4DEnjRsO8-A==/18752170813539664.jpg',
-          idx: 22
-        },
-        {
-          title: '日本Oricon周榜',
-          picUrl: 'http://p1.music.126.net/Rgqbqsf4b3gNOzZKxOMxuw==/19029247741938160.jpg',
-          idx: 10
-        },
-        {
-          title: '云音乐古典音乐榜',
-          picUrl: 'http://p1.music.126.net/BzSxoj6O1LQPlFceDn-LKw==/18681802069355169.jpg',
-          idx: 17
-        },
-        {
-          title: 'UK排行榜周榜',
-          picUrl: 'http://p1.music.126.net/VQOMRRix9_omZbg4t-pVpw==/18930291695438269.jpg',
-          idx: 5
-        },
-        {
-          title: '美国Billboard周榜',
-          picUrl: 'http://p1.music.126.net/EBRqPmY8k8qyVHyF8AyjdQ==/18641120139148117.jpg',
-          idx: 6
-        },
-        {
-          title: '法国 NRJ Vos Hits 周榜',
-          picUrl: 'http://p1.music.126.net/6O0ZEnO-I_RADBylVypprg==/109951162873641556.jpg',
-          idx: 19
-        },
-        {
-          title: 'iTunes榜',
-          picUrl: 'http://p1.music.126.net/83pU_bx5Cz0NlcTq-P3R3g==/18588343581028558.jpg',
-          idx: 8
-        },
-        {
-          title: 'Hit FM Top榜',
-          picUrl: 'http://p1.music.126.net/54vZEZ-fCudWZm6GH7I55w==/19187577416338508.jpg',
-          idx: 9
-        },
-        {
-          title: '云音乐韩语榜',
-          picUrl: 'http://p1.music.126.net/vs-cMh49e6qPEorHuhU07A==/18737877162497499.jpg',
-          idx: 11
-        },
-        {
-          title: 'KTV唛榜',
-          picUrl: 'http://p1.music.126.net/H4Y7jxd_zwygcAmPMfwJnQ==/19174383276805159.jpg',
-          idx: 7
-        },
-        {
-          title: '台湾Hito排行榜',
-          picUrl: 'http://p1.music.126.net/wqi4TF4ILiTUUL5T7zhwsQ==/18646617697286899.jpg',
-          idx: 20
-        },
-        {
-          title: '中国TOP排行榜（港台榜）',
-          picUrl: 'http://p1.music.126.net/JPh-zekmt0sW2Z3TZMsGzA==/18967675090783713.jpg',
-          idx: 14
-        },
-        {
-          title: '中国TOP排行榜（内地榜）',
-          picUrl: 'http://p1.music.126.net/2klOtThpDQ0CMhOy5AOzSg==/18878614648932971.jpg',
-          idx: 15
-        },
-        {
-          title: '香港电台中文歌曲龙虎榜',
-          picUrl: 'http://p1.music.126.net/YQsr07nkdkOyZrlAkf0SHA==/18976471183805915.jpg',
-          idx: 16
-        },
-        {
-          title: '中国嘻哈榜',
-          picUrl: 'http://p1.music.126.net/ed1DGuS6MOlmNaSkWt32Lw==/19237055439739419.jpg',
-          idx: 18
-        }
-      ]
+      topArtist: ''
+    }
+  },
+  computed: {
+    firstFour () {
+      return this.list.slice(0, 4)
+    },
+    rest () {
+      return this.list.slice(4)
     }
   },
   components: {
     HomeLayout,
-    Loading
+    Loading,
+    Artists
   },
   activated () {
-    // this._getToplist()
+    this._getToplist()
+    this._getTopArtist()
   },
   methods: {
     async _getToplist () {
       this.loading = true
-      let { list } = await getToplist()
-      this.list = list
-      this.loading = false
+      try {
+        let { list } = await getToplist()
+        this.list = list
+        list.forEach(async item => {
+          if (item.ToplistType) {
+            let { playlist } = await getTopDetail(ToplistType[item.ToplistType].idx)
+            item.tracks = playlist.tracks.slice(0, 8).map(track => {
+              return normalSong(track)
+            })
+          }
+        })
+        this.loading = false
+      } catch (error) {
+        this.$toast('加载失败')
+        this.loading = false
+      }
+    },
+    _getTopArtist () {
+      getTopArtist().then(res => {
+        this.topArtist = res.list
+      })
+    },
+    play (tracks, index) {
+      this.$store.dispatch('play/selectPlay', {tracks, index})
     }
   }
 }
@@ -155,66 +128,188 @@ export default {
 
 <style lang="less" scoped>
 @keyframes firstLine {
-  0%{transform: translateZ(0) rotateX(-10deg);}
-  100%{transform: translateZ(0) rotateX(0);}
+  0% {
+    transform: translateZ(0) rotateX(-10deg);
+  }
+  100% {
+    transform: translateZ(0) rotateX(0);
+  }
 }
 @keyframes secLine {
-  0%{transform: translateZ(-25px) rotateX(-30deg);}
-  100%{transform: translateZ(0) rotateX(0);}
+  0% {
+    transform: translateZ(-25px) rotateX(-30deg);
+  }
+  100% {
+    transform: translateZ(0) rotateX(0);
+  }
 }
 @keyframes thrLine {
-  0%{transform: translateZ(-90px) rotateX(-40deg);}
-  100%{transform: translateZ(0) rotateX(0);}
+  0% {
+    transform: translateZ(-90px) rotateX(-40deg);
+  }
+  100% {
+    transform: translateZ(0) rotateX(0);
+  }
 }
 @keyframes forthLine {
-  0%{transform: translateZ(-200px) rotateX(-50deg);}
-  100%{transform: translateZ(0) rotateX(0);}
+  0% {
+    transform: translateZ(-200px) rotateX(-50deg);
+  }
+  100% {
+    transform: translateZ(0) rotateX(0);
+  }
 }
 .rank {
-  padding: 16px 0;
+  .header {
+    line-height: 40px;
+    border-bottom: 1px solid #ddd;
+    margin: 20px auto;
+    font-size: 20px;
+    color: #000;
+  }
+  .first-four {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    grid-gap: 2%;
+    .list {
+      border: 1px solid #e8e8e8;
+      .title {
+        position: relative;
+        height: 75px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: left; 
+        .text {
+          position: absolute;
+          left: 25%;
+          bottom: 10px;
+          font-size: 13px;
+          font-family: "宋体";
+          color: rgba(255,255,255,.7);
+        }
+        .icon-play {
+          position: absolute;
+          right: 20px;
+          top: 50%;
+          margin-top: -20px;
+          color: rgba(255, 255, 255,.7);
+          font-size: 40px;
+          cursor: pointer;
+        }
+      }
+      .item {
+        display: flex;
+        align-items: center;
+        height: 35px;
+        background: #f5f5f7;
+        margin: 0;
+        padding: 0 10px;
+        font-size: 13px;
+        &:nth-child(2n) {
+          background: #f3f3f3;
+        }
+        &:hover {
+          background: #eee;
+        }
+        .index {
+          flex: 0 0 30px;
+          text-align: center;
+          &.highlight {
+            color: @primary-color;
+          }
+        }
+        .name {
+          flex: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #000;
+        }
+        .artist {
+          flex: 0 0 100px;
+          text-align: right;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          /deep/ a {
+            color: rgba(0,0,0,.5);
+          }
+        }
+      }
+      .footer {
+        line-height: 50px;
+        text-align: right;
+        padding: 0 10px;
+        background: #f3f3f3;
+        color: rgba(0,0,0,.5);
+        a {
+          color: inherit;
+        }
+      }
+    }
+  }
   .rank-row {
     perspective: 400px;
     .rank-col {
       transform-origin: top center;
-      transition: transform .5s cubic-bezier(0.15, 1, 0.3, 1.1);
+      transition: transform 0.5s cubic-bezier(0.15, 1, 0.3, 1.1);
       &:nth-child(n + 7) {
-        animation: firstLine .5s cubic-bezier(0.15, 1, 0.3, 1.1);
-        animation-delay: .3s;
+        animation: firstLine 0.5s cubic-bezier(0.15, 1, 0.3, 1.1);
+        animation-delay: 0.3s;
       }
       &:nth-child(n + 13) {
-        animation: secLine .5s cubic-bezier(0.15, 1, 0.3, 1.1);
-        animation-delay: .3s;
+        animation: secLine 0.5s cubic-bezier(0.15, 1, 0.3, 1.1);
+        animation-delay: 0.3s;
       }
       &:nth-child(n + 19) {
-        animation: thrLine .5s cubic-bezier(0.15, 1, 0.3, 1.1);
-        animation-delay: .3s;
+        animation: thrLine 0.5s cubic-bezier(0.15, 1, 0.3, 1.1);
+        animation-delay: 0.3s;
       }
       &:nth-child(n + 25) {
-        animation: forthLine .5s cubic-bezier(0.15, 1, 0.3, 1.1);
-        animation-delay: .3s;
+        animation: forthLine 0.5s cubic-bezier(0.15, 1, 0.3, 1.1);
+        animation-delay: 0.3s;
       }
     }
   }
   .rank-item {
     display: block;
     margin-bottom: 32px;
-  }
-  .avatar {
-    overflow: hidden;
-    cursor: pointer;
-    background: #ddd;
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
+    .avatar {
+      position: relative;
+      overflow: hidden;
       background: #ddd;
+      &:hover {
+        img {
+          cursor: pointer;
+          transform: scale(1.2)
+        }
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #ddd;
+        transition: all .3s;
+      }
+      .top {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: 0 5px;
+        background: linear-gradient(to right,transparent 0,rgba(0,0,0,.5));
+        color: #fff;
+        font-size: 12px;
+        text-align: right;
+        line-height: 20px;
+      }
     }
-  }
-  .name {
-    line-height: 25px;
-    font-size: 13px;
-    color: #333;
-    text-align: center;
+    .name {
+      line-height: 25px;
+      font-size: 13px;
+      color: #333;
+      text-align: center;
+    }
   }
 }
 </style>

@@ -67,6 +67,7 @@ import { mapGetters } from 'vuex'
 import TabBar from '@/components/Common/tabBar'
 import Loading from '@/components/Common/loading'
 import { getTopDetail } from '@/api/rank'
+import { getPlaylistDetail } from '@/api/playlist'
 import { normalSong } from '@/utils/song'
 import { uniqueData } from '@/utils/assist'
 export default {
@@ -93,13 +94,10 @@ export default {
     TabBar, Loading
   },
   activated () {
-    this._getTopDetail()
+    this._getPlaylistDetail()
   },
-  // watch: {
-  //   '$route.params.id': '_getTopDetail'
-  // },
   beforeRouteUpdate (to, from, next) {
-    this._getTopDetail(to.params.id)
+    this._getPlaylistDetail(to.params.id)
     next()
   },
   computed: {
@@ -119,6 +117,19 @@ export default {
     }
   },
   methods: {
+    _getPlaylistDetail () {
+      this.loading = true
+      let id = this.$route.params.id
+      getPlaylistDetail(id).then(res => {
+        this.rank = res.playlist
+        let arr = []
+        res.playlist.tracks.forEach(track => {
+          arr.push(normalSong(track))
+        })
+        this.tracks = arr
+        this.loading = false
+      })
+    },
     _getTopDetail () {
       this.loading = true
       let id = this.$route.params.id

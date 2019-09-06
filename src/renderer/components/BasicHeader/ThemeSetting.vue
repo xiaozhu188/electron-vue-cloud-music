@@ -53,9 +53,11 @@ export default {
     ...mapGetters('App', ['primaryColor'])
   },
   created () {
+    console.log(__dirname)
     let key = process.env.NODE_ENV === 'development'
       ? `${window.location.origin}/static/less/color.less`
       : Object.keys(localStorage).find(item => item.endsWith('color.less')) || `file:///${__dirname}/static/less/color.less`
+    // console.log(key)
     let style = ls.get(key)
     if (style) {
       let styleTag = document.createElement('style')
@@ -87,6 +89,12 @@ export default {
           return
         }
         setTimeout(() => {
+          // 编译前删除之前保存的样式
+          Object.keys(localStorage).forEach(item => {
+            if (item.endsWith('color.less') || item.endsWith('color.less:timestamp') || item.endsWith('color.less:vars')) {
+              localStorage.removeItem(item)
+            }
+          })
           window.less
             .modifyVars({
               '@primary-color': primaryColor
@@ -97,7 +105,6 @@ export default {
                 document.head.removeChild(myTheme)
               }
               _this.$message.success('主题应用成功!!')
-              // alert('主题应用成功!')
             })
             .catch(() => {
               _this.$message.error('主题更新失败!')

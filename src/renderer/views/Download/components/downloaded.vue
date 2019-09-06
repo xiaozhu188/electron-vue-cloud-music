@@ -11,27 +11,6 @@
         </span>
       </div>
 
-      <!-- 下载目录的歌曲 -->
-      <!-- <track-list
-        :columns="columns"
-        :tracks="localSongs"
-        :isShowActions="false"
-        @dblclick="play">
-        <template slot="time" slot-scope="{ row }" v-if="row.createdAt">
-          <span>{{ moment(row.createdAt).format('YYYY-MM-DD HH:mm') }}</span>
-        </template>
-        <template slot="size" slot-scope="{ row }">
-          <span>{{ row.size | normalSize }}</span>
-        </template>
-        <template slot="actions" slot-scope="{ row }">
-          <a-icon type="folder" title="打开所在文件夹" @click="openFileInFolder(row)" />
-        </template>
-      </track-list> -->
-      <!-- <ul v-if="localSongs.length">
-        <li v-for="(song,index) in localSongs" :key="`${song.id}_${index}`">{{index}}-{{song.name}}</li>
-      </ul>
-      <div v-else>下载目录没有歌曲</div> -->
-      <!-- 本地数据库歌曲 -->
       <track-list
         :columns="columns"
         :tracks="downloaded"

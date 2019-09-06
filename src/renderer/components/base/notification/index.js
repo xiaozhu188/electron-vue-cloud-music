@@ -8,7 +8,6 @@ Notification.newInstance = (properties = {}) => {
   // 用$el来访问元素，并插入到body中
   const notification = instance.$mount().$el
   document.body.appendChild(notification)
-  // console.log(instance)
   return {
     notice (noticeProps) {
       instance.create(noticeProps)
@@ -17,12 +16,6 @@ Notification.newInstance = (properties = {}) => {
       instance.remove(name)
     },
     component: notification
-    // destroy (element) {
-    //   notification.closeAll()
-    //   setTimeout(function () {
-    //     document.body.removeChild(document.getElementsByClassName(element)[0])
-    //   }, 500)
-    // }
   }
 }
 

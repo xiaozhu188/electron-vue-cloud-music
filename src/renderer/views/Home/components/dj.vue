@@ -21,9 +21,6 @@
     },
     components: {
       djItem
-    },
-    mounted () {
-      console.log(this.list)
     }
   }
 </script>

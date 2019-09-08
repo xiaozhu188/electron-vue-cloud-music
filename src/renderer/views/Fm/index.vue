@@ -3,8 +3,8 @@
     <div class="fm-cover">
       <div class="l">
         <div class="cover-wrapper">
-          <template v-if="fms.length">
-            <img v-lazy="item.avatar" v-for="(item, index) in fms" :key="`${item.id}_${index}`" class="avatar" ref="cover">
+          <template v-if="tracks.length">
+            <img v-lazy="item.avatar" v-for="(item, index) in tracks" :key="`${item.id}_${index}`" class="avatar" :class="setClass(index)" @click="prev(index)">
             <a-icon :type="playIcon" class="icon-play" :class="{'right-bottom' : playing}" @click="togglePlay" />
           </template>
           <div class="loading-wrapper" v-else>
@@ -15,7 +15,7 @@
           <a-button size="large" shape="circle" icon="heart" title="喜欢"/>
           <a-button size="large" shape="circle" icon="delete" title="垃圾桶"/>
           <a-button size="large" shape="circle" icon="step-forward" title="下一曲" :disabled="loading || disabled" @click="next"/>
-          <a-button size="large" shape="circle" icon="ellipsis" title="更多" />
+          <a-button size="large" shape="circle" icon="ellipsis" title="更多"  />
         </div>
       </div>
       <div class="r" v-if="current_song">
@@ -103,6 +103,15 @@ export default {
     this.init()
   },
   methods: {
+    setClass (index) {
+      if (index === this.current_song_index) {
+        return 'active'
+      } else if (index === this.current_song_index - 1) {
+        return 'prev'
+      } else if (index === this.current_song_index - 2) {
+        return 'hide'
+      }
+    },
     init () {
       this.loading = true
       this._getFm().then(tracks => {
@@ -115,27 +124,19 @@ export default {
     },
     handleFmChange (song) {
       this.$nextTick(() => {
-        if (this.fms.length === 1) {
-          this.$refs.cover[0].classList.add('enter')
-        } else if (this.fms.length === 2) {
-          this.$refs.cover[0].classList.remove('enter')
-          this.$refs.cover[0].classList.add('leave')
-          this.$refs.cover[1].classList.add('enter')
-        } else {
-          this.$refs.cover[this.fms.length - 3].classList.remove('leave')
-          this.$refs.cover[this.fms.length - 3].classList.add('remove')
-          this.$refs.cover[this.fms.length - 2].classList.remove('enter')
-          this.$refs.cover[this.fms.length - 2].classList.add('leave')
-          this.$refs.cover[this.fms.length - 1].classList.add('enter')
-        }
         this.$refs.lyrics.scrollTo(0)
+        if (song.id) {
+          this.getComment(song.id)
+        }
       })
-      this.getComment(song.id)
       if (this.current_song_index === this.current_play_list.length - 1) {
         this._getFm().then(tracks => {
+          this.tracks = this.tracks.concat(tracks)
           let list = this.current_play_list
           list = list.concat(tracks)
           this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+        }).catch(err => {
+          console.log(err)
         })
       }
     },
@@ -146,21 +147,35 @@ export default {
       this.$store.commit('play/SET_PLAY_STATUS', !this.playing)
     },
     async _getFm () {
-      let { data } = await getFm()
-      let tracks = data.map(song => {
-        return normalSong(song, '290y290', true)
-      })
-      return tracks
+      try {
+        let { data } = await getFm()
+        let tracks = data.map(song => {
+          return normalSong(song, '290y290', true)
+        })
+        return tracks
+      } catch (error) {
+        throw new Error(error)
+      }
     },
-    remuse () {
-      this.$refs.cover[0].classList.add('remuse')
-      this.$refs.cover[1].classList.add('remuse')
+    async prev (index) {
+      if (this.disabled) return
+      this.disabled = true
+      let current_song_index = this.current_song_index
+      current_song_index--
+      if (current_song_index < 0) {
+        this.disabled = false
+        return
+      }
+
+      this.$store.commit('play/SET_CURRENT_INDEX', current_song_index)
+      setTimeout(() => {
+        this.disabled = false
+      }, 1000)
     },
     async next () {
       if (this.disabled) return
       this.disabled = true
       let current_song_index = this.current_song_index
-      let list_len = this.current_play_list.length
       current_song_index++
 
       this.$store.commit('play/SET_CURRENT_INDEX', current_song_index)
@@ -231,24 +246,20 @@ export default {
       background: #f3f5f9;
       border: 1px solid #eee;
       transform: translate3d(100%, 0, 0);
-      &.enter {
-        animation: enter .3s forwards;
-        z-index: 3;
-        &.remuse {
-          animation: enter-remuse .3s forwards;
-        }
+      transition: all 1s .3s;
+      opacity: 0;
+      &[lazy="loaded"] {
+        animation: none;
       }
-      &.leave {
-        animation: leave .3s forwards;
-        &.remuse {
-          animation: leave-remuse .3s forwards;
-        }
+      &.active {
+        transform: translate3d(0, 0, 0);opacity: 1;
       }
-      &.remove {
-        animation: remove .3s forwards;
-        &.remuse {
-          animation: remove-remuse .3s forwards;
-        }
+      &.prev {
+        cursor: pointer;
+        transform: translate3d(-80px, 0, -100px);opacity: 1;
+      }
+      &.hide {
+        transform: translate3d(-200px, 0, -200px);opacity: 0;
       }
     }
     .icon-play {
@@ -318,29 +329,5 @@ export default {
 
 .value {
   color: #215eb9;
-}
-@keyframes enter {
-  0%{transform: translate3d(100%, 0, 0);opacity: 0;}
-  100%{transform: translate3d(0, 0, 0);opacity: 1;}
-}
-@keyframes enter-remuse {
-  0%{transform: translate3d(0, 0, 0);opacity: 1;}
-  100%{transform: translate3d(100%, 0, 0);opacity: 0;}
-}
-@keyframes leave {
-  0%{transform: translate3d(0, 0, 0)}
-  100%{transform: translate3d(-80px, 0, -100px)}
-}
-@keyframes leave-remuse {
-  0%{transform: translate3d(-80px, 0, -100px)}
-  100%{transform: translate3d(0, 0, 0)}
-}
-@keyframes remove {
-  0%{transform: translate3d(-80px, 0, -100px);opacity: 1;}
-  100%{transform: translate3d(-200px, 0, -200px);opacity: 0;}
-}
-@keyframes remove-remuse {
-  0%{transform: translate3d(-200px, 0, -200px);opacity: 0;}
-  100%{transform: translate3d(-80px, 0, -100px);opacity: 1;}
 }
 </style>

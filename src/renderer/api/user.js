@@ -208,3 +208,11 @@ export function subArtist ({t, id}) {
     }
   })
 }
+
+export function getHotTopic ({limit = 30, offset = 0}) {
+  return request.get('/hot/topic', {
+    params: {
+      limit, offset
+    }
+  })
+}

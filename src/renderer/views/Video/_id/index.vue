@@ -5,7 +5,7 @@
       <h5 class="video-title">
         {{mv.title}}
         <router-link
-          :to="`/artist/${mv.creator.userId}`"
+          :to="`/user?id=${mv.creator.userId}`"
           class="artist"
           v-if="mv"
         >{{mv.creator.nickname}}</router-link>

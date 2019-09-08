@@ -39,7 +39,7 @@ export default {
       }
       this.songs = arr
     },
-    async play (tracks, index) {
+    play (tracks, index) {
       this.$store.dispatch('play/selectPlay', { tracks, index })
     },
     download (song) {

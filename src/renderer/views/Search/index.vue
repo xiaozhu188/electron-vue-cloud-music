@@ -12,8 +12,8 @@
     >
       <a-tab-pane :tab="tab.label" :key="tab.name" v-for="tab in tabs" />
     </a-tabs>
-
-    <div class="mathes">
+    <!-- 最佳匹配 -->
+    <div class="mathes" v-if="matchRes">
       <template v-for="(val, key) in matchRes">
         <div :key="key" class="match-box" v-if="key !== 'orders'">
           <router-link
@@ -29,7 +29,7 @@
         </div>
       </template>
     </div>
-
+    <!-- 搜索结果 -->
     <component :is="componentName" :pageSize="limit" :result="result" v-if="result">
       <div class="page-wrapper" slot-scope="{total}">
         <a-pagination
@@ -46,24 +46,19 @@
 </template>
 
 <script>
-// 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频
+// 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频 ,1018: 综合
 import { getSearch, getSearchMultimatch } from '@/api/search'
 import Loading from '@/components/Common/loading'
-const SearchSong = resolve => {
-  require(['./components/song'], resolve)
-}
-const SearchArtist = resolve => {
-  require(['./components/artist'], resolve)
-}
-const SearchAlbum = resolve => {
-  require(['./components/album'], resolve)
-}
-const SearchVideo = resolve => {
-  require(['./components/video'], resolve)
-}
-const SearchPlaylist = resolve => {
-  require(['./components/playlist'], resolve)
-}
+const SearchSong = () => import('./components/song')
+const SearchArtist = () => import('./components/artist')
+const SearchAlbum = () => import('./components/album')
+const SearchVideo = () => import('./components/video')
+const SearchPlaylist = () => import('./components/playlist')
+const SearchLyric = () => import('./components/lyric')
+const SearchDj = () => import('./components/dj')
+const SearchUser = () => import('./components/user')
+const SearchAll = () => import('./components/all')
+
 const tabs = [
   {
     name: 'search-song_1',
@@ -89,16 +84,26 @@ const tabs = [
     name: 'search-playlist_1000',
     label: '歌单',
     type: 1000
+  },
+  {
+    name: 'search-lyric_1006',
+    label: '歌词',
+    type: 1006
+  },
+  {
+    name: 'search-dj_1009',
+    label: '主播电台',
+    type: 1009
+  },
+  {
+    name: 'search-user_1002',
+    label: '用户',
+    type: 1002
   }
   // {
-  //   name: 'search-dj_1009',
-  //   label: '主播电台',
-  //   type: 1009
-  // },
-  // {
-  //   name: 'search-userprofile_1002',
-  //   label: '用户',
-  //   type: 1002
+  //   name: 'search-all_1018',
+  //   label: '综合',
+  //   type: 1018
   // }
 ]
 
@@ -138,6 +143,7 @@ export default {
     },
     async _search () {
       this.keyword = this.$route.query.keyword || ''
+      if (this.keyword == '') return
       let { keyword, limit, offset, searchType } = this
       let params = {
         keyword,
@@ -145,7 +151,6 @@ export default {
         offset,
         type: searchType
       }
-      if (keyword == '') return
       let { result } = await getSearch(params)
       let matches = await getSearchMultimatch(keyword)
       this.matchRes = matches.result
@@ -163,6 +168,10 @@ export default {
     SearchVideo,
     SearchArtist,
     SearchPlaylist,
+    SearchLyric,
+    SearchDj,
+    SearchUser,
+    SearchAll,
     Loading
   }
 }

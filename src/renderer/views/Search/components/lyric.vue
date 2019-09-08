@@ -1,0 +1,97 @@
+<template>
+  <div>
+    <track-list :tracks="songs" @dblclick="play" @download="download">
+      <div slot="lyric" slot-scope="{ row }" class="lyrics-wrapper">
+        <div class="lyrics">
+          <div v-for="(text, index) in row.lyrics.showAll ? row.lyrics.lines : row.lyrics.lines.slice(0, 4)" :key="index" class="line">{{ text }}</div>
+        </div> 
+        <div class="actions">
+          <a-button size="small" @click.stop="toggleSpread(row.lyrics)" @dblclick.stop>{{ row.lyrics.showAll ? '收起歌词' : '展开歌词' }}</a-button>
+          <a-button size="small" @click="copyLyric(row.lyrics.lines.join(','))">复制歌词</a-button>
+        </div>
+      </div>
+    </track-list>
+    <slot :total="result.songCount"></slot>
+  </div>
+</template>
+
+<script>
+import { normalSong } from '@/utils/song'
+import TrackList from '@/components/Common/track-list/index.js'
+export default {
+  data () {
+    return {
+      songs: []
+    }
+  },
+  props: {
+    result: {
+      type: Object
+    }
+  },
+  watch: {
+    result: {
+      handler (newVal) {
+        if (newVal) {
+          this.normalData()
+        }
+      }
+    }
+  },
+  methods: {
+    normalData () {
+      if (this.result && this.result.songs) {
+        let songs = this.result.songs.map(song => {
+          return {
+            ...normalSong(song),
+            lyrics: {
+              lines: song.lyrics.txt.split('\n') || [],
+              showAll: false
+            }
+          }
+        })
+        this.songs = Object.freeze(songs)
+      }
+
+      console.log(this.songs)
+    },
+    async play (tracks, index) {
+      this.$store.dispatch('play/selectPlay', { tracks, index })
+    },
+    download (song) {
+      this.$store.dispatch('Download/download', song)
+    },
+    toggleSpread (lyrics) {
+      this.$set(lyrics, 'showAll', !lyrics.showAll)
+    },
+    copyLyric (lyric) {
+      this.$electron.clipboard.writeText(lyric)
+      this.$toast({
+        icon: 'check',
+        content: '复制成功'
+      })
+    }
+  },
+  components: { TrackList }
+}
+</script>
+
+<style lang="less" scoped>
+.lyrics-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 100px 0 100px;
+  background: #fff;
+  &:hover {
+    background: #eee;
+  }
+  .line {
+    font-size: 13px;
+    line-height: 22px;
+  }
+  .actions {
+    margin-top: 20px;
+  }
+}
+</style>

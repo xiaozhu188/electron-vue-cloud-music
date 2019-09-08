@@ -6,27 +6,20 @@
         <div class="main-top">
           <div class="left">
             <div class="avatar-wrapper" ref="avatarWrapper" :class="[{'play' : isAddAnimation},{'pause' : !playing},{'has-freq' : showFreq}]">
-              <!-- <div class="freq" v-show="showFreq">
-                <water />
-              </div>  -->
               <img :src="current_song.avatar" class="song-avatar" />
             </div>
             <div class="actions" v-if="current_song">
               <a-button :disabled="!!current_song.folder" @click="_handleLikeSong">
-                  <song-heart 
-                    :isLiked="isLiked"
-                    style="marginRight:4px"
-                  />
+                  <song-heart :isLiked="isLiked" style="marginRight:4px"/>
                   <span>喜欢</span>
               </a-button>
               <collect-btn />
               <a-button icon="share-alt" :disabled="!!current_song.folder" @click="share">
                 分享
               </a-button>
-              <a-button :disabled="!!current_song.folder || downloadstatus.downloaded" :icon="downloadstatus.icon" @click.native="download(current_song)">
+              <a-button :disabled="!!current_song.folder || downloadstatus.downloaded" :icon="downloadstatus.icon" @click="download(current_song)">
                 {{downloadstatus.text}}
               </a-button>
-              <!-- :disabled="!!current_song.folder || downloadstatus.downloaded"  -->
             </div>
             <div :class="lineCls" v-if="!showFreq">
               <img src="./../../assets/images/track_line.png">
@@ -172,7 +165,7 @@ export default {
     Artists, Comment, ZIcon, SongHeart, CollectBtn, LyricList
   },
   computed: {
-    ...mapState('Download', ['downloaded']),
+    ...mapState('Download', ['downloaded', 'downloading', 'queue']),
     ...mapState('play', ['lyric']),
     ...mapGetters('play', [
       'fullscreen',
@@ -191,20 +184,12 @@ export default {
       return this.playing ? 'track-line' : 'track-line paused'
     },
     downloadstatus () {
-      return this.downloaded.findIndex(item => item.id === this.current_song.id) >= 0
+      return [...this.downloaded, ...this.queue].findIndex(item => item.id === this.current_song.id) >= 0
         ? {icon: 'check-circle', text: '已下载', downloaded: true}
         : {icon: 'download', text: '下载'}
     }
   },
   watch: {
-    current_lyric_line (newLine) {
-      if (this.fixLyric) return
-      const lines = this.$refs.lyrics.$refs.lyricLine
-      if (lines && lines[newLine]) {
-        let top = lines[newLine].offsetTop > 0 ? Number(lines[newLine].offsetTop - LYRIC_LINE_HEIGHT * 3) : 0
-        this.$refs.lyrics.scrollTo(top, 'smooth')
-      }
-    },
     fixLyric (newVal) {
       if (!newVal) { // 如果取消了固定歌词,自动滚到当前歌词行
         const lines = this.$refs.lyrics.$refs.lyricLine
@@ -229,6 +214,14 @@ export default {
     },
     fullscreen (newVal) {
       if (newVal) {
+        this.unWatcher_lyric = this.$watch('current_lyric_line', (newLine) => {
+          if (this.fixLyric) return
+          const lines = this.$refs.lyrics.$refs.lyricLine
+          if (lines && lines[newLine]) {
+            let top = lines[newLine].offsetTop > 0 ? Number(lines[newLine].offsetTop - LYRIC_LINE_HEIGHT * 3) : 0
+            this.$refs.lyrics.scrollTo(top, 'smooth')
+          }
+        })
         let img = new Image()
         img.src = this.current_song.avatar
         img.onload = () => {
@@ -252,6 +245,7 @@ export default {
         this._getSongUsers(this.current_song.id)
       } else {
         this.isAddAnimation = false
+        this.unWatcher_lyric && this.unWatcher_lyric()
       }
     }
   },
@@ -370,7 +364,7 @@ export default {
   right: 0;
   top: 50px;
   bottom: 50px;
-  z-index: 11;
+  z-index: 999;
   background: #fff;
   overflow-y: auto;
   overflow-x: hidden;

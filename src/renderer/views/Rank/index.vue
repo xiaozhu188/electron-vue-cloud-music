@@ -165,6 +165,8 @@ export default {
     border-bottom: 1px solid #ddd;
     margin: 20px auto;
     font-size: 20px;
+    background: none;
+    box-shadow: none;
     color: #000;
   }
   .first-four {
@@ -307,8 +309,8 @@ export default {
     .name {
       line-height: 25px;
       font-size: 13px;
-      color: #333;
       text-align: center;
+      color: initial;
     }
   }
 }

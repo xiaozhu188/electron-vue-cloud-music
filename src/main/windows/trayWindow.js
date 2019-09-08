@@ -7,7 +7,6 @@ const createTrayWindow = function (BrowserWindow, bounds) {
   const obj = {
     height: 350,
     width: 200,
-    thickFrame: false,
     x: bounds.x,
     y: bounds.y - 310,
     show: false,

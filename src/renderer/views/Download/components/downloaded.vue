@@ -3,7 +3,7 @@
     <a-card :bordered="false">
       <div slot="title">
 
-        <a-button type="primary" icon="play-circle">播放全部</a-button>
+        <a-button type="primary" icon="play-circle" @click="play(downloaded, 0)">播放全部</a-button>
 
         <span>
            存储目录：{{ defaultDownloadFolder }}

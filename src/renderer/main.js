@@ -23,65 +23,6 @@ new Vue({
   created () {
     createdInit()
   },
-  mounted () {
-    window.ondragenter = (event) => {
-      event.preventDefault()
-    }
-    window.ondragover = (event) => {
-      event.preventDefault()
-    }
-    window.ondrop = disableDrag
-
-    async function disableDrag (event) {
-      event.preventDefault()
-      let efile = event.dataTransfer
-      if (efile.files.length > 0 && event.type === 'drop') {
-        const mm = require('music-metadata')
-        const uuid = require('uuid/v1')
-        let songs = []
-        for (let i = 0; i < efile.files.length; i++) {
-          let file = efile.files[i]
-          let file_name = efile.files[i].name
-          let path = file.path
-          if (file_name.endsWith('.mp3') || file_name.endsWith('wma')) {
-            const metadata = await mm.parseFile(path)
-            const songItem = {
-              id: uuid(),
-              name: file_name.substring(0, file_name.lastIndexOf('.')),
-              avatar: 'static/images/default_album.jpg',
-              album: {
-                name: metadata.common.album || '未知专辑'
-              },
-              artist: metadata.common.artists
-                ? metadata.common.artists.map(item => {
-                  return {
-                    id: uuid(),
-                    name: item
-                  }
-                })
-                : [{
-                  id: uuid(),
-                  name: '未知歌手'
-                }],
-              duration: parseInt(metadata.format.duration) || 0,
-              url: path,
-              folder: path,
-              size: file.size
-              // size: `${(stat.size / 1024 / 1024).toFixed(2)}M`
-            }
-            songs.push(songItem)
-          }
-        }
-        store.dispatch('play/selectPlay', { tracks: songs, index: 0 })
-      }
-      return false
-    }
-  },
-  destroy () {
-    window.ondragenter = null
-    window.ondragover = null
-    window.ondrop = null
-  },
   template: '<App/>'
 }).$mount('#app')
 

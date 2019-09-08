@@ -142,6 +142,7 @@ export default {
     }
   }
   /deep/ .ant-menu-submenu-title {
+    color: rgba(0, 0, 0, 0.45);
     padding-left: 16px!important;
   }
   /deep/ .ant-menu-inline {
@@ -204,7 +205,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: rgba(0, 0, 0, 0.45);
     .anticon-plus-circle {
       font-size: 15px;
       color: rgba(0,0,0,.5);

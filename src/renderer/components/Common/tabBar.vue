@@ -97,7 +97,7 @@ export default {
     a {
       display: inline-block;
       line-height: 32px;
-      margin: 0 30px;
+      margin: 0 20px;
       color: #333;
       text-decoration: none;
       &.router-link-exact-active,&.router-link-active {

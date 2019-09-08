@@ -95,8 +95,12 @@
                         :row="row"
                         :col="col"
                         v-else
-                      ></component>
+                      >
+                      </component>
                     </div>
+                  </div>
+                  <div class="col-lyric" v-if="row.lyrics">
+                    <slot name="lyric" :row="row"></slot>
                   </div>
                 </div>
                 <a-menu slot="overlay">
@@ -427,6 +431,9 @@ export default {
     flex: 0 0 40px !important;
     font-size: 13px;
   }
+  .col-lyric {
+    flex: 0 0 100%;
+  }
   .col-actions {
     flex: 0 0 60px !important;
   }
@@ -471,6 +478,7 @@ export default {
       }
       .song-item {
         display: flex;
+        flex-wrap: wrap;
         line-height: 32px;
         font-size: 14px;
         .col-item {

@@ -14,7 +14,7 @@
             :key="item.id"
           >
             <div class="icon">
-              <img :src="item.picWebUrl" class="img" />
+              <img :src="item.picMacUrl" class="img" />
             </div>
             <div class="name">{{item.name}}</div>
           </router-link>
@@ -188,6 +188,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.page-dj {
+  padding-top: 20px;
+}
 .cates {
   .list {
     overflow: hidden;
@@ -235,6 +238,7 @@ export default {
     justify-content: space-between;
     line-height: 40px;
     font-size: 18px;
+    border-bottom: 1px solid rgba(47, 47, 47, 0.1);
     .more {
       float: right;
       color: #666;
@@ -273,6 +277,7 @@ export default {
         flex: 1;
         line-height: 22px;
         .text {
+          margin: 4px 0;
           color: #111;
         }
         .singer,

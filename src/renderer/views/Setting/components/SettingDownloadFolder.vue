@@ -33,10 +33,11 @@ export default {
           properties: ['openDirectory']
         },
         filePaths => {
-          console.log(filePaths)
-          this.mutateState({
-            downloadSongsFolders: filePaths
-          })
+          if (filePaths) {
+            this.mutateState({
+              downloadSongsFolders: filePaths
+            })
+          }
         }
       )
     },

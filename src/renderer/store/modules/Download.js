@@ -1,6 +1,7 @@
 import {ipcRenderer} from 'electron'
 import Message from 'ant-design-vue/es/message'
 import { getUrl, generateName } from './../../utils/song'
+import { uniqueData } from './../../utils/assist'
 import throttle from 'lodash/throttle'
 import db from './../../datastore'
 import { getLyric } from './../../api/song'
@@ -26,25 +27,12 @@ let mutations = {
   SET_DOWNLOADED (state, songs) {
     state.downloaded = songs
   },
-  ADD_DOWNLOADED (state, song) {
-    state.downloaded.push(song)
-  },
-  REMOVE_DOWNLOADED (state, song) {
-    let index = state.downloaded.findIndex(item => item.id === song.id)
-    state.downloaded.splice(index, 1)
-  },
-  CLEAR_DOWNLOADED (state) {
-    state.downloaded = []
-  },
   ADD_DOWNLOADING (state, song) {
     state.downloading.push(song)
   },
   REMOVE_DOWNLOADING (state, song) {
     let index = state.downloading.findIndex(item => item.id === song.id)
     state.downloading.splice(index, 1)
-  },
-  CLEAR_DOWNLOADING (state) {
-    state.downloading = []
   },
   UPDATE_DOWNLOADING_PROGRESS (state, {id, progress}) {
     let index = state.downloading.findIndex(item => item.id === id)
@@ -56,7 +44,7 @@ let mutations = {
     song.url = `${downloadFolder}\\${filename}`
     song.folder = downloadFolder
     state.downloaded.push(song)
-    state.downloaded = [...new Set(state.downloaded)]
+    state.downloaded = uniqueData(state.downloaded)
     state.downloading.splice(index, 1)
     db.download.findOne({ id: id }, (err, doc) => {
       if (err) {
@@ -88,16 +76,11 @@ let actions = {
 
     ipcRenderer.on('download-onStarted', (event, data) => {
       let {song, totalBytes} = data
-      if (state.downloading.some(item => item.id === song.id)) {
-        Message.success(`歌曲${song.name}已在下载列表中!`)
-        return
-      }
 
       commit('ADD_DOWNLOADING', {
         ...song,
         downloadPercent: 0,
-        totalBytes,
-        isDownloadSuccess: false
+        totalBytes
       })
     })
 
@@ -171,11 +154,16 @@ let actions = {
     }
   },
   adddownloadQueue ({commit, dispatch, state}, songs) {
-    let queue = state.queue.slice()
-    queue.push(...songs)
-    commit('SET_QUEUE', queue)
-    Message.success(`成功添加${songs.length}首歌到下载列表`)
-    if (state.queue.length >= 1 && !state.downloading.length) {
+    let queue = [...state.queue]
+    songs = songs.filter(song => {
+      return !queue.some(item => item.id === song.id)
+    })
+    if (songs.length) {
+      queue.push(...songs)
+      commit('SET_QUEUE', queue)
+      Message.success(`添加${songs.length}首歌到下载列表`)
+    }
+    if (state.queue.length > 0 && !state.downloading.length) {
       dispatch('download')
     }
   }

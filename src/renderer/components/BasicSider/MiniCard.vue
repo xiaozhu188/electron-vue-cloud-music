@@ -6,7 +6,7 @@
       v-show="Object.keys(current_song).length && !fullscreen"
     >
       <figure class="figure-wrapper">
-        <img v-lazy="current_song.avatar" :key="current_song.avatar" width="50" height="50" />
+        <img v-lazy="current_song.picture || current_song.avatar" :key="current_song.avatar" width="50" height="50" />
         <a-icon type="arrows-alt" class="fullscreen" />
       </figure>
       <section class="card-info">
@@ -83,7 +83,6 @@ export default {
   align-items: center;
   width: 100%;
   border-top: 1px solid #ddd;
-  border-right: 1px solid #ddd;
   background: #fff;
   cursor: pointer;
   transform-origin: left bottom;

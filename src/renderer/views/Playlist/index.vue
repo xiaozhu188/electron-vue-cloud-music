@@ -47,6 +47,7 @@
       </ul>
       <div class="page">
         <a-pagination
+          size="small"
           :defaultCurrent="1"
           :pageSize="options.limit"
           :total="total"

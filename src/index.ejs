@@ -10,64 +10,6 @@
     </script>
     <% } %>
     <style>
-      .loading-global {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .ani_playing {
-        width: 30px;
-        height: 12px;
-        overflow: hidden;
-        transform-style: preserve-3d;
-        display: inline-flex;
-        justify-content: center;
-        align-items: flex-end;
-      }
-      .ani_playing .play {
-        animation: bounce ease-in-out infinite alternate forwards;
-      }
-      .ani_playing .play.line {
-        height: 12px;
-        width: 2px;
-        margin-right: 2px;
-        background: #c62f2f;
-        transform-origin: bottom;
-      }
-      .ani_playing .play.line:nth-of-type(1) {
-        height: 6px;
-        animation-duration: 0.4s;
-        -webkit-animation-duration: 0.4s;
-      }
-      .ani_playing .play.line:nth-of-type(2) {
-        height: 12px;
-        animation-duration: 0.6s;
-        -webkit-animation-duration: 0.6s;
-      }
-      .ani_playing .play.line:nth-of-type(3) {
-        height: 10px;
-        animation-duration: 0.7s;
-        -webkit-animation-duration: 0.7s;
-      }
-      .ani_playing .play.line:nth-of-type(4) {
-        height: 8px;
-        animation-duration: 0.5s;
-        -webkit-animation-duration: 0.5s;
-      }
-
-      @keyframes bounce {
-        0% {
-          transform: scaleY(1);
-        }
-        100% {
-          transform: scaleY(0.1);
-        }
-      }
       * {
         padding: 0;
         margin: 0;
@@ -81,14 +23,6 @@
           opacity: 0;
         }
       }
-      @keyframes enter {
-        0% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
       .welcome {
         position: fixed;
         left: 0;
@@ -98,7 +32,6 @@
         bottom: 0;
         overflow: hidden;
         animation: fade .3s ease-in-out reverse;
-        /* display: none; */
       }
       .welcome .welcome-img {
         display: block;
@@ -121,14 +54,6 @@
   </head>
   <body>
     <div id="app">
-      <!-- <div class="loading-global">
-        <div class="ani_playing">
-          <div class="line play"></div>
-          <div class="line play"></div>
-          <div class="line play"></div>
-          <div class="line play"></div>
-        </div>
-      </div> -->
     </div>
     <div id="welcome" class="welcome">
       <img src="static/images/welcome.png" class="welcome-img" />

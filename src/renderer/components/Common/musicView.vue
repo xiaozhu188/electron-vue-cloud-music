@@ -1,10 +1,10 @@
 <template>
   <div>
-    <canvas id="canvas" v-show="!showWater"></canvas>
-    <canvas id="wrap" height="640" width="640" v-show="showWater"></canvas>
-    <div class="avatar-wrapper" v-show="showWater" @click="avatarClick">
+    <canvas id="canvas" v-show="!showGlow"></canvas>
+    <canvas id="wrap" height="640" width="640" v-show="showGlow"></canvas>
+    <div class="avatar-wrapper" v-show="showGlow" @click="avatarClick">
       <img
-        :src="`${current_song.avatar}?param=400y400`"
+        :src="`${current_song.avatar}`"
         class="avatar"
         :class="{'paused' : !playing}"
       />
@@ -24,7 +24,7 @@ export default {
       gradient: '',
       width: 0,
       height: 0,
-      showWater: false
+      showGlow: false
     }
   },
   props: {
@@ -43,10 +43,10 @@ export default {
         this.audioDom = document.getElementById(newVal)
       })
     },
-    showWater (newVal) {
+    showGlow (newVal) {
       if (newVal) {
         this.$nextTick(() => {
-          this.initWater()
+          this.initGlow()
           this.timer && cancelAnimationFrame(this.timer)
         })
       } else {
@@ -177,7 +177,7 @@ export default {
         _this.timer = requestAnimationFrame(draw)
       })()
     },
-    initWater () {
+    initGlow () {
       let { width, height } = this.wrap
       let cxt = this.wrap.getContext('2d')
       // 获取API
@@ -264,12 +264,12 @@ export default {
         _this.time2 = requestAnimationFrame(drawSpectrum)
       })()
     },
-    toggleWater () {
-      this.showWater = !this.showWater
+    toggleGlow () {
+      this.showGlow = !this.showGlow
     },
     avatarClick () {
       this.$emit('avatarClick')
-      this.toggleWater()
+      this.toggleGlow()
     }
   }
 }

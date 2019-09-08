@@ -559,7 +559,7 @@ export default {
       }
     }
     .ant-drawer-body {
-      padding: 65px 0 0;
+      padding: 60px 0 0;
     }
   }
 </style>

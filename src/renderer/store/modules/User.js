@@ -1,5 +1,5 @@
 import Message from 'ant-design-vue/es/message'
-import { login_refresh, login_status, logout } from './../../api/login'
+import { login_refresh, logout } from './../../api/login'
 import {
   getUserPlaylist,
   getUserLikeSongs,
@@ -192,11 +192,11 @@ let actions = {
     }
     throw new Error(res)
   },
-  async subscribeUser ({commit, state}, {t, user}) {
-    let id = user.profile.userId
+  async subscribeUser ({commit, state}, {t, userId, nickname}) {
+    let id = userId
     let res = await user_follow({t, id})
     if (res.code === 200) {
-      t === 1 ? Message.success(res.followContent || `关注用户${user.profile.nickname}成功`) : Message.success(`取消关注用户${user.profile.nickname}成功`)
+      t === 1 ? Message.success(res.followContent || `关注用户${nickname}成功`) : Message.success(`取消关注用户${nickname}成功`)
       return res
     }
     throw new Error(res)

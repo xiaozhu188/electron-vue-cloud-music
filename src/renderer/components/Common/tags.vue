@@ -48,7 +48,6 @@
     dd {
       padding: 0 10px;
       cursor: pointer;
-      border-radius: 3px;
       &.current {
         background: @primary-color;
         color: #fff;

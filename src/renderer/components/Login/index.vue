@@ -111,7 +111,7 @@ export default {
 .login .ant-modal-content {
   min-height: 400px;
   background: #f8f8f8 url("./../../assets/images/loginBg.jpg") top
-    center/contain no-repeat;
+    center/contain no-repeat!important;
 }
 
 #login {

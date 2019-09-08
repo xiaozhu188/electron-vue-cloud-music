@@ -36,7 +36,7 @@
           <span>显示主界面</span>
         </li>
         <li class="menu-item" :class="{'disabled' : !showDesktoplyric}" @click="doLyric(false)" v-if="isFixed">
-          <z-icon type="geci" style="font-size: 25px;margin-left: -6px" />
+          <z-icon type="geci" />
           <span>解锁桌面歌词</span>
         </li>
         <li class="menu-item" :class="{'disabled' : !showDesktoplyric}" @click="doLyric(true)" v-else>

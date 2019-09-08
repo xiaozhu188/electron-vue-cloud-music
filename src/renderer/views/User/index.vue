@@ -130,12 +130,10 @@ export default {
       this.page = page
     },
     subscribe (t, user) {
-      this.$store.dispatch('User/subscribeUser', {t, user}).then(res => {
-        console.log(res)
+      this.$store.dispatch('User/subscribeUser', {t, userId: user.profile.userId, nickname: user.profile.nickname}).then(res => {
         if (res.code === 200) {
           if (res.followTimeContent) {
             this.user.profile.followTime = res.followTimeContent
-            console.log(this.user.profile)
           }
           this.user.profile.followed = !this.user.profile.followed
         }

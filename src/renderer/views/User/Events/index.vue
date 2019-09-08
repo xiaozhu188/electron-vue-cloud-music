@@ -15,9 +15,13 @@
               <img v-lazy="`${event.user.avatarUrl}?param=42y42`" class="avatar-img" />
             </router-link>
             <div class="intro">
-              <div class="username">{{ event.user.nickname }}</div>
+              <router-link :to="`/user?id=${event.user.userId}`" class="username">{{ event.user.nickname }}</router-link>
               <!-- <div class="date">{{ moment(event.eventTime).format('M月D日 hh:mm') }}</div> -->
               <div class="date">{{ moment(event.eventTime).fromNow() }}</div>
+            </div>
+            <div class="action">
+              <a-button type="link" size="small" icon="check" @click="subscribe(2, event.user)" v-if="event.user.followed">已关注</a-button>
+              <a-button type="link" size="small" icon="plus" @click="subscribe(1, event.user)" v-else>关注</a-button>
             </div>
           </div>
           <div class="event-detail">
@@ -72,7 +76,7 @@
 
 <script>
 import moment from 'moment'
-import { getEvent } from '@/api/user'
+import { getEvent, getHotTopic } from '@/api/user'
 import EventSong from './components/Song'
 import EventVideo from './components/Video'
 import Comment from '@/components/Comment/index.vue'
@@ -107,9 +111,22 @@ export default {
     next(vm => {
       vm.events = []
       vm.infiniteId += 1
+      vm._getHotTopic()
     })
   },
   methods: {
+    _getHotTopic () {
+      getHotTopic({}).then(res => {
+        console.log(res)
+      })
+    },
+    subscribe (t, user) {
+      this.$store.dispatch('User/subscribeUser', {t, userId: user.userId, nickname: user.nickname}).then(res => {
+        if (res.code === 200) {
+          this.$set(user, 'followed', !user.followed)
+        }
+      })
+    },
     onEventClick (event, index) {
       console.log(Object.keys(event.json)[1])
       if (this.currentIndex === index) return
@@ -149,6 +166,7 @@ export default {
           })
           this.events.push(...res.event)
         }
+        console.log(this.events)
         if (res.more) {
           this.options.lasttime = res.lasttime
           $state.loaded()
@@ -199,6 +217,7 @@ export default {
         }
       }
       .intro {
+        flex: 1;
         padding-left: 10px;
         .username,
         .date {
@@ -210,6 +229,14 @@ export default {
         .date {
           font-size: 12px;
           color: #666;
+        }
+      }
+      .action {
+        /deep/ .ant-btn-link {
+          color: @primary-color;
+          background-color: transparent;
+          border-color: transparent;
+          box-shadow: none;
         }
       }
     }

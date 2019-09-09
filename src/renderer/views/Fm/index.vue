@@ -4,7 +4,9 @@
       <div class="l">
         <div class="cover-wrapper">
           <template v-if="tracks.length">
-            <img v-lazy="item.avatar" v-for="(item, index) in tracks" :key="`${item.id}_${index}`" class="avatar" :class="setClass(index)" @click="prev(index)">
+            <template v-for="(item, index) in tracks">
+              <img v-lazy="item.avatar" ref="avatar" v-if="current_song_index-3<index" :key="`${item.id}_${index}`" class="avatar" :class="setClass(index)" @click="prev(index)">
+            </template>
             <a-icon :type="playIcon" class="icon-play" :class="{'right-bottom' : playing}" @click="togglePlay" />
           </template>
           <div class="loading-wrapper" v-else>
@@ -42,33 +44,24 @@ import moment from 'moment'
 import { mapState, mapGetters } from 'vuex'
 import { getFm } from '@/api/user'
 import { normalSong, getUrl } from '@/utils/song'
-import { getLyric } from '@/api/song'
 import { getSongComment } from '@/api/comment'
-import { setTimeout } from 'timers'
 import LyricList from '@/components/Lyric/index.vue'
 import Artists from '@/components/Common/artists'
-import TransitionList from '@/components/Common/TransitionList'
 import Comment from '@/components/Comment/index.vue'
 import Loading from '@/components/Common/loading.vue'
-function insertFm (songs, song) {
-  if (songs.length > 2) {
-    songs.splice(0, 1)
-  }
-  songs.push(song)
-}
+
 export default {
   name: 'fm',
   data () {
     return {
       tracks: [],
-      fms: [],
       disabled: false,
       commentData: null,
       loading: false
     }
   },
   components: {
-    Artists, TransitionList, Comment, Loading, LyricList
+    Artists, Comment, Loading, LyricList
   },
   computed: {
     ...mapState('play', ['lyric']),
@@ -86,7 +79,6 @@ export default {
   },
   watch: {
     current_lyric_line (newLine) {
-      // if (newLine < 3) return
       const lines = this.$refs.lyrics.$refs.lyricLine
       const line_HEIGHT = lines[newLine].getBoundingClientRect().height
       let top = lines[newLine].offsetTop > 0 ? Number(lines[newLine].offsetTop - line_HEIGHT * 4) : 0
@@ -94,7 +86,6 @@ export default {
     },
     current_song (newSong, oldSong) {
       if (newSong.id === oldSong.id) return
-      insertFm(this.fms, newSong)
       this.handleFmChange(newSong)
     }
   },
@@ -124,7 +115,7 @@ export default {
     },
     handleFmChange (song) {
       this.$nextTick(() => {
-        this.$refs.lyrics.scrollTo(0)
+        // this.$refs.lyrics.scrollTo(0)
         if (song.id) {
           this.getComment(song.id)
         }
@@ -158,8 +149,10 @@ export default {
       }
     },
     async prev (index) {
-      if (this.disabled) return
+      if (this.disabled || this.$refs.avatar[index].classList[1] !== 'prev') return
       this.disabled = true
+      console.log(this.$refs.avatar[index].classList)
+
       let current_song_index = this.current_song_index
       current_song_index--
       if (current_song_index < 0) {

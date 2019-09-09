@@ -5,7 +5,7 @@
         <div class="cover-wrapper">
           <template v-if="tracks.length">
             <template v-for="(item, index) in tracks">
-              <img v-lazy="item.avatar" ref="avatar" v-if="current_song_index-3<index" :key="`${item.id}_${index}`" class="avatar" :class="setClass(index)" @click="prev(index)">
+              <img v-lazy="item.avatar" ref="avatar" v-if="current_song_index-3<index" :key="`${item.id}_${index}`" class="avatar" :class="setClass(index)" @click="prev($event, index)">
             </template>
             <a-icon :type="playIcon" class="icon-play" :class="{'right-bottom' : playing}" @click="togglePlay" />
           </template>
@@ -148,11 +148,10 @@ export default {
         throw new Error(error)
       }
     },
-    async prev (index) {
-      if (this.disabled || this.$refs.avatar[index].classList[1] !== 'prev') return
+    async prev (e, index) {
+      console.log(e)
+      if (this.disabled) return
       this.disabled = true
-      console.log(this.$refs.avatar[index].classList)
-
       let current_song_index = this.current_song_index
       current_song_index--
       if (current_song_index < 0) {
@@ -215,7 +214,7 @@ export default {
       white-space: nowrap;
       padding-right: 4px;
       a {
-        color: #333;
+        color: #215eb9;
       }
       .song-album,.song-artist {
         text-overflow: ellipsis;
@@ -248,8 +247,13 @@ export default {
         transform: translate3d(0, 0, 0);opacity: 1;
       }
       &.prev {
-        cursor: pointer;
         transform: translate3d(-80px, 0, -100px);opacity: 1;
+        &:hover {
+          transform: translate3d(-220px, 0, -100px);
+          transition-duration: .3s;
+          transition-delay: 0s;
+          cursor: pointer;
+        }
       }
       &.hide {
         transform: translate3d(-200px, 0, -200px);opacity: 0;

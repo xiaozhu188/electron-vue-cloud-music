@@ -6,12 +6,12 @@
       v-show="Object.keys(current_song).length && !fullscreen"
     >
       <figure class="figure-wrapper">
-        <img v-lazy="current_song.picture || current_song.avatar" :key="current_song.avatar" width="50" height="50" />
+        <img v-lazy="current_song.avatar" :key="current_song.avatar" width="50" height="50" />
         <a-icon type="arrows-alt" class="fullscreen" />
       </figure>
       <section class="card-info">
         <header class="info-header">
-          <h5 class="songname">{{current_song.name}}</h5>
+          <h5 class="songname" :title="current_song.name">{{current_song.name}}</h5>
           <span class="icon-wrapper" v-if="!current_song.folder">
             <song-heart
               :isLiked="likedsongIds.includes(current_song.id)"

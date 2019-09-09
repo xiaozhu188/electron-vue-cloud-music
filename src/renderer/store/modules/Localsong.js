@@ -81,20 +81,14 @@ export default {
             if (stat.isFile()) {
               if (item.endsWith('.mp3')) {
                 const metadata = await mm.parseFile(pathname, {
-                  duration: true,
-                  native: true,
-                  skipCovers: true
+                  duration: true
                 })
 
                 let songname = item.substring(0, item.lastIndexOf('.')).trim()
-                let artist, name, matched
+                let artist = [], name = songname, matched = false
                 if (songname.split('-')[0] && songname.split('-')[1]) {
                   artist = songname.split('-')[0].split(',').map(item => { return {name: item} })
                   name = songname.split('-')[1].trim()
-                  matched = false
-                } else {
-                  artist = []
-                  name = songname
                   matched = false
                 }
                 let extraItem = {
@@ -103,7 +97,6 @@ export default {
 
                 // console.log(name, artist, metadata)
                 const songItem = {
-                  // _id: uuid(),
                   id: uuid(),
                   avatar: avatarIcon,
                   album: metadata.common.album || '',

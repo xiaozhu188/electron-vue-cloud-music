@@ -55,11 +55,11 @@ export default {
             this.$refs.lyrics.scrollTo(top)
           }
         })
-        this.unWater = this.$watch('current_lyric_line', (newLine) => {
+        this.unWatcher = this.$watch('current_lyric_line', (newLine) => {
           this.handleLineChange(newLine)
         })
       } else {
-        this.unWater()
+        this.unWatcher()
       }
     }
   },
@@ -84,7 +84,7 @@ export default {
       }
     },
     toggleViewer () {
-      this.$refs.viewer.toggleWater()
+      this.$refs.viewer.toggleGlow()
       this.showLyric = !this.showLyric
     },
     handleAvatarClick () {

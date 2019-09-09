@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <a-spin :spinning="spinning">
     <track-list :tracks="songs" @dblclick="play" @download="download">
       <div slot="lyric" slot-scope="{ row }" class="lyrics-wrapper">
         <div class="lyrics">
@@ -12,30 +12,20 @@
       </div>
     </track-list>
     <slot :total="result.songCount"></slot>
-  </div>
+  </a-spin>
 </template>
 
 <script>
+import searchMixin from '@/mixins/Search'
 import { normalSong } from '@/utils/song'
 import TrackList from '@/components/Common/track-list/index.js'
 export default {
+  mixins: [
+    searchMixin
+  ],
   data () {
     return {
       songs: []
-    }
-  },
-  props: {
-    result: {
-      type: Object
-    }
-  },
-  watch: {
-    result: {
-      handler (newVal) {
-        if (newVal) {
-          this.normalData()
-        }
-      }
     }
   },
   methods: {
@@ -52,8 +42,7 @@ export default {
         })
         this.songs = Object.freeze(songs)
       }
-
-      console.log(this.songs)
+      this.spinning = false
     },
     async play (tracks, index) {
       this.$store.dispatch('play/selectPlay', { tracks, index })

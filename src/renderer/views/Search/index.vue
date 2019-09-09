@@ -30,7 +30,7 @@
       </template>
     </div>
     <!-- 搜索结果 -->
-    <component :is="componentName" :pageSize="limit" :result="result" v-if="result">
+    <component class="search-result" :is="componentName" :pageSize="limit" :result="result" v-if="result">
       <div class="page-wrapper" slot-scope="{total}">
         <a-pagination
           size="small"
@@ -217,6 +217,13 @@ export default {
         color: #999;
       }
     }
+  }
+}
+.search-result {
+  min-height: 200px;
+  /deep/ .ant-spin-spinning {
+    display: block;
+    margin-top: 20px;
   }
 }
 </style>

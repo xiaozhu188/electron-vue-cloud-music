@@ -1,43 +1,33 @@
 <template>
   <div>
-    <track-list :tracks="songs" @dblclick="play" @download="download"/>
+    <a-spin :spinning="spinning">
+      <track-list :tracks="songs" @dblclick="play" @download="download"/>
+    </a-spin>
     <slot :total="result.songCount"></slot>
   </div>
 </template>
 
 <script>
+import searchMixin from '@/mixins/Search'
 import { normalSong } from '@/utils/song'
 import TrackList from '@/components/Common/track-list/index.js'
 export default {
+  mixins: [
+    searchMixin
+  ],
   data () {
     return {
       songs: []
     }
   },
-  props: {
-    result: {
-      type: Object
-    }
-  },
-  watch: {
-    result (newVal) {
-      if (newVal) {
-        this.normalData()
-      }
-    }
-  },
-  mounted () {
-    this.normalData()
-  },
   methods: {
     normalData () {
-      let arr = []
-      if (this.result && this.result.songs) {
-        this.result.songs.forEach(song => {
-          arr.push(normalSong(song))
+      if (this.result.songs && this.result.songs.length) {
+        this.songs = this.result.songs.map(song => {
+          return normalSong(song)
         })
       }
-      this.songs = arr
+      this.spinning = false
     },
     play (tracks, index) {
       this.$store.dispatch('play/selectPlay', { tracks, index })

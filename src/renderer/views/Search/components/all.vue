@@ -26,23 +26,8 @@ export default {
       users: []
     }
   },
-  props: {
-    result: {
-      type: Object
-    }
-  },
   components: {
     Artists
-  },
-  watch: {
-    result (newVal) {
-      if (newVal) {
-        this.normalData()
-      }
-    }
-  },
-  mounted () {
-    this.normalData()
   },
   methods: {
     normalData () {

@@ -1,39 +1,39 @@
 <template>
-  <div>
+  <a-spin :spinning="spinning">
     <ul class="videos">
       <li v-for="video in videos" :key="video.id">
         <video-item :video="video"/>
       </li>
     </ul>
     <slot :total="result.videoCount"></slot> 
-  </div>
+  </a-spin>
 </template>
 
 <script>
+import searchMixin from '@/mixins/Search'
 import VideoItem from '@/components/Common/video-item'
 import { getMv } from '@/api/sublist'
 import { normalVideo } from '@/utils/video.js'
 export default {
-  props: {
-    result: {
-      type: Object,
-      default () {
-        return null
-      }
+  mixins: [
+    searchMixin
+  ],
+  data () {
+    return {
+      videos: []
     }
   },
-  components: { VideoItem },
-  computed: {
-    videos () {
-      let arr = []
+  methods: {
+    normalData () {
       if (this.result.videos && this.result.videos.length) {
-        this.result.videos.forEach(video => {
-          arr.push(normalVideo(video))
+        this.videos = this.result.videos.map(video => {
+          return normalVideo(video)
         })
       }
-      return arr
+      this.spinning = false
     }
-  }
+  },
+  components: { VideoItem }
 }
 </script>
 

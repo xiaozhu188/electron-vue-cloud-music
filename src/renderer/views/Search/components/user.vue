@@ -1,52 +1,44 @@
 <template>
   <div class="search-user">
-    <a-row
-      type="flex"
-      justify="space-around"
-      align="middle"
-      v-for="user in users"
-      :key="user.userId"
-    >
-      <a-col :span="24">
-        <router-link :to="`/user?id=${user.userId}`" class="user">
-          <img v-lazy="`${user.avatarUrl}?param=50y50`">
-          <span>{{user.nickname}}</span>
-        </router-link>
-      </a-col>
-    </a-row>
+    <a-spin :spinning="spinning">
+      <a-row
+        type="flex"
+        justify="space-around"
+        align="middle"
+        v-for="user in users"
+        :key="user.userId"
+      >
+        <a-col :span="24">
+          <router-link :to="`/user?id=${user.userId}`" class="user">
+            <img v-lazy="`${user.avatarUrl}?param=50y50`">
+            <span>{{user.nickname}}</span>
+          </router-link>
+        </a-col>
+      </a-row>
+    </a-spin>
     <slot :total="result.userprofileCount"></slot>
   </div>
 </template>
 
 <script>
+import searchMixin from '@/mixins/Search'
 import Artists from '@/components/Common/artists'
 export default {
+  mixins: [
+    searchMixin
+  ],
   data () {
     return {
       users: []
     }
   },
-  props: {
-    result: {
-      type: Object
-    }
-  },
   components: {
     Artists
-  },
-  watch: {
-    result (newVal) {
-      if (newVal) {
-        this.normalData()
-      }
-    }
-  },
-  mounted () {
-    this.normalData()
   },
   methods: {
     normalData () {
       this.users = this.result.userprofiles
+      this.spinning = false
     }
   }
 }

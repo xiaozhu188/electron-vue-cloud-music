@@ -83,8 +83,9 @@ const createWindow = function () {
 
   // 只能打开一个实例
   const gotTheLock = app.requestSingleInstanceLock()
-  app.on('second-instance', (commandLine, workingDirectory) => {
+  app.on('second-instance', (event, argv, workingDirectory) => {
     if (mainWindow) {
+      mainWindow.webContents.send('open-files', {event, argv, workingDirectory, args: process.argv})
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
     }
@@ -163,7 +164,7 @@ function protocalHandler () {
   function handleArgv (argv) {
     const prefix = `${PROTOCOL}:`
     // 开发阶段，跳过前两个参数（`electron.exe .`）
-    // 打包后，跳过第一个参数（`myapp.exe`）
+    // 打包后，跳过第一个参数,即app的安装路径如E:\electron-vue-cloud-music\网易云音乐.exe
     const offset = app.isPackaged ? 1 : 2
     const url = argv.find((arg, i) => i >= offset && arg.startsWith(prefix))
     if (url) handleUrl(url)
@@ -178,7 +179,8 @@ function protocalHandler () {
 }
 
 app.on('ready', () => {
-  console.log(process.execPath, process.argv)
+  global.execPath = process.execPath
+  global.argv = process.argv
   createWindow()
   protocalHandler()
   ipcMain.on('thumbar-buttons', (e, data) => {

@@ -1,5 +1,5 @@
 <template>
-  <div ref="app" id="app" :data-urlStr="urlStr">
+  <div ref="app" id="app">
     <keep-alive>
       <router-view />
     </keep-alive>
@@ -18,6 +18,12 @@ export default {
   computed: {
     urlStr () {
       return this.$electron.remote.getGlobal('urlStr')
+    },
+    execPath () {
+      return this.$electron.remote.getGlobal('execPath')
+    },
+    argv () {
+      return this.$electron.remote.getGlobal('argv')
     }
   },
   methods: {
@@ -44,7 +50,8 @@ export default {
     this.initDownload()
   },
   mounted () {
-    console.log(this.urlStr)
+    // console.log('urlStr', this.urlStr)
+    // console.log('execPath', this.execPath)
     this.$electron.ipcRenderer.on('will-close', () => {
       this.handleAppWillClose()
       this.$electron.ipcRenderer.send('app-exit')
@@ -64,6 +71,3 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-
-</style>

@@ -1,7 +1,7 @@
 /**
  * https://github.com/ustbhuangyi/lyric-parser
  */
-const TIME_REG_WY = /\[(\d{2,}):(\d{2})(\.(\d{1,3}))?\]/g
+const TIME_REG_WY = /\[(\d{2,}):(\d{2})(\.|:)(\d{1,3})?\]/g
 
 const STATE_PAUSE = 0
 const STATE_PLAYING = 1
@@ -32,12 +32,11 @@ export default class Lyric {
       let line = lines[i]
       line.replace(TIME_REG_WY, function (item) {
         const result = TIME_REG_WY.exec(item)
-        // console.log(item, result)
         if (result) {
           const txt = line.replace(TIME_REG_WY, '').trim()
           const min = result[1] * 60 * 1000
           const sec = result[2] * 1000
-          const ms = result[3] && result[3].length ? (result[3].length == 2 ? (result[3] || 0) * 10 : (result[3] || 0) * 1) : 0
+          const ms = result[4] && result[4].length ? (result[4].length == 2 ? (result[4] || 0) * 10 : (result[4] || 0) * 1) : 0
           const time = min + sec + ms
           if (txt !== '') {
             _this.lines.push({

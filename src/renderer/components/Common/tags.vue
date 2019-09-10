@@ -48,6 +48,7 @@
     dd {
       padding: 0 10px;
       cursor: pointer;
+      line-height: 1;
       &.current {
         background: @primary-color;
         color: #fff;

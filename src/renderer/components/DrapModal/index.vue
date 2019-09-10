@@ -28,7 +28,7 @@ export default {
     }
   },
   watch: {
-    currentValue (newVal) {
+    value (newVal) {
       if (newVal) {
         this.$nextTick(() => {
           const Draggabilly = require('draggabilly')

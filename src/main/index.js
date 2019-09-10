@@ -113,13 +113,12 @@ const createWindow = function () {
   })
 
   if (process.env.NODE_ENV === 'development') {
-    // global.mainWindow.webContents.openDevTools()
+    global.mainWindow.webContents.openDevTools()
   }
 
   // 初始化进程之间事件监听
   initIpcEvent()
   global.mainWindow = mainWindow
-  global.mainWindow.webContents.openDevTools()
 
   // 如果是windows系统模拟托盘菜单
   if (process.platform === 'win32') {

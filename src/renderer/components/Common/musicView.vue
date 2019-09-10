@@ -14,6 +14,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { setInterval } from 'timers'
 export default {
   data () {
     return {
@@ -24,7 +25,9 @@ export default {
       gradient: '',
       width: 0,
       height: 0,
-      showGlow: false
+      showGlow: false,
+      timer: null,
+      timer2: null
     }
   },
   props: {
@@ -50,6 +53,7 @@ export default {
           this.timer && cancelAnimationFrame(this.timer)
         })
       } else {
+        console.log(this.timer2)
         this.$nextTick(() => {
           this.init()
           this.timer2 && cancelAnimationFrame(this.timer2)
@@ -67,7 +71,11 @@ export default {
           this.height =
             this.canvasHeight === 0 ? window.innerHeight : this.canvasHeight
 
-          this.init()
+          if (this.showGlow) {
+            this.initGlow()
+          } else {
+            this.init()
+          }
         })
       } else {
         this.timer && cancelAnimationFrame(this.timer)
@@ -185,18 +193,19 @@ export default {
       let context = new AudioContext()
       // 创建数据
       const length = this.analyser.fftSize
-      let output = new Uint8Array(460)
-      let du = 1.5 // 角度
-      let potInt = { x: width / 2, y: height / 2 } // 起始坐标
-      let R = 200 // 半径
-      let W = 1.5 // 宽
-      let _this = this;
+      const output = new Uint8Array(460)
+      const du = 2 // 圆心到两条射线距离所成的角度
+      const potInt = { x: width / 2, y: height / 2 } // 起始坐标
+      const R = 150 // 半径
+      const W = 3 // 射线的宽度
+      const L = 35 // 射线的长度
+      const _this = this;
       (function drawSpectrum () {
         _this.analyser.getByteFrequencyData(output) // 获取频域数据
         cxt.clearRect(0, 0, _this.wrap.width, _this.wrap.height)
-
         for (let i = 0; i < 360; i++) {
           let value = output[i + 100] / 4
+          // let value = 20
           cxt.lineWidth = W
           let Rv1 = R - value
           let Rv2 = R + value
@@ -204,8 +213,8 @@ export default {
           _this.gradient2 = cxt.createLinearGradient(
             Math.sin(((i * du) / 180) * Math.PI) * R + potInt.y,
             -Math.cos(((i * du) / 180) * Math.PI) * R + potInt.x,
-            Math.sin(((i * du) / 180) * Math.PI) * (Rv2 + 30) + potInt.y,
-            -Math.cos(((i * du) / 180) * Math.PI) * (Rv2 + 30) + potInt.x
+            Math.sin(((i * du) / 180) * Math.PI) * (Rv2 + L) + potInt.y,
+            -Math.cos(((i * du) / 180) * Math.PI) * (Rv2 + L) + potInt.x
           )
           _this.gradient2.addColorStop(0, 'rgba(226, 225, 0, .4)')
           _this.gradient2.addColorStop(0.3, 'rgba(226, 225, 0, .4)')
@@ -217,13 +226,12 @@ export default {
               -Math.cos(((i * du) / 180) * Math.PI) * R + potInt.x
             )
             cxt.lineTo(
-              Math.sin(((i * du) / 180) * Math.PI) * (Rv2 + 30) + potInt.y,
-              -Math.cos(((i * du) / 180) * Math.PI) * (Rv2 + 30) + potInt.x
+              Math.sin(((i * du) / 180) * Math.PI) * (Rv2 + L) + potInt.y,
+              -Math.cos(((i * du) / 180) * Math.PI) * (Rv2 + L) + potInt.x
             )
           }
 
           cxt.lineCap = 'round'
-          cxt.strokeStyle = '#eefb00'
           cxt.strokeStyle = _this.gradient2
           cxt.stroke()
           cxt.closePath()
@@ -261,7 +269,7 @@ export default {
           cxt.stroke()
           cxt.closePath()
         }
-        _this.time2 = requestAnimationFrame(drawSpectrum)
+        _this.timer2 = requestAnimationFrame(drawSpectrum)
       })()
     },
     toggleGlow () {
@@ -297,8 +305,8 @@ export default {
   justify-content: center;
   .avatar {
     border-radius: 50%;
-    width: 350px;
-    height: 350px;
+    width: 260px;
+    height: 260px;
     z-index: -1;
     animation: rotate 20s linear infinite both;
     &.paused {

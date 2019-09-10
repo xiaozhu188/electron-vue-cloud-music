@@ -160,6 +160,16 @@ export default {
   }
 }
 .rank {
+  .artist {
+    flex: 0 0 100px;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /deep/ a {
+      color: rgba(0,0,0,.5);
+    }
+  }
   .header {
     line-height: 40px;
     border-bottom: 1px solid #ddd;
@@ -208,7 +218,7 @@ export default {
         padding: 0 10px;
         font-size: 13px;
         &:nth-child(2n) {
-          background: #f3f3f3;
+          background: #efefef;
         }
         &:hover {
           background: #eee;
@@ -226,16 +236,6 @@ export default {
           text-overflow: ellipsis;
           white-space: nowrap;
           color: #000;
-        }
-        .artist {
-          flex: 0 0 100px;
-          text-align: right;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          /deep/ a {
-            color: rgba(0,0,0,.5);
-          }
         }
       }
       .footer {

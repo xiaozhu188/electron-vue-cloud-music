@@ -359,9 +359,9 @@ export default {
       let _shareUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
       _shareUrl += 'url=' + url
       _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
-      _shareUrl += '&desc=' + '♪我发现一个不错的视频-' + this.mv.name
+      _shareUrl += '&desc=' + '♪我发现一个不错的视频-' + this.mv.description
       _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一个不错的视频-' + this.mv.name
+      _shareUrl += '&title=' + '♪我发现一个不错的视频-' + this.mv.title
       _shareUrl += '&site=' + 'https://music.163.com/'
       _shareUrl += '&pics=' + this.mv.coverUrl
       this.$electron.remote.shell.openExternal(_shareUrl)

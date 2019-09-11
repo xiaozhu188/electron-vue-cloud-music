@@ -38,7 +38,7 @@
 点击[下载应用](https://github.com/xiaozhu188/electron-vue-cloud-music/releases)。
 
 > macOS用户请下载dmg文件，windows用户请下载exe文件，linux用户请下载AppImage文件。
-> 项目当前依赖[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi),需本地启动该服务并为接口地址添加/api后缀
+> 项目当前依赖[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi),感谢NeteaseCloudMusicApi的作者。
 
 ## 部分界面预览
 ![mini](https://user-images.githubusercontent.com/20502995/64253818-b014d780-cf50-11e9-8cea-1cccf98fc712.gif)

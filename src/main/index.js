@@ -113,7 +113,7 @@ const createWindow = function () {
   })
 
   if (process.env.NODE_ENV === 'development') {
-    global.mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
   }
 
   // 初始化进程之间事件监听

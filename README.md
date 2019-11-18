@@ -15,6 +15,9 @@
     </a>
 </p>
 
+## 警示
+如果遇到Webpack ReferenceError: process is not defined,请将node版本回退到v10.16
+
 ## 特点
 * 拖拽播放
 * 桌面歌词

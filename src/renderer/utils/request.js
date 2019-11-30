@@ -4,8 +4,9 @@ import { Base64 } from 'js-base64'
 import Message from 'ant-design-vue/es/message'
 import Toast from './../components/Toast/toast'
 const baseURL = process.env.NODE_ENV === 'development'
-  ? 'http://localhost:3000/api'
-  : 'http://39.105.232.6:3000'
+  ? 'http://140.143.128.100:3000'
+  : 'http://140.143.128.100:3000'
+  // : 'http://39.105.232.6:3000'
 
 const instance = axios.create({
   baseURL,

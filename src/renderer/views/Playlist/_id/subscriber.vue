@@ -46,7 +46,7 @@ export default {
   page-break-after: 20px;
   .items {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
     padding: 30px;
     grid-gap: 40px;
     a {

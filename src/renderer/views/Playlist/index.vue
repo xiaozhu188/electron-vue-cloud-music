@@ -170,7 +170,7 @@ export default {
   @gutter: 12px;
   .playlists {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     grid-gap: 20px;
     padding: 20px 0;
   }

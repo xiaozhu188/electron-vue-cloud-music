@@ -49,11 +49,11 @@ export default {
 <style lang="less" scoped>
 .videos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
   grid-gap: 15px;
   padding: 15px 0;
   &.videos-hack {
-    grid-template-columns: repeat(auto-fit, minmax(245px, 245px));
+    grid-template-columns: repeat(auto-fill, minmax(245px, 245px));
   }
 }
 </style>

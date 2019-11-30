@@ -279,7 +279,7 @@ export default {
 .page-artist {
   .artists {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15%,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(15%,1fr));
     grid-gap: 15px;
     padding: 15px 0;
     a {

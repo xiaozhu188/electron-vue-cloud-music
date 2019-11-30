@@ -58,7 +58,7 @@ export default {
 <style lang="less" scoped>
 .albums {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(141px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(141px, 1fr));
   grid-gap: 15px;
   padding: 15px;
 }

@@ -181,7 +181,7 @@ export default {
   }
   .first-four {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
     grid-gap: 2%;
     .list {
       border: 1px solid #e8e8e8;

@@ -40,7 +40,7 @@ export default {
 <style lang="less" scoped>
 .videos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   padding: 15px 20px;
   grid-gap: 20px;
 }

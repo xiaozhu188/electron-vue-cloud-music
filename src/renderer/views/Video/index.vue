@@ -134,7 +134,7 @@ export default {
   min-height: 100vh;
   .videos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     grid-gap: 15px;
     padding: 15px 0;
     .video {

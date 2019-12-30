@@ -114,7 +114,7 @@
           </div>
         </div>
       </section>
-      <div class="bg-player" :style="'backgroundImage: url('+current_song.avatar+')'" v-if="current_song"></div>
+      <div class="bg-player" :style="'backgroundImage: url('+current_song.avatar+')'" v-if="Object.keys(current_song).length"></div>
     </div>
   </transition>
 </template>
@@ -155,10 +155,13 @@ export default {
     }
   },
   mounted () {
-    let img = new Image()
-    img.src = this.current_song.avatar
-    img.onload = () => {
-      this.isAddAnimation = true
+    if (this.current_song.avatar) {
+      let img = new Image()
+      img.src = this.current_song.avatar
+      console.log('this.current_song.avatar', this.current_song.avatar)
+      img.onload = () => {
+        this.isAddAnimation = true
+      }
     }
   },
   components: {

@@ -45,9 +45,9 @@ export default {
           this.commentData = res
         }
       }
+      $state.loaded()
       if (res.more) {
         this.offset += this.limit
-        $state.loaded()
       } else {
         $state.complete()
       }

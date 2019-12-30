@@ -134,9 +134,8 @@ export default {
         }
         let res = await getIntelligence(songId, pid)
         if (res.data.length) {
-          let tracks = []
-          res.data.forEach(song => {
-            tracks.push(normalSong(song.songInfo))
+          let tracks = res.data.forEach(song => {
+            return normalSong(song.songInfo)
           })
           this.$store.dispatch('play/selectPlay', { tracks, index: 0 })
         }

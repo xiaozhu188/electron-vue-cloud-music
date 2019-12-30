@@ -93,6 +93,7 @@ router.beforeEach((to, from, next) => {
     } else {
       store.commit('User/SET_SHOW_LOGIN', true)
       store.commit('App/SET_REDIRECT', to.fullPath)
+      console.log(store.state.App.redirect)
     }
   } else {
     next()

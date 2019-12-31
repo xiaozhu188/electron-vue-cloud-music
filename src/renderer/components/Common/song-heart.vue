@@ -4,10 +4,10 @@
       type="heart"
       theme="filled"
       style="color:#c62f2f"
-      @click.native.stop="handleClick(false)"
+      @click.stop="handleClick(false)"
       v-if="isLiked"
     />
-    <a-icon type="heart" theme="outlined" @click.native.stop="handleClick(true)" v-else/>
+    <a-icon type="heart" theme="outlined" @click.stop="handleClick(true)" v-else/>
   </span>
 </template>
 

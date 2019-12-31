@@ -15,17 +15,17 @@ export default {
   components: {
     MusicViewer
   },
-  computed: {
-    urlStr () {
-      return this.$electron.remote.getGlobal('urlStr')
-    },
-    execPath () {
-      return this.$electron.remote.getGlobal('execPath')
-    },
-    argv () {
-      return this.$electron.remote.getGlobal('argv')
-    }
-  },
+  //   computed: {
+  //     urlStr () {
+  //       return this.$electron.remote.getGlobal('urlStr')
+  //     },
+  //     execPath () {
+  //       return this.$electron.remote.getGlobal('execPath')
+  //     },
+  //     argv () {
+  //       return this.$electron.remote.getGlobal('argv')
+  //     }
+  //   },
   methods: {
     ...mapActions('Download', {
       initDownload: 'init',

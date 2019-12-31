@@ -2,7 +2,7 @@
   <div>
     <canvas id="canvas" v-show="!showGlow"></canvas>
     <canvas id="wrap" height="640" width="640" v-show="showGlow"></canvas>
-    <div class="avatar-wrapper" v-show="showGlow" @click="avatarClick">
+    <div class="avatar-wrapper" v-show="showGlow" @click="avatarClick" v-if="Object.keys(current_song).length">
       <img
         :src="`${current_song.avatar}`"
         class="avatar"

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <track-list :tracks="tracks" @dblclick="play" @download="download" />
-  </div>
+  <track-list :tracks="tracks" @dblclick="play" @download="download" />
 </template>
 
 <script>
@@ -10,7 +8,7 @@ import DebounceBtn from '@/components/Common/debounce-btn'
 import { getUserCloud } from '@/api/user'
 import { normalSong } from '@/utils/song'
 import { mapGetters } from 'vuex'
-import playMixin from '@/mixins/Play.js'
+import playMixin from '@/mixins/Play'
 export default {
   name: 'cloud',
   mixins: [
@@ -33,11 +31,9 @@ export default {
   methods: {
     _getUserCloud () {
       getUserCloud(this.userId).then(res => {
-        let arr = []
-        res.data.forEach(song => {
-          arr.push(normalSong(song.simpleSong))
+        this.tracks = res.data.map(song => {
+          return normalSong(song.simpleSong)
         })
-        this.tracks = arr
       })
     }
   }

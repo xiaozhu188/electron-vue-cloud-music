@@ -1,5 +1,5 @@
 <template>
-  <div class="basic-sider">
+  <div class="basic-sider" :class="{'borderB':!Object.keys(current_song).length}">
     <a-menu v-model="current" mode="inline" :selectable="false" :defaultOpenKeys="['playlist_create','playlist_collect']">
       <a-menu-item-group key="recommend">
         <div slot="title">
@@ -119,9 +119,11 @@ export default {
 <style lang="less" scoped>
 .basic-sider {
   height: 100%;
-  border-bottom: 50px solid transparent;
   overflow: auto;
   background-color: initial;
+  .borderB {
+      border-bottom: 50px solid transparent;
+  }
   .ant-menu {
     background-color: initial;
   }

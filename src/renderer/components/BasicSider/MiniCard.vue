@@ -54,17 +54,19 @@ export default {
     setFullscreen () {
       this.$store.commit('play/SET_FULLSCREEN', true)
     },
-    handleLikeSong ({songId, isLike}) {
-      this.$store.dispatch('User/handleLikeSong', {songId, isLike})
+    handleLikeSong ({ songId, isLike }) {
+      this.$store.dispatch('User/handleLikeSong', { songId, isLike })
     },
     showShareWindow () {
       let url = `https://music.163.com/#/song?id=${this.current_song.id}`
-      let _shareUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
+      let _shareUrl =
+        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
       _shareUrl += 'url=' + url
       _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
       _shareUrl += '&desc=' + '♪我发现一首不错的歌曲-' + this.current_song.name
       _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一首不错的歌曲-' + this.current_song.name
+      _shareUrl +=
+        '&title=' + '♪我发现一首不错的歌曲-' + this.current_song.name
       _shareUrl += '&site=' + 'https://music.163.com/'
       _shareUrl += '&pics=' + this.current_song.avatar
       this.$electron.remote.shell.openExternal(_shareUrl)
@@ -102,7 +104,7 @@ export default {
     opacity: 0;
     transform: translateY(0) scale(1.6);
   }
-  
+
   .figure-wrapper {
     position: relative;
     flex: 0 0 50px;

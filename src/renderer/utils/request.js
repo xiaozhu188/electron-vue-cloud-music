@@ -54,6 +54,10 @@ instance.interceptors.response.use(
           Message.warn(res.data.message || res.data.msg || '资源不在收藏列表中')
           break
         case 401:
+          store.commit('User/SET_SHOW_LOGIN', true)
+          store.commit('User/SET_USER_INFO', {})
+          store.commit('App/SET_REDIRECT', '/home')
+          localStorage.removeItem('userId')
           Message.error(res.data.msg || '请先登录')
           break
         case 403:

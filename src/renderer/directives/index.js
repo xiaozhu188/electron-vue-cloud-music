@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import transferDom from './transfer-dom'
 
 // 点击元素之外隐藏该元素
 Vue.directive('clickOutside', {
@@ -18,10 +17,4 @@ Vue.directive('clickOutside', {
     document.removeEventListener('click', el.__vueClickOutside__, true)
     delete el.__vueClickOutside__
   }
-})
-// 移动dom,解决层级问题
-Vue.directive('transferDom', {
-  inserted: transferDom.inserted,
-  componentUpdated: transferDom.componentUpdated,
-  unbind: transferDom.unbind
 })

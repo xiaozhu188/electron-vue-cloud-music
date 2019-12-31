@@ -5,21 +5,15 @@
 </template>
 
 <script>
-import { getSongUrl, getLyric } from '@/api/song'
 import TrackList from '@/components/Common/track-list/index.js'
-import Artists from '@/components/Common/artists'
+import playMixin from '@/mixins/Play'
 export default {
   name: 'playlist_id_tracks',
-  data () {
-    return {
-      songUrl: '',
-      currentTime: 0,
-      buffered: 0
-    }
-  },
+  mixins: [
+    playMixin
+  ],
   components: {
-    TrackList,
-    Artists
+    TrackList
   },
   props: {
     tracks: {
@@ -27,14 +21,6 @@ export default {
       default () {
         return []
       }
-    }
-  },
-  methods: {
-    async play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
-    },
-    download (song) {
-      this.$store.dispatch('Download/download', song)
     }
   }
 }

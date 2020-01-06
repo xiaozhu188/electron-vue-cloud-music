@@ -15,6 +15,7 @@
 <script>
 import albumItem from '@/components/Common/album-item'
 import { getTopAlbum } from '@/api/album'
+
 export default {
   data () {
     return {
@@ -35,13 +36,13 @@ export default {
       try {
         let { albums, total } = await getTopAlbum(params)
         this.albums = this.albums.concat(albums)
-        if (this.albums.length < total) {
+        if ( this.albums.length < total ) {
           this.offset += this.limit
           $state.loaded()
         } else {
           $state.complete()
         }
-      } catch (error) {
+      } catch ( error ) {
         $state.error()
       }
     }
@@ -50,10 +51,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.albums {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(141px, 1fr));
-  grid-gap: 20px;
-  padding: 20px 0;
-}
+  @import "./../../../styles/mixins";
+
+  .albums {
+    .grid-layout(20px, 141px);
+    padding: 20px 0;
+  }
 </style>

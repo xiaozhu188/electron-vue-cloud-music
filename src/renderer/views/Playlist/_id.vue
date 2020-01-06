@@ -137,7 +137,7 @@ export default {
       this.searchKey = value
     },
     subscribe (t, playlist) {
-      this.$store.dispatch('User/subscribePlatlist', {t, playlist})
+      this.$store.dispatch('User/subscribePlatlist', { t, playlist })
     },
     play () {
       this.$store.dispatch('play/selectPlay', { tracks: this.tracks, index: 0 })

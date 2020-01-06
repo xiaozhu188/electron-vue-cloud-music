@@ -1,6 +1,6 @@
 import request from '@/utils/request.js'
 
-export function getArtistList ({cat = '全部', limit = 30, offset = 0, initial = ''}) {
+export function getArtistList ({ cat = '全部', limit = 30, offset = 0, initial = '' }) {
   return request.get('/artist/list', {
     params: {
       cat,
@@ -11,7 +11,7 @@ export function getArtistList ({cat = '全部', limit = 30, offset = 0, initial 
   })
 }
 
-export function getArtistAlbum ({id, limit = 30, offset = 0}) {
+export function getArtistAlbum ({ id, limit = 30, offset = 0 }) {
   return request.get('/artist/album', {
     params: {
       id,
@@ -21,7 +21,7 @@ export function getArtistAlbum ({id, limit = 30, offset = 0}) {
   })
 }
 
-export function getArtistMV ({id, limit = 10, offset = 0}) {
+export function getArtistMV ({ id, limit = 10, offset = 0 }) {
   return request.get('/artist/mv', {
     params: {
       id,
@@ -31,7 +31,7 @@ export function getArtistMV ({id, limit = 10, offset = 0}) {
   })
 }
 
-export function getArtistSongs ({id, limit = 30, offset = 0}) {
+export function getArtistSongs ({ id, limit = 30, offset = 0 }) {
   return request.get('/artists', {
     params: {
       id,
@@ -41,7 +41,7 @@ export function getArtistSongs ({id, limit = 30, offset = 0}) {
   })
 }
 
-export function getArtistDesc ({id, limit = 30, offset = 0}) {
+export function getArtistDesc ({ id, limit = 30, offset = 0 }) {
   return request.get('/artist/desc', {
     params: {
       id,
@@ -51,7 +51,7 @@ export function getArtistDesc ({id, limit = 30, offset = 0}) {
   })
 }
 // 相似歌手
-export function getArtistSimi ({id, limit = 30, offset = 0}) {
+export function getArtistSimi ({ id, limit = 30, offset = 0 }) {
   return request.get('/simi/artist', {
     params: {
       id,

@@ -1,4 +1,4 @@
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 import Message from 'ant-design-vue/es/message'
 import { getUrl, generateName } from './../../utils/song'
 import { uniqueData } from './../../utils/assist'
@@ -34,11 +34,11 @@ let mutations = {
     let index = state.downloading.findIndex(item => item.id === song.id)
     state.downloading.splice(index, 1)
   },
-  UPDATE_DOWNLOADING_PROGRESS (state, {id, progress}) {
+  UPDATE_DOWNLOADING_PROGRESS (state, { id, progress }) {
     let index = state.downloading.findIndex(item => item.id === id)
     state.downloading[index] && (state.downloading[index].downloadPercent = progress)
   },
-  CHANGE_TO_DOWNLOADED (state, {id, song, downloadFolder}) {
+  CHANGE_TO_DOWNLOADED (state, { id, song, downloadFolder }) {
     let index = state.downloading.findIndex(item => item.id === id)
     let filename = generateName(song)
     song.url = `${downloadFolder}\\${filename}`
@@ -65,7 +65,7 @@ let mutations = {
 }
 
 let actions = {
-  init ({dispatch, commit, state}) {
+  init ({ dispatch, commit, state }) {
     db.download.find({}, (err, docs) => {
       if (!err) {
         commit('SET_DOWNLOADED', docs)
@@ -75,7 +75,7 @@ let actions = {
     })
 
     ipcRenderer.on('download-onStarted', (event, data) => {
-      let {song, totalBytes} = data
+      let { song, totalBytes } = data
 
       commit('ADD_DOWNLOADING', {
         ...song,
@@ -86,12 +86,12 @@ let actions = {
 
     ipcRenderer.on('download-onProgress', throttle((event, data) => {
       let { id, progress } = data
-      commit('UPDATE_DOWNLOADING_PROGRESS', {id, progress})
-    }, 1000, {leading: true}))
+      commit('UPDATE_DOWNLOADING_PROGRESS', { id, progress })
+    }, 1000, { leading: true }))
 
     ipcRenderer.on('download-success', (event, data) => {
       let { id, song, downloadFolder } = data
-      commit('CHANGE_TO_DOWNLOADED', {id, song, downloadFolder})
+      commit('CHANGE_TO_DOWNLOADED', { id, song, downloadFolder })
       commit('REMOVE_QUEUE', song)
       dispatch('download')
       // 歌曲下载成功尝试下载歌词
@@ -123,14 +123,14 @@ let actions = {
       })
     })
   },
-  async download ({dispatch, commit, state, rootState}) {
+  async download ({ dispatch, commit, state, rootState }) {
     if (!state.queue.length) {
       Message.success('全部歌曲下载完毕!')
       return
     }
     let queue = state.queue
     let song = queue[0]
-    let {id, name} = song
+    let { id, name } = song
     let filename = generateName(song)
     try {
       let downloadUrl = await getUrl(id)
@@ -153,7 +153,7 @@ let actions = {
       dispatch('download')
     }
   },
-  adddownloadQueue ({commit, dispatch, state}, songs) {
+  adddownloadQueue ({ commit, dispatch, state }, songs) {
     let queue = [...state.queue]
     songs = songs.filter(song => {
       return !queue.some(item => item.id === song.id)

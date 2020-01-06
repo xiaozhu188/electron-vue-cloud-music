@@ -82,14 +82,14 @@ export default {
         this.loading = true
         const date = new Date()
         const name = `每日歌曲推荐(${date.getFullYear()}.${this._pad(date.getMonth() + 1)}.${this._pad(date.getDate())})`
-        let { code, playlist } = await createPlaylist({name})
+        let { code, playlist } = await createPlaylist({ name })
         if (code) {
           let op = 'add'
           let pid = playlist.id
           let tracks = this.songs.map(song => {
             return song.id
           })
-          let res = await addSongToList({op, tracks: tracks.join(','), pid})
+          let res = await addSongToList({ op, tracks: tracks.join(','), pid })
           console.log(res)
           this.pid = pid
           this.$message.success('收藏成功')

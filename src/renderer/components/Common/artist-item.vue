@@ -1,21 +1,21 @@
 <template>
   <router-link tag="li" :to="`/artist/${artist.id}`">
     <figure class="figure">
-      <img v-lazy="`${artist.img1v1Url}?param=160y160`" />
+      <img v-lazy="`${artist.img1v1Url}?param=360y360`" />
       <figcaption class="figcaption">{{artist.name}}</figcaption>
     </figure>
   </router-link>
 </template>
 
 <script>
-  export default {
-    name: 'artist-item',
-    props: {
-      artist: {
-        type: Object
-      }
+export default {
+  name: 'artist-item',
+  props: {
+    artist: {
+      type: Object
     }
   }
+}
 </script>
 
 <style lang="less" scoped>

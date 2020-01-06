@@ -1,7 +1,8 @@
 import Datastore from 'nedb'
 import path from 'path'
 import { remote } from 'electron'
-// console.log(remote.app.getPath('userData'))
+
+// console.log('userData', remote.app.getPath('userData'))
 let db = {}
 let config = {
   autoload: true,

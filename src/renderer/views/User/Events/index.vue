@@ -121,7 +121,7 @@ export default {
       })
     },
     subscribe (t, user) {
-      this.$store.dispatch('User/subscribeUser', {t, userId: user.userId, nickname: user.nickname}).then(res => {
+      this.$store.dispatch('User/subscribeUser', { t, userId: user.userId, nickname: user.nickname }).then(res => {
         if (res.code === 200) {
           this.$set(user, 'followed', !user.followed)
         }

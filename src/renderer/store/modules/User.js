@@ -86,7 +86,7 @@ let actions = {
     }
   },
   // 收藏/取消收藏歌单
-  async subscribePlatlist ({commit, state}, {t, playlist}) {
+  async subscribePlatlist ({ commit, state }, { t, playlist }) {
     let pid = playlist.id
     let res = await likePlaylist(t, pid)
     if (res.code === 200) {
@@ -104,7 +104,7 @@ let actions = {
     }
   },
   // 取消收藏歌单
-  async removePlaylist ({commit, state}, {action, pid}) {
+  async removePlaylist ({ commit, state }, { action, pid }) {
     let res = await likePlaylist(action, pid)
     if (res.code === 200) {
       let userPlaylists = state.userPlaylists.slice()
@@ -115,7 +115,7 @@ let actions = {
     }
   },
   // 删除创建的歌单
-  async deletePlaylist ({commit, state}, id) {
+  async deletePlaylist ({ commit, state }, id) {
     let res = await deletePlaylist(id)
     if (res.code === 200) {
       let userPlaylists = state.userPlaylists.slice()
@@ -126,7 +126,7 @@ let actions = {
     }
   },
   // 新建歌单
-  async createPlaylist ({commit, state}, formData) {
+  async createPlaylist ({ commit, state }, formData) {
     return new Promise(async (resolve, reject) => {
       try {
         let res = await createPlaylist(formData)
@@ -143,7 +143,7 @@ let actions = {
       }
     })
   },
-  handleLikeSong ({commit, state}, {songId, isLike}) {
+  handleLikeSong ({ commit, state }, { songId, isLike }) {
     return new Promise(async (resolve, reject) => {
       try {
         let { code } = await likeMusic(songId, isLike)
@@ -168,33 +168,33 @@ let actions = {
       }
     })
   },
-  async subscribeDj ({commit, state}, {t, dj}) {
-    let res = await subDj({t, rid: dj.id})
+  async subscribeDj ({ commit, state }, { t, dj }) {
+    let res = await subDj({ t, rid: dj.id })
     if (res.code === 200) {
       t === 1 ? Message.success(res.message || '订阅电台成功!') : Message.success('取消订阅电台成功!')
     }
   },
-  async subscribeAlbum ({commit, state}, {t, album}) {
+  async subscribeAlbum ({ commit, state }, { t, album }) {
     let id = album.id
-    let res = await subAlbum({t, id})
+    let res = await subAlbum({ t, id })
     if (res.code === 200) {
       t === 1 ? Message.success(`收藏专辑${album.name}成功`) : Message.success(`取消收藏专辑${album.name}成功`)
       return res.code
     }
     throw new Error(res)
   },
-  async subscribeArtist ({commit, state}, {t, artist}) {
+  async subscribeArtist ({ commit, state }, { t, artist }) {
     let id = artist.id
-    let res = await subArtist({t, id})
+    let res = await subArtist({ t, id })
     if (res.code === 200) {
       t === 1 ? Message.success(`收藏歌手${artist.name}成功`) : Message.success(`取消收藏歌手${artist.name}成功`)
       return res.code
     }
     throw new Error(res)
   },
-  async subscribeUser ({commit, state}, {t, userId, nickname}) {
+  async subscribeUser ({ commit, state }, { t, userId, nickname }) {
     let id = userId
-    let res = await user_follow({t, id})
+    let res = await user_follow({ t, id })
     if (res.code === 200) {
       t === 1 ? Message.success(res.followContent || `关注用户${nickname}成功`) : Message.success(`取消关注用户${nickname}成功`)
       return res

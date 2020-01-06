@@ -156,7 +156,7 @@ export default {
       this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
     },
     subscribe (t, playlist) {
-      this.$store.dispatch('User/subscribePlatlist', {t, playlist})
+      this.$store.dispatch('User/subscribePlatlist', { t, playlist })
     },
     share () {
       let url = `https://music.163.com/#/discover/toplist?id=${this.rank.id}`

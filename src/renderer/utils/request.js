@@ -35,9 +35,9 @@ instance.interceptors.response.use(
     }
     if (response.data.code && response.data.code === 200) {
       return response.data
-    } else {
-      return Promise.reject(response.data)
     }
+    Message.warn(response.data.msg || response.statusText)
+    return Promise.reject(response.data)
   },
   error => {
     if (error.response) {
@@ -58,7 +58,7 @@ instance.interceptors.response.use(
           store.commit('User/SET_USER_INFO', {})
           store.commit('App/SET_REDIRECT', '/home')
           localStorage.removeItem('userId')
-          Message.error(res.data.msg || '请先登录')
+          Message.warn(res.data.msg || '请先登录')
           break
         case 403:
           Message.error(res.data.msg || '权限不足')

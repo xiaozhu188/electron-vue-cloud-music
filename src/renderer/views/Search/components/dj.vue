@@ -18,7 +18,7 @@
         </a-col>
       </a-row>
     </a-spin>
-    <slot :total="result.djRadiosCount"></slot> 
+    <slot :total="result.djRadiosCount"></slot>
   </div>
 </template>
 

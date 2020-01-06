@@ -1,7 +1,8 @@
 <template>
   <div class="page-video">
     <home-layout :topMenus="topMenus">
-      <a-popover title="添加标签" trigger="click" placement="bottomLeft" overlayClassName="user-wrapper" :overlayStyle="{ width: '530px', top: '50px' }" v-if="cates.length">
+      <a-popover title="添加标签" trigger="click" placement="bottomLeft" overlayClassName="user-wrapper"
+                 :overlayStyle="{ width: '530px', top: '50px' }" v-if="cates.length">
         <template slot="content">
           <div class="cate-area">
             <span class="cates">
@@ -17,10 +18,10 @@
         </template>
         <a-button size="small" style="font-size: 12px;margin:12px 0;">
           {{currentCatename}}
-          <a-icon type="down" style="font-size: 10px"/>
+          <a-icon type="down" style="font-size: 10px" />
         </a-button>
       </a-popover>
-      
+
       <div style="display: flex;" v-if="cates.length">
         <span style="marginRight:3px;flex: 0 0 42px;">标签 : </span>
         <a-breadcrumb>
@@ -29,7 +30,7 @@
           </a-breadcrumb-item>
         </a-breadcrumb>
       </div>
-      
+
       <ul class="videos" v-if="videos.length">
         <li
           v-for="(video, index) in videos"
@@ -37,15 +38,16 @@
           :key="`${video.id}_${index}`"
         >
           <router-link :to="`/video/${video.id}`">
-              <div class="media-wrap">
-                <img v-lazy="video.avatar" class="avatar">
-              </div>
+            <div class="media-wrap">
+              <img v-lazy="video.avatar" class="avatar">
+            </div>
             <div class="title">{{video.name}}</div>
           </router-link>
         </li>
       </ul>
       <p style="text-align:center;marginTop:15px" v-else>暂无推荐视频</p>
-      <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore" v-if="userId" />
+      <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore"
+                        v-if="userId" />
     </home-layout>
   </div>
 </template>
@@ -80,7 +82,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('User', ['userId']),
+    ...mapGetters('User', [ 'userId' ]),
     top10cates () {
       return this.cates.slice(0, 10)
     },
@@ -104,14 +106,14 @@ export default {
         let groupId = this.selected ? this.groupId : this.$route.query.groupId || this.groupId
         let res = await getVideo(groupId)
         $state.loaded()
-        if (res.datas.length || res.hasmore) {
+        if ( res.datas.length || res.hasmore ) {
           res.datas.forEach(item => {
             this.videos.push(normalVideo(item.data))
           })
         } else {
           $state.complete()
         }
-      } catch (error) {
+      } catch ( error ) {
         $state.error()
       }
     },
@@ -130,63 +132,64 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.page-video {
-  min-height: 100vh;
-  .videos {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    grid-gap: 15px;
-    padding: 15px 0;
-    .video {
-      .media-wrap {
-        position: relative;
-        padding-top: 56%;
-        overflow: hidden;
-        .avatar {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          width: 100%;
-          height: 100%;
-          background-size: contain;
-          border: 1px solid #ddd;
+  @import "./../../styles/mixins";
+
+  .page-video {
+    min-height: 100vh;
+    .videos {
+      .grid-layout(15px, 220px);
+      padding: 15px 0;
+      .video {
+        .media-wrap {
+          position: relative;
+          padding-top: 56%;
+          overflow: hidden;
+          .avatar {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            border: 1px solid #ddd;
+          }
+        }
+        .title {
+          font-size: 13px;
+          color: #333;
         }
       }
-      .title {
-        font-size: 13px;
-        color: #333;
+    }
+  }
+
+  .cates {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    .cate {
+      display: inline-block;
+      width: 20%;
+      border: 1px solid #f3f5f7;
+      line-height: 33px;
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+      &.current {
+        background: @primary-color;
+        color: #fff;
+        border-color: @primary-color;
       }
     }
   }
-}
-.cates {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 12px;
-  .cate {
-    display: inline-block;
-    width: 20%;
-    border: 1px solid #f3f5f7;
-    line-height: 33px;
-    text-align: center;
-    font-size: 12px;
-    cursor: pointer;
-    &.current {
-      background: @primary-color;
-      color: #fff;
-      border-color: @primary-color;
-    }
-  }
-}
 </style>
 <style>
-.user-wrapper .ant-popover-inner-content {
-  max-height: 400px;
-  overflow-y: auto;
-}
+  .user-wrapper .ant-popover-inner-content {
+    max-height: 400px;
+    overflow-y: auto;
+  }
 
-.user-wrapper .ant-popover-title {
-  padding: 15px;
-}
+  .user-wrapper .ant-popover-title {
+    padding: 15px;
+  }
 </style>

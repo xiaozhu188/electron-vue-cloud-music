@@ -13,7 +13,7 @@ let search = {
     }
   },
   actions: {
-    saveKeyword ({commit, state}, keyword) {
+    saveKeyword ({ commit, state }, keyword) {
       let words = state.searchHistory
       words.unshift(keyword)
       words = [...new Set(words)].slice(0, SAVE_MAX_LENGTH)
@@ -21,14 +21,14 @@ let search = {
       commit('update', words)
       localStorage.setItem('__searchHistory__', JSON.stringify(words))
     },
-    deleteKeyword ({commit, state}, index) {
+    deleteKeyword ({ commit, state }, index) {
       let words = state.searchHistory
       words.splice(index, 1)
       console.log(words)
       commit('update', words)
       localStorage.setItem('__searchHistory__', JSON.stringify(words))
     },
-    clearKeyword ({commit}) {
+    clearKeyword ({ commit }) {
       commit('update', [])
       localStorage.removeItem('__searchHistory__')
     }

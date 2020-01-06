@@ -46,7 +46,7 @@ export default {
       }
     },
     onClick (artist) {
-      this.$router.push({path: `/artist/${artist.id}/album`})
+      this.$router.push({ path: `/artist/${artist.id}/album` })
     }
   }
 }

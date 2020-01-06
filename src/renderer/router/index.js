@@ -19,7 +19,7 @@ import Toast from './../components/Toast/toast'
 Vue.use(Router)
 
 const router = new Router({
-  scrollBehavior: () => ({y: 0}),
+  scrollBehavior: () => ({ y: 0 }),
   routes: [
     {
       path: '/',

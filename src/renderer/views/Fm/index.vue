@@ -10,7 +10,7 @@
             <a-icon :type="playIcon" class="icon-play" :class="{'right-bottom' : playing}" @click="togglePlay" />
           </template>
           <div class="loading-wrapper" v-else>
-            <loading></loading> 
+            <loading></loading>
           </div>
         </div>
         <div class="fm-actions">

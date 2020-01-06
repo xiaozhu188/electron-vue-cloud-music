@@ -14,11 +14,11 @@
           <a-button block @click="fetchAll" style="border-radius: 0;">全部歌单</a-button>
           <div v-for="(val, key) in cates" :key="key" class="cate-area">
             <span class="cate-label">
-              <a-icon type="global" v-if="key==0"/>
-              <a-icon type="instagram" v-if="key==1"/>
-              <a-icon type="coffee" v-if="key==2"/>
-              <a-icon type="smile" v-if="key==3"/>
-              <a-icon type="appstore" v-if="key==4"/>
+              <a-icon type="global" v-if="key==0" />
+              <a-icon type="instagram" v-if="key==1" />
+              <a-icon type="coffee" v-if="key==2" />
+              <a-icon type="smile" v-if="key==3" />
+              <a-icon type="appstore" v-if="key==4" />
               {{categories[key]}}
             </span>
             <span class="cates">
@@ -34,16 +34,16 @@
         </template>
         <a-button size="small" style="font-size: 12px">
           {{options.cat}}
-          <a-icon type="down" style="font-size: 10px"/>
+          <a-icon type="down" style="font-size: 10px" />
         </a-button>
       </a-popover>
-      <tags :tags="{'热门标签':tags}" @change="onTagChange"/>
+      <tags :tags="{'热门标签':tags}" @change="onTagChange" />
       <ul class="playlists" v-if="playlists.length">
         <router-link tag="li" to="/playlist-highquality" class="list-item">
           <img class="avatar" src="./../../assets/images/playlist-top.png" />
           <div>精品歌单精心推荐,给最懂音乐的你</div>
         </router-link>
-        <list-item class="list-item" v-for="(item) in playlists" :item="item" :key="item.id"/>
+        <list-item class="list-item" v-for="(item) in playlists" :item="item" :key="item.id" />
       </ul>
       <div class="page">
         <a-pagination
@@ -69,6 +69,7 @@ import {
   getPlaylistTags
 } from '@/api/playlist'
 import { normalPlaylistCard } from '@/utils/card'
+
 let ALL = '全部'
 export default {
   name: 'playlist',
@@ -101,7 +102,7 @@ export default {
   },
   methods: {
     async getPlaylist (checkQuery) {
-      if (checkQuery) {
+      if ( checkQuery ) {
         this.options.cat = this.$route.query.cat || ALL
       }
       let res = await getTopPlaylist(this.options)
@@ -135,102 +136,82 @@ export default {
       let { categories, sub } = await getPlaylistCatlist()
       let map = {}
       sub.forEach(item => {
-        map[item.category]
-          ? map[item.category].push(item)
-          : (map[item.category] = [])
+        map[ item.category ]
+          ? map[ item.category ].push(item)
+          : (map[ item.category ] = [])
       })
       this.cates = map
       this.categories = categories
     }
   }
-  // async asyncData ({ $axios }) {
-  //   let {
-  //     data: { tags }
-  //   } = await $axios.get('/api/playlist/hot')
-  //   let { data } = await $axios.get('/api/playlist/catlist')
-  //   let { categories, sub } = data
-  //   let map = {}
-  //   sub.forEach(item => {
-  //     map[item.category]
-  //       ? map[item.category].push(item)
-  //       : (map[item.category] = [])
-  //   })
-  //   return {
-  //     tags,
-  //     cates: map,
-  //     categories
-  //   }
-  // }
 }
 </script>
 
 <style lang="less" scoped>
-.page-playlist {
-  padding: 15px 0;
-  @gutter: 12px;
-  .playlists {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    grid-gap: 20px;
-    padding: 20px 0;
-  }
-}
+  @import "./../../styles/mixins";
 
-.cate-area {
-  display: flex;
-  margin: 12px 0;
-  .cate-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 100px;
-    width: 100px;
-    height: 33px;
-    color: @primary-color;
-    font-size: 16px;
-    .anticon {
-      font-size: 24px;
-      margin-right: 5px;
+  .page-playlist {
+    padding: 15px 0;
+    .playlists {
+      .grid-layout(20px, 160px);
     }
   }
-  .cates {
-    flex: 1;
-    .cate {
-      display: inline-block;
-      width: 98px;
-      border: 1px solid #f3f5f7;
-      line-height: 33px;
-      text-align: center;
-      font-size: 12px;
-      &.current {
-        background: @primary-color;
-        color: #fff;
-        border-color: @primary-color;
+
+  .cate-area {
+    display: flex;
+    margin: 12px 0;
+    .cate-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 100px;
+      width: 100px;
+      height: 33px;
+      color: @primary-color;
+      font-size: 16px;
+      .anticon {
+        font-size: 24px;
+        margin-right: 5px;
+      }
+    }
+    .cates {
+      flex: 1;
+      .cate {
+        display: inline-block;
+        width: 98px;
+        border: 1px solid #f3f5f7;
+        line-height: 33px;
+        text-align: center;
+        font-size: 12px;
+        &.current {
+          background: @primary-color;
+          color: #fff;
+          border-color: @primary-color;
+        }
       }
     }
   }
-}
 
-.list-item {
-  cursor: pointer;
-  .avatar {
-    display: block;
-    width: 100%;
+  .list-item {
+    cursor: pointer;
+    .avatar {
+      display: block;
+      width: 100%;
+    }
   }
-}
 
-.page {
-  margin: 15px auto;
-  text-align: center;
-}
+  .page {
+    margin: 15px auto;
+    text-align: center;
+  }
 </style>
 <style>
-.cate-wrapper .ant-popover-inner-content {
-  max-height: 400px;
-  overflow-y: auto;
-}
+  .cate-wrapper .ant-popover-inner-content {
+    max-height: 400px;
+    overflow-y: auto;
+  }
 
-.cate-wrapper .ant-popover-title {
-  padding: 15px;
-}
+  .cate-wrapper .ant-popover-title {
+    padding: 15px;
+  }
 </style>

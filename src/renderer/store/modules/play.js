@@ -1,6 +1,7 @@
 import { playMode, PLAY_HISTORY_MAX_LEN } from './../../config/config'
 import { shuffle } from '@/utils/calculate.js'
 import ls from 'store'
+
 const PLAY_HISTORY_KEY = '__playHistory__'
 const CURRENT_SONG_INDEX_KEY = 'current_song_index'
 const CURRENT_PLAY_LIST_KEY = 'current_play_list'
@@ -9,14 +10,14 @@ const VOLUME_KEY = 'volume'
 
 function insertArray (arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
-  if (index === 0) {
+  if ( index === 0 ) {
     return
   }
-  if (index > 0) {
+  if ( index > 0 ) {
     arr.splice(index, 1)
   }
   arr.unshift(val)
-  if (maxLen && arr.length > maxLen) {
+  if ( maxLen && arr.length > maxLen ) {
     arr.pop()
   }
 }
@@ -48,7 +49,7 @@ const state = () => ({
   showDesktoplyric: false
 })
 const getters = {
-  current_song: state => state.current_play_list[state.current_song_index] || {},
+  current_song: state => state.current_play_list[ state.current_song_index ] || {},
   mode: state => state.mode,
   source: state => state.source,
   playing: state => state.playing,
@@ -130,7 +131,7 @@ const actions = {
     let index = state.current_play_list.findIndex(item => {
       return item.id === song.id
     })
-    if (index >= 0) {
+    if ( index >= 0 ) {
       commit('SET_CURRENT_INDEX', index)
       return
     }
@@ -145,14 +146,14 @@ const actions = {
       return item.id === song.id
     })
     let current_song_index = state.current_song_index
-    if (index === current_song_index) return
+    if ( index === current_song_index ) return
 
     let current_play_list = state.current_play_list.slice()
-    if (index < 0) { // 下一首播放的歌曲,不在当前歌单
+    if ( index < 0 ) { // 下一首播放的歌曲,不在当前歌单
       current_play_list.splice(current_song_index + 1, 0, song)
     } else {
       let removeItem = current_play_list.splice(index, 1)
-      if (index < current_song_index) {
+      if ( index < current_song_index ) {
         current_play_list.splice(current_song_index, 0, ...removeItem)
       } else {
         current_play_list.splice(current_song_index + 1, 0, ...removeItem)
@@ -160,25 +161,26 @@ const actions = {
     }
     // 找到播放列表变化后当前播放歌曲的新索引
     let newIndex = current_play_list.findIndex(item => {
-      return state.current_play_list[state.current_song_index].id === item.id
+      return state.current_play_list[ state.current_song_index ].id === item.id
     })
     commit('SET_CURRENT_INDEX', newIndex)
     commit('SET_CURRENT_PLAY_LIST', current_play_list)
   },
   // 双击的播放
   async selectPlay ({ commit, state }, { tracks, index }) {
+    if ( tracks.length < 1 ) return
     commit('SET_ORIGINAL_PLAY_LIST', tracks)
-    if (state.mode === playMode.random) {
+    if ( state.mode === playMode.random ) {
       let randomList = shuffle(tracks)
       commit('SET_CURRENT_PLAY_LIST', randomList)
-      index = findIndex(randomList, tracks[index])
+      index = findIndex(randomList, tracks[ index ])
     } else {
       commit('SET_CURRENT_PLAY_LIST', tracks)
     }
     commit('SET_CURRENT_INDEX', index)
     commit('SET_PLAY_STATUS', true)
   },
-  addHistorySong ({commit}, song) {
+  addHistorySong ({ commit }, song) {
     let songs = ls.get(PLAY_HISTORY_KEY, [])
     delete song.isClicked
     insertArray(songs, song, (item) => {

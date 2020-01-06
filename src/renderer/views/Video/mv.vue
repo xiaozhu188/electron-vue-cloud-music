@@ -1,9 +1,9 @@
 <template>
   <div>
     <home-layout :topMenus="topMenus">
-      <tags useHoverHighlight :tags="area" @change="onAreaChange"/>
-      <tags useHoverHighlight :tags="mvType" @change="onTypeChange"/>
-      <tags useHoverHighlight :tags="mvOrder" @change="onOrderChange"/>
+      <tags useHoverHighlight :tags="area" @change="onAreaChange" />
+      <tags useHoverHighlight :tags="mvType" @change="onTypeChange" />
+      <tags useHoverHighlight :tags="mvOrder" @change="onOrderChange" />
       <ul class="mvs">
         <li v-for="(mv, index) in mvs" :key="`${mv.id}_${index}`">
           <mv-item :mv="mv" />
@@ -20,6 +20,7 @@ import mvItem from '@/components/Common/mv-item'
 import tags from '@/components/Common/tags'
 import { getAllMV } from '@/api/mv'
 import { normalMV } from '@/utils/video'
+
 let area = {
   '地区': [
     {
@@ -126,7 +127,7 @@ export default {
       try {
         let res = await getAllMV(this.options)
         $state.loaded()
-        if (res.data.length || res.hasMore) {
+        if ( res.data.length || res.hasMore ) {
           let mvs = res.data.map(mv => {
             return normalMV(mv)
           })
@@ -135,7 +136,7 @@ export default {
         } else {
           $state.complete()
         }
-      } catch (error) {
+      } catch ( error ) {
         $state.error()
       }
     },
@@ -162,10 +163,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.mvs {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  grid-gap: 15px;
-  padding: 15px 0;
-}
+  @import "./../../styles/mixins";
+
+  .mvs {
+    .grid-layout(15px, 220px);
+    padding: 15px 0;
+  }
 </style>

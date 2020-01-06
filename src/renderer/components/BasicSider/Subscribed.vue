@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     removePlaylist (action, pid) {
-      this.$store.dispatch('User/removePlaylist', {action, pid})
+      this.$store.dispatch('User/removePlaylist', { action, pid })
     },
     playAll (pid) {
       getPlaylistDetail(pid).then(res => {
@@ -63,4 +63,3 @@ export default {
   }
 }
 </script>
-

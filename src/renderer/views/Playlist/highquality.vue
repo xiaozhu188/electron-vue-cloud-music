@@ -3,7 +3,7 @@
     <header class="highquality-header">
       <div class="title">
         <span>精品歌单</span>
-        <a-icon type="question-circle" @click.native="goRoute" />
+        <a-icon type="question-circle" @click="goRoute" />
       </div>
       <div class="filter">
         <a-popover

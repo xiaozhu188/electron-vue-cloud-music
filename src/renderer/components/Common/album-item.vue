@@ -12,25 +12,25 @@
 </template>
 
 <script>
-  import Artists from '@/components/Common/artists'
-  export default {
-    name: 'album-item',
-    data () {
-      return {}
+import Artists from '@/components/Common/artists'
+export default {
+  name: 'album-item',
+  data () {
+    return {}
+  },
+  props: {
+    album: {
+      type: Object
     },
-    props: {
-      album: {
-        type: Object
-      },
-      desc: {
-        type: String,
-        default: 'time'
-      }
-    },
-    components: {
-      Artists
+    desc: {
+      type: String,
+      default: 'time'
     }
+  },
+  components: {
+    Artists
   }
+}
 </script>
 
 <style lang="less" scoped>
@@ -56,6 +56,8 @@
     .name {
       width: 125px;
       line-height: 20px;
+      font-weight: 600;
+      color: #000;
     }
     .publish-time,.artist {
       line-height: 20px;

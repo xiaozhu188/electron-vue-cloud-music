@@ -5,7 +5,7 @@
     </div>
     <div class="top-bar-main">
       <div class="top-bar-control">
-        <controls />  
+        <controls />
       </div>
       <div class="top-bar-search">
         <search-box />
@@ -69,7 +69,7 @@ export default {
         if (this.$route.name === 'home') {
           eventBus.$emit('refresh')
         } else {
-          this.$router.push({path: '/home'})
+          this.$router.push({ path: '/home' })
         }
       })
     }

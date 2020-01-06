@@ -2,10 +2,10 @@
   <a-spin :spinning="spinning">
     <ul class="videos">
       <li v-for="video in videos" :key="video.id">
-        <video-item :video="video"/>
+        <video-item :video="video" />
       </li>
     </ul>
-    <slot :total="result.videoCount"></slot> 
+    <slot :total="result.videoCount"></slot>
   </a-spin>
 </template>
 
@@ -14,6 +14,7 @@ import searchMixin from '@/mixins/Search'
 import VideoItem from '@/components/Common/video-item'
 import { getMv } from '@/api/sublist'
 import { normalVideo } from '@/utils/video.js'
+
 export default {
   mixins: [
     searchMixin
@@ -25,7 +26,7 @@ export default {
   },
   methods: {
     normalData () {
-      if (this.result.videos && this.result.videos.length) {
+      if ( this.result.videos && this.result.videos.length ) {
         this.videos = this.result.videos.map(video => {
           return normalVideo(video)
         })
@@ -38,10 +39,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.videos {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  padding: 15px 20px;
-  grid-gap: 20px;
-}
+  @import "./../../../styles/mixins";
+
+  .videos {
+    .grid-layout(20px, 220px);
+    padding: 15px 20px;
+  }
 </style>

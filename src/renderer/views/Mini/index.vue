@@ -4,7 +4,7 @@
       <template>
         <div class="avatar-wrapper">
           <img v-lazy="current_song.avatar" width="50" height="50" :key="current_song.id" v-if="current_song.avatar">
-          <z-icon type="yinle" style="fontSize:30px" v-else /> 
+          <z-icon type="yinle" style="fontSize:30px" v-else />
         </div>
         <div class="song-info no-drag">
           <div class="song-name">
@@ -34,7 +34,7 @@
         <z-icon class="item no-drag" type="juxing" @click.native="setFrame" title="普通模式" />
       </template>
     </div>
-    
+
     <div class="mini-list" ref="scrollWrapper">
       <ul v-if="current_play_list.length">
         <li
@@ -95,7 +95,7 @@ export default {
           return item.id === this.current_song.id
         })
         let top = index * 35
-        this.$refs.scrollWrapper.scrollTo({top, behavior: 'smooth'})
+        this.$refs.scrollWrapper.scrollTo({ top, behavior: 'smooth' })
       }
     }
   },

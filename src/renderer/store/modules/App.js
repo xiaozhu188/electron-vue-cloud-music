@@ -40,7 +40,7 @@ const mutations = {
 }
 
 const actions = {
-  toggleColor ({commit}, color) {
+  toggleColor ({ commit }, color) {
     commit('CHANGE_COLOR', color)
   }
 }

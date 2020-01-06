@@ -1,19 +1,19 @@
 <template>
   <home-layout>
     <div class="page-artist">
-      <tags useHoverHighlight :tags="cates" @change="onTagChange"/>
-      <tags :tags="names" @change="onNameChange"/>
+      <tags useHoverHighlight :tags="cates" @change="onTagChange" />
+      <tags :tags="names" @change="onNameChange" />
 
       <ul class="artists" v-if="artists.length">
         <router-link tag="li" to="/artist-top" class="artist">
           <figure class="figure">
-            <img src="static/images/artist_rank.png" class="top-img" width="184" />
+            <img src="./../../assets/images/artist_rank.png" class="top-img" width="184" />
             <figcaption class="figcaption">歌手排行榜</figcaption>
           </figure>
         </router-link>
-        <artist-item class="artist" v-for="artist in artists" :artist="artist" :key="artist.id"/>
+        <artist-item class="artist" v-for="artist in artists" :artist="artist" :key="artist.id" />
       </ul>
-      <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" @infinite="loadmore"/>
+      <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" @infinite="loadmore" />
     </div>
   </home-layout>
 </template>
@@ -241,13 +241,13 @@ export default {
       try {
         let res = await getArtistList(this.options)
         this.artists = res.artists
-      } catch (e) {
+      } catch ( e ) {
         console.log(e)
       }
     },
     async loadmore ($state) {
       let res = await getArtistList(this.options)
-      if (res.artists.length) {
+      if ( res.artists.length ) {
         this.options.offset += this.options.limit
         this.artists.push(...res.artists)
         $state.loaded()
@@ -276,38 +276,38 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.page-artist {
-  .artists {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15%,1fr));
-    grid-gap: 15px;
-    padding: 15px 0;
-    a {
-      display: block;
-      color: #333;
-    }
-    .artist {
-      .figure {
-        overflow: hidden;
-        cursor: pointer;
-        &:hover {
-          .top-img {
-            transform: scale(1.23);
+  @import "./../../styles/mixins";
+
+  .page-artist {
+    .artists {
+      .grid-layout(15px, 15%);
+      padding: 15px 0;
+      a {
+        display: block;
+        color: #333;
+      }
+      .artist {
+        .figure {
+          overflow: hidden;
+          cursor: pointer;
+          &:hover {
+            .top-img {
+              transform: scale(1.23);
+            }
           }
-        }
-        .top-img {
-          display: block;
-          width: 100%;
-          height: 100%;
-          transition: all 0.23s;
-          transform-origin: center bottom;
-        }
-        .figcaption {
-          line-height: 25px;
-          font-size: 13px;
+          .top-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            transition: all 0.23s;
+            transform-origin: center bottom;
+          }
+          .figcaption {
+            line-height: 25px;
+            font-size: 13px;
+          }
         }
       }
     }
   }
-}
 </style>

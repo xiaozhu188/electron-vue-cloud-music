@@ -10,32 +10,32 @@
 </template>
 
 <script>
-  export default {
-    name: 'tags',
-    data () {
-      return {
-        currentIndex: -1
+export default {
+  name: 'tags',
+  data () {
+    return {
+      currentIndex: -1
+    }
+  },
+  props: {
+    tags: {
+      type: Object,
+      default () {
+        return []
       }
     },
-    props: {
-      tags: {
-        type: Object,
-        default () {
-          return []
-        }
-      },
-      useHoverHighlight: {
-        type: Boolean,
-        default: false
-      }
-    },
-    methods: {
-      selectTag (tag, index, i) {
-        this.currentIndex = `${index}_${i}`
-        this.$emit('change', tag)
-      }
+    useHoverHighlight: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    selectTag (tag, index, i) {
+      this.currentIndex = `${index}_${i}`
+      this.$emit('change', tag)
     }
   }
+}
 </script>
 
 <style lang="less" scoped>
@@ -48,7 +48,8 @@
     dd {
       padding: 0 10px;
       cursor: pointer;
-      line-height: 1;
+      line-height: 22px;
+      border-radius: 4px;
       &.current {
         background: @primary-color;
         color: #fff;

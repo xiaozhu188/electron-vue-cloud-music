@@ -91,7 +91,7 @@ export default {
     },
     async _getArtistSongs (id) {
       this.loading = true
-      let { artist, hotSongs } = await getArtistSongs({id, limit: 50, offset: 0})
+      let { artist, hotSongs } = await getArtistSongs({ id, limit: 50, offset: 0 })
       this.artist = artist
       const arr = []
       hotSongs.forEach(song => {
@@ -104,7 +104,7 @@ export default {
       this.hotSongs = tracks
     },
     subscribe (t, artist) {
-      this.$store.dispatch('User/subscribeArtist', {t, artist}).then(code => {
+      this.$store.dispatch('User/subscribeArtist', { t, artist }).then(code => {
         this.artist.followed = !this.artist.followed
       })
     }

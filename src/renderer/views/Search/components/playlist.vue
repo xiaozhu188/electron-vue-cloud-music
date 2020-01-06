@@ -18,7 +18,7 @@
         <a-col :span="8">by {{playlist.creator.nickname}}</a-col>
       </a-row>
     </a-spin>
-    <slot :total="result.playlistCount"></slot> 
+    <slot :total="result.playlistCount"></slot>
   </div>
 </template>
 

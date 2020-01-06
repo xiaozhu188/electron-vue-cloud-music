@@ -44,7 +44,7 @@ export function checkUpdate () {
       // console.log('version:', version, 'localVersion:', localVersion, 'remoteVersion:', remoteVersion, forceUpdate)
       global.remoteVersion = remoteVersion
       global.shouldUpdate = shouldUpdate
-      resolve({shouldUpdate, forceUpdate})
+      resolve({ shouldUpdate, forceUpdate })
     }).catch(err => {
       console.log('获取版本信息失败:', err)
       reject(err)

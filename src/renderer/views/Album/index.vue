@@ -36,18 +36,20 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.new-album {
-  max-width: 1100px;
-  margin: auto;
-}
-.title {
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /deep/ .ant-radio-button-wrapper {
-    height: 28px;
-    line-height: 26px;
+  .new-album {
+    max-width: 1100px;
+    margin: auto;
   }
-}
+
+  .title {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /deep/ .ant-radio-button-wrapper {
+      height: 28px;
+      line-height: 26px;
+    }
+  }
 </style>

@@ -12,6 +12,7 @@
 <script>
 import artistItem from '@/components/Common/artist-item'
 import { getArtistSimi } from '@/api/artist'
+
 export default {
   name: 'artist_id_simi',
   data () {
@@ -36,10 +37,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.simi {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  grid-gap: 15px;
-  padding: 15px;
-}
+  @import "./../../../styles/mixins";
+
+  .simi {
+    .grid-layout(20px, 160px);
+    padding: 15px;
+  }
 </style>

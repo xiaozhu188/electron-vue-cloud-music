@@ -1,10 +1,10 @@
 <template>
   <div class="artist-album">
     <ul class="albums">
-      <album-item v-for="album in albums" :album="album" :key="album.id"/>
+      <album-item v-for="album in albums" :album="album" :key="album.id" />
     </ul>
-    <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore" >
-      
+    <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore">
+
     </infinite-loading>
   </div>
 </template>
@@ -13,6 +13,7 @@
 import albumItem from '@/components/Common/album-item'
 import { getArtistAlbum } from '@/api/artist'
 import { normalSong } from '@/utils/song'
+
 export default {
   name: 'artist_id_album',
   data () {
@@ -42,12 +43,12 @@ export default {
         let { hotAlbums, more } = await getArtistAlbum(params)
         this.albums = this.albums.concat(hotAlbums)
         $state.loaded()
-        if (more) {
+        if ( more ) {
           this.offset += this.limit
         } else {
           $state.complete()
         }
-      } catch (error) {
+      } catch ( error ) {
         $state.error()
       }
     }
@@ -56,10 +57,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.albums {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(141px, 1fr));
-  grid-gap: 15px;
-  padding: 15px;
-}
+  @import "./../../../styles/mixins";
+
+  .albums {
+    .grid-layout(15px, 141px);
+    padding: 15px;
+  }
 </style>

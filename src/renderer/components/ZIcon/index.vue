@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import path from 'path'
 import { Icon } from 'ant-design-vue'
-let iconURL = process.env.NODE_ENV === 'development'
-  ? '/static/js/icon.js'
-  : path.join(__static, 'js/icon.js')
+
+// let iconURL = 'public/js/icon.js'
+const iconURL = 'https://at.alicdn.com/t/font_1188071_1m1k6mct6ob.js'
+// console.log(iconURL)
 
 let MyIcon = Icon.createFromIconfontCN({
   scriptUrl: iconURL

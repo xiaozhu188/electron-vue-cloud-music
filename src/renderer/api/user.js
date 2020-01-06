@@ -36,30 +36,30 @@ export function user_subcount (uid) {
 }
 
 // 获取用户私信
-export function user_msg_private ({limit = 10, offset = 0}) {
+export function user_msg_private ({ limit = 10, offset = 0 }) {
   return request.get('/msg/private', {
-    params: {limit, offset}
+    params: { limit, offset }
   })
 }
 
 // 获取用户关注列表
-export function user_follower ({uid, limit = 10, offset = 0}) {
+export function user_follower ({ uid, limit = 10, offset = 0 }) {
   return request.get('/user/follows', {
-    params: {uid, limit, offset}
+    params: { uid, limit, offset }
   })
 }
 
 // 获取用户粉丝列表
-export function user_followed ({uid, limit = 10, lasttime = -1}) {
+export function user_followed ({ uid, limit = 10, lasttime = -1 }) {
   return request.get('/user/followeds', {
-    params: {uid, limit, lasttime}
+    params: { uid, limit, lasttime }
   })
 }
 
 // 关注/取消关注用户
-export function user_follow ({t, id}) {
+export function user_follow ({ t, id }) {
   return request.get('/follow', {
-    params: {t, id}
+    params: { t, id }
   })
 }
 
@@ -109,7 +109,7 @@ export function likeMusic (musicId, isLike) {
 }
 
 // 收藏专辑 t  1:收藏,2:取消收藏
-export function subAlbum ({t, id}) {
+export function subAlbum ({ t, id }) {
   return request.get('/album/sub', {
     params: {
       t,
@@ -142,7 +142,7 @@ export function deletePlaylist (id) {
  * @param {*歌单名} name
  * @param {*privacy : 是否设置为隐私歌单，默认否，传'10'则设置成隐私歌单} privacy
  */
-export function createPlaylist ({name, privacy}) {
+export function createPlaylist ({ name, privacy }) {
   let params = {
     name
   }
@@ -155,7 +155,7 @@ export function createPlaylist ({name, privacy}) {
 }
 
 // 对歌单添加或删除歌曲
-export function addSongToList ({op, tracks, pid}) {
+export function addSongToList ({ op, tracks, pid }) {
   return request.get('/playlist/tracks', {
     params: {
       op, tracks, pid
@@ -174,7 +174,7 @@ export function getRecommendSongs () {
 }
 
 // 用户动态
-export function getUserEvent ({uid, limit = 30, lasttime = -1}) {
+export function getUserEvent ({ uid, limit = 30, lasttime = -1 }) {
   return request.get('/user/event', {
     params: {
       uid, limit, lasttime
@@ -183,7 +183,7 @@ export function getUserEvent ({uid, limit = 30, lasttime = -1}) {
 }
 
 // 动态
-export function getEvent ({pagesize = 30, lasttime = -1}) {
+export function getEvent ({ pagesize = 30, lasttime = -1 }) {
   return request.get('/event', {
     params: {
       pagesize, lasttime
@@ -192,7 +192,7 @@ export function getEvent ({pagesize = 30, lasttime = -1}) {
 }
 
 // 订阅电台 1订阅,0订阅
-export function subDj ({t, rid}) {
+export function subDj ({ t, rid }) {
   return request.get('/dj/sub', {
     params: {
       t, rid
@@ -201,7 +201,7 @@ export function subDj ({t, rid}) {
 }
 
 // 收藏歌手 1为收藏,其他取消订阅
-export function subArtist ({t, id}) {
+export function subArtist ({ t, id }) {
   return request.get('/artist/sub', {
     params: {
       t, id
@@ -209,7 +209,7 @@ export function subArtist ({t, id}) {
   })
 }
 
-export function getHotTopic ({limit = 30, offset = 0}) {
+export function getHotTopic ({ limit = 30, offset = 0 }) {
   return request.get('/hot/topic', {
     params: {
       limit, offset

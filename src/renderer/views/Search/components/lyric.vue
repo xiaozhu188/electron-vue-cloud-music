@@ -4,7 +4,7 @@
       <div slot="lyric" slot-scope="{ row }" class="lyrics-wrapper">
         <div class="lyrics">
           <div v-for="(text, index) in row.lyrics.showAll ? row.lyrics.lines : row.lyrics.lines.slice(0, 4)" :key="index" class="line">{{ text }}</div>
-        </div> 
+        </div>
         <div class="actions">
           <a-button size="small" @click.stop="toggleSpread(row.lyrics)" @dblclick.stop>{{ row.lyrics.showAll ? '收起歌词' : '展开歌词' }}</a-button>
           <a-button size="small" @click="copyLyric(row.lyrics.lines.join(','))">复制歌词</a-button>

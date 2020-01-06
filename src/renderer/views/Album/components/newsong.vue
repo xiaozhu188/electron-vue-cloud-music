@@ -1,7 +1,8 @@
 <template>
   <div class="newsong">
     <div class="cates">
-      <a href="#" v-for="(val, key) in cateMap" :key="key" class="item" :class="{'current': key == songType}" @click="changeType(key)">{{ val }}</a>
+      <a href="#" v-for="(val, key) in cateMap" :key="key" class="item" :class="{'current': key == songType}"
+         @click="changeType(key)">{{ val }}</a>
     </div>
     <div class="tracks">
       <div class="tracks-top">
@@ -32,6 +33,7 @@ import TrackList from '@/components/Common/track-list/index.js'
 import { normalSong } from '@/utils/song'
 import { getTopSong } from '@/api/song'
 import { uniqueData } from '@/utils/assist'
+
 const columns = [
   {
     title: '音乐标题',
@@ -86,7 +88,7 @@ export default {
       'fullscreen',
       'current_lyric'
     ]),
-    ...mapGetters('User', ['userPlaylists', 'likedsongIds']),
+    ...mapGetters('User', [ 'userPlaylists', 'likedsongIds' ]),
     subIcon () {
       return this.likedsongIds.includes(this.pid) ? 'folder-add' : 'check'
     }
@@ -108,7 +110,7 @@ export default {
           return normalSong(song, '40y40')
         })
         this.loading = false
-      } catch (error) {
+      } catch ( error ) {
         this.loading = false
       }
     },
@@ -129,41 +131,50 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.newsong {
-  .tracks {
-    border: 1px solid #eee;
-    &-top {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px;
+  .newsong {
+    .tracks {
+      border: 1px solid #eee;
+
+      &-top {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+      }
+
+      &-body {
+        position: relative;
+
+        .avatar {
+          width: 40px;
+          height: 40px;
+          margin-right: 4px;
+        }
+
+        /deep/ .song-item {
+          padding: 5px 0;
+        }
+
+        /deep/ .ant-spin-spinning {
+          position: absolute;
+          left: 50%;
+          top: 100px;
+          transform: translateX(-50%);
+          z-index: 1;
+        }
+      }
     }
-    &-body {
-      position: relative;
-      .avatar {
-        width: 40px;
-        height: 40px;
-      }
-      /deep/ .song-item {
-        padding: 5px 0;
-      }
-      /deep/ .ant-spin-spinning {
-        position: absolute;
-        left: 50%;
-        top: 100px;
-        transform: translateX(-50%);
-        z-index: 1;
+
+    .cates {
+      margin: 10px 0;
+
+      .item {
+        margin-right: 12px;
+        color: #333;
+
+        &.current {
+          color: @primary-color;
+        }
       }
     }
   }
-  .cates {
-    margin: 10px 0;
-    .item {
-      margin-right: 12px;
-      color: #333;
-      &.current {
-        color: @primary-color;
-      }
-    }
-  }
-}
 </style>

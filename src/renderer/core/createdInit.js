@@ -49,7 +49,7 @@ function writeFile (picture, data) {
   })
 }
 
-function normalLocalSong ({songname, picture, metadata, filePath, size}) {
+function normalLocalSong ({ songname, picture, metadata, filePath, size }) {
   return {
     id: uuid(),
     name: songname,
@@ -58,7 +58,7 @@ function normalLocalSong ({songname, picture, metadata, filePath, size}) {
       name: metadata.common.album || '未知专辑'
     },
     artist: metadata.common.artists
-      ? metadata.common.artists.map(item => { return {name: item} })
+      ? metadata.common.artists.map(item => { return { name: item } })
       : [],
     duration: parseInt(metadata.format.duration) || 0,
     url: filePath,
@@ -99,10 +99,10 @@ export default function Initializer () {
         const songname = filename.substring(0, filename.lastIndexOf('.'))
         const metadata = await mm.parseFile(filePath)
         picture = await handlePicture(metadata, songname)
-        songs.push(normalLocalSong({songname, picture, metadata, filePath, size: file.size}))
+        songs.push(normalLocalSong({ songname, picture, metadata, filePath, size: file.size }))
       }
       if (songs.length) {
-        store.dispatch('play/selectPlay', {tracks: songs, index: 0})
+        store.dispatch('play/selectPlay', { tracks: songs, index: 0 })
       }
     } catch (error) {
       console.log(error)
@@ -128,10 +128,10 @@ async function handleWillOpenFiles (argv) {
     const stat = fs.statSync(filePath)
     const metadata = await mm.parseFile(filePath)
     picture = await handlePicture(metadata, songname)
-    songs.push(normalLocalSong({songname, picture, metadata, filePath, size: stat.size}))
+    songs.push(normalLocalSong({ songname, picture, metadata, filePath, size: stat.size }))
   }
   if (songs.length) {
-    store.dispatch('play/selectPlay', {tracks: songs, index: 0})
+    store.dispatch('play/selectPlay', { tracks: songs, index: 0 })
   }
 }
 

@@ -24,7 +24,7 @@
                     {{ userInfo.pcSign ? '已签到' : '签到' }}
                   </a-button>
                   <transition name="sign">
-                    <div class="sign-point" v-if="showPoint">{{ signPoint }}</div>  
+                    <div class="sign-point" v-if="showPoint">{{ signPoint }}</div>
                   </transition>
                 </a-col>
               </a-row>
@@ -114,8 +114,8 @@ export default {
         this.loadding = true
         let [err, detail] = await this.$errorCaptured(user_detail(this.userId))
         if (!err) {
-          let userInfo = {...this.userInfo}
-          this.$store.commit('User/SET_USER_INFO', Object.assign(userInfo, {userId: this.userId, ...detail}))
+          let userInfo = { ...this.userInfo }
+          this.$store.commit('User/SET_USER_INFO', Object.assign(userInfo, { userId: this.userId, ...detail }))
         }
         this.loadding = false
       }

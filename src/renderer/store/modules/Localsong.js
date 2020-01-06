@@ -87,7 +87,7 @@ export default {
                 let songname = item.substring(0, item.lastIndexOf('.')).trim()
                 let artist = [], name = songname, matched = false
                 if (songname.split('-')[0] && songname.split('-')[1]) {
-                  artist = songname.split('-')[0].split(',').map(item => { return {name: item} })
+                  artist = songname.split('-')[0].split(',').map(item => { return { name: item } })
                   name = songname.split('-')[1].trim()
                   matched = false
                 }
@@ -101,7 +101,7 @@ export default {
                   avatar: avatarIcon,
                   album: metadata.common.album || '',
                   artist: metadata.common.artists
-                    ? metadata.common.artists.map(item => { return {name: item} })
+                    ? metadata.common.artists.map(item => { return { name: item } })
                     : artist,
                   duration: parseInt(metadata.format.duration) || 0,
                   url: pathname,
@@ -117,7 +117,7 @@ export default {
         }
       }
       console.log('localSongs:', songs)
-      commit('mutateState', {localSongs: songs})
+      commit('mutateState', { localSongs: songs })
       // dispatch('match')
     }
   }

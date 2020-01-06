@@ -1,7 +1,7 @@
 <template>
   <home-layout>
     <div class="floors" v-if="isRenderFinish">
-      <banner :banners="banners"/>
+      <banner :banners="banners" />
       <transition-group name="flip-list">
         <a-card
           :bordered="false"
@@ -13,14 +13,14 @@
         >
           <router-link :to="`/${item.key}`" slot="extra" v-if="!item.hideMore">
             更多
-            <a-icon type="right"/>
+            <a-icon type="right" />
           </router-link>
-          <component :is="item.key" :list="data[item.key]" v-if="isRenderFinish"/>
+          <component :is="item.key" :list="data[item.key]" v-if="isRenderFinish" />
         </a-card>
       </transition-group>
     </div>
     <div class="loading-wrapper-center" v-else>
-      <loading text="正在为您生成个性化设置..."/>
+      <loading text="正在为您生成个性化设置..." />
     </div>
     <footer slot="footer" class="wy-footer">
       <p>现在可以根据个人喜好,自由调整首页栏目顺序啦~</p>
@@ -67,6 +67,29 @@ import DrapModal from '@/components/DrapModal/index.vue'
 import ZIcon from '@/components/ZIcon/index.vue'
 import { normalMV } from '@/utils/video'
 
+const NAVS = [
+  {
+    name: '独家放送',
+    key: 'privateContent',
+    hideMore: true
+  },
+  {
+    name: '最新音乐',
+    key: 'newSong'
+  },
+  {
+    name: '推荐歌单',
+    key: 'playlist'
+  },
+  {
+    name: '推荐MV',
+    key: 'mv'
+  },
+  {
+    name: '主播电台',
+    key: 'dj'
+  }
+]
 export default {
   name: 'home',
   data () {
@@ -78,29 +101,7 @@ export default {
         mv: [],
         dj: []
       },
-      navs: [
-        {
-          name: '独家放送',
-          key: 'privateContent',
-          hideMore: true
-        },
-        {
-          name: '最新音乐',
-          key: 'newSong'
-        },
-        {
-          name: '推荐歌单',
-          key: 'playlist'
-        },
-        {
-          name: '推荐MV',
-          key: 'mv'
-        },
-        {
-          name: '主播电台',
-          key: 'dj'
-        }
-      ],
+      navs: JSON.parse(JSON.stringify(NAVS)),
       oldNav: 0,
       newNav: 0,
       banners: [],
@@ -121,20 +122,20 @@ export default {
     ZIcon
   },
   computed: {
-    ...mapGetters('User', ['userId'])
+    ...mapGetters('User', [ 'userId' ])
   },
   created () {
     this._getData()
   },
   mounted () {
-    let navCache = window.localStorage.getItem('nav')
-    if (navCache) {
+    let navCache = localStorage.getItem('nav')
+    if ( navCache ) {
       this.navs = JSON.parse(navCache)
     }
   },
   watch: {
     userId (newId) {
-      if (!newId) {
+      if ( !newId ) {
         this._getData()
       }
     }
@@ -181,106 +182,90 @@ export default {
     },
     dragenter (nav) {
       this.newNav = nav
-      if (this.oldNav.name !== this.newNav.name) {
+      if ( this.oldNav.name !== this.newNav.name ) {
         let oldIndex = this.navs.findIndex(nav => nav.name == this.oldNav.name)
         let newIndex = this.navs.findIndex(nav => nav.name == this.newNav.name)
-        let newItems = [...this.navs]
+        let newItems = [ ...this.navs ]
         // 删除老的节点
         newItems.splice(oldIndex, 1)
         // 在列表中目标位置增加新的节点
         newItems.splice(newIndex, 0, this.oldNav)
         // this.navs一改变，transition-group就起了作用
-        this.navs = [...newItems]
+        this.navs = [ ...newItems ]
         window.localStorage.setItem('nav', JSON.stringify(this.navs))
       }
     },
     resetNav () {
-      this.navs = [
-        {
-          name: '独家放送',
-          key: 'privateContent'
-        },
-        {
-          name: '最新音乐',
-          key: 'newSong'
-        },
-        {
-          name: '推荐歌单',
-          key: 'playlist'
-        },
-        {
-          name: '推荐MV',
-          key: 'mv'
-        },
-        {
-          name: '主播电台',
-          key: 'dj'
-        }
-      ]
-      window.localStorage.setItem('nav', JSON.stringify(this.navs))
+      this.navs = NAVS
+      localStorage.setItem('nav', JSON.stringify(NAVS))
     }
   }
 }
 </script>
 
 <style>
-.flip-list-move {
-  transition: transform 0.3s;
-}
+  .flip-list-move {
+    transition: transform 0.3s;
+  }
 </style>
 <style lang="less" scoped>
-.floors {
-  padding-top: 20px;
-  a {
-    font-size: 13px;
-    color: #888;
-  }
-  /deep/ .ant-card-head {
-    padding: 0;
-    min-height: 32px;
-    font-size: 18px;
-    font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  .floors {
+    padding-top: 20px;
+
+    a {
+      font-size: 13px;
+      color: #888;
+    }
+
+    /deep/ .ant-card-head {
+      padding: 0;
+      min-height: 32px;
+      font-size: 18px;
+      font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI",
       "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue",
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
       "Segoe UI Symbol";
-    /deep/ .ant-card-head-title {
-      padding: 0;
+
+      /deep/ .ant-card-head-title {
+        padding: 0;
+      }
+
+      /deep/ .ant-card-extra {
+        padding: 0;
+      }
     }
-    /deep/ .ant-card-extra {
-      padding: 0;
+
+    /deep/ .ant-card-body {
+      padding: 10px 0;
     }
   }
-  /deep/ .ant-card-body {
-    padding: 10px 0;
+
+  .wy-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: auto;
+    border-top: 1px solid #eee;
   }
-}
 
-.wy-footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  margin: auto;
-  border-top: 1px solid #eee;
-}
+  .drag-item {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 20px;
+    border-bottom: 1px solid #f3f3f3;
+    font-size: 18px;
+    cursor: move;
+  }
 
-
-.drag-item {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 20px;
-  border-bottom: 1px solid #f3f3f3;
-  font-size: 18px;
-  cursor: move;
-}
-.reset {
-  text-align: center;
-  display: block;
-  margin: 15px 0;
-  text-decoration: underline;
-  color: #999;
-}
+  .reset {
+    text-align: center;
+    display: block;
+    margin: 15px 0;
+    text-decoration: underline;
+    color: #999;
+  }
 </style>

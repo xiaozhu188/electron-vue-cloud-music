@@ -60,7 +60,7 @@
                   </div>
                 </div>
               </a-tooltip>
-              
+
               <lyric-list class="default" ref="lyrics" />
             </div>
           </div>
@@ -188,8 +188,8 @@ export default {
     },
     downloadstatus () {
       return [...this.downloaded, ...this.queue].findIndex(item => item.id === this.current_song.id) >= 0
-        ? {icon: 'check-circle', text: '已下载', downloaded: true}
-        : {icon: 'download', text: '下载'}
+        ? { icon: 'check-circle', text: '已下载', downloaded: true }
+        : { icon: 'download', text: '下载' }
     }
   },
   watch: {
@@ -338,7 +338,7 @@ export default {
       }
     },
     _handleLikeSong () {
-      this.$store.dispatch('User/handleLikeSong', {songId: this.current_song.id, isLike: !this.isLiked})
+      this.$store.dispatch('User/handleLikeSong', { songId: this.current_song.id, isLike: !this.isLiked })
     },
     download (song) {
       // if (this.downloaded.findIndex(item => item.id === this.current_song.id) >= 0) return
@@ -349,11 +349,11 @@ export default {
     },
     goRoute (playlist) {
       this.shrinkScreen()
-      this.$router.push({path: `/playlist/${playlist.id}`})
+      this.$router.push({ path: `/playlist/${playlist.id}` })
     },
     goUserRoute (userId) {
       this.shrinkScreen()
-      this.$router.push({path: `/user?id=${userId}`})
+      this.$router.push({ path: `/user?id=${userId}` })
     }
   }
 }

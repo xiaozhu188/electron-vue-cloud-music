@@ -29,7 +29,7 @@ export function getPersonalizedPlaylist () {
   return request.get('/personalized')
 }
 
-export function getTopPlaylist ({cat = '全部', limit = 10, offset = 0, order = 'new'}) {
+export function getTopPlaylist ({ cat = '全部', limit = 10, offset = 0, order = 'new' }) {
   return request.get('/top/playlist', {
     params: {
       cat,
@@ -41,7 +41,7 @@ export function getTopPlaylist ({cat = '全部', limit = 10, offset = 0, order =
 }
 
 // 精品歌单 before: 分页参数,取上一页最后一个歌单的 updateTime 获取下一页数据
-export function getHighPlaylist ({cat = '全部', limit = 20, before = ''}) {
+export function getHighPlaylist ({ cat = '全部', limit = 20, before = '' }) {
   return request.get('/top/playlist/highquality', {
     params: {
       cat,
@@ -63,7 +63,7 @@ export function getRecommendPlaylist () {
   return request.get('/personalized')
 }
 
-export function getPlaylistSubscribers ({limit = 20, offset = 0, id}) {
+export function getPlaylistSubscribers ({ limit = 20, offset = 0, id }) {
   return request.get('/playlist/subscribers', {
     params: {
       id,

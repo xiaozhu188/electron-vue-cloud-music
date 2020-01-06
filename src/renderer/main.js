@@ -15,6 +15,7 @@ Vue.prototype.$db = db
 Vue.prototype.$errorCaptured = errorCaptured
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
+
 /* eslint-disable no-new */
 new Vue({
   components: { App },
@@ -25,14 +26,3 @@ new Vue({
   },
   template: '<App/>'
 }).$mount('#app')
-
-const welcome = document.getElementById('welcome')
-const welcomeImg = welcome.querySelector('.welcome-img')
-setTimeout(() => {
-  welcomeImg.classList.add('fade')
-}, 1000)
-welcomeImg.addEventListener('webkitAnimationEnd', () => {
-  Vue.nextTick(() => {
-    document.body.removeChild(welcome)
-  })
-})

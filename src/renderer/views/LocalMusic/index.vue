@@ -12,7 +12,7 @@
         </template>
       </track-list>
     </a-card>
-    
+
     <a-modal centered :maskClosable="false" title="选择本地音乐文件夹" wrapClassName="bodyStyle" :width="300" v-model="visible">
       <div>将自动扫描您勾选的目录，文件增删实时同步。</div>
       <a-checkbox-group @change="onChange" v-model="selectedFolder">

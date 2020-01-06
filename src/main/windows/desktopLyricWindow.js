@@ -4,7 +4,7 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html#desktop-lyric`
 
 const createLyricWindow = function (BrowserWindow) {
-  const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
+  const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
   const obj = {
     minWidth: 650,
     width,

@@ -85,7 +85,7 @@
             </a-breadcrumb-item>
           </a-breadcrumb>
         </div>
-        
+
         <div class="briefDesc">{{mv.briefDesc}}</div>
         <div class="publishTime">发布时间：{{mv.publishTime | toDate}}</div>
         <div class="playCount">播放次数：{{mv.playTime | toWan}}</div>
@@ -467,7 +467,7 @@ export default {
       }
     }
   }
-  
+
   .video-operation {
     height: 35px;
     display: flex;

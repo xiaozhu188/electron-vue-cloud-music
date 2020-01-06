@@ -66,7 +66,7 @@ export default {
     },
     _getDjByCate () {
       let id = this.$route.query.id
-      getDjByCate({type: id}).then(res => {
+      getDjByCate({ type: id }).then(res => {
         this.djRadios = res.djRadios
         this.hasMore = res.hasMore
       })

@@ -14,7 +14,7 @@
         @search="onSearch"
       />
       <template slot="content">
-        
+
         <div class="search-result" v-if="keyword && suggests">
           <dl v-for="(suggest, key) in suggests" :key="key">
             <dt>{{searchMap[key]}}</dt>
@@ -149,15 +149,15 @@ export default {
       switch (key) {
         case 'albums':
           path = `/album/${item.id}`
-          this.$router.push({path})
+          this.$router.push({ path })
           break
         case 'artists':
           path = `/artist/${item.id}`
-          this.$router.push({path})
+          this.$router.push({ path })
           break
         case 'playlists':
           path = `/playlist/${item.id}`
-          this.$router.push({path})
+          this.$router.push({ path })
           break
         default:
           let tracks = []

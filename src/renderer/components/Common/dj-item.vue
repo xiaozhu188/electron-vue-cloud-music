@@ -18,18 +18,18 @@
 </template>
 
 <script>
-  export default {
-    name: 'dj-list',
-    props: {
-      layout: {type: String, default: ''},
-      dj: {type: Object, default: null}
-    },
-    computed: {
-      itemCls () {
-        return this.layout == 'horizon' ? 'item horizon' : 'item'
-      }
+export default {
+  name: 'dj-list',
+  props: {
+    layout: { type: String, default: '' },
+    dj: { type: Object, default: null }
+  },
+  computed: {
+    itemCls () {
+      return this.layout == 'horizon' ? 'item horizon' : 'item'
     }
   }
+}
 </script>
 
 <style lang="less" scoped>

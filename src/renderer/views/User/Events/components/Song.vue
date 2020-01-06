@@ -12,7 +12,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import Playing from '@/components/Common/playing'
-import { getSongUrl } from '@/api/song'
 import { normalSong } from '@/utils/song'
 export default {
   props: {

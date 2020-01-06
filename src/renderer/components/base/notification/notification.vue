@@ -89,7 +89,7 @@ export default {
 @keyframes zoomOut {
   0% {
     transform: translate(-50%, -50%) scale(1);
-    
+
   }
   20% {
     transform: translate(-50%, -50%) scale(0.8);

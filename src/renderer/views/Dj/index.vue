@@ -150,7 +150,7 @@ export default {
             id: cates[i].id,
             name: cates[i].name
           })
-          promises.push(getDjByCate({type: cates[i].id}))
+          promises.push(getDjByCate({ type: cates[i].id }))
         }
         Promise.all(promises).then(res => {
           this.programs = Object.freeze(res)
@@ -158,7 +158,7 @@ export default {
       })
     },
     _getDjByCate (type) {
-      getDjByCate({type}).then(res => {
+      getDjByCate({ type }).then(res => {
         this.djList = res.djRadios
         console.log(this.djList)
       })

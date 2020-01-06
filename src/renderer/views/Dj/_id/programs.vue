@@ -77,7 +77,7 @@ export default {
         offset: this.offset,
         asc: this.asc
       }
-      let {programs, more, count} = await getDjProgram(options)
+      let { programs, more, count } = await getDjProgram(options)
       this.total = count
       let arr = []
       programs.forEach(program => {

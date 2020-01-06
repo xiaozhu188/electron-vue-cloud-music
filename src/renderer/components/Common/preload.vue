@@ -57,7 +57,7 @@ export default {
         height: 22px;
         animation: middle-data 1s linear infinite;
       }
-      
+
       @keyframes first-data {
         0% {
           height: 6px;
@@ -69,7 +69,7 @@ export default {
           height: 6px;
         }
       }
-      
+
       @keyframes second-data {
         0% {
           height: 14px;
@@ -84,7 +84,7 @@ export default {
           height: 14px;
         }
       }
-      
+
       @keyframes middle-data {
         0% {
           height: 22px;

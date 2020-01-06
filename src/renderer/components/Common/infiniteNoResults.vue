@@ -3,9 +3,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'infiniteNoResults'
-  }
+export default {
+  name: 'infiniteNoResults'
+}
 </script>
 
 <style scoped>

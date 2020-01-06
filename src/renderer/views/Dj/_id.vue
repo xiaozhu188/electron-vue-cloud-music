@@ -106,7 +106,7 @@ export default {
       this.$store.dispatch('play/selectPlay', { tracks: this.tracks, index: 0 })
     },
     subscribe (t, dj) {
-      this.$store.dispatch('User/subscribeDj', {t, dj})
+      this.$store.dispatch('User/subscribeDj', { t, dj })
     }
   }
 }
@@ -151,7 +151,7 @@ export default {
     button {
       font-size: 13px;
     }
-  }    
+  }
 }
 
 .desc {

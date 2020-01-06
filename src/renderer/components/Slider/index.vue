@@ -246,7 +246,7 @@ export default {
         transform: translate3d(-23.5%, 0,0) scale3d(.9,.9,1);
         z-index: 18;
       }
-      
+
     }
     &.mask
       .slider

@@ -304,7 +304,7 @@ export default {
         if (!song) return
         // this.$set(song, 'isWaitting', true)
         this.$set(song, 'downloadPercent', parseInt(progress))
-      }, 1000, {trailing: true})
+      }, 1000, { trailing: true })
     )
   },
   methods: {

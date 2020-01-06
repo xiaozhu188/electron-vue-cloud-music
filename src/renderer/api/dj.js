@@ -9,7 +9,7 @@ export function getDjBanner () {
 export function getDjCatelist () {
   return request.get('/dj/catelist')
 }
-export function getDjByCate ({type, limit = 5, offset = 0}) {
+export function getDjByCate ({ type, limit = 5, offset = 0 }) {
   return request.get('/dj/recommend/type', {
     params: {
       type, limit, offset
@@ -47,7 +47,7 @@ export function getDjDetail (rid) {
   })
 }
 // 获取电台的节目
-export function getDjProgram ({rid, limit, offset, asc = false}) {
+export function getDjProgram ({ rid, limit, offset, asc = false }) {
   return request.get('/dj/program', {
     params: {
       rid,

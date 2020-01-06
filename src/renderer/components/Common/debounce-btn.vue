@@ -1,10 +1,10 @@
 <template>
-  <a-button 
+  <a-button
     v-bind="{...$attrs,...$slots}"
     v-on="$listeners"
     @click="handleClick"
   >
-    <slot></slot>  
+    <slot></slot>
   </a-button>
 </template>
 

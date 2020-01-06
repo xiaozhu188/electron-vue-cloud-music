@@ -11,6 +11,7 @@
 import VideoItem from '@/components/Common/video-item'
 import { getMv } from '@/api/sublist'
 import { normalVideo } from '@/utils/video.js'
+
 export default {
   data () {
     return {
@@ -26,19 +27,19 @@ export default {
     async loadmore ($state) {
       try {
         let res = await getMv(this.params)
-        if (res.data.length) {
+        if ( res.data.length ) {
           let arr = res.data.map(video => {
             return normalVideo(video)
           })
           this.data.push(...arr)
           $state.loaded()
         }
-        if (res.hasMore) {
+        if ( res.hasMore ) {
           this.params.offset += this.params.limit
         } else {
           $state.complete()
         }
-      } catch (error) {
+      } catch ( error ) {
         $state.error()
       }
     }
@@ -47,13 +48,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.videos {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-  grid-gap: 15px;
-  padding: 15px 0;
-  &.videos-hack {
-    grid-template-columns: repeat(auto-fill, minmax(245px, 245px));
+  @import "./../../../../styles/mixins";
+
+  .videos {
+    .grid-layout(15px, 245px);
+    padding: 15px 0;
+    &.videos-hack {
+      grid-template-columns: repeat(auto-fill, minmax(245px, 245px));
+    }
   }
-}
 </style>

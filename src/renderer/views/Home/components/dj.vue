@@ -7,22 +7,22 @@
 </template>
 
 <script>
-  import djItem from '@/components/Common/dj-item'
+import djItem from '@/components/Common/dj-item'
 
-  export default {
-    name: 'dj',
-    props: {
-      list: {
-        type: Array,
-        default () {
-          return []
-        }
+export default {
+  name: 'dj',
+  props: {
+    list: {
+      type: Array,
+      default () {
+        return []
       }
-    },
-    components: {
-      djItem
     }
+  },
+  components: {
+    djItem
   }
+}
 </script>
 
 <style lang="less" scoped>

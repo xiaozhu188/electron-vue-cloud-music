@@ -7,22 +7,22 @@
 </template>
 
 <script>
-  import listItem from '@/components/Common/list-item'
+import listItem from '@/components/Common/list-item'
 
-  export default {
-    name: 'mv',
-    props: {
-      list: {
-        type: Array,
-        default () {
-          return []
-        }
+export default {
+  name: 'mv',
+  props: {
+    list: {
+      type: Array,
+      default () {
+        return []
       }
-    },
-    components: {
-      listItem
     }
+  },
+  components: {
+    listItem
   }
+}
 </script>
 
 <style lang="less" scoped>

@@ -52,12 +52,12 @@ export default {
         })
         this.mvs = this.mvs.concat(arr)
         $state.loaded()
-        if (hasMore) {
+        if ( hasMore ) {
           this.offset += this.limit
         } else {
           $state.complete()
         }
-      } catch (error) {
+      } catch ( error ) {
         $state.error()
       }
     }
@@ -66,10 +66,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.mvs {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16%, 1fr));
-  grid-gap: 15px;
-  padding: 15px;
-}
+  @import "./../../../styles/mixins";
+
+  .mvs {
+    .grid-layout(15px);
+    padding: 15px;
+  }
 </style>

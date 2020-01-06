@@ -23,4 +23,4 @@ let mutations = {
   }
 }
 
-export default {namespaced: true, state, getters, mutations}
+export default { namespaced: true, state, getters, mutations }

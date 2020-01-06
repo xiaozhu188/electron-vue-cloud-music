@@ -8,7 +8,7 @@
         <div class="row1">
           <span class="nickname">{{user.profile.nickname}}</span>
           <img src="./../../assets/images/vip.jpg" v-if="user.profile.vipType" class="img-vip" />
-          <span class="level"> 
+          <span class="level">
             <z-icon type="Lv" />
             <i>.{{ user.level }}</i>
           </span>
@@ -130,7 +130,7 @@ export default {
       this.page = page
     },
     subscribe (t, user) {
-      this.$store.dispatch('User/subscribeUser', {t, userId: user.profile.userId, nickname: user.profile.nickname}).then(res => {
+      this.$store.dispatch('User/subscribeUser', { t, userId: user.profile.userId, nickname: user.profile.nickname }).then(res => {
         if (res.code === 200) {
           if (res.followTimeContent) {
             this.user.profile.followTime = res.followTimeContent

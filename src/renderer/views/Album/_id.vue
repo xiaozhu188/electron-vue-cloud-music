@@ -45,7 +45,7 @@
         </a-list-item-meta>
       </a-list-item>
     </a-list>
-    
+
     <tab-bar :tabs="tabs" @search="searchSongs" />
     <keep-alive>
       <router-view :tracks="tracks" />
@@ -113,7 +113,7 @@ export default {
       this.searchKey = value
     },
     _getSubAlbum () {
-      getSubAlbum({limit: 1000}).then(res => {
+      getSubAlbum({ limit: 1000 }).then(res => {
         this.sublist = res.data
       })
     },
@@ -144,7 +144,7 @@ export default {
       this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
     },
     subscribe (t, album) {
-      this.$store.dispatch('User/subscribeAlbum', {t, album}).then(code => {
+      this.$store.dispatch('User/subscribeAlbum', { t, album }).then(code => {
         if (code === 200) {
           if (t === 1) {
             this.sublist.push(album)

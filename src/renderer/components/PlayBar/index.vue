@@ -209,6 +209,7 @@ export default {
       this.lyricInstance && this.lyricInstance.togglePlay()
     })
     this.$electron.ipcRenderer.on('play-song', (e, data) => {
+      console.log(data.value)
       this.$store.dispatch('play/selectPlay', data.value)
     })
     this.$electron.ipcRenderer.on('prev-play', (e, data) => {
@@ -289,7 +290,7 @@ export default {
     },
     // 根据歌名搜索歌词,后期根据检索的本地记录与下载记录匹配出id进行查询
     getLocalLyric (songName) {
-      this.$db.lyric.findOne({name: songName}, (err, doc) => {
+      this.$db.lyric.findOne({ name: songName }, (err, doc) => {
         if (!err) {
           console.log('localLyric', doc)
           let lyric = ''
@@ -501,7 +502,7 @@ export default {
       if (persent > 1) persent = 1
       this.$store.commit('play/SET_VOLUME', Number(persent))
     },
-    onVirtualBarMove ({pageX, percent}) {
+    onVirtualBarMove ({ pageX, percent }) {
       if (!this.lyricInstance) return
       if (!document.getElementById('progress-lyric')) {
         let div = document.createElement('div')

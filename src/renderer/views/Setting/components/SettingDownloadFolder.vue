@@ -1,7 +1,7 @@
 <template>
   <setting-item label="歌曲下载目录">
     <div title="更改目录">
-      <a-icon type="folder" />
+      <a-icon type="folder" style="margin-right: 5px" />
       <span>{{ defaultDownloadFolder }}</span>
       <a-button size="small" @click="select">更改目录</a-button>
       <a-button size="small" @click="reset">恢复默认</a-button>
@@ -20,20 +20,20 @@ export default {
     SettingItem
   },
   computed: {
-    ...mapGetters('Setting', ['downloadSongsFolders']),
+    ...mapGetters('Setting', [ 'downloadSongsFolders' ]),
     defaultDownloadFolder () {
-      return this.downloadSongsFolders[0]
+      return this.downloadSongsFolders[ 0 ]
     }
   },
   methods: {
-    ...mapMutations('Setting', ['mutateState']),
+    ...mapMutations('Setting', [ 'mutateState' ]),
     select () {
       dialog.showOpenDialog(
         {
-          properties: ['openDirectory']
+          properties: [ 'openDirectory' ]
         },
         filePaths => {
-          if (filePaths) {
+          if ( filePaths && filePaths.length ) {
             this.mutateState({
               downloadSongsFolders: filePaths
             })
@@ -42,7 +42,7 @@ export default {
       )
     },
     reset () {
-      let folder = [`${remote.app.getPath('music')}`]
+      let folder = [ `${remote.app.getPath('music')}` ]
       this.mutateState({
         downloadSongsFolders: folder
       })

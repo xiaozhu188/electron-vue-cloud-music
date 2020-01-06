@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <div class="title">{{event.video.title}}</div>
+    <!--<div class="title">{{event.video.title}}</div>-->
   </div>
 </template>
 

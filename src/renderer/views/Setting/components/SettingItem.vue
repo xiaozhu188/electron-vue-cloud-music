@@ -31,5 +31,8 @@ export default {
   .content {
      flex: 1;
   }
+  /deep/ .ant-btn {
+    margin-left: 10px;
+  }
 }
 </style>

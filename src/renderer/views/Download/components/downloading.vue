@@ -119,6 +119,7 @@ export default {
   /deep/ .ant-btn{
     height: 28px;
     line-height: 26px;
+    margin-right: 4px;
   }
   /deep/ .ant-card-body {
     padding: 0;

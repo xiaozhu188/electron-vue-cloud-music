@@ -176,8 +176,7 @@ import DrapModal from '@/components/DrapModal/index.vue'
 import PlaylistCreate from '@/components/Playlist/Create.vue'
 
 import { ipcRenderer } from 'electron'
-import { getUserLikeSongs, likeMusic, addSongToList } from '@/api/user'
-import { debounce } from '@/utils/dom.js'
+import { addSongToList } from '@/api/user'
 import throttle from 'lodash/throttle'
 
 function sortSongs ({ songs, col, rule = 0 }) {

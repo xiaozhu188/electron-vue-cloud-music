@@ -49,13 +49,14 @@ export default {
       padding: 0 10px;
       cursor: pointer;
       line-height: 22px;
-      border-radius: 4px;
       &.current {
         background: @primary-color;
         color: #fff;
+        border-radius: 4px;
       }
     }
     dt {
+      margin-right: 4px;
       font-weight: 600;
     }
     dd:not(:last-child) {

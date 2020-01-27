@@ -3,7 +3,7 @@
     <div class="mini-bar">
       <template>
         <div class="avatar-wrapper">
-          <img v-lazy="current_song.avatar" width="50" height="50" :key="current_song.id" v-if="current_song.avatar">
+          <img v-lazy="current_song.avatar" width="100%" :key="current_song.id" v-if="current_song.avatar">
           <z-icon type="yinle" style="fontSize:30px" v-else />
         </div>
         <div class="song-info no-drag">
@@ -141,7 +141,6 @@ export default {
 
 <style lang="less" scoped>
 .mini {
-  height: 100vh;
   background: #fff;
   .mini-bar {
     display: flex;
@@ -151,12 +150,13 @@ export default {
     -webkit-app-region: drag;
     .avatar-wrapper {
       width: 50px;
-      height: 100%;
+      height: 50px;
       flex: 0 0 50px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: #f7f7f7;
+      overflow: hidden;
     }
     .item {
       padding: 0 5px;

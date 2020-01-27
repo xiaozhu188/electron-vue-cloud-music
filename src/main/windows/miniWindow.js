@@ -6,7 +6,7 @@ const createMiniWindow = function (BrowserWindow) {
     height: 50,
     width: 320,
     minWidth: 320,
-    show: true,
+    show: false,
     frame: false,
     fullscreenable: false,
     skipTaskbar: true,
@@ -24,6 +24,10 @@ const createMiniWindow = function (BrowserWindow) {
   let miniWindow = new BrowserWindow(obj)
 
   miniWindow.loadURL(miniWinURL)
+
+  miniWindow.once('ready-to-show', () => {
+    miniWindow.show()
+  })
 
   miniWindow.on('closed', () => {
     miniWindow = null

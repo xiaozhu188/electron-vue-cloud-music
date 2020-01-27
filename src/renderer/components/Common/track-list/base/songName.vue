@@ -5,7 +5,6 @@
     <router-link
       :to="`/mv/${row.mvid}`"
       title="查看MV"
-      style="fontSize:15px;color:#c62f2f"
       v-if="row.mvid"
     >
       <a-icon type="youtube" />
@@ -28,8 +27,8 @@ export default {
   },
   methods: {
     getTitle (row, col) {
-      let title = row[col.key]
-      if (row.alia && row.alia.length) {
+      let title = row[ col.key ]
+      if ( row.alia && row.alia.length ) {
         title += ` (${row.alia.join(',')})`
       }
       return title
@@ -38,10 +37,16 @@ export default {
 }
 </script>
 
-<style scoped>
-.alia {
-  margin-left: 3px;
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 12px;
-}
+<style lang="less" scoped>
+  .songname a {
+    margin-left: 3px;
+    font-size: 15px;
+    color: @primary-color;
+  }
+
+  .alia {
+    margin-left: 3px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+  }
 </style>

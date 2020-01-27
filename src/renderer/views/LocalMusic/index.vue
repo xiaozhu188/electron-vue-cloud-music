@@ -133,6 +133,9 @@ export default {
   /deep/ .ant-card-body {
     padding: 0!important;
   }
+  .ant-btn {
+    margin-right: 4px;
+  }
 }
 .bodyStyle .ant-modal-body {
   padding: 12px 24px;

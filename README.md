@@ -3,7 +3,7 @@
 > Electron+Vue+Ant Design Vue仿网易云音乐windows客户端实战
 
 <p align="center">
-  <img src="https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/build/icons/256x256.png" width="120">
+  <img src="https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/docs/images/logo.png" width="120">
 </p>
 
 <p align="center">

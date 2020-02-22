@@ -1,6 +1,7 @@
+import { LOAD_URL } from './../config'
 const miniWinURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080/#mini`
-  : `file://${__dirname}/index.html#mini`
+  : `${LOAD_URL}#mini`
 const createMiniWindow = function (BrowserWindow) {
   let obj = {
     height: 50,
@@ -26,7 +27,7 @@ const createMiniWindow = function (BrowserWindow) {
   miniWindow.loadURL(miniWinURL)
 
   miniWindow.once('ready-to-show', () => {
-    miniWindow.show()
+    // miniWindow.show()
   })
 
   miniWindow.on('closed', () => {

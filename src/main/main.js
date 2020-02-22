@@ -5,7 +5,9 @@ import initIpcEvent from './modules/ipcEvent'
 import createTray from './modules/tray'
 import createTrayWindow from './windows/trayWindow'
 import createLyricWindow from './windows/desktopLyricWindow'
+import createMiniWindow from './windows/miniWindow'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import { ACHEME, LOAD_URL } from './config'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 if ( process.env.NODE_ENV === 'production' ) {
@@ -15,7 +17,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 let mainWindow = null
 
 protocol.registerSchemesAsPrivileged([
-  { scheme: 'app', privileges: { secure: true, standard: true } }
+  { scheme: ACHEME, privileges: { secure: true, standard: true } }
 ])
 const previewIcon = process.env.NODE_ENV === 'development' ? 'public/images/tray.ico' : `${global.__images}/tray.ico`
 const prevIcon = process.env.NODE_ENV === 'development' ? 'public/images/prev.png' : `${global.__images}/prev.png`
@@ -79,8 +81,8 @@ function createWindow () {
   if ( process.env.WEBPACK_DEV_SERVER_URL ) {
     mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
   } else {
-    createProtocol('app')
-    mainWindow.loadURL('app://./index.html')
+    createProtocol(ACHEME)
+    mainWindow.loadURL(LOAD_URL)
   }
 
   mainWindow.on('close', (event) => {
@@ -98,6 +100,7 @@ function createWindow () {
     setThumbarButtons(mainWindow, false)
     mainWindow.setThumbnailClip({ x: 0, y: 0, width: 180, height: 50 })
     global.lyricWindow = createLyricWindow(BrowserWindow)
+    global.miniWindow = createMiniWindow(BrowserWindow)
   })
 
   if ( isDevelopment ) {

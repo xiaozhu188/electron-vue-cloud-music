@@ -1,6 +1,7 @@
+import { LOAD_URL } from './../config'
 const miniWinURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080/#update`
-  : `file://${__dirname}/index.html#update`
+  : `${LOAD_URL}#update`
 const previewIcon = process.env.NODE_ENV === 'development' ? 'static/images/tray.ico' : `${global.__static}/images/tray.ico`
 let updateWindow
 const createUpdateWindow = function (BrowserWindow) {

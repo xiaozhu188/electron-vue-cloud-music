@@ -1,6 +1,7 @@
+import { LOAD_URL } from './../config'
 const trayWinURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080/#tray`
-  : `file://${__dirname}/index.html#tray`
+  : `${LOAD_URL}#tray`
 let trayWindow = null
 const createTrayWindow = function (BrowserWindow, bounds) {
   if (trayWindow) return

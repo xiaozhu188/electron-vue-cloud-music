@@ -1,7 +1,8 @@
 const electron = require('electron')
+import { LOAD_URL } from './../config'
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080/#desktop-lyric`
-  : `file://${__dirname}/index.html#desktop-lyric`
+  : `${LOAD_URL}#desktop-lyric`
 
 const createLyricWindow = function (BrowserWindow) {
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize

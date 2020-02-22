@@ -1,12 +1,12 @@
 {
   "name": "electron-vue-cloud-music",
-  "version": "0.2.5",
+  "version": "1.1.0",
   "description": "electron-网易云音乐",
   "private": true,
   "scripts": {
-    "electron:build": "vue-cli-service electron:build",
+    "build": "vue-cli-service electron:build",
     "release": "vue-cli-service electron:build",
-    "electron:serve": "vue-cli-service electron:serve",
+    "start": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "patch": "npm version patch && git push origin master && git push origin --tags",

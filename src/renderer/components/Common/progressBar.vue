@@ -45,16 +45,12 @@ export default {
     }
   },
   destroy () {
-    window.onresize = null
+    window.removeEventListener('resize', debounce(this.handleResize, 50))
   },
   mounted () {
     this.changeProgressbarWidth(this.percent)
     let _this = this
-    window.onresize = debounce(function () {
-      console.log(_this.bufferedPercent)
-      _this.changeBufferedWidth(_this.bufferedPercent)
-    }, 500)
-    // window.addEventListener('resize', )
+    window.addEventListener('resize', debounce(this.handleResize, 50))
     const virtualBar = this.$refs.virtualBar
     virtualBar.addEventListener('mousemove', debounce(function (e) {
       const progressBar = _this.$refs.progressBar
@@ -85,6 +81,10 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.changeBufferedWidth(this.bufferedPercent)
+      this.changeProgressbarWidth(this.percent)
+    },
     onMouseDown (e) {
       e.preventDefault()
       this.mouse.startX = e.pageX

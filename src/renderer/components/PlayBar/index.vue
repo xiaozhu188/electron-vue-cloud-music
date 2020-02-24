@@ -244,7 +244,6 @@ export default {
   },
   methods: {
     async handleSongChange (newSong, oldSong) {
-      // console.log('handleSongChange', newSong, oldSong)
       if (!newSong.id || (oldSong && (newSong.id === oldSong.id))) return
       this.isSongReady = false
       if (newSong.folder) { // 如果是本地歌曲
@@ -256,6 +255,7 @@ export default {
         }, 20)
         this.getLocalLyric(newSong.name)
       } else {
+        this.$refs.audio.pause()
         this.getOnlineSong(newSong).then(songUrl => {
           if (songUrl) {
             this.$store.commit('play/SET_SOURCE', songUrl)

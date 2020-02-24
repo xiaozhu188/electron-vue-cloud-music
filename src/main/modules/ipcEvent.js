@@ -161,8 +161,8 @@ export default function () {
 
   ipcMain.on('ondragstart', (event, e) => {
     event.sender.startDrag({
-      file: 'static/images/play.png',
-      icon: 'static/images/play.png'
+      file: 'images/play.png',
+      icon: 'images/play.png'
     })
   })
 
@@ -207,9 +207,11 @@ export default function () {
     updateWindow.close()
     updateWindow = null
   })
+
   ipcMain.on('toggle-updatewin', (event, data) => {
     if (!updateWindow) {
       updateWindow = createUpdateWindow(BrowserWindow)
+      updateWindow.show()
     } else {
       if (updateWindow.isVisible()) {
         updateWindow.hide()

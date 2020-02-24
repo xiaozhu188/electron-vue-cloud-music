@@ -4,7 +4,7 @@ export function debounce (func, wait) {
     let args = arguments
     let context = this
     timer && clearTimeout(timer)
-    timer = setTimeout(() => {
+    timer = setTimeout(function () {
       func.apply(context, args)
     }, wait)
   }

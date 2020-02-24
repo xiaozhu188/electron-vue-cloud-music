@@ -112,7 +112,6 @@ export default {
   }
   .basic-layout-footer {
     border-top: 1px solid #ddd;
-    /* cursor: url('/static/images/gunlun.png'),default; */
   }
   .basic-layout-header {
     background: @primary-color;

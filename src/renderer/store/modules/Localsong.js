@@ -6,7 +6,7 @@ import { normalSong } from '../../utils/song'
 const fs = require('fs')
 const path = require('path')
 const mm = require('music-metadata')
-const avatarIcon = process.env.NODE_ENV === 'development' ? 'static/images/default_album.jpg' : `${global.__static}/images/default_album.jpg`
+const avatarIcon = 'images/default_album.jpg'
 
 function isSongInArray (song, arr) {
   return arr.findIndex(item => item.id == song.id) >= 0
@@ -19,7 +19,6 @@ export default {
   },
   getters: {
     localSongs: state => state.localSongs
-
   },
   mutations: {
     clear (state) {

@@ -178,7 +178,7 @@ const actions = {
       commit('SET_CURRENT_PLAY_LIST', tracks)
     }
     commit('SET_CURRENT_INDEX', index)
-    commit('SET_PLAY_STATUS', true)
+    // commit('SET_PLAY_STATUS', true)
   },
   addHistorySong ({ commit }, song) {
     let songs = ls.get(PLAY_HISTORY_KEY, [])

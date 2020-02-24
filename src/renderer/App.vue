@@ -34,8 +34,6 @@ export default {
         icon: 'public/images/icon.ico'
       })
       this.$store.commit('App/SET_ONLINE', status)
-    },
-    onTap () {
     }
   },
   created () {

@@ -53,7 +53,7 @@ function normalLocalSong ({ songname, picture, metadata, filePath, size }) {
   return {
     id: uuid(),
     name: songname,
-    avatar: picture || 'static/images/default_album.jpg',
+    avatar: picture || 'images/default_album.jpg',
     album: {
       name: metadata.common.album || '未知专辑'
     },

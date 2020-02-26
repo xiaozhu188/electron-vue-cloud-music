@@ -30,6 +30,7 @@
     "nedb": "^1.8.0",
     "request-progress": "^3.0.0",
     "semver": "^6.3.0",
+    "showdown": "^1.9.1",
     "store": "^2.0.12",
     "uuid": "^3.3.2",
     "vue": "^2.6.10",

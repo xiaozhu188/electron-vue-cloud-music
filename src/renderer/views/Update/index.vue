@@ -1,12 +1,13 @@
 <template>
   <div class="update-win">
     <template v-if="!showDownload">
-      <div class="title">发现新版本 <small v-if="remoteVersionFromApp">v{{ remoteVersionFromApp }}</small></div>
+      <div class="title"> 发现新版本 <small v-if="remoteVersionFromApp">v{{ remoteVersionFromApp }}</small>
+      </div>
       <div class="content">
-        <ul class="fixed">
+        <div v-if="updateContent" v-html="updateContent"></div>
+        <ul class="fixed" v-else>
           <li>1.提升了客户端的启动速度</li>
-          <li>2.新增下载管理功能</li>
-          <li>3.提升了客户端稳定性</li>
+          <li>2.解决了已知的BUG</li>
         </ul>
         <div class="verson">
           <span>当前版本: v{{ localVersion }}</span>
@@ -54,6 +55,8 @@ const fs = require('fs')
 const path = require('path')
 const request = require('request')
 const progress = require('request-progress')
+const showdown = require('showdown')
+
 const getDownloadInfo = function (version) {
   const BASE_URL = 'https://github.com/xiaozhu188/electron-vue-cloud-music/releases/download'
   if ( process.platform === 'win32' ) {
@@ -84,6 +87,9 @@ export default {
       is_abort: false,
       remoteVersionFromApp: this.$electron.remote.getGlobal('remoteVersion')
     }
+  },
+  computed: {
+    ...mapState('Update', [ 'updateContent' ])
   },
   methods: {
     hide () {
@@ -144,7 +150,7 @@ export default {
       let networkNotification = new Notification('网易云音乐', {
         title: '网易云音乐',
         body: '下载失败:' + err,
-        icon: 'static/images/icon.ico'
+        icon: 'images/icon.ico'
       })
     },
     handleProgress (state) {
@@ -183,6 +189,9 @@ export default {
     position: absolute;
     left: 5px;
     top: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     .close {
       position: absolute;
@@ -234,9 +243,9 @@ export default {
     }
 
     .content {
-      width: 60%;
+      width: 70%;
       margin: auto;
-
+      overflow: auto;
       .verson {
         display: flex;
         justify-content: space-between;

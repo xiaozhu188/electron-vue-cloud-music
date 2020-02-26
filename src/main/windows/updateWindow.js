@@ -18,14 +18,11 @@ const createUpdateWindow = function (BrowserWindow) {
     resizable: process.env.NODE_ENV === 'development',
     transparent: process.platform !== 'linux',
     alwaysOnTop: true,
-    // parent: global.mainWindow,
-    // modal: true,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       webSecurity: false,
       navigateOnDragDrop: true
-      // devTools: false
     }
   }
   updateWindow = new BrowserWindow(obj)

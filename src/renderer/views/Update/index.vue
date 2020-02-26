@@ -4,7 +4,7 @@
       <div class="title"> 发现新版本 <small v-if="remoteVersionFromApp">v{{ remoteVersionFromApp }}</small>
       </div>
       <div class="content">
-        <div v-if="updateContent" v-html="updateContent"></div>
+        <div class="fixed" v-if="updateContent" v-html="updateContent"></div>
         <ul class="fixed" v-else>
           <li>1.提升了客户端的启动速度</li>
           <li>2.解决了已知的BUG</li>
@@ -23,7 +23,8 @@
       </div>
     </template>
     <div class="download-wrapper" v-else>
-      <div class="download-title">正在下载...</div>
+      <div class="download-title" v-if="is_paused">暂停中</div>
+      <div class="download-title" v-else>正在下载...</div>
       <div class="progress-bar">
         <a-progress size="small" :percent="state.percent" />
       </div>
@@ -244,7 +245,7 @@ export default {
 
     .content {
       width: 70%;
-      margin: auto;
+      margin: 0 auto;
       overflow: auto;
       .verson {
         display: flex;

@@ -43,14 +43,8 @@ export default function () {
 
   ipcMain.on('toggle-mini', (event, params) => {
     if (params.value) {
-      if (!global.miniWindow) {
-        global.mainWindow.setThumbarButtons([])
-        global.miniWindow = createMiniWindow(BrowserWindow)
-        global.storeState = params.storeState
-      }
-      global.mainWindow.hide()
       global.miniWindow.show()
-      global.miniWindow.focus()
+      global.mainWindow.hide()
     } else {
       global.miniWindow.hide()
       global.mainWindow.show()

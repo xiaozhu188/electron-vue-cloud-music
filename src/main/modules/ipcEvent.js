@@ -208,7 +208,7 @@ export default function () {
       updateWindow.show()
     } else {
       if (updateWindow.isVisible()) {
-        updateWindow.hide()
+        updateWindow.minimize()
       } else {
         updateWindow.show()
       }

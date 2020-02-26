@@ -97,8 +97,10 @@ function createWindow () {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
     // 设置任务栏操作和缩略图
-    setThumbarButtons(mainWindow, false)
-    mainWindow.setThumbnailClip({ x: 0, y: 0, width: 180, height: 50 })
+    if ( process.platform === 'win32' ) {
+      setThumbarButtons(mainWindow, false)
+      mainWindow.setThumbnailClip({ x: 0, y: 0, width: 180, height: 50 })
+    }
     global.lyricWindow = createLyricWindow(BrowserWindow)
     global.miniWindow = createMiniWindow(BrowserWindow)
   })
@@ -144,8 +146,10 @@ app.on('ready', () => {
   // protocalHandler()
   ipcMain.on('thumbar-buttons', (e, data) => {
     if ( global.mainWindow === null || mainWindow === null ) return
-    let { playing } = data
-    setThumbarButtons(mainWindow, playing)
+    if ( process.platform === 'win32' ) {
+      let { playing } = data
+      setThumbarButtons(mainWindow, playing)
+    }
   })
 })
 

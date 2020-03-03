@@ -7,12 +7,21 @@
 </p>
 
 <p align="center">
-  <a href="https://www.travis-ci.org">
-    <img src="https://www.travis-ci.org/xiaozhu188/electron-vue-cloud-music.svg?branch=master" alt="">
+  <a href="https://github.com/feross/standard">
+    <img src="https://img.shields.io/badge/code%20style-standard-green.svg?style=flat-square" alt="standard code">
   </a>
   <a href="https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/LICENSE">
-      <img src="https://img.shields.io/github/license/xiaozhu188/electron-vue-cloud-music.svg" alt="">
-    </a>
+    <img src="https://img.shields.io/github/license/xiaozhu188/electron-vue-cloud-music.svg" alt="license">
+  </a>
+  <a href="https://github.com/xiaozhu188/electron-vue-cloud-music/releases">
+    <img src="https://img.shields.io/github/v/release/xiaozhu188/electron-vue-cloud-music.svg?style=flat-square" alt="release">
+  </a>
+  <a href="https://github.com/xiaozhu188/electron-vue-cloud-music/releases/latest">
+    <img src="https://img.shields.io/github/downloads/xiaozhu188/electron-vue-cloud-music/total.svg?style=flat-square" alt="">
+  </a>
+  <a href="https://travis-ci.org/xiaozhu188/electron-vue-cloud-music/builds">
+    <img src="https://www.travis-ci.org/xiaozhu188/electron-vue-cloud-music.svg?branch=master" alt="travis">
+  </a>
 </p>
 
 ## 特点
@@ -35,7 +44,7 @@
 
 
 ## 下载 && 运行
-点击[下载应用](https://github.com/xiaozhu188/electron-vue-cloud-music/releases)。
+点击[下载应用](https://github.com/xiaozhu188/electron-vue-cloud-music/releases/latest)。
 
 
 > macOS用户请下载dmg文件，windows用户请下载exe文件，linux用户请下载AppImage文件。

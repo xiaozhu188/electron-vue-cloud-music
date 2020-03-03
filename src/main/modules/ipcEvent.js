@@ -102,7 +102,7 @@ export default function () {
       onProgress (progress) {
         global.mainWindow.webContents.send('download-onProgress', {
           id: args.id,
-          progress: progress * 100,
+          progress: progress.percent * 100,
           state: downloads[args.id].getState()
         })
       }

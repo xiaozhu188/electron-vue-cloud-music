@@ -86,9 +86,7 @@ export default {
       buffered: 0,
       playComponent: 'current-play-table',
       autoplay: false,
-      // isMuted: false,
       isSongReady: false,
-      isFirstPlay: false,
       waiting: false
     }
   },
@@ -115,12 +113,10 @@ export default {
       'lyric',
       'source',
       'volume',
-      'isMuted'
-    ]),
-    ...mapGetters('App', ['isOnliline']),
-    ...mapGetters('play', [
+      'isMuted',
       'showDesktoplyric'
     ]),
+    ...mapGetters('App', ['isOnliline']),
     playIcon () {
       return this.playing ? 'pause-circle' : 'play-circle'
     },
@@ -248,22 +244,17 @@ export default {
       this.isSongReady = false
       if (newSong.folder) { // 如果是本地歌曲
         this.$store.commit('play/SET_SOURCE', newSong.url)
-        this.$refs.audio.src = ''
         this.$refs.audio.src = newSong.url
-        setTimeout(() => {
-          this.$refs.audio.play()
-        }, 20)
+        this.$refs.audio.play()
         this.getLocalLyric(newSong.name)
       } else {
+        this.waiting = true
         this.$refs.audio.pause()
         this.getOnlineSong(newSong).then(songUrl => {
           if (songUrl) {
             this.$store.commit('play/SET_SOURCE', songUrl)
-            this.$refs.audio.src = ''
             this.$refs.audio.src = songUrl
-            setTimeout(() => {
-              this.$refs.audio.play()
-            }, 20)
+            this.$refs.audio.play()
             this.getOnlineLyric(newSong.id)
           } else {
             this.$message.error('暂无资源')
@@ -275,6 +266,8 @@ export default {
         }).catch(error => {
           console.log(`获取歌曲播放链接失败:${error}`)
           this.isSongReady = true
+        }).finally(() => {
+          this.waiting = true
         })
       }
     },
@@ -366,14 +359,17 @@ export default {
     },
     onPlay () {
       this.isSongReady = true
+      this.$store.commit('play/SET_PLAY_STATUS', true)
+      // 设置底部缩略图标题
       let artistStr = this.current_song.artist.length ? this.current_song.artist.map(item => item.name).join(',') : ''
       document.title = `${this.current_song.name} - ${artistStr}`
-      this.$store.commit('play/SET_PLAY_STATUS', true)
-
+      // 歌词位置同步
       if (this.lyricInstance) {
         this.lyricInstance.seek(this.currentTime * 1000)
       }
+      // 添加本地播放历史
       this.$store.dispatch('play/addHistorySong', this.current_song)
+      // 如果设置静音将音频音量设置为0
       const audio = this.$refs.audio
       this.$nextTick(() => {
         if (this.isMuted) {
@@ -382,9 +378,6 @@ export default {
           audio.volume = this.volume
         }
       })
-    },
-    onReady () {
-      this.isSongReady = true
     },
     onPause () {
       this.$store.commit('play/SET_PLAY_STATUS', false)
@@ -459,9 +452,9 @@ export default {
         current_song_index = 0
       }
       this.$store.commit('play/SET_CURRENT_INDEX', current_song_index)
-      if (!this.playing) {
-        this.$store.commit('play/SET_PLAY_STATUS', true)
-      }
+      // if (!this.playing) {
+      //   this.$store.commit('play/SET_PLAY_STATUS', true)
+      // }
     },
     backward () {
       if (!this.isSongReady) {
@@ -476,9 +469,9 @@ export default {
         if (current_song_index < 0) current_song_index = list_len - 1
       }
       this.$store.commit('play/SET_CURRENT_INDEX', current_song_index)
-      if (!this.playing) {
-        this.$store.commit('play/SET_PLAY_STATUS', true)
-      }
+      // if (!this.playing) {
+      //   this.$store.commit('play/SET_PLAY_STATUS', true)
+      // }
     },
     togglePlay () {
       if (!this.isSongReady) {
@@ -646,7 +639,6 @@ export default {
       cursor: pointer;
       .count {
         font-size: 11px;
-        margin-left: -2px;
       }
     }
   }

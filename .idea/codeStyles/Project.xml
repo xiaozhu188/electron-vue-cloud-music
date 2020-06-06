@@ -8,7 +8,7 @@
       <option name="USE_SEMICOLON_AFTER_STATEMENT" value="false" />
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
       <option name="SPACE_BEFORE_GENERATOR_MULT" value="true" />
-      <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACKETS" value="true" />
+      <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
       <option name="USE_DOUBLE_QUOTES" value="false" />
       <option name="FORCE_QUOTE_STYlE" value="true" />
       <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
@@ -36,11 +36,6 @@
       <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
       <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
       <option name="ALIGN_MULTILINE_FOR" value="false" />
-      <option name="SPACE_WITHIN_IF_PARENTHESES" value="true" />
-      <option name="SPACE_WITHIN_WHILE_PARENTHESES" value="true" />
-      <option name="SPACE_WITHIN_FOR_PARENTHESES" value="true" />
-      <option name="SPACE_WITHIN_CATCH_PARENTHESES" value="true" />
-      <option name="SPACE_WITHIN_SWITCH_PARENTHESES" value="true" />
       <option name="SPACE_WITHIN_BRACKETS" value="true" />
       <option name="SPACE_BEFORE_METHOD_PARENTHESES" value="true" />
       <option name="IF_BRACE_FORCE" value="1" />

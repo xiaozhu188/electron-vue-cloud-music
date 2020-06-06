@@ -53,11 +53,11 @@
           <img slot="avatar" width="200" height="200" v-lazy="`${playlist.coverImgUrl}?param=200y200`" :key="playlist.id" />
         </a-list-item-meta>
         <ul class="action">
-          <li>
+          <li class="action-item">
             <div>歌曲数</div>
             <strong>{{playlist.trackCount}}</strong>
           </li>
-          <li>
+          <li class="action-item">
             <div>播放数</div>
             <strong>{{playlist.playCount}}</strong>
           </li>
@@ -213,8 +213,8 @@ export default {
       display: inline-block;
       margin-right: 10px;
     }
-    button {
-      font-size: 13px;
+    .ant-btn {
+      font-size: 12px;
     }
   }
   .tags {
@@ -230,7 +230,8 @@ export default {
     display: flex;
     text-align: right;
     font-size: 12px;
-    li {
+    height: fit-content;
+    .action-item {
       padding: 0 10px;
       margin-top: 12px;
       &:not(:last-child) {

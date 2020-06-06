@@ -6,7 +6,7 @@
           <div v-for="(text, index) in row.lyrics.showAll ? row.lyrics.lines : row.lyrics.lines.slice(0, 4)" :key="index" class="line">{{ text }}</div>
         </div>
         <div class="actions">
-          <a-button size="small" @click.stop="toggleSpread(row.lyrics)" @dblclick.stop>{{ row.lyrics.showAll ? '收起歌词' : '展开歌词' }}</a-button>
+          <a-button size="small" @click.stop="toggleSpread(row.lyrics)" @dblclick.stop style="margin-right: 3px">{{ row.lyrics.showAll ? '收起歌词' : '展开歌词' }}</a-button>
           <a-button size="small" @click="copyLyric(row.lyrics.lines.join(','))">复制歌词</a-button>
         </div>
       </div>
@@ -35,7 +35,7 @@ export default {
           return {
             ...normalSong(song),
             lyrics: {
-              lines: song.lyrics.txt.split('\n') || [],
+              lines: (song.lyrics && song.lyrics.txt.split('\n')) || [],
               showAll: false
             }
           }
@@ -81,6 +81,9 @@ export default {
   }
   .actions {
     margin-top: 20px;
+  }
+  .lyrics {
+    padding: 6px;
   }
 }
 </style>

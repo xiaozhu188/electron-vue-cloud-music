@@ -1,6 +1,6 @@
 {
   "name": "electron-vue-cloud-music",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "electron-网易云音乐",
   "private": true,
   "scripts": {

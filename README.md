@@ -25,6 +25,7 @@
 </p>
 
 ## 特点
+* 视频播放器
 * 拖拽播放
 * 桌面歌词
 * mini模式
@@ -51,6 +52,8 @@
 > 项目当前依赖[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi),感谢NeteaseCloudMusicApi的作者。
 
 ## 部分界面预览
+![video](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/localplayer.png)
+
 ![mini](https://user-images.githubusercontent.com/20502995/64253818-b014d780-cf50-11e9-8cea-1cccf98fc712.gif)
 
 ![mini2](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/mini2.png)

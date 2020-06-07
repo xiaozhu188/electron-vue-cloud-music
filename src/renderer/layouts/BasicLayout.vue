@@ -1,5 +1,5 @@
 <template>
-  <a-locale-provider :locale="locale">
+  <a-config-provider :locale="locale">
     <a-layout class="basic-layout">
       <a-layout-header class="basic-layout-header">
         <basic-header/>
@@ -22,7 +22,7 @@
       <login />
       <player />
     </a-layout>
-  </a-locale-provider>
+  </a-config-provider>
 </template>
 
 <script>

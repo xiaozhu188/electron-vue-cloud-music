@@ -22,6 +22,7 @@ import {
   Layout,
   List,
   LocaleProvider,
+  ConfigProvider,
   message,
   Menu,
   Modal,
@@ -47,8 +48,7 @@ import {
   // version,
   Drawer,
   Skeleton,
-  Comment,
-  ConfigProvider
+  Comment
 } from 'ant-design-vue'
 import Toast from './../components/Toast/toast'
 

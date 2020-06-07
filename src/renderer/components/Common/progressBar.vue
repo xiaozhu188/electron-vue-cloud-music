@@ -36,7 +36,7 @@ export default {
       type: String,
       default: 'default',
       validator (value) {
-        return [ 'default', 'small' ].includes(value)
+        return ['default', 'small'].includes(value)
       }
     },
     waiting: {
@@ -53,6 +53,7 @@ export default {
     window.addEventListener('resize', debounce(this.handleResize, 50))
     const virtualBar = this.$refs.virtualBar
     virtualBar.addEventListener('mousemove', debounce(function (e) {
+      e.stopPropagation()
       const progressBar = _this.$refs.progressBar
       let pageX = e.pageX
       let diff = pageX - progressBar.getBoundingClientRect().left
@@ -72,7 +73,7 @@ export default {
   },
   watch: {
     percent (newPercent) {
-      if ( newPercent >= 0 && !this.mouse.isDown ) {
+      if (newPercent >= 0 && !this.mouse.isDown) {
         this.changeProgressbarWidth(newPercent)
       }
     },
@@ -92,16 +93,16 @@ export default {
       this.mouse.left = this.$refs.progress.clientWidth
       document.onmousemove = e => {
         e.preventDefault()
-        if ( !this.mouse.isDown ) return
+        if (!this.mouse.isDown) return
         const progressBar = this.$refs.progressBar
         const progress = this.$refs.progress
         const progressBarWidth = progressBar.getBoundingClientRect().width
         this.mouse.moveX = e.pageX
         let diffX = this.mouse.moveX - this.mouse.startX + this.mouse.left
-        if ( diffX < 0 ) {
+        if (diffX < 0) {
           diffX = 0
         }
-        if ( diffX > progressBarWidth ) {
+        if (diffX > progressBarWidth) {
           diffX = progressBarWidth
         }
         this.progressOffsetWidth = diffX
@@ -109,7 +110,7 @@ export default {
         this.$emit('percentChanging', this.calcPercent())
       }
       document.onmouseup = e => {
-        if ( !this.mouse.isDown ) return
+        if (!this.mouse.isDown) return
         this.mouse.isDown = false
         document.onmousemove = null
         this.$emit('percentChanged', this.calcPercent())

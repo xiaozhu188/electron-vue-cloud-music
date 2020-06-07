@@ -18,9 +18,9 @@
           <a-icon type="youtube" class="icon-mv" v-if="song.mvid && showMore"/>
         </div>
         <div v-if="!showMore">
-          <router-link :to="`/mv/${song.mvid}`" title="查看MV" v-if="song.mvid">
+          <span @click.stop="play(song.mvid)" title="查看MV" style="margin-right: 3px;" v-if="song.mvid">
             <a-icon type="youtube" class="icon-mv" />
-          </router-link>
+          </span>
           <artists :artists="song.artist" @click.native.stop />
         </div>
       </div>
@@ -36,10 +36,12 @@
 </template>
 
 <script>
+import videoPlayer from '@/mixins/videoPlayer'
 import Artists from '@/components/Common/artists'
 
 export default {
   name: 'song-item',
+  mixins: [videoPlayer],
   props: {
     bordered: { type: Boolean, default: false },
     showMore: { type: Boolean, default: false },

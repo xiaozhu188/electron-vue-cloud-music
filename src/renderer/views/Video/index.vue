@@ -32,18 +32,12 @@
       </div>
 
       <ul class="videos" v-if="videos.length">
-        <li
+        <video-item
           v-for="(video, index) in videos"
-          class="video"
+          :video="video"
           :key="`${video.id}_${index}`"
-        >
-          <router-link :to="`/video/${video.id}`">
-            <div class="media-wrap">
-              <img v-lazy="video.avatar" class="avatar">
-            </div>
-            <div class="title">{{video.name}}</div>
-          </router-link>
-        </li>
+          :showCreator="false"
+        />
       </ul>
       <p style="text-align:center;marginTop:15px" v-else>暂无推荐视频</p>
       <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore"

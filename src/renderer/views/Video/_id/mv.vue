@@ -499,7 +499,7 @@ export default {
   .brs-list {
     position: absolute;
     right: 0;
-    bottom: 0;
+    bottom: 50px;
     width: 120px;
     z-index: 99;
     color: #fff;

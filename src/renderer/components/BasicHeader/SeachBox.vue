@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-popover
-      trigger="focus"
+      trigger="click"
       placement="bottomLeft"
       overlayClassName="search-wrapper"
       :overlayStyle="overlayStyle"
@@ -9,6 +9,7 @@
     >
       <a-input-search
         placeholder="搜索音乐、视频、歌词、电台..."
+        allow-clear
         v-model="keyword"
         class="header-search"
         @search="onSearch"

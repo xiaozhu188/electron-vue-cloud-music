@@ -80,6 +80,13 @@ const router = new Router({
       component: function (resolve) {
         require(['@/views/Update/index.vue'], resolve)
       }
+    },
+    {
+      name: 'localPlayer',
+      path: '/local-player',
+      component: function (resolve) {
+        require(['@/views/Video/player.vue'], resolve)
+      }
     }
   ]
 })

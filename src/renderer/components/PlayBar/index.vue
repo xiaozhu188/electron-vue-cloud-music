@@ -20,7 +20,7 @@
     </div>
     <div class="bar3">
       <z-icon :type="mutedIcon" @click.native="onMuted" title="静音" style="cursor: pointer;" />
-      <progress-bar :percent="volume" size="small" @percentChanged="onvolumeChanged" class="bar-volume"/>
+      <progress-bar :percent="0.5" size="small" @percentChanged="onvolumeChanged" class="bar-volume"/>
       <audio
         crossOrigin="anonymous"
         :id="source"

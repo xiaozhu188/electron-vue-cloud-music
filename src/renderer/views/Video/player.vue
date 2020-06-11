@@ -243,8 +243,8 @@ export default {
       },
       playing: false,
       urls: [],
-      subVideoList: [], // 收藏的视频列表,
-      subscribing: false, // 收藏加载中,
+      subVideoList: [], // 收藏的视频列表
+      subscribing: false, // 收藏加载中
       mvURL: '',
       isFixed: false,
       isShowMore: false,
@@ -521,6 +521,9 @@ export default {
           this.videoData.playCount = res.data.playTime
           this.videoData.videoGroup = res.data.videoGroup
           this.videoData.publishTime = res.data.publishTime
+          this.$nextTick(() => {
+            this.handleResize()
+          })
         })
         getVideoUrl(id).then(res => {
           this.videoData.urls = res.urls.map(item => {
@@ -558,6 +561,9 @@ export default {
           this.mvURL = urls[ urls.length - 1 ]
           // console.log(urls)
           this.isLoading = false
+          this.$nextTick(() => {
+            this.handleResize()
+          })
         })
       }
       win && win.show()
@@ -840,11 +846,10 @@ export default {
             .artist {
               font-size: 14px;
               color: #999;
-              margin-left: 6px;
             }
             .artist,
             .artist a {
-              color: #eee;
+              color: #9e9e9e;
             }
           }
         }

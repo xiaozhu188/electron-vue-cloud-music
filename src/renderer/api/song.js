@@ -9,10 +9,10 @@ export function getSongUrl (id) {
 }
 
 // 歌曲详情
-export function getSongDetail (id) {
+export function getSongDetail (ids) {
   return request.get('/song/detail', {
     params: {
-      id
+      ids
     }
   })
 }

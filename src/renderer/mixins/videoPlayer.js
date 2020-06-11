@@ -1,6 +1,7 @@
 import { LOAD_URL } from '../../main/config'
 
 const { BrowserWindow } = require('electron').remote
+const previewIcon = process.env.NODE_ENV === 'development' ? 'public/images/tray.ico' : `${global.__images}/tray.ico`
 export default {
   created () {
     this.videoType = 'mv'
@@ -25,6 +26,8 @@ export default {
           frame: false,
           fullscreen: false,
           darkTheme: true,
+          icon: previewIcon,
+          backgroundColor: '#000000',
           webPreferences: {
             webSecurity: false,
             nodeIntegration: true,

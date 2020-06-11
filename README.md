@@ -52,25 +52,20 @@
 > 项目当前依赖[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi),感谢NeteaseCloudMusicApi的作者。
 
 ## 部分界面预览
-![video](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/localplayer.png)
+
+![video](https://image-static.segmentfault.com/413/702/4137029073-5ee22a3970f74)
 
 ![mini](https://user-images.githubusercontent.com/20502995/64253818-b014d780-cf50-11e9-8cea-1cccf98fc712.gif)
 
-![mini2](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/mini2.png)
+![mini2](https://image-static.segmentfault.com/380/918/3809182577-5ee22c36dfbca)
 
 ![home](https://user-images.githubusercontent.com/20502995/64253937-ef432880-cf50-11e9-985a-91b486c44807.png)
 
-![view1](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/view1.gif)
+![view1](https://image-static.segmentfault.com/159/184/1591841002-5d77e7746a311)
 
-![view2](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/view2.gif)
+![view2](https://image-static.segmentfault.com/279/203/2792034556-5d77a03ae6936)
 
-![video](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/video.png)
-
-![player](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/player.png)
-
-![playlist](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/playlist.png)
-
-![tray](https://github.com/xiaozhu188/electron-vue-cloud-music/blob/master/screenshot/tray.png)
+![player](https://image-static.segmentfault.com/133/444/1334447915-5d77255b7d91a)
 
 ---
 

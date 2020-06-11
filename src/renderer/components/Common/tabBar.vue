@@ -88,6 +88,10 @@ export default {
 </style>
 <style lang="less" scoped>
 .tab-bar {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background: #f5f5f7;
   display: flex;
   justify-content: space-between;
   align-items: center;

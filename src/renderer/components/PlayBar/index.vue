@@ -416,14 +416,6 @@ export default {
       let mode = this.mode
       mode = ++mode % (Object.keys(playMode).length - 1)
       this.$store.commit('play/SET_MODE', mode)
-      let list = []
-      if (mode === playMode.random) {
-        list = shuffle(this.original_play_list)
-      } else {
-        list = this.original_play_list
-      }
-      this.resetCurrentIndex(list)
-      this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
     },
     resetCurrentIndex (list) {
       let index = list.findIndex(item => {
@@ -447,14 +439,16 @@ export default {
       }
       let list_len = this.current_play_list.length
       let { current_song_index } = this
-      current_song_index++
-      if (current_song_index > list_len - 1) {
-        current_song_index = 0
+      if (this.mode === playMode.random) {
+        console.log('mode', this.mode)
+        current_song_index = this.getRandomInt(0, list_len - 1)
+      } else {
+        current_song_index++
+        if (current_song_index > list_len - 1) {
+          current_song_index = 0
+        }
       }
       this.$store.commit('play/SET_CURRENT_INDEX', current_song_index)
-      // if (!this.playing) {
-      //   this.$store.commit('play/SET_PLAY_STATUS', true)
-      // }
     },
     backward () {
       if (!this.isSongReady) {
@@ -463,15 +457,13 @@ export default {
       let list_len = this.current_play_list.length
       let { current_song_index } = this
       if (this.mode === playMode.random) {
+        console.log('mode', this.mode)
         current_song_index = this.getRandomInt(0, list_len - 1)
       } else {
         current_song_index--
         if (current_song_index < 0) current_song_index = list_len - 1
       }
       this.$store.commit('play/SET_CURRENT_INDEX', current_song_index)
-      // if (!this.playing) {
-      //   this.$store.commit('play/SET_PLAY_STATUS', true)
-      // }
     },
     togglePlay () {
       if (!this.isSongReady) {

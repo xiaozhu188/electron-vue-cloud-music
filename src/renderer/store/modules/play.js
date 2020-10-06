@@ -170,15 +170,8 @@ const actions = {
   async selectPlay ({ commit, state }, { tracks, index }) {
     if ( tracks.length < 1 ) return
     commit('SET_ORIGINAL_PLAY_LIST', tracks)
-    if ( state.mode === playMode.random ) {
-      let randomList = shuffle(tracks)
-      commit('SET_CURRENT_PLAY_LIST', randomList)
-      index = findIndex(randomList, tracks[ index ])
-    } else {
-      commit('SET_CURRENT_PLAY_LIST', tracks)
-    }
+    commit('SET_CURRENT_PLAY_LIST', tracks)
     commit('SET_CURRENT_INDEX', index)
-    // commit('SET_PLAY_STATUS', true)
   },
   addHistorySong ({ commit }, song) {
     let songs = ls.get(PLAY_HISTORY_KEY, [])

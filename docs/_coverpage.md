@@ -5,4 +5,4 @@
 
 
 [GitHub](https://github.com/xiaozhu188/electron-vue-cloud-music)
-[Get Started](#electron-vue-cloud-music)
+[Get Started](/introduce)

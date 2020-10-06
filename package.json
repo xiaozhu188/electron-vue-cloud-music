@@ -46,7 +46,7 @@
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.3",
     "babel-plugin-import": "^1.13.0",
-    "electron": "^6.0.0",
+    "electron": "^7.2.4",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.0.4",

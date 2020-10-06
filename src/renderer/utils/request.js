@@ -4,7 +4,7 @@ import Message from 'ant-design-vue/es/message'
 import Toast from './../components/Toast/toast'
 
 const baseURL = process.env.NODE_ENV === 'development'
-  ? 'http://localhost:3000'
+  ? 'http://139.9.230.159:3000'
   : 'http://139.9.230.159:3000'
 
 const instance = sguoyi.create({

@@ -85,7 +85,7 @@
               <div class="right">
                 <div class="voice">
                   <z-icon :type="mutedIcon" @click.native="onMuted" title="静音" class="icon-voice" />
-                  <progress-bar :percent="volume" size="small" @percentChanged="onvolumeChanged" class="bar-volume" />
+                  <progress-bar :percent="volume" size="small" @percentChanged="handleVolumeChanged" class="bar-volume" />
                 </div>
                 <div class="brs">
                   <div class="default" @click="showMoreList('br')">{{brsMap[mvURL.key]}}</div>
@@ -94,7 +94,7 @@
                   倍速×{{ speed }}
                 </div>
                 <div class="fullScreen" title="小窗口播放">
-                  <a-icon type="shrink" @click="littleWin" />
+                  <a-icon type="shrink" @click="shrinkWin" />
                 </div>
               </div>
             </div>
@@ -358,14 +358,12 @@ export default {
   },
   mounted () {
     this.fetchData()
-    // let win = BrowserWindow.getFocusedWindow()
     let biasX = 0
     let biasY = 0
     let that = this
     let timer = null
     let { width, height } = win.getBounds()
     const moveEvent = (e) => {
-      // win.setPosition(e.screenX - biasX, e.screenY - biasY)
       win.setBounds({ x: e.screenX - biasX, y: e.screenY - biasY, width, height })
       this.mouseup_click_conflict_fix = true
     }
@@ -451,7 +449,7 @@ export default {
         this.$refs.video.play()
       })
     },
-    onvolumeChanged (persent) {
+    handleVolumeChanged (persent) {
       if (persent < 0) persent = 0
       if (persent > 1) persent = 1
       this.$store.commit('Video/SET_VOLUME', Number(persent))
@@ -459,24 +457,22 @@ export default {
     onMuted () {
       this.$store.commit('Video/SET_MUTED', !this.isMuted)
     },
-    handleResize (e) {
+    handleResize () {
       let titleDom = document.querySelector('.js-video-title')
-      let titleInnerDom = document.querySelector('.js-video-title-inner')
+      let titleInnerDom = titleDom.querySelector('.js-video-title-inner')
       let titleDomWidth = titleDom.getBoundingClientRect().width
       let titleInnerDomWidth = titleInnerDom.getBoundingClientRect().width
-      // console.log('titleDomWidth:', titleDomWidth, '----', 'titleInnerDomWidth:', titleInnerDomWidth)
       if (titleDom && titleInnerDom) {
         if ((titleInnerDomWidth > titleDomWidth) && (titleDomWidth > 10)) {
-          document.documentElement.style.setProperty('--diff', titleDomWidth + 'px')
-          document.documentElement.style.setProperty('--duration', (titleInnerDomWidth / titleDomWidth * 8) + 's')
+          titleDom.style.setProperty('--diff', titleDomWidth + 'px')
+          titleDom.style.setProperty('--duration', (titleInnerDomWidth / titleDomWidth * 8) + 's')
         } else {
-          document.documentElement.style.setProperty('--diff', titleDomWidth + 'px')
-          document.documentElement.style.setProperty('--duration', 0)
+          titleDom.style.setProperty('--diff', titleDomWidth + 'px')
+          titleDom.style.setProperty('--duration', 0)
         }
       }
     },
     handlePageChange (val) {
-      console.log(val)
       offset = (val - 1) * limit
       this.getComment()
     },
@@ -612,7 +608,7 @@ export default {
       }
       this.isMaximized = !this.isMaximized
     },
-    littleWin () {
+    shrinkWin () {
       if (this.isFullScreen) {
         this.isFullScreen = false
       }
@@ -677,7 +673,6 @@ export default {
     },
     onProgressBarChange (percent) {
       const currentTime = (this.videoData.duration / 1000) * percent
-      console.log(currentTime)
       this.currentTime = this.$refs.video.currentTime = currentTime
     },
     onProgressBarChanging (percent) {

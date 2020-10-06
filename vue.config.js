@@ -14,17 +14,16 @@ module.exports = {
   configureWebpack: {
     entry: './src/renderer/main.js',
     resolve: {
-      extensions: [ '.js', '.vue', '.json', '.ts', '.less' ],
+      extensions: ['.js', '.vue', '.json', '.ts', '.less'],
       alias: {
         '@': resolve('src/renderer')
       }
     },
     module: {
-      rules: [ {
+      rules: [{
         test: /\.(html)(\?.*)?$/,
         use: 'vue-html-loader'
-      }
-      ]
+      }]
     },
     // 公共资源合并
     optimization: {
@@ -74,33 +73,6 @@ module.exports = {
     }
   },
   chainWebpack: config => {
-    // 压缩图片
-    // config.module
-    //   .rule('images')
-    //   .use('image-webpack-loader')
-    //   .loader('image-webpack-loader')
-    //   .options({
-    //     mozjpeg: {
-    //           progressive: true,
-    //           quality: 65
-    //         },
-    //         // optipng.enabled: false will disable optipng
-    //         optipng: {
-    //           enabled: false,
-    //         },
-    //         pngquant: {
-    //           quality: [0.65, 0.90],
-    //           speed: 4
-    //         },
-    //         gifsicle: {
-    //           interlaced: false,
-    //         },
-    //         // the webp option will enable WEBP
-    //         webp: {
-    //           quality: 75
-    //         }
-    //   })
-    //   .end()
     // 分析插件
     // config
     //   .plugin("webpack-bundle-analyzer")
@@ -161,7 +133,7 @@ module.exports = {
         win: {
           icon: 'build/electron-icon/icon.ico',
           // 图标路径 windows系统中icon需要256*256的ico格式图片，更换应用图标亦在此处
-          target: [ {
+          target: [{
             // 打包成一个独立的 exe 安装程序
             target: 'nsis',
             // 这个意思是打出来32 bit + 64 bit的包，但是要注意：这样打包出来的安装包体积比较大，所以建议直接打32的安装包。
@@ -169,7 +141,7 @@ module.exports = {
               'x64'
               // 'ia32'
             ]
-          } ]
+          }]
         },
         dmg: {
           'contents': [
@@ -193,7 +165,7 @@ module.exports = {
         mac: {
           icon: 'build/electron-icon/icon.icns'
         },
-        files: [ '**/*' ],
+        files: ['**/*'],
         asar: false,
         nsis: {
           // 是否一键安装，建议为 false，可以让用户点击下一步、下一步、下一步的形式安装程序，如果为true，当用户双击构建好的程序，自动安装程序并打开，即：一键安装（one-click installer）
@@ -228,7 +200,7 @@ module.exports = {
       },
       outputDir: 'dist/electron',
       mainProcessFile: 'src/main/main.js',
-      mainProcessWatch: [ 'src/main' ]
+      mainProcessWatch: ['src/main']
     }
   }
 }

@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import { user_detail, getUserPlaylist } from '@/api/user'
 import ZIcon from '@/components/ZIcon/index.vue'
 export default {
@@ -126,7 +126,7 @@ export default {
         }
       )
     },
-    onPageChange (page, pageSize) {
+    onPageChange (page) {
       this.page = page
     },
     subscribe (t, user) {

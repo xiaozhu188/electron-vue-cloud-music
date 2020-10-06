@@ -23,7 +23,8 @@ module.exports = {
     'object-curly-even-spacing': 'on',
     'one-var': 'off',
     'indent': 'off',
-    'vue/no-unused-components': 'off'
+    'vue/no-unused-components': 'off',
+    'no-unneeded-ternary': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'

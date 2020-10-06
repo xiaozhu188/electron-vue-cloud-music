@@ -209,6 +209,7 @@ export default {
       transform-origin: center bottom;
       z-index: 1;
       filter: brightness(.3);
+      cursor: pointer;
       .badge {
         position: absolute;
         right: -2px;

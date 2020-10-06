@@ -8,7 +8,7 @@
         placement="bottomLeft"
         :arrowPointAtCenter="true"
         overlayClassName="cate-wrapper"
-        :overlayStyle="{ width: '530px', top: '50px' }"
+        :overlayStyle="{ width: '540px', top: '50px' }"
       >
         <template slot="content">
           <a-button block @click="fetchAll" style="border-radius: 0;">全部歌单</a-button>

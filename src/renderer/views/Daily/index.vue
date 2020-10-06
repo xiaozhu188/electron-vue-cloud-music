@@ -72,7 +72,7 @@ export default {
   methods: {
     getSongs () {
       getRecommendSongs().then(res => {
-        this.songs = res.recommend.map(song => {
+        this.songs = res.data.dailySongs.map(song => {
           return normalSong(song)
         })
       })

@@ -50,7 +50,6 @@
 <script>
 import { remote } from 'electron'
 import { mapState } from 'vuex'
-import { checkUpdate } from '@/api/app'
 
 const fs = require('fs')
 const path = require('path')

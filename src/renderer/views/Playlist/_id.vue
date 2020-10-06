@@ -131,9 +131,7 @@ export default {
         this.loading = true
         let res = await getPlaylistDetail(id)
         this.playlist = res.playlist
-        let ids = res.playlist.trackIds.map(item => item.id).join(',')
-        let { songs } = await getSongDetail(ids)
-        this.tracks = songs.map(track => normalSong(track))
+        this.tracks = res.playlist.tracks.map(track => normalSong(track))
       } catch (error) {
       } finally {
         this.loading = false
@@ -177,82 +175,82 @@ export default {
 </script>
 
 <style scoped>
-  .intro >>> .ant-list-item {
-    align-items: initial;
-  }
+.intro >>> .ant-list-item {
+  align-items: initial;
+}
 
-  .intro >>> .ant-avatar {
-    border-radius: 0;
-  }
+.intro >>> .ant-avatar {
+  border-radius: 0;
+}
 
-  .intro >>> .ant-list-item-content {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
+.intro >>> .ant-list-item-content {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
-  .intro >>> .ant-list-item-meta-title {
-    padding-right: 120px;
-    line-height: 1.1;
-  }
+.intro >>> .ant-list-item-meta-title {
+  padding-right: 120px;
+  line-height: 1.1;
+}
 </style>
 <style lang="less" scoped>
-  .intro {
-    padding: 20px;
-    .creator {
-      display: flex;
-      align-items: center;
-      .creator-avatar {
-        border-radius: 50%;
-        margin-right: 5px;
-      }
-      .name {
-        margin-right: 5px;
-        color: #333;
-      }
-      .time {
-        font-size: 13px;
-      }
+.intro {
+  padding: 20px;
+  .creator {
+    display: flex;
+    align-items: center;
+    .creator-avatar {
+      border-radius: 50%;
+      margin-right: 5px;
     }
-    .actions {
-      margin: 15px 0;
-      .item {
-        display: inline-block;
-        margin-right: 10px;
-      }
-      .ant-btn {
-        font-size: 12px;
-      }
+    .name {
+      margin-right: 5px;
+      color: #333;
     }
-    .tags {
-      display: flex;
-      margin-bottom: 10px;
+    .time {
       font-size: 13px;
-      a {
-        font-size: 13px;
-        color: #006fe3;
-      }
     }
-    .action {
-      display: flex;
-      text-align: right;
+  }
+  .actions {
+    margin: 15px 0;
+    .item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .ant-btn {
       font-size: 12px;
-      height: fit-content;
-      .action-item {
-        padding: 0 10px;
-        margin-top: 12px;
-        &:not(:last-child) {
-          border-right: 1px solid #ddd;
-        }
+    }
+  }
+  .tags {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 13px;
+    a {
+      font-size: 13px;
+      color: #006fe3;
+    }
+  }
+  .action {
+    display: flex;
+    text-align: right;
+    font-size: 12px;
+    height: fit-content;
+    .action-item {
+      padding: 0 10px;
+      margin-top: 12px;
+      &:not(:last-child) {
+        border-right: 1px solid #ddd;
       }
     }
   }
+}
 
-  .desc {
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
+.desc {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 </style>

@@ -1,24 +1,17 @@
-import axios from 'axios'
+import sguoyi from './sgy-request/index'
 import store from './../store'
-import { Base64 } from 'js-base64'
 import Message from 'ant-design-vue/es/message'
 import Toast from './../components/Toast/toast'
-const baseURL = process.env.NODE_ENV === 'development'
-  ? 'http://140.143.128.100:3000'
-  : 'http://140.143.128.100:3000'
-  // : 'http://39.105.232.6:3000'
 
-const instance = axios.create({
-  baseURL,
-  timeout: 30000,
-  withCredentials: true
+const baseURL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:3000'
+  : 'http://139.9.230.159:3000'
+
+const instance = sguoyi.create({
+  baseURL
 })
 
 instance.interceptors.request.use(config => {
-  config.headers['sra'] = 'sra'
-  // if (process.env.NODE_ENV !== 'development' && config.method == 'get' && config.params) {
-  //   config.params = {params: Base64.encode(JSON.stringify(config.params))}
-  // }
   if (!store.state.App.isOnliline) {
     return Promise.reject(new Error('offline!'))
   }
@@ -30,14 +23,11 @@ instance.interceptors.request.use(config => {
 
 instance.interceptors.response.use(
   response => {
-    if (typeof response.data === 'string') {
-      response.data = JSON.parse(Base64.decode(response.data))
+    if (response.code && response.code === 200) {
+      return response
     }
-    if (response.data.code && response.data.code === 200) {
-      return response.data
-    }
-    Message.warn(response.data.msg || response.statusText)
-    return Promise.reject(response.data)
+    Message.warn(response.msg || response.statusText || 'Response error')
+    return Promise.reject(response)
   },
   error => {
     if (error.response) {
@@ -48,38 +38,37 @@ instance.interceptors.response.use(
           store.commit('User/SET_USER_INFO', {})
           store.commit('App/SET_REDIRECT', '/home')
           localStorage.removeItem('userId')
-          Message.warn(res.data.msg || '请先登录')
+          Message.warn(res.msg || '请先登录')
           break
         case 400:
-          Message.warn(res.data.message || res.data.msg || '资源不在收藏列表中')
+          Message.warn(res.message || res.msg || '资源不在收藏列表中')
           break
         case 401:
           store.commit('User/SET_SHOW_LOGIN', true)
           store.commit('User/SET_USER_INFO', {})
           store.commit('App/SET_REDIRECT', '/home')
           localStorage.removeItem('userId')
-          Message.warn(res.data.msg || '请先登录')
+          Message.warn(res.msg || '请先登录')
           break
         case 403:
-          Message.error(res.data.msg || '权限不足')
+          Message.error(res.msg || '权限不足')
           break
         case 404:
-          Message.error(res.data.msg || '请求资源不存在')
+          Message.error(res.msg || '请求资源不存在')
           break
         case 408:
-          Message.error(res.data.message || '已经收藏过该视频')
+          Message.error(res.message || '已经收藏过该视频')
           break
         case 500:
-          Message.error(res.data.msg || '服务器开小差啦')
+          Message.error(res.msg || '服务器开小差啦')
           break
         case 504:
-          Message.error(res.data.msg || '网络请求失败')
+          Message.error(res.msg || '网络请求失败')
           break
         default:
-          Message.error(res.data.msg || res.statusText)
+          Message.error(res.msg || res.statusText)
       }
     } else {
-      console.log('error', error.message)
       Toast({
         icon: 'close',
         content: '请检查网络连接状态!'

@@ -1,3 +1,22 @@
+## [1.1.17](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.16...v1.1.17) (2021-03-12)
+
+范围|描述|commitId
+--|--|--
+ - | 1.1.17 | [8b55c6f](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/8b55c6f)
+ - | change version | [327ee41](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/327ee41)
+
+
+### 🌟 新功能
+范围|描述|commitId
+--|--|--
+ - | fit mac | [adf2663](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/adf2663)
+
+
+### 🎨 代码样式
+范围|描述|commitId
+--|--|--
+ - | use prettier to format code, and add plugin named commitlint | [f08a8e4](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/f08a8e4)
+
 ## [1.1.16](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.15...v1.1.16) (2020-10-06)
 
 范围|描述|commitId

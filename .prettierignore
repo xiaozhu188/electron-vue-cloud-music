@@ -2,4 +2,4 @@ build
 coverage
 dist
 docs
-
+node_modules

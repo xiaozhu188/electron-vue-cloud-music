@@ -24,7 +24,8 @@ module.exports = {
     'one-var': 'off',
     'indent': 'off',
     'vue/no-unused-components': 'off',
-    'no-unneeded-ternary': 'off'
+    'no-unneeded-ternary': 'off',
+    'semicolon': 'on'
   },
   parserOptions: {
     parser: 'babel-eslint'

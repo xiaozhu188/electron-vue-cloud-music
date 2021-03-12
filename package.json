@@ -10,7 +10,7 @@
     "log": "conventional-changelog --config ./node_modules/vue-cli-plugin-commitlint/lib/log -i CHANGELOG.md -s -r 0",
     "major": "npm version major && git push origin master && git push origin --tags",
     "minor": "npm version minor && git push origin master && git push origin --tags",
-    "patch": "npm version patch && git push origin master && git push origin --tags",
+    "patch": "npm version patch && npm run cz && git push origin master && git push origin --tags",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "prettier": "npx prettier --write ./src ./docs",

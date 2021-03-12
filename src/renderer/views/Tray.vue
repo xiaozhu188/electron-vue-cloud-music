@@ -2,17 +2,33 @@
   <div class="tray">
     <div class="tray-box">
       <div class="control-box">
-        <a-icon type="step-backward" class="control-icon step" title="上一曲" @click="backward" />
-        <a-icon :type="playIcon" theme="filled" class="control-icon" :title="playTitle" @click="togglePlay" />
-        <a-icon type="step-forward" class="control-icon step" title="下一曲" @click="forward" />
+        <a-icon
+          type="step-backward"
+          class="control-icon step"
+          title="上一曲"
+          @click="backward"
+        />
+        <a-icon
+          :type="playIcon"
+          theme="filled"
+          class="control-icon"
+          :title="playTitle"
+          @click="togglePlay"
+        />
+        <a-icon
+          type="step-forward"
+          class="control-icon step"
+          title="下一曲"
+          @click="forward"
+        />
       </div>
 
-      <div class="volume-box" :title="`音量:${isMuted ? 0 : volume*100}%`">
+      <div class="volume-box" :title="`音量:${isMuted ? 0 : volume * 100}%`">
         <z-icon
           :type="mutedIcon"
           @click.native="onMuted"
           title="静音"
-          style="cursor: pointer;margin-right:4px;"
+          style="cursor: pointer; margin-right: 4px"
         />
         <progress-bar
           :percent="volume"
@@ -23,7 +39,9 @@
       </div>
 
       <div class="song-box">
-        <span class="song-name" v-if="current_song && current_song.name">{{ current_song.name }}</span>
+        <span class="song-name" v-if="current_song && current_song.name">{{
+          current_song.name
+        }}</span>
         <span class="song-name" v-else>听见好时光</span>
         <span class="play-mode" :title="modeTitle" @click="changeMode">
           <z-icon :type="modeIcon" />
@@ -35,11 +53,21 @@
           <a-icon type="desktop" />
           <span>显示主界面</span>
         </li>
-        <li class="menu-item" :class="{'disabled' : !showDesktoplyric}" @click="doLyric(false)" v-if="isFixed">
+        <li
+          class="menu-item"
+          :class="{ disabled: !showDesktoplyric }"
+          @click="doLyric(false)"
+          v-if="isFixed"
+        >
           <z-icon type="geci" />
           <span>解锁桌面歌词</span>
         </li>
-        <li class="menu-item" :class="{'disabled' : !showDesktoplyric}" @click="doLyric(true)" v-else>
+        <li
+          class="menu-item"
+          :class="{ disabled: !showDesktoplyric }"
+          @click="doLyric(true)"
+          v-else
+        >
           <z-icon type="geci" />
           <span>锁定桌面歌词</span>
         </li>
@@ -81,9 +109,7 @@ export default {
       'isMuted',
       'showDesktoplyric'
     ]),
-    ...mapState('play', [
-      'lyric'
-    ]),
+    ...mapState('play', ['lyric']),
     playIcon () {
       return this.playing ? 'pause-circle' : 'play-circle'
     },
@@ -94,19 +120,19 @@ export default {
       return this.mode === playMode.sequence
         ? 'liebiaoxunhuan'
         : this.mode === playMode.loop
-          ? 'danquxunhuan1'
-          : this.mode === playMode.random
-            ? 'suijibofang'
-            : 'FMcollect'
+        ? 'danquxunhuan1'
+        : this.mode === playMode.random
+        ? 'suijibofang'
+        : 'FMcollect'
     },
     modeTitle () {
       return this.mode === playMode.sequence
         ? '顺序播放'
         : this.mode === playMode.loop
-          ? '循环播放'
-          : this.mode === playMode.random
-            ? '随机播放'
-            : '心动模式'
+        ? '循环播放'
+        : this.mode === playMode.random
+        ? '随机播放'
+        : '心动模式'
     },
     playTitle () {
       return this.playing ? '暂停' : '播放'
@@ -159,13 +185,13 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .tray {
   position: relative;
   width: 200px;
   height: 350px;
   z-index: 9999999;
-  opacity: .97;
+  opacity: 0.97;
   .tray-box {
     position: absolute;
     left: 8px;

@@ -1,13 +1,18 @@
 <template>
   <div class="artist-top">
     <ul>
-      <li v-for="(artist, index) in artists" :key="artist.id" >
+      <li v-for="(artist, index) in artists" :key="artist.id">
         <router-link :to="`/artist/${artist.id}`" class="artist">
-          <div class="index">{{ index+1 }}</div>
-          <img v-lazy="`${artist.picUrl}?param=50y50`" class="avatar">
+          <div class="index">{{ index + 1 }}</div>
+          <img v-lazy="`${artist.picUrl}?param=50y50`" class="avatar" />
           <div class="name">{{ artist.name }}</div>
           <div class="hot">
-            <a-progress :percent="100 - artist.lastRank" strokeColor="#9a9a9a" :showInfo="false" size="small" />
+            <a-progress
+              :percent="100 - artist.lastRank"
+              strokeColor="#9a9a9a"
+              :showInfo="false"
+              size="small"
+            />
           </div>
         </router-link>
       </li>
@@ -28,7 +33,7 @@ export default {
   },
   methods: {
     _getTopArtist () {
-      getTopArtist().then(res => {
+      getTopArtist().then((res) => {
         console.log(res)
         this.artists = res.list.artists
       })
@@ -40,7 +45,7 @@ export default {
 <style lang="less" scoped>
 .artist-top {
   background-color: #fff;
-  li:nth-of-type(-n+3) .index{
+  li:nth-of-type(-n + 3) .index {
     color: @primary-color;
   }
   .artist {

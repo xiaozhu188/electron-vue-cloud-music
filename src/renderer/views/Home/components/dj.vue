@@ -1,7 +1,12 @@
 <template>
   <div class="dj">
     <ul class="list">
-      <dj-item class="list-item" v-for="item in list.slice(0, 6)" :dj="item" :key="item.id"/>
+      <dj-item
+        class="list-item"
+        v-for="item in list.slice(0, 6)"
+        :dj="item"
+        :key="item.id"
+      />
     </ul>
   </div>
 </template>
@@ -26,11 +31,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .list {
-    display: flex;
-    justify-content: space-between;
-    .list-item {
-      width: 15%;
-    }
+.list {
+  display: flex;
+  justify-content: space-between;
+  .list-item {
+    width: 15%;
   }
+}
 </style>

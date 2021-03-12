@@ -2,7 +2,7 @@
   <div>
     <ul class="list">
       <li v-for="album in data" :key="album.id" :lg="6" :xl="4">
-        <album-item :album="album"/>
+        <album-item :album="album" />
       </li>
     </ul>
     <infinite-loading @infinite="loadmore" />

@@ -11,16 +11,15 @@ import { mapGetters } from 'vuex'
 import playMixin from '@/mixins/Play'
 export default {
   name: 'cloud',
-  mixins: [
-    playMixin
-  ],
+  mixins: [playMixin],
   data () {
     return {
       tracks: []
     }
   },
   components: {
-    TrackList, DebounceBtn
+    TrackList,
+    DebounceBtn
   },
   computed: {
     ...mapGetters('User', ['userId'])
@@ -30,8 +29,8 @@ export default {
   },
   methods: {
     _getUserCloud () {
-      getUserCloud(this.userId).then(res => {
-        this.tracks = res.data.map(song => {
+      getUserCloud(this.userId).then((res) => {
+        this.tracks = res.data.map((song) => {
           return normalSong(song.simpleSong)
         })
       })

@@ -9,9 +9,7 @@ import TrackList from '@/components/Common/track-list/index.js'
 import playMixin from '@/mixins/Play'
 export default {
   name: 'playlist_id_tracks',
-  mixins: [
-    playMixin
-  ],
+  mixins: [playMixin],
   components: {
     TrackList
   },

@@ -14,13 +14,13 @@
 </template>
 
 <script>
-const CollectAlbum = resolve => {
+const CollectAlbum = (resolve) => {
   require(['./components/Album.vue'], resolve)
 }
-const CollectArtist = resolve => {
+const CollectArtist = (resolve) => {
   require(['./components/Artist.vue'], resolve)
 }
-const CollectVideo = resolve => {
+const CollectVideo = (resolve) => {
   require(['./components/Video.vue'], resolve)
 }
 export default {
@@ -31,7 +31,9 @@ export default {
     }
   },
   components: {
-    CollectAlbum, CollectArtist, CollectVideo
+    CollectAlbum,
+    CollectArtist,
+    CollectVideo
   }
 }
 </script>

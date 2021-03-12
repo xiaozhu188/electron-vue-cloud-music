@@ -1,5 +1,9 @@
 <template>
-  <a-menu mode="inline" :selectable="false" :defaultOpenKeys="['playlist_create']">
+  <a-menu
+    mode="inline"
+    :selectable="false"
+    :defaultOpenKeys="['playlist_create']"
+  >
     <a-sub-menu key="playlist_create">
       <div slot="title" class="create-title">
         <span>创建的歌单</span>
@@ -18,9 +22,10 @@
               <a-button
                 type="primary"
                 :loading="loading"
-                :disabled="formData.name===''"
+                :disabled="formData.name === ''"
                 @click="createPlaylist"
-              >创建</a-button>
+                >创建</a-button
+              >
               <a-button @click="hide">取消</a-button>
             </div>
           </template>
@@ -30,17 +35,23 @@
         </a-popover>
       </div>
 
-      <a-menu-item v-for="(item,index) in createdList" :key="item.id">
-        <a-dropdown :trigger="['contextmenu']" overlayClassName="sider-right-menu">
+      <a-menu-item v-for="(item, index) in createdList" :key="item.id">
+        <a-dropdown
+          :trigger="['contextmenu']"
+          overlayClassName="sider-right-menu"
+        >
           <div class="flex" v-if="index == 0" :title="item.name">
             <router-link class="link" :to="`/playlist/${item.id}`">
               <span class="ellipsis">
                 <a-icon type="heart" />
-                <span>{{item.name}}</span>
+                <span>{{ item.name }}</span>
               </span>
             </router-link>
             <a-tooltip title="开启心动模式">
-              <span @click.prevent.stop="xindong(item.id)" style="paddingRight:5px">
+              <span
+                @click.prevent.stop="xindong(item.id)"
+                style="paddingright: 5px"
+              >
                 <z-icon type="FMcollect" />
               </span>
             </a-tooltip>
@@ -49,7 +60,7 @@
           <div class="flex" :title="item.name" v-else>
             <router-link class="link" :to="`/playlist/${item.id}`">
               <z-icon type="yinleliebiaokuai" />
-              <span>{{item.name}}</span>
+              <span>{{ item.name }}</span>
             </router-link>
           </div>
 
@@ -95,7 +106,8 @@ export default {
     }
   },
   components: {
-    ZIcon, PlaylistCreate
+    ZIcon,
+    PlaylistCreate
   },
   computed: {
     ...mapGetters('User', ['userId', 'createdList', 'likedsongIds'])
@@ -114,8 +126,8 @@ export default {
       })
     },
     playAll (pid) {
-      getPlaylistDetail(pid).then(res => {
-        let tracks = res.playlist.tracks.map(track => {
+      getPlaylistDetail(pid).then((res) => {
+        let tracks = res.playlist.tracks.map((track) => {
           return normalSong(track)
         })
         this.$store.dispatch('play/selectPlay', { tracks, index: 0 })
@@ -126,7 +138,12 @@ export default {
       this.hideLoading = this.$message.loading('正在开启心动模式..', 0)
       try {
         let songId
-        if (this.current_song && !this.current_song.folder && this.current_song.id) { // 如果当前有播放歌曲且不是本地歌曲
+        if (
+          this.current_song &&
+          !this.current_song.folder &&
+          this.current_song.id
+        ) {
+          // 如果当前有播放歌曲且不是本地歌曲
           songId = this.current_song.id
         } else {
           let { ids } = await getUserLikeSongs(this.userId)
@@ -134,7 +151,7 @@ export default {
         }
         let res = await getIntelligence(songId, pid)
         if (res.data.length) {
-          let tracks = res.data.map(song => {
+          let tracks = res.data.map((song) => {
             return normalSong(song.songInfo)
           })
           this.$store.dispatch('play/selectPlay', { tracks, index: 0 })

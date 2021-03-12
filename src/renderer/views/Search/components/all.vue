@@ -9,8 +9,8 @@
     >
       <a-col :span="24">
         <router-link :to="`/user?id=${user.userId}`" class="user">
-          <img v-lazy="`${user.avatarUrl}?param=50y50`">
-          <span>{{user.nickname}}</span>
+          <img v-lazy="`${user.avatarUrl}?param=50y50`" />
+          <span>{{ user.nickname }}</span>
         </router-link>
       </a-col>
     </a-row>

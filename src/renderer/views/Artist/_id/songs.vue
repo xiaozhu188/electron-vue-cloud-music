@@ -56,7 +56,7 @@ export default {
       try {
         let { hotSongs, more } = await getArtistSongs(params)
         let tracks = []
-        hotSongs.forEach(song => {
+        hotSongs.forEach((song) => {
           tracks.push(normalSong(song))
         })
         this.songs.push(...tracks)

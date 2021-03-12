@@ -2,19 +2,39 @@
   <div class="downloading">
     <a-card :bordered="false">
       <div slot="title">
-        <a-button icon="delete" :disabled="!downloading.length" @click="openDownloadFolder">清空全部</a-button>
+        <a-button
+          icon="delete"
+          :disabled="!downloading.length"
+          @click="openDownloadFolder"
+          >清空全部</a-button
+        >
 
-        <span>存储目录:{{ defaultDownloadFolder }} <a href="#" @click="openDownloadFolder">打开目录</a></span>
+        <span
+          >存储目录:{{ defaultDownloadFolder }}
+          <a href="#" @click="openDownloadFolder">打开目录</a></span
+        >
       </div>
 
-      <track-list :columns="columns" :tracks="downloading" :isShowActions="false">
+      <track-list
+        :columns="columns"
+        :tracks="downloading"
+        :isShowActions="false"
+      >
         <template slot="downloadPercent" slot-scope="{ row }">
-          <div style="width:170px;line-height: 1;">
+          <div style="width: 170px; line-height: 1">
             <a-progress size="small" :percent="parseInt(row.downloadPercent)" />
-            <div style="fontSize:11px;font-weight: 500;">
-              <span>{{(parseInt(row.downloadPercent)/100 * row.totalBytes/1024/1000).toFixed(2)}}M</span>
+            <div style="fontsize: 11px; font-weight: 500">
+              <span
+                >{{
+                  (
+                    ((parseInt(row.downloadPercent) / 100) * row.totalBytes) /
+                    1024 /
+                    1000
+                  ).toFixed(2)
+                }}M</span
+              >
               <span> / </span>
-              <span>{{(row.totalBytes/1024/1000).toFixed(2)}}M</span>
+              <span>{{ (row.totalBytes / 1024 / 1000).toFixed(2) }}M</span>
             </div>
           </div>
         </template>
@@ -22,9 +42,23 @@
           <div>
             <ul class="actions">
               <li class="item">
-                <a-icon type="caret-right" title="开始下载" @click="toggleDownload(row, false)" v-if="row.isPaused === true" />
-                <a-icon type="pause" title="暂停下载" @click="toggleDownload(row, true)" v-else />
-                <a-icon type="close" title="取消下载" @click="cancelDownload(row)" />
+                <a-icon
+                  type="caret-right"
+                  title="开始下载"
+                  @click="toggleDownload(row, false)"
+                  v-if="row.isPaused === true"
+                />
+                <a-icon
+                  type="pause"
+                  title="暂停下载"
+                  @click="toggleDownload(row, true)"
+                  v-else
+                />
+                <a-icon
+                  type="close"
+                  title="取消下载"
+                  @click="cancelDownload(row)"
+                />
               </li>
             </ul>
           </div>
@@ -76,7 +110,9 @@ export default {
     ...mapGetters('play', ['current_play_list']),
     ...mapGetters('Setting', ['downloadSongsFolders']),
     defaultDownloadFolder () {
-      return this.downloadSongsFolders && this.downloadSongsFolders.length ? this.downloadSongsFolders[0] : ''
+      return this.downloadSongsFolders && this.downloadSongsFolders.length
+        ? this.downloadSongsFolders[0]
+        : ''
     }
   },
   methods: {
@@ -116,7 +152,7 @@ export default {
 <style lang="less" scoped>
 .downloading {
   font-size: 12px;
-  /deep/ .ant-btn{
+  /deep/ .ant-btn {
     height: 28px;
     line-height: 26px;
     margin-right: 4px;

@@ -8,7 +8,7 @@
         :lg="3"
         :xl="2"
       >
-        <img v-lazy="subscriber.avatarUrl" class="avatar">
+        <img v-lazy="subscriber.avatarUrl" class="avatar" />
         <div>{{ subscriber.nickname }}</div>
       </a-col>
     </a-row>
@@ -36,7 +36,7 @@ export default {
     _getPlaylistSubscribers () {
       let id = this.$route.params.id
       let options = { ...this.options, id }
-      getPlaylistSubscribers(options).then(res => {
+      getPlaylistSubscribers(options).then((res) => {
         this.subscribers = res.subscribers
       })
     }

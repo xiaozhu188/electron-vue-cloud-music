@@ -4,7 +4,13 @@
       {{ djRadios[0].category }}
     </header>
     <a-row type="flex" :gutter="16" class="dj-row" v-if="!loading">
-      <a-col :xl="8" :md="12" class="dj-col" v-for="(djRadio, index) in djRadios" :key="`${djRadio.id}_${index}`">
+      <a-col
+        :xl="8"
+        :md="12"
+        class="dj-col"
+        v-for="(djRadio, index) in djRadios"
+        :key="`${djRadio.id}_${index}`"
+      >
         <router-link class="dj-item" :to="`/dj/${djRadio.id}`">
           <div class="avatar">
             <img v-lazy="`${djRadio.picUrl}?param=150y150`" />
@@ -66,7 +72,7 @@ export default {
     },
     _getDjByCate () {
       let id = this.$route.query.id
-      getDjByCate({ type: id }).then(res => {
+      getDjByCate({ type: id }).then((res) => {
         this.djRadios = res.djRadios
         this.hasMore = res.hasMore
       })
@@ -90,7 +96,7 @@ export default {
   padding: 0 15px;
   background: #fff;
   border-bottom: 1px solid #eee;
-  font-size: 17PX;
+  font-size: 17px;
 }
 .dj-item {
   display: flex;
@@ -133,7 +139,7 @@ export default {
       margin-top: 3px;
       color: #999;
       font-size: 12px;
-      overflow : hidden;
+      overflow: hidden;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;

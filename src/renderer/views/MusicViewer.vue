@@ -4,7 +4,7 @@
       <div class="music-view" v-show="showView">
         <div
           class="bg-player"
-          :style="'backgroundImage: url('+current_song.avatar+')'"
+          :style="'backgroundImage: url(' + current_song.avatar + ')'"
           v-if="current_song.avatar"
         ></div>
         <a-icon type="down" class="icon" @click="closeMusicView"></a-icon>
@@ -43,7 +43,8 @@ export default {
     ...mapGetters('App', ['showView'])
   },
   components: {
-    MusicView, LyricList
+    MusicView,
+    LyricList
   },
   watch: {
     showView (newVal) {
@@ -51,7 +52,10 @@ export default {
         this.$nextTick(() => {
           const lines = this.$refs.lyrics.$refs.lyricLine
           if (lines && lines[this.current_lyric_line]) {
-            let top = Number(lines[this.current_lyric_line].offsetTop - LINE_HEIGHT * this.currentLine)
+            let top = Number(
+              lines[this.current_lyric_line].offsetTop -
+                LINE_HEIGHT * this.currentLine
+            )
             this.$refs.lyrics.scrollTo(top)
           }
         })

@@ -106,20 +106,22 @@ export default function () {
           state: downloads[args.id].getState()
         })
       }
-    }).then(downloadItem => {
-      // console.log(downloadItem)
-      global.mainWindow.webContents.send('download-success', {
-        id: args.id,
-        song: args.song,
-        downloadFolder,
-        downloadUrl
-      })
-    }).catch(e => {
-      global.mainWindow.webContents.send('download-error', {
-        id: args.id,
-        error: e
-      })
     })
+      .then((downloadItem) => {
+        // console.log(downloadItem)
+        global.mainWindow.webContents.send('download-success', {
+          id: args.id,
+          song: args.song,
+          downloadFolder,
+          downloadUrl
+        })
+      })
+      .catch((e) => {
+        global.mainWindow.webContents.send('download-error', {
+          id: args.id,
+          error: e
+        })
+      })
   })
 
   ipcMain.on('download-cancel', (e, data) => {
@@ -136,7 +138,7 @@ export default function () {
     }
   })
 
-  ipcMain.on('open-directory-dialog', event => {
+  ipcMain.on('open-directory-dialog', (event) => {
     dialog.showOpenDialog(
       {
         defaultPath: defaultDownloadFolder,

@@ -14,10 +14,13 @@ port.onDisconnect.addListener(handleDisconnect)
 sendMessageToBackend('init')
 
 function sendMessageToBackend (payload) {
-  window.postMessage({
-    source: 'vue-devtools-proxy',
-    payload: payload
-  }, '*')
+  window.postMessage(
+    {
+      source: 'vue-devtools-proxy',
+      payload: payload
+    },
+    '*'
+  )
 }
 
 function sendMessageToDevtools (e) {

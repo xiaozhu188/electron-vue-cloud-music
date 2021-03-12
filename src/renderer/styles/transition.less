@@ -1,39 +1,46 @@
-.slideTop-enter-active, .slideTop-leave-active {
+.slideTop-enter-active,
+.slideTop-leave-active {
   transform: translateY(0);
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
-.slideTop-enter, .slideTop-leave-to {
+.slideTop-enter,
+.slideTop-leave-to {
   transform: translateY(25px);
   opacity: 0;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 1.5s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
 .lyric-enter-active {
   transform: translateY(0);
-  transition: transform .3s;
+  transition: transform 0.3s;
 }
 
-.lyric-enter, .lyric-leave-to {
+.lyric-enter,
+.lyric-leave-to {
   transform: translateY(25px);
 }
 .lyric-leave-active {
   transform: translateY(-25px);
-  transition: transform .3s;
+  transition: transform 0.3s;
 }
 
-.viewSlideTop-enter-active, .viewSlideTop-leave-active {
+.viewSlideTop-enter-active,
+.viewSlideTop-leave-active {
   transform: translateY(0);
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
-.viewSlideTop-enter, .viewSlideTop-leave-to {
+.viewSlideTop-enter,
+.viewSlideTop-leave-to {
   transform: translateY(100%);
 }
 
@@ -41,11 +48,11 @@
   animation: pcsign 1s;
 }
 @keyframes pcsign {
-  0%{
+  0% {
     opacity: 1;
     transform: translateY(0);
   }
-  100%{
+  100% {
     opacity: 0;
     transform: translateY(-100%);
   }

@@ -19,11 +19,11 @@
         <slot name="content" :items="pool">
           <VirtualListItem
             class="virtual-list-item"
-            v-for="({ data, $top,idx }, index) in pool"
+            v-for="({ data, $top, idx }, index) in pool"
             :tag="itemTag"
             :key="index + 1"
             :item="data"
-            :style="{ transform: `translateY(${$top}px)`}"
+            :style="{ transform: `translateY(${$top}px)` }"
           >
             <slot :row="data" :rowIndex="idx" />
           </VirtualListItem>
@@ -64,10 +64,7 @@ const VirtualScroller = {
       return this.totalSize - this.poolSize
     },
     poolSize () {
-      return (
-        this.prerender +
-        Math.ceil(this.wrapperHeight / this.itemHeight)
-      )
+      return this.prerender + Math.ceil(this.wrapperHeight / this.itemHeight)
     },
     wrapper () {
       return this.$refs.wrapper
@@ -203,7 +200,7 @@ const VirtualScroller = {
           ? endIndex - diffIndexes.length /* down */
           : startIndex /* up */
 
-      diffIndexes.forEach(index => {
+      diffIndexes.forEach((index) => {
         const item = pool[index]
 
         item.data = dataSource[newIndex] /* update data by new index */

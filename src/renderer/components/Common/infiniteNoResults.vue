@@ -9,8 +9,8 @@ export default {
 </script>
 
 <style scoped>
-  .no-result {
-    margin: 15px 0;
-    text-align: center;
-  }
+.no-result {
+  margin: 15px 0;
+  text-align: center;
+}
 </style>

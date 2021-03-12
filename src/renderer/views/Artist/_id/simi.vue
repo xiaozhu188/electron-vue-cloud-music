@@ -2,7 +2,7 @@
   <ul class="simi">
     <artist-item
       class="artist-item"
-      v-for="(artist) in artists"
+      v-for="artist in artists"
       :artist="artist"
       :key="artist.id"
     />
@@ -37,10 +37,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "./../../../styles/mixins";
+@import "./../../../styles/mixins";
 
-  .simi {
-    .grid-layout(20px, 160px);
-    padding: 15px;
-  }
+.simi {
+  .grid-layout(20px, 160px);
+  padding: 15px;
+}
 </style>

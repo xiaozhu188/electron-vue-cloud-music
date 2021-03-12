@@ -2,7 +2,11 @@
   <div class="comment-wrapper">
     <div class="comment">
       <comment :commentData="commentData"></comment>
-      <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore" />
+      <infinite-loading
+        forceUseInfiniteWrapper=".ant-layout-content"
+        :identifier="infiniteId"
+        @infinite="loadmore"
+      />
     </div>
   </div>
 </template>

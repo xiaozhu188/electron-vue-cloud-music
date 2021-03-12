@@ -1,7 +1,9 @@
 <template>
   <span class="songname" :title="getTitle(row, col)">
     <span>{{ row[col.key] }}</span>
-    <small class="alia" v-if="row.alia && row.alia.length">({{ row.alia.join(',') }})</small>
+    <small class="alia" v-if="row.alia && row.alia.length"
+      >({{ row.alia.join(",") }})</small
+    >
     <span
       title="查看MV"
       @click="play(row.mvid)"
@@ -31,7 +33,7 @@ export default {
   },
   methods: {
     getTitle (row, col) {
-      let title = row[ col.key ]
+      let title = row[col.key]
       if (row.alia && row.alia.length) {
         title += ` (${row.alia.join(',')})`
       }
@@ -42,16 +44,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .songname .icon-mv {
-    margin-left: 3px;
-    font-size: 15px;
-    color: @primary-color;
-    cursor: pointer;
-  }
+.songname .icon-mv {
+  margin-left: 3px;
+  font-size: 15px;
+  color: @primary-color;
+  cursor: pointer;
+}
 
-  .alia {
-    margin-left: 3px;
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 12px;
-  }
+.alia {
+  margin-left: 3px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+}
 </style>

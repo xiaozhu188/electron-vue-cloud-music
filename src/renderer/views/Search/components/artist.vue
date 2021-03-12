@@ -10,8 +10,8 @@
       >
         <a-col :span="24">
           <router-link :to="`/artist/${artist.id}`" class="artist">
-            <img v-lazy="`${artist.img1v1Url}?param=50y50`">
-            <span>{{artist.name}}</span>
+            <img v-lazy="`${artist.img1v1Url}?param=50y50`" />
+            <span>{{ artist.name }}</span>
           </router-link>
         </a-col>
       </a-row>
@@ -25,9 +25,7 @@ import searchMixin from '@/mixins/Search'
 import Artists from '@/components/Common/artists'
 import { setTimeout } from 'timers'
 export default {
-  mixins: [
-    searchMixin
-  ],
+  mixins: [searchMixin],
   data () {
     return {
       artists: []

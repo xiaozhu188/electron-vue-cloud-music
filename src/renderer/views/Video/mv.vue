@@ -22,7 +22,7 @@ import { getAllMV } from '@/api/mv'
 import { normalMV } from '@/utils/video'
 
 let area = {
-  '地区': [
+  地区: [
     {
       id: 1,
       name: '全部'
@@ -50,7 +50,7 @@ let area = {
   ]
 }
 let mvType = {
-  '类型': [
+  类型: [
     {
       id: 1,
       name: '全部'
@@ -74,7 +74,7 @@ let mvType = {
   ]
 }
 let mvOrder = {
-  '排序': [
+  排序: [
     {
       id: 1,
       name: '上升最快'
@@ -127,8 +127,8 @@ export default {
       try {
         let res = await getAllMV(this.options)
         $state.loaded()
-        if ( res.data.length || res.hasMore ) {
-          let mvs = res.data.map(mv => {
+        if (res.data.length || res.hasMore) {
+          let mvs = res.data.map((mv) => {
             return normalMV(mv)
           })
           this.mvs = this.mvs.concat(mvs)
@@ -136,7 +136,7 @@ export default {
         } else {
           $state.complete()
         }
-      } catch ( error ) {
+      } catch (error) {
         $state.error()
       }
     },
@@ -163,10 +163,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "./../../styles/mixins";
+@import "./../../styles/mixins";
 
-  .mvs {
-    .grid-layout(15px, 220px);
-    padding: 15px 0;
-  }
+.mvs {
+  .grid-layout(15px, 220px);
+  padding: 15px 0;
+}
 </style>

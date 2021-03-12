@@ -5,8 +5,8 @@
       <transition-group name="flip-list">
         <a-card
           :bordered="false"
-          style="background: transparent;margin-bottom: 20px;"
-          :style="{opacity:isRenderFinish?1:0}"
+          style="background: transparent; margin-bottom: 20px"
+          :style="{ opacity: isRenderFinish ? 1 : 0 }"
           v-for="item in navs"
           :title="item.name"
           :key="item.key"
@@ -15,7 +15,11 @@
             更多
             <a-icon type="right" />
           </router-link>
-          <component :is="item.key" :list="data[item.key]" v-if="isRenderFinish" />
+          <component
+            :is="item.key"
+            :list="data[item.key]"
+            v-if="isRenderFinish"
+          />
         </a-card>
       </transition-group>
     </div>
@@ -24,8 +28,17 @@
     </div>
     <footer slot="footer" class="wy-footer">
       <p>现在可以根据个人喜好,自由调整首页栏目顺序啦~</p>
-      <a-button type="danger" ghost @click="visible = true">调整栏目顺序</a-button>
-      <drap-modal centered title="调整栏目顺序" :footer="null" :width="400" :maskClosable="false" v-model="visible">
+      <a-button type="danger" ghost @click="visible = true"
+        >调整栏目顺序</a-button
+      >
+      <drap-modal
+        centered
+        title="调整栏目顺序"
+        :footer="null"
+        :width="400"
+        :maskClosable="false"
+        v-model="visible"
+      >
         <transition-group name="flip-list">
           <div
             v-for="nav in navs"
@@ -35,7 +48,7 @@
             @dragstart="dragstart(nav)"
             @dragenter="dragenter(nav)"
           >
-            <span>{{nav.name}}</span>
+            <span>{{ nav.name }}</span>
             <z-icon type="drag"></z-icon>
           </div>
         </transition-group>
@@ -122,20 +135,20 @@ export default {
     ZIcon
   },
   computed: {
-    ...mapGetters('User', [ 'userId' ])
+    ...mapGetters('User', ['userId'])
   },
   created () {
     this._getData()
   },
   mounted () {
     let navCache = localStorage.getItem('nav')
-    if ( navCache ) {
+    if (navCache) {
       this.navs = JSON.parse(navCache)
     }
   },
   watch: {
     userId (newId) {
-      if ( !newId ) {
+      if (!newId) {
         this._getData()
       }
     }
@@ -159,11 +172,11 @@ export default {
           { result: mv },
           { djRadios: dj }
         ]) => {
-          banners.forEach(banner => {
+          banners.forEach((banner) => {
             banner.src = banner.imageUrl
           })
           this.banners = banners
-          mv = mv.map(item => {
+          mv = mv.map((item) => {
             return normalMV(item)
           })
           this.data = {
@@ -182,16 +195,20 @@ export default {
     },
     dragenter (nav) {
       this.newNav = nav
-      if ( this.oldNav.name !== this.newNav.name ) {
-        let oldIndex = this.navs.findIndex(nav => nav.name == this.oldNav.name)
-        let newIndex = this.navs.findIndex(nav => nav.name == this.newNav.name)
-        let newItems = [ ...this.navs ]
+      if (this.oldNav.name !== this.newNav.name) {
+        let oldIndex = this.navs.findIndex(
+          (nav) => nav.name == this.oldNav.name
+        )
+        let newIndex = this.navs.findIndex(
+          (nav) => nav.name == this.newNav.name
+        )
+        let newItems = [...this.navs]
         // 删除老的节点
         newItems.splice(oldIndex, 1)
         // 在列表中目标位置增加新的节点
         newItems.splice(newIndex, 0, this.oldNav)
         // this.navs一改变，transition-group就起了作用
-        this.navs = [ ...newItems ]
+        this.navs = [...newItems]
         window.localStorage.setItem('nav', JSON.stringify(this.navs))
       }
     },
@@ -204,68 +221,68 @@ export default {
 </script>
 
 <style>
-  .flip-list-move {
-    transition: transform 0.3s;
-  }
+.flip-list-move {
+  transition: transform 0.3s;
+}
 </style>
 <style lang="less" scoped>
-  .floors {
-    padding-top: 20px;
+.floors {
+  padding-top: 20px;
 
-    a {
-      font-size: 13px;
-      color: #888;
-    }
+  a {
+    font-size: 13px;
+    color: #888;
+  }
 
-    /deep/ .ant-card-head {
-      padding: 0;
-      min-height: 32px;
-      font-size: 18px;
-      font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  /deep/ .ant-card-head {
+    padding: 0;
+    min-height: 32px;
+    font-size: 18px;
+    font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI",
       "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue",
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
       "Segoe UI Symbol";
 
-      /deep/ .ant-card-head-title {
-        padding: 0;
-      }
-
-      /deep/ .ant-card-extra {
-        padding: 0;
-      }
+    /deep/ .ant-card-head-title {
+      padding: 0;
     }
 
-    /deep/ .ant-card-body {
-      padding: 10px 0;
+    /deep/ .ant-card-extra {
+      padding: 0;
     }
   }
 
-  .wy-footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    margin: auto;
-    border-top: 1px solid #eee;
+  /deep/ .ant-card-body {
+    padding: 10px 0;
   }
+}
 
-  .drag-item {
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 20px;
-    border-bottom: 1px solid #f3f3f3;
-    font-size: 18px;
-    cursor: move;
-  }
+.wy-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  margin: auto;
+  border-top: 1px solid #eee;
+}
 
-  .reset {
-    text-align: center;
-    display: block;
-    margin: 15px 0;
-    text-decoration: underline;
-    color: #999;
-  }
+.drag-item {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 20px;
+  border-bottom: 1px solid #f3f3f3;
+  font-size: 18px;
+  cursor: move;
+}
+
+.reset {
+  text-align: center;
+  display: block;
+  margin: 15px 0;
+  text-decoration: underline;
+  color: #999;
+}
 </style>

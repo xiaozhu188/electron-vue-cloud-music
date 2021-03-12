@@ -2,12 +2,20 @@
   <div class="user-detail" v-if="user">
     <div class="user-detail-info">
       <div class="avatar-box">
-        <img v-lazy="`${user.profile.avatarUrl}?param=200y200`" class="avatar-img" :key="user.profile.avatarUrl" />
+        <img
+          v-lazy="`${user.profile.avatarUrl}?param=200y200`"
+          class="avatar-img"
+          :key="user.profile.avatarUrl"
+        />
       </div>
       <div class="intro-box">
         <div class="row1">
-          <span class="nickname">{{user.profile.nickname}}</span>
-          <img src="./../../assets/images/vip.jpg" v-if="user.profile.vipType" class="img-vip" />
+          <span class="nickname">{{ user.profile.nickname }}</span>
+          <img
+            src="./../../assets/images/vip.jpg"
+            v-if="user.profile.vipType"
+            class="img-vip"
+          />
           <span class="level">
             <z-icon type="Lv" />
             <i>.{{ user.level }}</i>
@@ -15,8 +23,15 @@
           <div class="extra">
             <a-button-group size="small">
               <a-button icon="edit" :disabled="true">编辑信息</a-button>
-              <a-button type="primary" icon="check" @click="subscribe(2, user)" v-if="user.profile.followed">
-                {{ user.profile.followTime ? user.profile.followTime : '已关注' }}
+              <a-button
+                type="primary"
+                icon="check"
+                @click="subscribe(2, user)"
+                v-if="user.profile.followed"
+              >
+                {{
+                  user.profile.followTime ? user.profile.followTime : "已关注"
+                }}
               </a-button>
               <a-button icon="plus" @click="subscribe(1, user)" v-else>
                 关注
@@ -25,7 +40,10 @@
           </div>
         </div>
         <nav class="row2">
-          <router-link :to="`/user-event?uid=${user.profile.userId}&nickname=${user.profile.nickname}`" class="row-item">
+          <router-link
+            :to="`/user-event?uid=${user.profile.userId}&nickname=${user.profile.nickname}`"
+            class="row-item"
+          >
             <strong>{{ user.profile.eventCount }}</strong>
             <div>动态</div>
           </router-link>
@@ -38,22 +56,30 @@
             <div>粉丝</div>
           </router-link>
         </nav>
-        <div class="row3">个人介绍: {{ user.profile.description ? user.profile.description : "暂无介绍" }}</div>
+        <div class="row3"
+          >个人介绍:
+          {{
+            user.profile.description ? user.profile.description : "暂无介绍"
+          }}</div
+        >
       </div>
     </div>
     <div class="user-detail-playlist">
       <div class="title">{{ user.profile.nickname }} 的歌单( {{ total }} )</div>
       <ul>
-        <li v-for="(playlist) in list" :key="playlist.id" class="list-item">
+        <li v-for="playlist in list" :key="playlist.id" class="list-item">
           <router-link :to="`/playlist/${playlist.id}`" class="playlist">
-            <img v-lazy="`${playlist.coverImgUrl}?param=42y42`" class="avatar" />
+            <img
+              v-lazy="`${playlist.coverImgUrl}?param=42y42`"
+              class="avatar"
+            />
             <div class="name">{{ playlist.name }}</div>
             <div class="track-count">歌曲: {{ playlist.trackCount }}首</div>
             <div class="nickname">
               by
-              <router-link
-                :to="`/user?id=${playlist.creator.userId}`"
-              >{{ playlist.creator.nickname }}</router-link>
+              <router-link :to="`/user?id=${playlist.creator.userId}`">{{
+                playlist.creator.nickname
+              }}</router-link>
             </div>
             <div class="sub-count">
               <a-icon type="folder-add" />
@@ -116,28 +142,32 @@ export default {
   },
   methods: {
     getUser (uid) {
-      user_detail(uid).then(res => {
+      user_detail(uid).then((res) => {
         this.user = res
       })
-      getUserPlaylist(uid).then(
-        res => {
-          this.total = res.playlist.length
-          this.playlists = res.playlist
-        }
-      )
+      getUserPlaylist(uid).then((res) => {
+        this.total = res.playlist.length
+        this.playlists = res.playlist
+      })
     },
     onPageChange (page) {
       this.page = page
     },
     subscribe (t, user) {
-      this.$store.dispatch('User/subscribeUser', { t, userId: user.profile.userId, nickname: user.profile.nickname }).then(res => {
-        if (res.code === 200) {
-          if (res.followTimeContent) {
-            this.user.profile.followTime = res.followTimeContent
+      this.$store
+        .dispatch('User/subscribeUser', {
+          t,
+          userId: user.profile.userId,
+          nickname: user.profile.nickname
+        })
+        .then((res) => {
+          if (res.code === 200) {
+            if (res.followTimeContent) {
+              this.user.profile.followTime = res.followTimeContent
+            }
+            this.user.profile.followed = !this.user.profile.followed
           }
-          this.user.profile.followed = !this.user.profile.followed
-        }
-      })
+        })
     }
   }
 }

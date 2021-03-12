@@ -22,7 +22,7 @@ export default {
       checkDownloaded: 'checkDownloaded'
     }),
     handleAppWillClose () {
-      if ( this.$route.name !== 'mini' ) {
+      if (this.$route.name !== 'mini') {
         this.$store.commit('play/SET_PLAY_STATUS', false)
       }
       this.$store.commit('play/SET_SHOW_DESKTOP_LYRIC', false)

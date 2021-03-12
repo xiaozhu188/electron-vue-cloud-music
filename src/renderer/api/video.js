@@ -27,7 +27,8 @@ export function getRelatedVideo (id) {
 export function subVideo (id, t) {
   return request.get('/video/sub', {
     params: {
-      id, t
+      id,
+      t
     }
   })
 }

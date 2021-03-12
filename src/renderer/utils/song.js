@@ -2,7 +2,10 @@ import { getLyric, getSongUrl, getIntelligence } from '@/api/song'
 
 // param图片宽高
 export function normalSong (song, param = '200y200', isFm = false) {
-  let avatar = (song.album && (song.album.picUrl || song.album.artist.img1v1Url)) || (song.al && song.al.picUrl) || 'images/default_album.jpg'
+  let avatar =
+    (song.album && (song.album.picUrl || song.album.artist.img1v1Url)) ||
+    (song.al && song.al.picUrl) ||
+    'images/default_album.jpg'
   return {
     id: song.id,
     name: song.name,
@@ -36,6 +39,9 @@ export async function getUrl (id) {
 }
 
 export function generateName (song) {
-  let artistStr = song.artist.map(item => item.name).join(',').trim()
+  let artistStr = song.artist
+    .map((item) => item.name)
+    .join(',')
+    .trim()
   return `${artistStr} - ${song.name}.mp3`
 }

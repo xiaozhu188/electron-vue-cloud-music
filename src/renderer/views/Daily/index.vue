@@ -14,16 +14,33 @@
       <div class="tracks-top">
         <div class="item">
           <a-button-group>
-            <a-button type="primary" icon="play-circle" @click="play(songs,0)">播放全部</a-button>
-            <a-button type="primary" icon="plus" title="添加所有到播放列表" @click="addToList" />
+            <a-button type="primary" icon="play-circle" @click="play(songs, 0)"
+              >播放全部</a-button
+            >
+            <a-button
+              type="primary"
+              icon="plus"
+              title="添加所有到播放列表"
+              @click="addToList"
+            />
           </a-button-group>
         </div>
 
         <div class="item">
-          <a-button :disabled="!songs.length || loading" :icon="subIcon" @click="subscribe">收藏全部</a-button>
+          <a-button
+            :disabled="!songs.length || loading"
+            :icon="subIcon"
+            @click="subscribe"
+            >收藏全部</a-button
+          >
         </div>
       </div>
-      <track-list :isShowHead="false" :tracks="songs" @dblclick="play" @download="download" />
+      <track-list
+        :isShowHead="false"
+        :tracks="songs"
+        @dblclick="play"
+        @download="download"
+      />
     </div>
   </div>
 </template>
@@ -54,9 +71,7 @@ export default {
       'fullscreen',
       'current_lyric'
     ]),
-    ...mapGetters('User', [
-      'userPlaylists', 'likedsongIds'
-    ]),
+    ...mapGetters('User', ['userPlaylists', 'likedsongIds']),
     subIcon () {
       return this.likedsongIds.includes(this.pid) ? 'check' : 'folder-add'
     }
@@ -71,8 +86,8 @@ export default {
   },
   methods: {
     getSongs () {
-      getRecommendSongs().then(res => {
-        this.songs = res.data.dailySongs.map(song => {
+      getRecommendSongs().then((res) => {
+        this.songs = res.data.dailySongs.map((song) => {
           return normalSong(song)
         })
       })
@@ -81,12 +96,14 @@ export default {
       try {
         this.loading = true
         const date = new Date()
-        const name = `每日歌曲推荐(${date.getFullYear()}.${this._pad(date.getMonth() + 1)}.${this._pad(date.getDate())})`
+        const name = `每日歌曲推荐(${date.getFullYear()}.${this._pad(
+          date.getMonth() + 1
+        )}.${this._pad(date.getDate())})`
         let { code, playlist } = await createPlaylist({ name })
         if (code) {
           let op = 'add'
           let pid = playlist.id
-          let tracks = this.songs.map(song => {
+          let tracks = this.songs.map((song) => {
             return song.id
           })
           let res = await addSongToList({ op, tracks: tracks.join(','), pid })

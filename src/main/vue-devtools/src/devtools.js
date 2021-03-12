@@ -4,7 +4,6 @@ import { initDevTools } from 'src/devtools'
 import Bridge from 'src/bridge'
 
 initDevTools({
-
   /**
    * Inject backend, connect to background, and send back the bridge.
    *

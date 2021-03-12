@@ -3,12 +3,12 @@
     <div class="col-l">
       <loading v-show="isLoading"></loading>
       <h5 class="video-title" v-if="mv">
-        {{mv.name}}
+        {{ mv.name }}
         <span class="artist">
           <artists :artists="mv.artists" />
         </span>
       </h5>
-      <div class="video-wrapper" :class="{'full-screen':fullScreenFlag}">
+      <div class="video-wrapper" :class="{ 'full-screen': fullScreenFlag }">
         <video
           name="mv"
           autoplay
@@ -30,7 +30,7 @@
         <ul class="brs-list" v-if="mvURL && mvURL.url" v-show="isShowBrs">
           <li
             class="brs-item"
-            :class="{'current':item.key == mvURL.key}"
+            :class="{ current: item.key == mvURL.key }"
             v-for="item in urls"
             :key="item.key"
             @click="selectBrs(item)"
@@ -51,17 +51,27 @@
           </div>
           <div class="video-operation">
             <div class="left">
-              <a-icon :type="playIcon" class="play-icon" @click="togglePlaying" />
-              <span class="time">{{currentTime | duration}}</span>
+              <a-icon
+                :type="playIcon"
+                class="play-icon"
+                @click="togglePlaying"
+              />
+              <span class="time">{{ currentTime | duration }}</span>
               <i>|</i>
-              <span class="time">{{mv.duration / 1000 | duration}}</span>
+              <span class="time">{{ (mv.duration / 1000) | duration }}</span>
             </div>
             <div class="right">
               <div class="brs">
-                <div class="default" @click="isShowBrs=!isShowBrs">{{brsMap[mvURL.key]}}</div>
+                <div class="default" @click="isShowBrs = !isShowBrs">{{
+                  brsMap[mvURL.key]
+                }}</div>
               </div>
 
-              <div class="fullScreen" @click="toggleFullScreen" title="网页全屏">
+              <div
+                class="fullScreen"
+                @click="toggleFullScreen"
+                title="网页全屏"
+              >
                 <a-icon :type="screenIcon" />
               </div>
             </div>
@@ -77,17 +87,21 @@
             icon="check"
             @click.native="subscribe(mv.id)"
             v-if="isLiked || mv.isSubscribed"
-          >已收藏</a-button>
+            >已收藏</a-button
+          >
           <a-button
             size="small"
             :loading="subscribing"
             icon="folder-add"
             @click.native="subscribe(mv.id, 1)"
             v-else
-          >收藏MV</a-button>
+            >收藏MV</a-button
+          >
         </li>
         <li class="item" @click="share">
-          <a-button icon="share-alt" size="small">分享({{ mv.shareCount }})</a-button>
+          <a-button icon="share-alt" size="small"
+            >分享({{ mv.shareCount }})</a-button
+          >
         </li>
       </ul>
 
@@ -103,9 +117,9 @@
     <div class="col-r">
       <div class="mv-info">
         <h5 class="title">MV介绍</h5>
-        <div class="publishTime">发布时间：{{mv.publishTime}}</div>
-        <div class="playCount">播放次数：{{mv.playCount | toWan}}</div>
-        <div class="desc">{{mv.briefDesc || mv.desc || '暂无描述'}}</div>
+        <div class="publishTime">发布时间：{{ mv.publishTime }}</div>
+        <div class="playCount">播放次数：{{ mv.playCount | toWan }}</div>
+        <div class="desc">{{ mv.briefDesc || mv.desc || "暂无描述" }}</div>
       </div>
       <div class="simi-mv">
         <h5 class="title">相关MV</h5>
@@ -113,14 +127,14 @@
           <router-link
             :to="`/mv/${item.id}`"
             class="item"
-            v-for="(item,index) in simiList"
+            v-for="(item, index) in simiList"
             :key="`${item.id}_${index}`"
             replace
           >
             <img class="avatar" :src="item.avatar" />
             <div class="info">
-              <div class="name">{{item.name}}</div>
-              <div class="duration">{{item.duration | duration}}</div>
+              <div class="name">{{ item.name }}</div>
+              <div class="duration">{{ item.duration | duration }}</div>
               <div class="artist">
                 <artists :artists="mv.artists" />
               </div>
@@ -192,7 +206,7 @@ export default {
     },
     isLiked: {
       get () {
-        return this.subVideoList.some(item => item.id == this.mv.id)
+        return this.subVideoList.some((item) => item.id == this.mv.id)
       }
     }
   },
@@ -269,7 +283,7 @@ export default {
       win.loadURL(winURL)
     },
     _getMv (id) {
-      getMVInfo(id).then(res => {
+      getMVInfo(id).then((res) => {
         this.mv = res.data
         let urls = []
         for (let k in res.data.brs) {
@@ -283,9 +297,9 @@ export default {
         console.log(this.urls)
         this.isLoading = false
       })
-      getSimiMV(id).then(res => {
+      getSimiMV(id).then((res) => {
         let arr = []
-        res.mvs.forEach(item => {
+        res.mvs.forEach((item) => {
           arr.push(normalMV(item))
         })
         this.simiList = arr
@@ -313,9 +327,9 @@ export default {
     },
     getSubVideo () {
       if (!this.userId) return
-      getMv({}).then(res => {
+      getMv({}).then((res) => {
         let arr = []
-        res.data.forEach(video => {
+        res.data.forEach((video) => {
           arr.push(normalVideo(video))
         })
         this.subVideoList = arr
@@ -332,7 +346,9 @@ export default {
           } else {
             this.$message.success('取消收藏成功!')
             this.$set(this.mv, 'isSubscribed', false)
-            let index = this.subVideoList.findIndex(item => item.id == videoId)
+            let index = this.subVideoList.findIndex(
+              (item) => item.id == videoId
+            )
             this.subVideoList.splice(index, 1)
           }
         }
@@ -400,7 +416,8 @@ export default {
     },
     share () {
       let url = `https://music.163.com/#/mv?id=${this.$route.params.id}`
-      let _shareUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
+      let _shareUrl =
+        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
       _shareUrl += 'url=' + url
       _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
       _shareUrl += '&desc=' + '♪我发现一个不错的视频-' + this.mv.name

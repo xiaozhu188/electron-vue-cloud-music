@@ -1,24 +1,33 @@
 <template>
-  <ul :class="[{'bordered':bordered},'song-list']">
+  <ul :class="[{ bordered: bordered }, 'song-list']">
     <li
       class="song-item"
       v-for="(song, index) in tracks"
       :key="song.id"
-      @click="onClick(tracks,index)"
+      @click="onClick(tracks, index)"
     >
-      <div class="item-index">{{index > 8 ? index + 1 : '0' + (index + 1)}}</div>
+      <div class="item-index">{{
+        index > 8 ? index + 1 : "0" + (index + 1)
+      }}</div>
       <div class="item-avatar">
-        <img v-lazy="song.avatar" class="avatar">
-        <a-icon type="play-circle" class="icon"/>
+        <img v-lazy="song.avatar" class="avatar" />
+        <a-icon type="play-circle" class="icon" />
       </div>
       <div class="info">
         <div class="name">
-          <span>{{song.name}}</span>
-          <small class="alias" v-if="song.alia && song.alia.length">{{song.alia[0]}}</small>
-          <a-icon type="youtube" class="icon-mv" v-if="song.mvid && showMore"/>
+          <span>{{ song.name }}</span>
+          <small class="alias" v-if="song.alia && song.alia.length">{{
+            song.alia[0]
+          }}</small>
+          <a-icon type="youtube" class="icon-mv" v-if="song.mvid && showMore" />
         </div>
         <div v-if="!showMore">
-          <span @click.stop="play(song.mvid)" title="查看MV" style="margin-right: 3px;" v-if="song.mvid">
+          <span
+            @click.stop="play(song.mvid)"
+            title="查看MV"
+            style="margin-right: 3px"
+            v-if="song.mvid"
+          >
             <a-icon type="youtube" class="icon-mv" />
           </span>
           <artists :artists="song.artist" @click.native.stop />
@@ -26,10 +35,10 @@
       </div>
       <template v-if="showMore">
         <div class="extra-item artist">
-          <artists :artists="song.artist"/>
+          <artists :artists="song.artist" />
         </div>
-        <div class="extra-item album">{{song.album.name}}</div>
-        <div class="extra-item duration">{{song.duration}}</div>
+        <div class="extra-item album">{{ song.album.name }}</div>
+        <div class="extra-item duration">{{ song.duration }}</div>
       </template>
     </li>
   </ul>

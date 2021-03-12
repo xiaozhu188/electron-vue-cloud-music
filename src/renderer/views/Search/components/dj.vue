@@ -9,12 +9,15 @@
       >
         <a-col :span="20">
           <router-link :to="`/dj/${djRadio.id}`" class="dj">
-            <img v-lazy="`${djRadio.picUrl}?param=50y50`">
-            <span>{{djRadio.name}}</span>
+            <img v-lazy="`${djRadio.picUrl}?param=50y50`" />
+            <span>{{ djRadio.name }}</span>
           </router-link>
         </a-col>
         <a-col :span="4">
-          by <router-link :to="`/user?id=${djRadio.dj.userId}`">{{djRadio.dj.nickname}}</router-link>
+          by
+          <router-link :to="`/user?id=${djRadio.dj.userId}`">{{
+            djRadio.dj.nickname
+          }}</router-link>
         </a-col>
       </a-row>
     </a-spin>
@@ -26,9 +29,7 @@
 import searchMixin from '@/mixins/Search'
 import Artists from '@/components/Common/artists'
 export default {
-  mixins: [
-    searchMixin
-  ],
+  mixins: [searchMixin],
   data () {
     return {
       djRadios: []

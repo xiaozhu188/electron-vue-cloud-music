@@ -3,15 +3,24 @@
     <div class="col-l">
       <loading v-show="isLoading"></loading>
       <h5 class="video-title">
-        {{mv.title}}
+        {{ mv.title }}
         <router-link
           :to="`/user?id=${mv.creator.userId}`"
           class="artist"
           v-if="mv"
-        >{{mv.creator.nickname}}</router-link>
+          >{{ mv.creator.nickname }}</router-link
+        >
       </h5>
-      <div class="video-wrapper" :class="{'full-screen':fullScreenFlag}" v-if="mv">
-        <div class="background" :style="`background-image:url(${mv.avatarUrl}?param=100y100)`" v-if="mv.height > mv.width"></div>
+      <div
+        class="video-wrapper"
+        :class="{ 'full-screen': fullScreenFlag }"
+        v-if="mv"
+      >
+        <div
+          class="background"
+          :style="`background-image:url(${mv.avatarUrl}?param=100y100)`"
+          v-if="mv.height > mv.width"
+        ></div>
         <video
           name="media"
           autoplay
@@ -30,66 +39,94 @@
         >
         </video>
         <div class="video-controls">
-        <div class="video-progress">
-          <progress-bar
-            :percent="percent"
-            :bufferedPercent="bufferedPercent"
-            :waiting="waiting"
-            @percentChanged="onProgressBarChange"
-            @percentChanging="onProgressBarChanging"
-          />
-        </div>
-        <div class="video-operation">
-          <div class="left">
-            <a-icon :type="playIcon" class="play-icon" @click="togglePlaying"/>
-            <span class="time">{{currentTime | duration}}</span>
-            <i>|</i>
-            <span class="time">{{mv.durationms / 1000 | duration}}</span>
+          <div class="video-progress">
+            <progress-bar
+              :percent="percent"
+              :bufferedPercent="bufferedPercent"
+              :waiting="waiting"
+              @percentChanged="onProgressBarChange"
+              @percentChanging="onProgressBarChanging"
+            />
           </div>
-          <div class="right">
-            <div class="fullScreen" @click="toggleFullScreen" title="网页全屏">
-              <a-icon :type="screenIcon"/>
+          <div class="video-operation">
+            <div class="left">
+              <a-icon
+                :type="playIcon"
+                class="play-icon"
+                @click="togglePlaying"
+              />
+              <span class="time">{{ currentTime | duration }}</span>
+              <i>|</i>
+              <span class="time">{{ (mv.durationms / 1000) | duration }}</span>
+            </div>
+            <div class="right">
+              <div
+                class="fullScreen"
+                @click="toggleFullScreen"
+                title="网页全屏"
+              >
+                <a-icon :type="screenIcon" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
 
       <ul class="actions" v-if="mv">
         <li class="item">
-          <a-button size="small" :loading="subscribing" icon="check" @click.native="subscribe(mv.vid)" v-if="isLiked || mv.isSubscribed">
+          <a-button
+            size="small"
+            :loading="subscribing"
+            icon="check"
+            @click.native="subscribe(mv.vid)"
+            v-if="isLiked || mv.isSubscribed"
+          >
             已收藏
           </a-button>
-          <a-button size="small" :loading="subscribing" icon="folder-add" @click.native="subscribe(mv.vid, 1)" v-else>
+          <a-button
+            size="small"
+            :loading="subscribing"
+            icon="folder-add"
+            @click.native="subscribe(mv.vid, 1)"
+            v-else
+          >
             收藏视频
           </a-button>
         </li>
         <li class="item" @click="share">
-          <a-button icon="share-alt" size="small">分享({{ mv.shareCount }})</a-button>
+          <a-button icon="share-alt" size="small"
+            >分享({{ mv.shareCount }})</a-button
+          >
         </li>
       </ul>
 
       <div class="video-comment">
         <comment :commentData="commentData"></comment>
-        <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore" />
+        <infinite-loading
+          forceUseInfiniteWrapper=".ant-layout-content"
+          :identifier="infiniteId"
+          @infinite="loadmore"
+        />
       </div>
     </div>
     <div class="col-r">
       <div class="mv-info">
         <h5 class="title">视频介绍</h5>
-        <div style="display: flex;" v-if="mv && mv.videoGroup.length">
-          <span style="marginRight:3px;flex: 0 0 40px;">标签: </span>
+        <div style="display: flex" v-if="mv && mv.videoGroup.length">
+          <span style="marginright: 3px; flex: 0 0 40px">标签: </span>
           <a-breadcrumb>
             <a-breadcrumb-item v-for="tag in mv.videoGroup" :key="tag.id">
-              <router-link :to="`/video?groupId=${tag.id}`" class="tag">{{tag.name}}</router-link>
+              <router-link :to="`/video?groupId=${tag.id}`" class="tag">{{
+                tag.name
+              }}</router-link>
             </a-breadcrumb-item>
           </a-breadcrumb>
         </div>
 
-        <div class="briefDesc">{{mv.briefDesc}}</div>
-        <div class="publishTime">发布时间：{{mv.publishTime | toDate}}</div>
-        <div class="playCount">播放次数：{{mv.playTime | toWan}}</div>
-        <div class="desc">{{mv.description || '暂无描述'}}</div>
+        <div class="briefDesc">{{ mv.briefDesc }}</div>
+        <div class="publishTime">发布时间：{{ mv.publishTime | toDate }}</div>
+        <div class="playCount">播放次数：{{ mv.playTime | toWan }}</div>
+        <div class="desc">{{ mv.description || "暂无描述" }}</div>
       </div>
       <div class="simi-mv">
         <h5 class="title">相关视频</h5>
@@ -97,21 +134,26 @@
           <router-link
             :to="`/video/${item.id}`"
             class="item"
-            v-for="(item,index) in simiList"
+            v-for="(item, index) in simiList"
             :key="index"
             replace
           >
-            <img class="avatar" v-lazy="`${item.avatar}?param=140y80`"  :key="item.id">
+            <img
+              class="avatar"
+              v-lazy="`${item.avatar}?param=140y80`"
+              :key="item.id"
+            />
             <div class="info">
-              <div class="name">{{item.name}}</div>
-              <div class="duration">{{item.duration | duration}}</div>
+              <div class="name">{{ item.name }}</div>
+              <div class="duration">{{ item.duration | duration }}</div>
               <div class="artist">
                 by
                 <router-link
                   :to="`/artist/${c.userId}`"
                   v-for="c in item.creator"
                   :key="c.userId"
-                >{{c.userName}}</router-link>
+                  >{{ c.userName }}</router-link
+                >
               </div>
             </div>
           </router-link>
@@ -122,7 +164,12 @@
 </template>
 
 <script>
-import { getVideoUrl, getVideoDetail, getRelatedVideo, subVideo } from '@/api/video'
+import {
+  getVideoUrl,
+  getVideoDetail,
+  getRelatedVideo,
+  subVideo
+} from '@/api/video'
 import { getVideoComment } from '@/api/comment'
 import ProgressBar from '@/components/Common/progressBar'
 import Comment from '@/components/Comment/index.vue'
@@ -188,7 +235,7 @@ export default {
     },
     isLiked: {
       get () {
-        return this.subVideoList.some(item => item.id == this.mv.vid)
+        return this.subVideoList.some((item) => item.id == this.mv.vid)
       }
     }
   },
@@ -239,18 +286,18 @@ export default {
   methods: {
     ...mapMutations('play', ['SET_VIDEO_PLAY_STATUS']),
     _getVideo (id) {
-      getVideoDetail(id).then(res => {
+      getVideoDetail(id).then((res) => {
         this.mv = res.data
       })
-      getVideoUrl(id).then(res => {
+      getVideoUrl(id).then((res) => {
         // this.mv = res.data
         this.urls = res.urls
         this.mvURL = res.urls[0]
         this.isLoading = false
       })
-      getRelatedVideo(id).then(res => {
+      getRelatedVideo(id).then((res) => {
         let arr = []
-        res.data.forEach(item => {
+        res.data.forEach((item) => {
           arr.push(normalVideo(item))
         })
         this.simiList = arr
@@ -275,9 +322,9 @@ export default {
       }
     },
     getSubVideo () {
-      getMv({}).then(res => {
+      getMv({}).then((res) => {
         let arr = []
-        res.data.forEach(video => {
+        res.data.forEach((video) => {
           arr.push(normalVideo(video))
         })
         this.subVideoList = arr
@@ -295,7 +342,9 @@ export default {
           } else {
             this.$message.success('取消收藏成功!')
             this.$set(this.mv, 'isSubscribed', false)
-            let index = this.subVideoList.findIndex(item => item.id == videoId)
+            let index = this.subVideoList.findIndex(
+              (item) => item.id == videoId
+            )
             this.subVideoList.splice(index, 1)
           }
         }
@@ -356,7 +405,8 @@ export default {
     },
     share () {
       let url = `https://music.163.com/#/video?id=${this.$route.params.id}`
-      let _shareUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
+      let _shareUrl =
+        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
       _shareUrl += 'url=' + url
       _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
       _shareUrl += '&desc=' + '♪我发现一个不错的视频-' + this.mv.description
@@ -397,7 +447,7 @@ export default {
   }
   .video-wrapper {
     position: relative;
-    background: rgba(0,0,0,.5);
+    background: rgba(0, 0, 0, 0.5);
     overflow: hidden;
     max-height: 500px;
     height: auto;
@@ -568,7 +618,8 @@ export default {
             flex-direction: column;
             padding-left: 10px;
             font-size: 11px;
-            .name, .duration {
+            .name,
+            .duration {
               color: #111;
               font-size: 12px;
             }

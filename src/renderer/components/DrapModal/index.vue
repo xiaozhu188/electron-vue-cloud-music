@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    v-bind="{...$attrs,...$slots}"
+    v-bind="{ ...$attrs, ...$slots }"
     v-on="$listeners"
     v-model="currentValue"
   >
@@ -45,7 +45,10 @@ export default {
           } else {
             dragOptions.handle = '.ant-modal-body'
           }
-          const drag = new Draggabilly(target, Object.assign(dragOptions, this.dragOptions))
+          const drag = new Draggabilly(
+            target,
+            Object.assign(dragOptions, this.dragOptions)
+          )
           this.inited = true
         })
       }
@@ -64,7 +67,7 @@ export default {
 }
 </script>
 
-<style lang='less'>
+<style lang="less">
 .draggableModal .ant-modal.is-pointer-down {
   opacity: 1;
 }

@@ -1,14 +1,13 @@
 <template>
   <div>
     <ul class="mvs">
-      <mv-item
-        class="mv-item"
-        v-for="(mv) in mvs"
-        :mv="mv"
-        :key="mv.id"
-      />
+      <mv-item class="mv-item" v-for="mv in mvs" :mv="mv" :key="mv.id" />
     </ul>
-    <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore" />
+    <infinite-loading
+      forceUseInfiniteWrapper=".ant-layout-content"
+      :identifier="infiniteId"
+      @infinite="loadmore"
+    />
   </div>
 </template>
 
@@ -47,17 +46,17 @@ export default {
       }
       try {
         let { mvs, hasMore } = await getArtistMV(params)
-        let arr = mvs.map(mv => {
+        let arr = mvs.map((mv) => {
           return normalMV(mv, '400y224')
         })
         this.mvs = this.mvs.concat(arr)
         $state.loaded()
-        if ( hasMore ) {
+        if (hasMore) {
           this.offset += this.limit
         } else {
           $state.complete()
         }
-      } catch ( error ) {
+      } catch (error) {
         $state.error()
       }
     }
@@ -66,10 +65,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "./../../../styles/mixins";
+@import "./../../../styles/mixins";
 
-  .mvs {
-    .grid-layout(15px);
-    padding: 15px;
-  }
+.mvs {
+  .grid-layout(15px);
+  padding: 15px;
+}
 </style>

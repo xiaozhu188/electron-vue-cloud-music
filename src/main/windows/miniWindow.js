@@ -1,8 +1,9 @@
 import { LOAD_URL } from './../config'
 
-const miniWinURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080/#mini`
-  : `${LOAD_URL}#mini`
+const miniWinURL =
+  process.env.NODE_ENV === 'development'
+    ? `http://localhost:9080/#mini`
+    : `${LOAD_URL}#mini`
 const createMiniWindow = function (BrowserWindow) {
   let obj = {
     height: 48,

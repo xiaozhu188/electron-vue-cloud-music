@@ -11,10 +11,10 @@ const state = {
 }
 
 const getters = {
-  primaryColor: state => state.primaryColor,
-  showView: state => state.showView,
-  showDesktoplyric: state => state.showDesktoplyric,
-  isOnliline: state => state.isOnliline
+  primaryColor: (state) => state.primaryColor,
+  showView: (state) => state.showView,
+  showDesktoplyric: (state) => state.showDesktoplyric,
+  isOnliline: (state) => state.isOnliline
 }
 
 const mutations = {

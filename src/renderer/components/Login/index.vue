@@ -6,28 +6,56 @@
     :width="320"
     wrapClassName="login"
     centered
-    :maskStyle="{backgroundColor: 'rgba(0, 0, 0, 0.1)'}"
+    :maskStyle="{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }"
   >
     <a-form id="login" :form="form" @submit="handleSubmit">
       <a-form-item>
         <a-input
-          v-decorator="['phone',{rules: [{ required: true, pattern: /^1[3|4|5|7|8][0-9]{9}$/, message: '格式错误!' }]}]"
+          v-decorator="[
+            'phone',
+            {
+              rules: [
+                {
+                  required: true,
+                  pattern: /^1[3|4|5|7|8][0-9]{9}$/,
+                  message: '格式错误!',
+                },
+              ],
+            },
+          ]"
           placeholder="用户名"
         >
-          <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+          <a-icon
+            slot="prefix"
+            type="user"
+            style="color: rgba(0, 0, 0, 0.25)"
+          />
         </a-input>
       </a-form-item>
       <a-form-item>
         <a-input
-          v-decorator="['password',{rules: [{ required: true, message: '密码不能为空!' }]}]"
+          v-decorator="[
+            'password',
+            { rules: [{ required: true, message: '密码不能为空!' }] },
+          ]"
           type="password"
           placeholder="密码"
         >
-          <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+          <a-icon
+            slot="prefix"
+            type="lock"
+            style="color: rgba(0, 0, 0, 0.25)"
+          />
         </a-input>
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" html-type="submit" class="login-form-button" :loading="loading">登录</a-button>
+        <a-button
+          type="primary"
+          html-type="submit"
+          class="login-form-button"
+          :loading="loading"
+          >登录</a-button
+        >
       </a-form-item>
     </a-form>
   </a-modal>
@@ -111,7 +139,7 @@ export default {
 .login .ant-modal-content {
   min-height: 400px;
   background: #f8f8f8 url("./../../assets/images/loginBg.jpg") top
-    center/contain no-repeat!important;
+    center/contain no-repeat !important;
 }
 
 #login {

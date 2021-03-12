@@ -5,32 +5,57 @@
       <a-list-item v-if="playlist">
         <a-list-item-meta>
           <div slot="title">
-            <h1>{{playlist.name}}</h1>
+            <h1>{{ playlist.name }}</h1>
           </div>
           <div slot="description">
             <div class="creator">
-              <img class="creator-avatar" v-lazy="`${playlist.creator.avatarUrl}?param=32y32`" />
-              <router-link :to="`/user?id=${playlist.creator.userId}`" class="name">{{playlist.creator.nickname}}
+              <img
+                class="creator-avatar"
+                v-lazy="`${playlist.creator.avatarUrl}?param=32y32`"
+              />
+              <router-link
+                :to="`/user?id=${playlist.creator.userId}`"
+                class="name"
+                >{{ playlist.creator.nickname }}
               </router-link>
-              <span class="time">{{playlist.createTime | toDate}}创建</span>
+              <span class="time">{{ playlist.createTime | toDate }}创建</span>
             </div>
             <ul class="actions">
               <li class="item">
                 <a-button-group size="small">
-                  <a-button type="primary" icon="play-circle" @click="play">播放全部</a-button>
-                  <a-button type="primary" icon="plus" title="添加所有到播放列表" @click="addToList" />
+                  <a-button type="primary" icon="play-circle" @click="play"
+                    >播放全部</a-button
+                  >
+                  <a-button
+                    type="primary"
+                    icon="plus"
+                    title="添加所有到播放列表"
+                    @click="addToList"
+                  />
                 </a-button-group>
               </li>
               <li class="item">
-                <a-button size="small" icon="check" @click="subscribe(2, playlist)" v-if="isLiked">
-                  已收藏({{playlist.subscribedCount}})
+                <a-button
+                  size="small"
+                  icon="check"
+                  @click="subscribe(2, playlist)"
+                  v-if="isLiked"
+                >
+                  已收藏({{ playlist.subscribedCount }})
                 </a-button>
-                <a-button size="small" icon="folder-add" @click="subscribe(1, playlist)" v-else>
-                  收藏({{playlist.subscribedCount}})
+                <a-button
+                  size="small"
+                  icon="folder-add"
+                  @click="subscribe(1, playlist)"
+                  v-else
+                >
+                  收藏({{ playlist.subscribedCount }})
                 </a-button>
               </li>
               <li class="item" @click="share">
-                <a-button size="small" icon="share-alt">分享({{playlist.shareCount}})</a-button>
+                <a-button size="small" icon="share-alt"
+                  >分享({{ playlist.shareCount }})</a-button
+                >
               </li>
               <li class="item">
                 <a-button size="small" @click="downloadAll">
@@ -42,29 +67,42 @@
             <div class="tags">
               <span>标签：</span>
               <a-breadcrumb v-if="playlist.tags && playlist.tags.length">
-                <a-breadcrumb-item v-for="(tag, tagIndex) in playlist.tags" :key="tagIndex">
-                  <router-link :to="`/playlist?cat=${tag}`">{{tag}}</router-link>
+                <a-breadcrumb-item
+                  v-for="(tag, tagIndex) in playlist.tags"
+                  :key="tagIndex"
+                >
+                  <router-link :to="`/playlist?cat=${tag}`">{{
+                    tag
+                  }}</router-link>
                 </a-breadcrumb-item>
               </a-breadcrumb>
               <span v-else>无</span>
             </div>
             <div class="desc">
               <span>简介：</span>
-              <span v-html="playlist.description" v-if="playlist.description"></span>
+              <span
+                v-html="playlist.description"
+                v-if="playlist.description"
+              ></span>
               <span v-else>无</span>
             </div>
           </div>
-          <img slot="avatar" width="200" height="200" v-lazy="`${playlist.coverImgUrl}?param=200y200`"
-               :key="playlist.id" />
+          <img
+            slot="avatar"
+            width="200"
+            height="200"
+            v-lazy="`${playlist.coverImgUrl}?param=200y200`"
+            :key="playlist.id"
+          />
         </a-list-item-meta>
         <ul class="action">
           <li class="action-item">
             <div>歌曲数</div>
-            <strong>{{playlist.trackCount}}</strong>
+            <strong>{{ playlist.trackCount }}</strong>
           </li>
           <li class="action-item">
             <div>播放数</div>
-            <strong>{{playlist.playCount}}</strong>
+            <strong>{{ playlist.playCount }}</strong>
           </li>
         </ul>
       </a-list-item>
@@ -110,17 +148,13 @@ export default {
     next()
   },
   computed: {
-    ...mapGetters('User', [
-      'likedPlaylistIds'
-    ]),
-    ...mapGetters('play', [
-      'current_play_list'
-    ]),
+    ...mapGetters('User', ['likedPlaylistIds']),
+    ...mapGetters('play', ['current_play_list']),
     isLiked () {
       return this.likedPlaylistIds.includes(this.playlist.id)
     },
     songs () {
-      return this.tracks.filter(track => {
+      return this.tracks.filter((track) => {
         return track.name.includes(this.searchKey)
       })
     }
@@ -131,7 +165,7 @@ export default {
         this.loading = true
         let res = await getPlaylistDetail(id)
         this.playlist = res.playlist
-        this.tracks = res.playlist.tracks.map(track => normalSong(track))
+        this.tracks = res.playlist.tracks.map((track) => normalSong(track))
       } catch (error) {
       } finally {
         this.loading = false
@@ -144,7 +178,10 @@ export default {
       this.$store.dispatch('User/subscribePlatlist', { t, playlist })
     },
     play () {
-      this.$store.dispatch('play/selectPlay', { tracks: this.tracks, index: 0 })
+      this.$store.dispatch('play/selectPlay', {
+        tracks: this.tracks,
+        index: 0
+      })
     },
     addToList () {
       let current_play_list = this.current_play_list.slice()
@@ -154,10 +191,14 @@ export default {
     },
     share () {
       let url = `https://music.163.com/#/playlist?id=${this.$route.params.id}`
-      let _shareUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
+      let _shareUrl =
+        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
       _shareUrl += 'url=' + url
       _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
-      _shareUrl += '&desc=' + '♪我发现一个不错的歌单-' + (this.playlist.description || this.playlist.name)
+      _shareUrl +=
+        '&desc=' +
+        '♪我发现一个不错的歌单-' +
+        (this.playlist.description || this.playlist.name)
       _shareUrl += '&summary=' + '分享摘要'
       _shareUrl += '&title=' + '♪我发现一个不错的歌单-' + this.playlist.name
       _shareUrl += '&site=' + 'https://music.163.com/'
@@ -165,7 +206,7 @@ export default {
       this.$electron.remote.shell.openExternal(_shareUrl)
     },
     downloadAll () {
-      this.tracks.forEach(song => {
+      this.tracks.forEach((song) => {
         this.$set(song, 'isWaitting', true)
       })
       this.$store.dispatch('Download/adddownloadQueue', this.tracks)

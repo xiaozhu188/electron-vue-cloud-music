@@ -9,7 +9,7 @@ const mm = require('music-metadata')
 const avatarIcon = 'images/default_album.jpg'
 
 function isSongInArray (song, arr) {
-  return arr.findIndex(item => item.id == song.id) >= 0
+  return arr.findIndex((item) => item.id == song.id) >= 0
 }
 export default {
   namespaced: true,
@@ -18,7 +18,7 @@ export default {
     exportFolders: [`${remote.app.getPath('music')}`]
   },
   getters: {
-    localSongs: state => state.localSongs
+    localSongs: (state) => state.localSongs
   },
   mutations: {
     clear (state) {
@@ -49,10 +49,13 @@ export default {
           let songs = res.result.songs
 
           if (songs && songs.length) {
-            let suggest = songs.find(item => {
-              let artistArr = song.artist.map(artist => artist.name.trim())
-              return item.artists.every(artist => artistArr.includes(artist.name))
-            }) || songs[0]
+            let suggest =
+              songs.find((item) => {
+                let artistArr = song.artist.map((artist) => artist.name.trim())
+                return item.artists.every((artist) =>
+                  artistArr.includes(artist.name)
+                )
+              }) || songs[0]
 
             suggest = normalSong(suggest)
             localSongs[i] = {
@@ -69,7 +72,10 @@ export default {
       }
     },
     async refresh ({ state, commit, dispatch, rootState }, selectedFolders) {
-      let folders = selectedFolders && selectedFolders.length ? selectedFolders : state.exportFolders
+      let folders =
+        selectedFolders && selectedFolders.length
+          ? selectedFolders
+          : state.exportFolders
       let songs = []
       for (let folder of folders) {
         try {
@@ -84,14 +90,23 @@ export default {
                 })
 
                 let songname = item.substring(0, item.lastIndexOf('.')).trim()
-                let artist = [], name = songname, matched = false
+                let artist = [],
+                  name = songname,
+                  matched = false
                 if (songname.split('-')[0] && songname.split('-')[1]) {
-                  artist = songname.split('-')[0].split(',').map(item => { return { name: item } })
+                  artist = songname
+                    .split('-')[0]
+                    .split(',')
+                    .map((item) => {
+                      return { name: item }
+                    })
                   name = songname.split('-')[1].trim()
                   matched = false
                 }
                 let extraItem = {
-                  artist, name, matched
+                  artist,
+                  name,
+                  matched
                 }
 
                 // console.log(name, artist, metadata)
@@ -100,7 +115,9 @@ export default {
                   avatar: avatarIcon,
                   album: metadata.common.album || '',
                   artist: metadata.common.artists
-                    ? metadata.common.artists.map(item => { return { name: item } })
+                    ? metadata.common.artists.map((item) => {
+                        return { name: item }
+                      })
                     : artist,
                   duration: parseInt(metadata.format.duration) || 0,
                   url: pathname,

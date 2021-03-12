@@ -5,25 +5,40 @@
       <a-list-item v-if="dj">
         <a-list-item-meta>
           <div slot="title">
-            <h1>{{dj.name}}</h1>
+            <h1>{{ dj.name }}</h1>
           </div>
           <div slot="description">
             <div class="creator">
-              <a-avatar class="creator-avatar" :src="`${dj.dj.avatarUrl}?param=32y32`"/>
-              <span class="name">{{dj.dj.nickname}}</span>
+              <a-avatar
+                class="creator-avatar"
+                :src="`${dj.dj.avatarUrl}?param=32y32`"
+              />
+              <span class="name">{{ dj.dj.nickname }}</span>
             </div>
             <ul class="actions">
               <li class="item">
                 <a-button-group size="small">
-                  <a-button type="primary" icon="play-circle" @click="play">播放全部</a-button>
+                  <a-button type="primary" icon="play-circle" @click="play"
+                    >播放全部</a-button
+                  >
                 </a-button-group>
               </li>
               <li class="item">
-                <a-button size="small" icon="check" @click="subscribe(2, dj)" v-if="dj.subed">
-                  已订阅({{dj.subCount}})
+                <a-button
+                  size="small"
+                  icon="check"
+                  @click="subscribe(2, dj)"
+                  v-if="dj.subed"
+                >
+                  已订阅({{ dj.subCount }})
                 </a-button>
-                <a-button size="small" icon="folder-add" @click="subscribe(1, dj)" v-else>
-                  订阅({{dj.subCount}})
+                <a-button
+                  size="small"
+                  icon="folder-add"
+                  @click="subscribe(1, dj)"
+                  v-else
+                >
+                  订阅({{ dj.subCount }})
                 </a-button>
               </li>
               <li class="item">
@@ -39,7 +54,13 @@
               <span>{{ dj.rcmdText }}</span>
             </div>
           </div>
-          <img slot="avatar" width="200" height="200" v-lazy="`${dj.picUrl}?param=200y200`" :key="dj.id" />
+          <img
+            slot="avatar"
+            width="200"
+            height="200"
+            v-lazy="`${dj.picUrl}?param=200y200`"
+            :key="dj.id"
+          />
         </a-list-item-meta>
       </a-list-item>
     </a-list>
@@ -76,12 +97,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('play', [
-      'current_play_list'
-    ])
+    ...mapGetters('play', ['current_play_list'])
   },
   components: {
-    TabBar, Loading
+    TabBar,
+    Loading
   },
   activated () {
     this._getDjDetail()
@@ -94,7 +114,7 @@ export default {
     _getDjDetail () {
       this.loading = true
       let id = this.$route.params.id
-      getDjDetail(id).then(res => {
+      getDjDetail(id).then((res) => {
         this.dj = res.djRadio
         this.loading = false
       })
@@ -103,7 +123,10 @@ export default {
       this.searchKey = value
     },
     play () {
-      this.$store.dispatch('play/selectPlay', { tracks: this.tracks, index: 0 })
+      this.$store.dispatch('play/selectPlay', {
+        tracks: this.tracks,
+        index: 0
+      })
     },
     subscribe (t, dj) {
       this.$store.dispatch('User/subscribeDj', { t, dj })

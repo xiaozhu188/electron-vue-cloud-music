@@ -10,12 +10,12 @@
       >
         <a-col :span="12">
           <router-link :to="`/album/${album.id}`" class="album">
-            <img v-lazy="`${album.picUrl}?param=50y50`">
-            <span>{{album.name}}</span>
+            <img v-lazy="`${album.picUrl}?param=50y50`" />
+            <span>{{ album.name }}</span>
           </router-link>
         </a-col>
         <a-col :span="12">
-          <artists :artists="album.artists"/>
+          <artists :artists="album.artists" />
         </a-col>
       </a-row>
     </a-spin>
@@ -27,9 +27,7 @@
 import searchMixin from '@/mixins/Search'
 import Artists from '@/components/Common/artists'
 export default {
-  mixins: [
-    searchMixin
-  ],
+  mixins: [searchMixin],
   data () {
     return {
       albums: []

@@ -12,7 +12,9 @@ export function getDjCatelist () {
 export function getDjByCate ({ type, limit = 5, offset = 0 }) {
   return request.get('/dj/recommend/type', {
     params: {
-      type, limit, offset
+      type,
+      limit,
+      offset
     }
   })
 }

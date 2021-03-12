@@ -20,20 +20,20 @@ export default {
     SettingItem
   },
   computed: {
-    ...mapGetters('Setting', [ 'downloadSongsFolders' ]),
+    ...mapGetters('Setting', ['downloadSongsFolders']),
     defaultDownloadFolder () {
-      return this.downloadSongsFolders[ 0 ]
+      return this.downloadSongsFolders[0]
     }
   },
   methods: {
-    ...mapMutations('Setting', [ 'mutateState' ]),
+    ...mapMutations('Setting', ['mutateState']),
     select () {
       dialog.showOpenDialog(
         {
-          properties: [ 'openDirectory' ]
+          properties: ['openDirectory']
         },
-        filePaths => {
-          if ( filePaths && filePaths.length ) {
+        (filePaths) => {
+          if (filePaths && filePaths.length) {
             this.mutateState({
               downloadSongsFolders: filePaths
             })
@@ -42,7 +42,7 @@ export default {
       )
     },
     reset () {
-      let folder = [ `${remote.app.getPath('music')}` ]
+      let folder = [`${remote.app.getPath('music')}`]
       this.mutateState({
         downloadSongsFolders: folder
       })

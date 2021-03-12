@@ -6,13 +6,18 @@
         v-for="(tab , index) in tabs"
         :key="index"
       >{{tab.label}}</router-link>-->
-      <router-link :to="{name:tab.name}" v-for="(tab , index) in tabs" :key="index">{{tab.label}}</router-link>
+      <router-link
+        :to="{ name: tab.name }"
+        v-for="(tab, index) in tabs"
+        :key="index"
+        >{{ tab.label }}</router-link
+      >
     </nav>
     <div class="tab-bar-extra-content" v-if="showSearch">
       <a-input-search
         size="small"
         placeholder="搜索歌单音乐"
-        style="width: 200px;"
+        style="width: 200px"
         class="extra-search"
         @change="onChange"
         @search="onSearch"
@@ -104,7 +109,8 @@ export default {
       margin: 0 20px;
       color: #333;
       text-decoration: none;
-      &.router-link-exact-active,&.router-link-active {
+      &.router-link-exact-active,
+      &.router-link-active {
         border-bottom: 3px solid @primary-color;
         color: @primary-color;
       }

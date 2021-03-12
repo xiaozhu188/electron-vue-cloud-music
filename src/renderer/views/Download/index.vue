@@ -13,10 +13,10 @@
 </template>
 
 <script>
-const Downloaded = resolve => {
+const Downloaded = (resolve) => {
   require(['./components/downloaded.vue'], resolve)
 }
-const Downloading = resolve => {
+const Downloading = (resolve) => {
   require(['./components/downloading.vue'], resolve)
 }
 export default {
@@ -27,7 +27,8 @@ export default {
     }
   },
   components: {
-    Downloaded, Downloading
+    Downloaded,
+    Downloading
   }
 }
 </script>

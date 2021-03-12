@@ -1,6 +1,11 @@
 import request from '@/utils/request.js'
 
-export function getArtistList ({ cat = '全部', limit = 30, offset = 0, initial = '' }) {
+export function getArtistList ({
+  cat = '全部',
+  limit = 30,
+  offset = 0,
+  initial = ''
+}) {
   return request.get('/artist/list', {
     params: {
       cat,

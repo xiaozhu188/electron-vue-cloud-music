@@ -6,9 +6,9 @@
         v-for="(line, index) in lyric.lines"
         :key="index"
         class="text"
-        :class="{'current' : current_lyric_line === index}"
+        :class="{ current: current_lyric_line === index }"
       >
-        <span v-show="showTime">{{ line.time / 1000 | duration }}</span>
+        <span v-show="showTime">{{ (line.time / 1000) | duration }}</span>
         <span>{{ line.txt }}</span>
       </p>
     </div>

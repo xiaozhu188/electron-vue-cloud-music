@@ -15,4 +15,4 @@ export function shuffle (arr) {
   return _arr
 }
 
-export const uniq = arr => [...new Set(arr)]
+export const uniq = (arr) => [...new Set(arr)]

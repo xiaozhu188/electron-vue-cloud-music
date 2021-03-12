@@ -1,21 +1,41 @@
 <template>
   <div class="newsong">
     <div class="cates">
-      <a href="#" v-for="(val, key) in cateMap" :key="key" class="item" :class="{'current': key == songType}"
-         @click="changeType(key)">{{ val }}</a>
+      <a
+        href="#"
+        v-for="(val, key) in cateMap"
+        :key="key"
+        class="item"
+        :class="{ current: key == songType }"
+        @click="changeType(key)"
+        >{{ val }}</a
+      >
     </div>
     <div class="tracks">
       <div class="tracks-top">
         <div class="item">
           <a-button-group>
-            <a-button type="primary" icon="play-circle" @click="play(songs,0)">播放全部</a-button>
-            <a-button type="primary" icon="plus" title="添加所有到播放列表" @click="addToList" />
+            <a-button type="primary" icon="play-circle" @click="play(songs, 0)"
+              >播放全部</a-button
+            >
+            <a-button
+              type="primary"
+              icon="plus"
+              title="添加所有到播放列表"
+              @click="addToList"
+            />
           </a-button-group>
         </div>
       </div>
       <div class="tracks-body">
         <a-spin v-if="loading" />
-        <track-list :columns="columns" :tracks="songs" :isShowHead="false" :isShowActions="false" @dblclick="play">
+        <track-list
+          :columns="columns"
+          :tracks="songs"
+          :isShowHead="false"
+          :isShowActions="false"
+          @dblclick="play"
+        >
           <template slot="name" slot-scope="{ row }">
             <img v-lazy="`${row.avatar}?param=40y40`" class="avatar" />
             <span>{{ row.name }}</span>
@@ -88,7 +108,7 @@ export default {
       'fullscreen',
       'current_lyric'
     ]),
-    ...mapGetters('User', [ 'userPlaylists', 'likedsongIds' ]),
+    ...mapGetters('User', ['userPlaylists', 'likedsongIds']),
     subIcon () {
       return this.likedsongIds.includes(this.pid) ? 'folder-add' : 'check'
     }
@@ -106,11 +126,11 @@ export default {
       this.loading = true
       try {
         let { data } = await getTopSong(songType)
-        this.songs = data.map(song => {
+        this.songs = data.map((song) => {
           return normalSong(song, '40y40')
         })
         this.loading = false
-      } catch ( error ) {
+      } catch (error) {
         this.loading = false
       }
     },
@@ -131,50 +151,50 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .newsong {
-    .tracks {
-      border: 1px solid #eee;
+.newsong {
+  .tracks {
+    border: 1px solid #eee;
 
-      &-top {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-      }
-
-      &-body {
-        position: relative;
-
-        .avatar {
-          width: 40px;
-          height: 40px;
-          margin-right: 4px;
-        }
-
-        /deep/ .song-item {
-          padding: 5px 0;
-        }
-
-        /deep/ .ant-spin-spinning {
-          position: absolute;
-          left: 50%;
-          top: 100px;
-          transform: translateX(-50%);
-          z-index: 1;
-        }
-      }
+    &-top {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
     }
 
-    .cates {
-      margin: 10px 0;
+    &-body {
+      position: relative;
 
-      .item {
-        margin-right: 12px;
-        color: #333;
+      .avatar {
+        width: 40px;
+        height: 40px;
+        margin-right: 4px;
+      }
 
-        &.current {
-          color: @primary-color;
-        }
+      /deep/ .song-item {
+        padding: 5px 0;
+      }
+
+      /deep/ .ant-spin-spinning {
+        position: absolute;
+        left: 50%;
+        top: 100px;
+        transform: translateX(-50%);
+        z-index: 1;
       }
     }
   }
+
+  .cates {
+    margin: 10px 0;
+
+    .item {
+      margin-right: 12px;
+      color: #333;
+
+      &.current {
+        color: @primary-color;
+      }
+    }
+  }
+}
 </style>

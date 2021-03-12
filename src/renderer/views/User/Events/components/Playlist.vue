@@ -14,9 +14,7 @@ export default {
       type: Object
     }
   },
-  methods: {
-
-  }
+  methods: {}
 }
 </script>
 
@@ -27,7 +25,7 @@ export default {
   padding: 10px;
   height: 100%;
   background: #eee;
-  color: rgba(0,0,0,.65);
+  color: rgba(0, 0, 0, 0.65);
   &:hover {
     cursor: pointer;
     background: #ddd;

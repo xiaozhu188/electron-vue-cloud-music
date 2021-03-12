@@ -5,11 +5,13 @@
         item-type="mv"
         :ratio="0.56"
         class="list-item"
-        v-for="(item) in list"
+        v-for="item in list"
         :item="item"
         :key="item.id"
       >
-        <div slot="copywriter" class="copywriter" v-if="item.copywriter">{{item.copywriter}}</div>
+        <div slot="copywriter" class="copywriter" v-if="item.copywriter">{{
+          item.copywriter
+        }}</div>
       </list-item>
     </ul>
   </div>

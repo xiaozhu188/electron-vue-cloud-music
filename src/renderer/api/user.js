@@ -158,7 +158,9 @@ export function createPlaylist ({ name, privacy }) {
 export function addSongToList ({ op, tracks, pid }) {
   return request.get('/playlist/tracks', {
     params: {
-      op, tracks, pid
+      op,
+      tracks,
+      pid
     }
   })
 }
@@ -177,7 +179,9 @@ export function getRecommendSongs () {
 export function getUserEvent ({ uid, limit = 30, lasttime = -1 }) {
   return request.get('/user/event', {
     params: {
-      uid, limit, lasttime
+      uid,
+      limit,
+      lasttime
     }
   })
 }
@@ -186,7 +190,8 @@ export function getUserEvent ({ uid, limit = 30, lasttime = -1 }) {
 export function getEvent ({ pagesize = 30, lasttime = -1 }) {
   return request.get('/event', {
     params: {
-      pagesize, lasttime
+      pagesize,
+      lasttime
     }
   })
 }
@@ -195,7 +200,8 @@ export function getEvent ({ pagesize = 30, lasttime = -1 }) {
 export function subDj ({ t, rid }) {
   return request.get('/dj/sub', {
     params: {
-      t, rid
+      t,
+      rid
     }
   })
 }
@@ -204,7 +210,8 @@ export function subDj ({ t, rid }) {
 export function subArtist ({ t, id }) {
   return request.get('/artist/sub', {
     params: {
-      t, id
+      t,
+      id
     }
   })
 }
@@ -212,7 +219,8 @@ export function subArtist ({ t, id }) {
 export function getHotTopic ({ limit = 30, offset = 0 }) {
   return request.get('/hot/topic', {
     params: {
-      limit, offset
+      limit,
+      offset
     }
   })
 }

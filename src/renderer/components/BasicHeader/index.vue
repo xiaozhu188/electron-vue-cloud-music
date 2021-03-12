@@ -1,7 +1,7 @@
 <template>
   <div class="top-bar">
     <div class="top-bar-logo">
-      <img src="../../assets/images/logo.svg" alt="LOGO">
+      <img src="../../assets/images/logo.svg" alt="LOGO" />
     </div>
     <div class="top-bar-main">
       <div class="top-bar-control">
@@ -18,8 +18,8 @@
           <div class="item">
             <theme-setting />
           </div>
-          <div class="item" @click="$router.push({path:'/setting'})">
-            <a-icon type="setting" class="icon"/>
+          <div class="item" @click="$router.push({ path: '/setting' })">
+            <a-icon type="setting" class="icon" />
           </div>
           <div class="item" @click="logout" v-if="userId">退出</div>
         </div>

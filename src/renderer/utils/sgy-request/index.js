@@ -5,7 +5,7 @@ import { bulidURL } from './url'
 const DEFAULTS = {
   baseURL: '',
   headers: {
-    'credentials': 'same-origin'
+    credentials: 'same-origin'
   }
 }
 
@@ -17,8 +17,8 @@ function normalizeData (config) {
 
 function normalizeHeaders (config) {
   const { headers = {}, data } = config
-  if (isObject(data) && !headers[ 'Content-Type' ]) {
-    headers[ 'Content-Type' ] = 'application/json; charset=utf-8'
+  if (isObject(data) && !headers['Content-Type']) {
+    headers['Content-Type'] = 'application/json; charset=utf-8'
   }
   return headers
 }
@@ -41,45 +41,63 @@ function _request (config) {
 function _fetch (config) {
   const { url } = config
   return new Promise((resolve, reject) => {
-    fetch(url, config).then(res => {
-      if (res.ok) {
-        const { onDownloadProgress } = config
-        if (!onDownloadProgress || typeof onDownloadProgress !== 'function') {
-          return transformResponse(config, res)
-        }
-        const contentLength = +res.headers.get('Content-Length')
-        let receivedLength = 0 // 当前接收到了这么多字节
-        let receivedChunks = [] // 接收到的二进制块的数组
-        let stream = new ReadableStream({
-          start (controller) {
-            const reader = res.body.getReader()
-            function pipe () {
-              reader.read().then(({ done, value }) => {
-                if (done) {
-                  controller.close()
-                  return
-                }
-                receivedChunks.push(value)
-                receivedLength += value.length
-                onDownloadProgress && onDownloadProgress((receivedLength / contentLength).toFixed(2))
-                controller.enqueue(value)
-                pipe()
-              }).catch(err => {
-                reject(createError(err.message || 'Net Error', config, err.code || null, err))
-              })
-            }
-            pipe()
+    fetch(url, config)
+      .then((res) => {
+        if (res.ok) {
+          const { onDownloadProgress } = config
+          if (!onDownloadProgress || typeof onDownloadProgress !== 'function') {
+            return transformResponse(config, res)
           }
-        })
-        return transformResponse(config, new Response(stream))
-      } else {
-        reject(createError(res.statusText, config, res.status, res))
-      }
-    }).then(res => {
-      resolve(res)
-    }).catch(err => {
-      reject(createError(err.message || 'Net Error', config, err.code || null, err))
-    })
+          const contentLength = +res.headers.get('Content-Length')
+          let receivedLength = 0 // 当前接收到了这么多字节
+          let receivedChunks = [] // 接收到的二进制块的数组
+          let stream = new ReadableStream({
+            start (controller) {
+              const reader = res.body.getReader()
+              function pipe () {
+                reader
+                  .read()
+                  .then(({ done, value }) => {
+                    if (done) {
+                      controller.close()
+                      return
+                    }
+                    receivedChunks.push(value)
+                    receivedLength += value.length
+                    onDownloadProgress &&
+                      onDownloadProgress(
+                        (receivedLength / contentLength).toFixed(2)
+                      )
+                    controller.enqueue(value)
+                    pipe()
+                  })
+                  .catch((err) => {
+                    reject(
+                      createError(
+                        err.message || 'Net Error',
+                        config,
+                        err.code || null,
+                        err
+                      )
+                    )
+                  })
+              }
+              pipe()
+            }
+          })
+          return transformResponse(config, new Response(stream))
+        } else {
+          reject(createError(res.statusText, config, res.status, res))
+        }
+      })
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(
+          createError(err.message || 'Net Error', config, err.code || null, err)
+        )
+      })
   })
 }
 
@@ -147,12 +165,12 @@ class Sguoyi {
       }
     ]
 
-    this.interceptors.request.interceptors.forEach(interceptor => {
+    this.interceptors.request.interceptors.forEach((interceptor) => {
       if (interceptor !== null) {
         arr.unshift(interceptor)
       }
     })
-    this.interceptors.response.interceptors.forEach(interceptor => {
+    this.interceptors.response.interceptors.forEach((interceptor) => {
       if (interceptor !== null) {
         arr.push(interceptor)
       }

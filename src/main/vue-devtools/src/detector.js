@@ -1,6 +1,6 @@
 import { installToast } from 'src/backend/toast'
 
-window.addEventListener('message', e => {
+window.addEventListener('message', (e) => {
   if (e.source === window && e.data.vueDetected) {
     chrome.runtime.sendMessage(e.data)
   }
@@ -21,10 +21,13 @@ function detect (win) {
       while (Vue.super) {
         Vue = Vue.super
       }
-      win.postMessage({
-        devtoolsEnabled: Vue.config.devtools,
-        vueDetected: true
-      }, '*')
+      win.postMessage(
+        {
+          devtoolsEnabled: Vue.config.devtools,
+          vueDetected: true
+        },
+        '*'
+      )
     }
   }, 100)
 }

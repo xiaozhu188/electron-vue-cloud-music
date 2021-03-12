@@ -1,11 +1,12 @@
 <template>
   <div class="subscriber">
     <div class="items" v-if="subscribers.length">
-      <router-link :to="`/user?id=${subscriber.userId}`"
-                   v-for="subscriber in subscribers"
-                   :key="subscriber.userId"
+      <router-link
+        :to="`/user?id=${subscriber.userId}`"
+        v-for="subscriber in subscribers"
+        :key="subscriber.userId"
       >
-        <img v-lazy="`${subscriber.avatarUrl}?param=55y55`" class="avatar">
+        <img v-lazy="`${subscriber.avatarUrl}?param=55y55`" class="avatar" />
         <div class="nickname">{{ subscriber.nickname }}</div>
       </router-link>
     </div>
@@ -34,7 +35,7 @@ export default {
     _getPlaylistSubscribers () {
       let id = this.$route.params.id
       let options = { ...this.options, id }
-      getPlaylistSubscribers(options).then(res => {
+      getPlaylistSubscribers(options).then((res) => {
         this.subscribers = res.subscribers
       })
     }
@@ -43,24 +44,24 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "./../../../styles/mixins";
+@import "./../../../styles/mixins";
 
-  .subscriber {
-    page-break-after: 20px;
-    .items {
-      .grid-layout(40px, 55px);
-      padding: 30px;
-      a {
-        color: #333;
-      }
-      .avatar {
-        border-radius: 50%;
-      }
-      .nickname {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
+.subscriber {
+  page-break-after: 20px;
+  .items {
+    .grid-layout(40px, 55px);
+    padding: 30px;
+    a {
+      color: #333;
+    }
+    .avatar {
+      border-radius: 50%;
+    }
+    .nickname {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
+}
 </style>

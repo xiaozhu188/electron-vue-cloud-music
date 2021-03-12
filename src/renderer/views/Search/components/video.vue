@@ -16,9 +16,7 @@ import { getMv } from '@/api/sublist'
 import { normalVideo } from '@/utils/video.js'
 
 export default {
-  mixins: [
-    searchMixin
-  ],
+  mixins: [searchMixin],
   data () {
     return {
       videos: []
@@ -26,8 +24,8 @@ export default {
   },
   methods: {
     normalData () {
-      if ( this.result.videos && this.result.videos.length ) {
-        this.videos = this.result.videos.map(video => {
+      if (this.result.videos && this.result.videos.length) {
+        this.videos = this.result.videos.map((video) => {
           return normalVideo(video)
         })
       }
@@ -39,10 +37,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "./../../../styles/mixins";
+@import "./../../../styles/mixins";
 
-  .videos {
-    .grid-layout(20px, 220px);
-    padding: 15px 20px;
-  }
+.videos {
+  .grid-layout(20px, 220px);
+  padding: 15px 20px;
+}
 </style>

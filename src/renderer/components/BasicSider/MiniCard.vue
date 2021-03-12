@@ -6,24 +6,39 @@
       v-show="Object.keys(current_song).length && !fullscreen"
     >
       <figure class="figure-wrapper">
-        <img v-lazy="current_song.avatar" :key="current_song.avatar" width="50" height="50" />
+        <img
+          v-lazy="current_song.avatar"
+          :key="current_song.avatar"
+          width="50"
+          height="50"
+        />
         <a-icon type="arrows-alt" class="fullscreen" />
       </figure>
       <section class="card-info">
         <header class="info-header">
-          <h5 class="songname" :title="current_song.name">{{current_song.name}}</h5>
+          <h5 class="songname" :title="current_song.name">{{
+            current_song.name
+          }}</h5>
           <span class="icon-wrapper" v-if="!current_song.folder">
             <song-heart
               :isLiked="likedsongIds.includes(current_song.id)"
-              @heartClick="(isLike)=>{handleLikeSong({songId:current_song.id,isLike})}"
+              @heartClick="
+                (isLike) => {
+                  handleLikeSong({ songId: current_song.id, isLike })
+                }
+              "
             />
           </span>
         </header>
         <footer class="info-footer">
           <div class="artist" @click.stop>
-            <artists :artists="current_song.artist" style="paddingLeft:10px" />
+            <artists :artists="current_song.artist" style="paddingleft: 10px" />
           </div>
-          <span class="icon-wrapper" @click.stop="showShareWindow" v-if="!current_song.folder">
+          <span
+            class="icon-wrapper"
+            @click.stop="showShareWindow"
+            v-if="!current_song.folder"
+          >
             <z-icon type="share" />
           </span>
         </footer>
@@ -65,8 +80,7 @@ export default {
       _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
       _shareUrl += '&desc=' + '♪我发现一首不错的歌曲-' + this.current_song.name
       _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl +=
-        '&title=' + '♪我发现一首不错的歌曲-' + this.current_song.name
+      _shareUrl += '&title=' + '♪我发现一首不错的歌曲-' + this.current_song.name
       _shareUrl += '&site=' + 'https://music.163.com/'
       _shareUrl += '&pics=' + this.current_song.avatar
       this.$electron.remote.shell.openExternal(_shareUrl)

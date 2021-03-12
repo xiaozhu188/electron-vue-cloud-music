@@ -14,7 +14,7 @@ import { errorCaptured } from './utils/assist'
 
 Vue.prototype.$db = db
 Vue.prototype.$errorCaptured = errorCaptured
-if ( !process.env.IS_WEB ) Vue.use(require('vue-electron'))
+if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,6 +1,9 @@
 <template>
   <div class="audio" @click="play">
-    <playing :playing="playing" v-if="current_song.id === event.song.id && source" />
+    <playing
+      :playing="playing"
+      v-if="current_song.id === event.song.id && source"
+    />
     <div class="avatar">
       <img v-lazy="`${event.song.album.picUrl}?param=40y40`" />
       <a-icon type="play-circle" class="icon" />
@@ -20,11 +23,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('play', [
-      'current_song',
-      'playing',
-      'source'
-    ])
+    ...mapGetters('play', ['current_song', 'playing', 'source'])
   },
   components: {
     Playing

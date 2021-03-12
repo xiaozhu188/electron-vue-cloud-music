@@ -1,7 +1,10 @@
 import { LOAD_URL } from '../../main/config'
 
 const { BrowserWindow } = require('electron').remote
-const previewIcon = process.env.NODE_ENV === 'development' ? 'public/images/tray.ico' : `${global.__images}/tray.ico`
+const previewIcon =
+  process.env.NODE_ENV === 'development'
+    ? 'public/images/tray.ico'
+    : `${global.__images}/tray.ico`
 export default {
   created () {
     this.videoType = 'mv'
@@ -9,19 +12,22 @@ export default {
   methods: {
     play (id) {
       let __videoPlayerWinId__ = localStorage.getItem('__videoPlayerWinId__')
-      let win = __videoPlayerWinId__ ? BrowserWindow.fromId(Number(__videoPlayerWinId__)) : null
+      let win = __videoPlayerWinId__
+        ? BrowserWindow.fromId(Number(__videoPlayerWinId__))
+        : null
       const WIN_WIDTH = 800
       const WIN_MIN_WIDTH = 400
-      const url = process.env.NODE_ENV === 'development'
-        ? `http://localhost:9080/#/local-player?id=${id}`
-        : `${LOAD_URL}#local-player?id=${id}`
+      const url =
+        process.env.NODE_ENV === 'development'
+          ? `http://localhost:9080/#/local-player?id=${id}`
+          : `${LOAD_URL}#local-player?id=${id}`
 
       if (win === null) {
         win = new BrowserWindow({
           width: WIN_WIDTH,
-          height: (WIN_WIDTH * (9 / 16)) + 110,
+          height: WIN_WIDTH * (9 / 16) + 110,
           minWidth: WIN_MIN_WIDTH,
-          minHeight: (WIN_MIN_WIDTH * (9 / 16)) + 110,
+          minHeight: WIN_MIN_WIDTH * (9 / 16) + 110,
           // show: false,
           frame: false,
           fullscreen: false,

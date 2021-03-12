@@ -23,7 +23,7 @@ export default {
     }
   },
   mounted () {
-    this.list.forEach(item => {
+    this.list.forEach((item) => {
       this.tracks.push(normalSong(item.song, '44y44'))
     })
   },

@@ -3,8 +3,11 @@
     <ul class="albums">
       <album-item v-for="album in albums" :album="album" :key="album.id" />
     </ul>
-    <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore">
-
+    <infinite-loading
+      forceUseInfiniteWrapper=".ant-layout-content"
+      :identifier="infiniteId"
+      @infinite="loadmore"
+    >
     </infinite-loading>
   </div>
 </template>
@@ -43,12 +46,12 @@ export default {
         let { hotAlbums, more } = await getArtistAlbum(params)
         this.albums = this.albums.concat(hotAlbums)
         $state.loaded()
-        if ( more ) {
+        if (more) {
           this.offset += this.limit
         } else {
           $state.complete()
         }
-      } catch ( error ) {
+      } catch (error) {
         $state.error()
       }
     }
@@ -57,10 +60,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "./../../../styles/mixins";
+@import "./../../../styles/mixins";
 
-  .albums {
-    .grid-layout(15px, 141px);
-    padding: 15px;
-  }
+.albums {
+  .grid-layout(15px, 141px);
+  padding: 15px;
+}
 </style>

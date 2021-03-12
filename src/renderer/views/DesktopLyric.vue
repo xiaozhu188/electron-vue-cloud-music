@@ -1,8 +1,8 @@
 <template>
   <div class="desktop-lyric">
     <div class="playing-lyric" ref="lrc">
-        {{current_lyric ? current_lyric : '听见好时光'}}
-      </div>
+      {{ current_lyric ? current_lyric : "听见好时光" }}
+    </div>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .desktop-lyric {
   .playing-lyric {
     font-size: 40px;

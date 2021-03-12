@@ -13,18 +13,18 @@ export function isDate (val) {
 export function deepMerge (...objs) {
   const result = Object.create(null)
 
-  objs.forEach(obj => {
+  objs.forEach((obj) => {
     if (obj) {
-      Object.keys(obj).forEach(key => {
-        const val = obj[ key ]
+      Object.keys(obj).forEach((key) => {
+        const val = obj[key]
         if (isPlainObject(val)) {
-          if (isPlainObject(result[ key ])) {
-            result[ key ] = deepMerge(result[ key ], val)
+          if (isPlainObject(result[key])) {
+            result[key] = deepMerge(result[key], val)
           } else {
-            result[ key ] = deepMerge(val)
+            result[key] = deepMerge(val)
           }
         } else {
-          result[ key ] = val
+          result[key] = val
         }
       })
     }

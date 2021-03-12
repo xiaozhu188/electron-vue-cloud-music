@@ -1,5 +1,12 @@
 <template>
-  <slider ref="slider" :autoPlay="false" :data-w="width" :height="width*0.7*0.372" :list="banners" @sliderClick="onSliderClick" />
+  <slider
+    ref="slider"
+    :autoPlay="false"
+    :data-w="width"
+    :height="width * 0.7 * 0.372"
+    :list="banners"
+    @sliderClick="onSliderClick"
+  />
 </template>
 
 <script>

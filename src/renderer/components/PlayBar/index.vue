@@ -1,12 +1,17 @@
 <template>
   <div class="player">
     <div class="bar1" :class="disableCls">
-      <a-icon type="step-backward" class="step-icon" @click="backward"/>
-      <a-icon :type="playIcon" theme="filled" class="play-icon" @click="togglePlay"/>
-      <a-icon type="step-forward" class="step-icon" @click="forward"/>
+      <a-icon type="step-backward" class="step-icon" @click="backward" />
+      <a-icon
+        :type="playIcon"
+        theme="filled"
+        class="play-icon"
+        @click="togglePlay"
+      />
+      <a-icon type="step-forward" class="step-icon" @click="forward" />
     </div>
     <div class="bar2">
-      <time class="time">{{currentTime | duration}}</time>
+      <time class="time">{{ currentTime | duration }}</time>
       <progress-bar
         :percent="percent"
         :bufferedPercent="bufferedPercent"
@@ -16,11 +21,21 @@
         @virtualBarMove="onVirtualBarMove"
         @virtualBarLeave="onVirtualBarLeave"
       />
-      <time class="time">{{current_song.duration | duration}}</time>
+      <time class="time">{{ current_song.duration | duration }}</time>
     </div>
     <div class="bar3">
-      <z-icon :type="mutedIcon" @click.native="onMuted" title="静音" style="cursor: pointer;" />
-      <progress-bar :percent="0.5" size="small" @percentChanged="onvolumeChanged" class="bar-volume"/>
+      <z-icon
+        :type="mutedIcon"
+        @click.native="onMuted"
+        title="静音"
+        style="cursor: pointer"
+      />
+      <progress-bar
+        :percent="0.5"
+        size="small"
+        @percentChanged="onvolumeChanged"
+        class="bar-volume"
+      />
       <audio
         crossOrigin="anonymous"
         :id="source"
@@ -35,13 +50,18 @@
       />
     </div>
     <div class="bar4">
-      <z-icon type="tubiao" @click.native="showMusicView"/>
+      <z-icon type="tubiao" @click.native="showMusicView" />
       <a-tooltip :title="modeText">
         <span @click="changeMode">
           <z-icon :type="modeIcon" />
         </span>
       </a-tooltip>
-      <z-icon type="geci" class="lrc" :class="{'active' : showDesktoplyric}" @click.native="toggleCurrentLyric"/>
+      <z-icon
+        type="geci"
+        class="lrc"
+        :class="{ active: showDesktoplyric }"
+        @click.native="toggleCurrentLyric"
+      />
       <span class="count-wrapper" @click="showDrawer">
         <z-icon type="yinleliebiaokuai" />
         <span class="count">{{ current_play_list.length }}</span>
@@ -50,7 +70,14 @@
 
     <span class="resize"></span>
 
-    <a-drawer placement="right" wrapClassName="play-history" :width="550" :closable="false" :visible="visible" @close="closeDrawer">
+    <a-drawer
+      placement="right"
+      wrapClassName="play-history"
+      :width="550"
+      :closable="false"
+      :visible="visible"
+      @close="closeDrawer"
+    >
       <div class="play-history-title" slot="title">
         <a-radio-group v-model="playComponent" buttonStyle="solid">
           <a-radio-button value="current-play-table">播放列表</a-radio-button>
@@ -127,19 +154,19 @@ export default {
       return this.mode === playMode.sequence
         ? 'liebiaoxunhuan'
         : this.mode === playMode.loop
-          ? 'danquxunhuan1'
-          : this.mode === playMode.random
-            ? 'suijibofang'
-            : 'FMcollect'
+        ? 'danquxunhuan1'
+        : this.mode === playMode.random
+        ? 'suijibofang'
+        : 'FMcollect'
     },
     modeText () {
       return this.mode === playMode.sequence
         ? '顺序播放'
         : this.mode === playMode.loop
-          ? '循环播放'
-          : this.mode === playMode.random
-            ? '随机播放'
-            : '心动模式'
+        ? '循环播放'
+        : this.mode === playMode.random
+        ? '随机播放'
+        : '心动模式'
     },
     percent () {
       return this.currentTime / this.current_song.duration
@@ -220,29 +247,32 @@ export default {
         this.$refs.audio.src = this.current_song.url
       } else {
         if (!this.isOnliline) return
-        this.getOnlineSong(this.current_song).then(songUrl => {
-          if (songUrl) {
-            this.$store.commit('play/SET_SOURCE', songUrl)
-            this.$refs.audio.src = songUrl
-          } else {
-            this.$message.error('暂无资源')
-            this.$store.commit('play/SET_SOURCE', '')
-            this.$store.commit('play/SET_PLAY_STATUS', false)
+        this.getOnlineSong(this.current_song)
+          .then((songUrl) => {
+            if (songUrl) {
+              this.$store.commit('play/SET_SOURCE', songUrl)
+              this.$refs.audio.src = songUrl
+            } else {
+              this.$message.error('暂无资源')
+              this.$store.commit('play/SET_SOURCE', '')
+              this.$store.commit('play/SET_PLAY_STATUS', false)
+              this.isSongReady = true
+              this.lyricInstance && this.resetLyric()
+            }
+          })
+          .catch((error) => {
+            console.log(`获取歌曲播放链接失败:${error}`)
             this.isSongReady = true
-            this.lyricInstance && this.resetLyric()
-          }
-        }).catch(error => {
-          console.log(`获取歌曲播放链接失败:${error}`)
-          this.isSongReady = true
-        })
+          })
       }
     }
   },
   methods: {
     async handleSongChange (newSong, oldSong) {
-      if (!newSong.id || (oldSong && (newSong.id === oldSong.id))) return
+      if (!newSong.id || (oldSong && newSong.id === oldSong.id)) return
       this.isSongReady = false
-      if (newSong.folder) { // 如果是本地歌曲
+      if (newSong.folder) {
+        // 如果是本地歌曲
         this.$store.commit('play/SET_SOURCE', newSong.url)
         this.$refs.audio.src = newSong.url
         this.$refs.audio.play()
@@ -250,25 +280,28 @@ export default {
       } else {
         this.waiting = true
         this.$refs.audio.pause()
-        this.getOnlineSong(newSong).then(songUrl => {
-          if (songUrl) {
-            this.$store.commit('play/SET_SOURCE', songUrl)
-            this.$refs.audio.src = songUrl
-            this.$refs.audio.play()
-            this.getOnlineLyric(newSong.id)
-          } else {
-            this.$message.error('暂无资源')
-            this.$store.commit('play/SET_SOURCE', '')
-            this.$store.commit('play/SET_PLAY_STATUS', false)
+        this.getOnlineSong(newSong)
+          .then((songUrl) => {
+            if (songUrl) {
+              this.$store.commit('play/SET_SOURCE', songUrl)
+              this.$refs.audio.src = songUrl
+              this.$refs.audio.play()
+              this.getOnlineLyric(newSong.id)
+            } else {
+              this.$message.error('暂无资源')
+              this.$store.commit('play/SET_SOURCE', '')
+              this.$store.commit('play/SET_PLAY_STATUS', false)
+              this.isSongReady = true
+              this.lyricInstance && this.resetLyric()
+            }
+          })
+          .catch((error) => {
+            console.log(`获取歌曲播放链接失败:${error}`)
             this.isSongReady = true
-            this.lyricInstance && this.resetLyric()
-          }
-        }).catch(error => {
-          console.log(`获取歌曲播放链接失败:${error}`)
-          this.isSongReady = true
-        }).finally(() => {
-          this.waiting = true
-        })
+          })
+          .finally(() => {
+            this.waiting = true
+          })
       }
     },
     getOnlineSong (song) {
@@ -336,7 +369,10 @@ export default {
     getLyricInstance (lyric) {
       this.lyricInstance = new Lyric(lyric, this.handleLyric)
       this.$store.commit('play/SET_LYRIC', this.lyricInstance)
-      this.$store.commit('play/SET_CURRENT_LYRIC', this.lyricInstance.lines[0].txt || null)
+      this.$store.commit(
+        'play/SET_CURRENT_LYRIC',
+        this.lyricInstance.lines[0].txt || null
+      )
     },
     resetLyric () {
       this.lyricInstance.stop()
@@ -361,7 +397,9 @@ export default {
       this.isSongReady = true
       this.$store.commit('play/SET_PLAY_STATUS', true)
       // 设置底部缩略图标题
-      let artistStr = this.current_song.artist.length ? this.current_song.artist.map(item => item.name).join(',') : ''
+      let artistStr = this.current_song.artist.length
+        ? this.current_song.artist.map((item) => item.name).join(',')
+        : ''
       document.title = `${this.current_song.name} - ${artistStr}`
       // 歌词位置同步
       if (this.lyricInstance) {
@@ -418,7 +456,7 @@ export default {
       this.$store.commit('play/SET_MODE', mode)
     },
     resetCurrentIndex (list) {
-      let index = list.findIndex(item => {
+      let index = list.findIndex((item) => {
         return item.id === this.current_song.id
       })
       this.$store.commit('play/SET_CURRENT_INDEX', index)
@@ -430,7 +468,10 @@ export default {
       this.$refs.audio.currentTime = 0
       this.$refs.audio.play()
       if (this.lyricInstance) {
-        this.$store.commit('play/SET_CURRENT_LYRIC', this.lyricInstance.lines[0].txt || null)
+        this.$store.commit(
+          'play/SET_CURRENT_LYRIC',
+          this.lyricInstance.lines[0].txt || null
+        )
       }
     },
     forward () {
@@ -475,7 +516,8 @@ export default {
       if (!this.isSongReady) {
         return
       }
-      this.currentTime = this.$refs.audio.currentTime = this.current_song.duration * percent
+      this.currentTime = this.$refs.audio.currentTime =
+        this.current_song.duration * percent
       if (!this.playing) {
         this.lyricInstance && this.lyricInstance.stop()
       } else {
@@ -495,7 +537,8 @@ export default {
         document.body.appendChild(div)
       }
       let targetTime = this.current_song.duration * percent
-      let current_lyric = this.lyricInstance.findLyricByTime(targetTime * 1000) || ''
+      let current_lyric =
+        this.lyricInstance.findLyricByTime(targetTime * 1000) || ''
       const dom = document.getElementById('progress-lyric')
       dom.style.left = `${pageX}px`
       if (dom.style.display == 'none') {
@@ -527,27 +570,27 @@ export default {
 </script>
 
 <style lang="less">
-  .play-history {
-    /deep/ .ant-drawer-header {
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      background: #f3f5f7;
-      z-index: 10;
-    }
-    .play-history-title {
-      display: flex;
-      justify-content: center;
-      /deep/ .ant-radio-button-wrapper {
-        height: 28px;
-        line-height: 26px;
-      }
-    }
-    .ant-drawer-body {
-      padding: 60px 0 0;
+.play-history {
+  /deep/ .ant-drawer-header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    background: #f3f5f7;
+    z-index: 10;
+  }
+  .play-history-title {
+    display: flex;
+    justify-content: center;
+    /deep/ .ant-radio-button-wrapper {
+      height: 28px;
+      line-height: 26px;
     }
   }
+  .ant-drawer-body {
+    padding: 60px 0 0;
+  }
+}
 </style>
 <style lang="less" scoped>
 .player {
@@ -562,8 +605,21 @@ export default {
     display: inline-block;
     width: 12px;
     height: 12px;
-    opacity: .75;
-    background: linear-gradient(to left top, #333, #333 1px, transparent 1px, transparent 3px, #333 3px, #333 4px, transparent 4px, transparent 6px, #333 6px, #333 7px, transparent 7px);
+    opacity: 0.75;
+    background: linear-gradient(
+      to left top,
+      #333,
+      #333 1px,
+      transparent 1px,
+      transparent 3px,
+      #333 3px,
+      #333 4px,
+      transparent 4px,
+      transparent 6px,
+      #333 6px,
+      #333 7px,
+      transparent 7px
+    );
   }
   .bar1 {
     flex: 0 0 200px;
@@ -571,8 +627,9 @@ export default {
     align-items: center;
     justify-content: space-evenly;
     &.disable {
-      .play-icon, .step-icon {
-        opacity: .5;
+      .play-icon,
+      .step-icon {
+        opacity: 0.5;
       }
     }
     .play-icon {

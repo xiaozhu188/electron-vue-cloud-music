@@ -10,14 +10,14 @@ const VOLUME_KEY = 'volume'
 
 function insertArray (arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
-  if ( index === 0 ) {
+  if (index === 0) {
     return
   }
-  if ( index > 0 ) {
+  if (index > 0) {
     arr.splice(index, 1)
   }
   arr.unshift(val)
-  if ( maxLen && arr.length > maxLen ) {
+  if (maxLen && arr.length > maxLen) {
     arr.pop()
   }
 }
@@ -49,22 +49,23 @@ const state = () => ({
   showDesktoplyric: false
 })
 const getters = {
-  current_song: state => state.current_play_list[ state.current_song_index ] || {},
-  mode: state => state.mode,
-  source: state => state.source,
-  playing: state => state.playing,
-  original_play_list: state => state.original_play_list,
-  history_play_list: state => state.history_play_list,
-  current_play_list: state => state.current_play_list,
-  current_song_index: state => state.current_song_index,
-  fullscreen: state => state.fullscreen,
-  current_lyric: state => state.current_lyric,
-  lyric: state => state.lyric,
-  current_lyric_line: state => state.current_lyric_line,
-  videoPlaying: state => state.videoPlaying,
-  isMuted: state => state.isMuted,
-  volume: state => state.volume,
-  showDesktoplyric: state => state.showDesktoplyric
+  current_song: (state) =>
+    state.current_play_list[state.current_song_index] || {},
+  mode: (state) => state.mode,
+  source: (state) => state.source,
+  playing: (state) => state.playing,
+  original_play_list: (state) => state.original_play_list,
+  history_play_list: (state) => state.history_play_list,
+  current_play_list: (state) => state.current_play_list,
+  current_song_index: (state) => state.current_song_index,
+  fullscreen: (state) => state.fullscreen,
+  current_lyric: (state) => state.current_lyric,
+  lyric: (state) => state.lyric,
+  current_lyric_line: (state) => state.current_lyric_line,
+  videoPlaying: (state) => state.videoPlaying,
+  isMuted: (state) => state.isMuted,
+  volume: (state) => state.volume,
+  showDesktoplyric: (state) => state.showDesktoplyric
 }
 const mutations = {
   SET_SHOW_DESKTOP_LYRIC (state, flag) {
@@ -77,7 +78,7 @@ const mutations = {
     state.original_play_list = list
   },
   SET_CURRENT_SONG (state, song) {
-    let index = state.current_play_list.findIndex(item => item.id == song.id)
+    let index = state.current_play_list.findIndex((item) => item.id == song.id)
     state.current_play_list.splice(index, 1, song)
   },
   SET_PLAY_HISTORY (state, list) {
@@ -128,10 +129,10 @@ const actions = {
   },
   // 追加播放,用于搜索建议单曲播放,相似歌曲播放,动态歌曲播放等
   async appendPlay ({ commit, state }, song) {
-    let index = state.current_play_list.findIndex(item => {
+    let index = state.current_play_list.findIndex((item) => {
       return item.id === song.id
     })
-    if ( index >= 0 ) {
+    if (index >= 0) {
       commit('SET_CURRENT_INDEX', index)
       return
     }
@@ -142,33 +143,34 @@ const actions = {
   },
   // 右键菜单的下一首播放
   async nextPlay ({ commit, state }, song) {
-    let index = state.current_play_list.findIndex(item => {
+    let index = state.current_play_list.findIndex((item) => {
       return item.id === song.id
     })
     let current_song_index = state.current_song_index
-    if ( index === current_song_index ) return
+    if (index === current_song_index) return
 
     let current_play_list = state.current_play_list.slice()
-    if ( index < 0 ) { // 下一首播放的歌曲,不在当前歌单
+    if (index < 0) {
+      // 下一首播放的歌曲,不在当前歌单
       current_play_list.splice(current_song_index + 1, 0, song)
     } else {
       let removeItem = current_play_list.splice(index, 1)
-      if ( index < current_song_index ) {
+      if (index < current_song_index) {
         current_play_list.splice(current_song_index, 0, ...removeItem)
       } else {
         current_play_list.splice(current_song_index + 1, 0, ...removeItem)
       }
     }
     // 找到播放列表变化后当前播放歌曲的新索引
-    let newIndex = current_play_list.findIndex(item => {
-      return state.current_play_list[ state.current_song_index ].id === item.id
+    let newIndex = current_play_list.findIndex((item) => {
+      return state.current_play_list[state.current_song_index].id === item.id
     })
     commit('SET_CURRENT_INDEX', newIndex)
     commit('SET_CURRENT_PLAY_LIST', current_play_list)
   },
   // 双击的播放
   async selectPlay ({ commit, state }, { tracks, index }) {
-    if ( tracks.length < 1 ) return
+    if (tracks.length < 1) return
     commit('SET_ORIGINAL_PLAY_LIST', tracks)
     commit('SET_CURRENT_PLAY_LIST', tracks)
     commit('SET_CURRENT_INDEX', index)
@@ -176,9 +178,14 @@ const actions = {
   addHistorySong ({ commit }, song) {
     let songs = ls.get(PLAY_HISTORY_KEY, [])
     delete song.isClicked
-    insertArray(songs, song, (item) => {
-      return song.id == item.id
-    }, PLAY_HISTORY_MAX_LEN)
+    insertArray(
+      songs,
+      song,
+      (item) => {
+        return song.id == item.id
+      },
+      PLAY_HISTORY_MAX_LEN
+    )
     commit('SET_PLAY_HISTORY', songs)
   }
 }

@@ -4,22 +4,26 @@ import deepmerge from 'deepmerge'
 /**
  * modules 需要持久化的模块
  */
-export default (modules = [], storeKey = KEEP_STATE_KEY) => store => {
+export default (modules = [], storeKey = KEEP_STATE_KEY) => (store) => {
   let STOREKEY = storeKey
 
   let initState = () => {
     let state = JSON.parse(localStorage.getItem(STOREKEY)) || {}
     let map = {}
     if (modules.length) {
-      modules.forEach(module => {
+      modules.forEach((module) => {
         map[module] = state[module] || {}
       })
     }
     // console.log(map)
-    store.replaceState(deepmerge(store.state, map, {
-      arrayMerge: function (store, saved) { return saved },
-      clone: false
-    }))
+    store.replaceState(
+      deepmerge(store.state, map, {
+        arrayMerge: function (store, saved) {
+          return saved
+        },
+        clone: false
+      })
+    )
   }
 
   // 打开新窗口或刷新页面时同步state
@@ -42,7 +46,7 @@ export default (modules = [], storeKey = KEEP_STATE_KEY) => store => {
   function getState (state) {
     if (!modules.length) return state
     let map = {}
-    modules.forEach(module => {
+    modules.forEach((module) => {
       map[module] = state[module] || {}
     })
     return map

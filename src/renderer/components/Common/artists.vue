@@ -1,12 +1,11 @@
 <template>
-  <span
-    :title="`艺术家:${artistTitle}`"
-    v-if="artists && artists.length"
-  >
+  <span :title="`艺术家:${artistTitle}`" v-if="artists && artists.length">
     <span v-for="(artist, index) in artists" :key="index" class="artists">
       <span v-if="index != 0">/</span>
-      <router-link :to="`/artist/${artist.id}`" v-if="artist.id">{{artist.name}}</router-link>
-      <span v-else>{{artist.name}}</span>
+      <router-link :to="`/artist/${artist.id}`" v-if="artist.id">{{
+        artist.name
+      }}</router-link>
+      <span v-else>{{ artist.name }}</span>
     </span>
   </span>
 </template>
@@ -26,7 +25,7 @@ export default {
   computed: {
     ...mapGetters('play', ['current_song']),
     artistTitle () {
-      return this.artists.map(item => item.name).join('/')
+      return this.artists.map((item) => item.name).join('/')
     }
   }
 }

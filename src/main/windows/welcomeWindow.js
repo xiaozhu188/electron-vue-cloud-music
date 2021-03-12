@@ -1,9 +1,10 @@
 // const welcomeWinURL = process.env.NODE_ENV === 'development'
 //   ? `http://localhost:9080/welcome.html`
 //   : `file://${__dirname}/welcome.html`
-const welcomeWinURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080/welcome.html`
-  : `file://${__dirname}/welcome.html`
+const welcomeWinURL =
+  process.env.NODE_ENV === 'development'
+    ? `http://localhost:9080/welcome.html`
+    : `file://${__dirname}/welcome.html`
 
 const createWelcomeWindow = function (BrowserWindow) {
   const obj = {

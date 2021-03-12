@@ -8,12 +8,12 @@
     >
       <div
         class="message-box"
-        v-for="(notice) in notices"
+        v-for="notice in notices"
         :key="notice.name"
         @click="remove(notice.name)"
       >
         <a-icon :type="notice.icon" class="notice-icon" v-if="notice.icon" />
-        <span class="notice-text">{{notice.content}}</span>
+        <span class="notice-text">{{ notice.content }}</span>
       </div>
     </transition-group>
   </div>
@@ -89,7 +89,6 @@ export default {
 @keyframes zoomOut {
   0% {
     transform: translate(-50%, -50%) scale(1);
-
   }
   20% {
     transform: translate(-50%, -50%) scale(0.8);
@@ -105,7 +104,7 @@ export default {
   }
 }
 .zoomIn {
-  animation-duration: .2s;
+  animation-duration: 0.2s;
   animation-name: zoomIn;
   animation-timing-function: ease-in;
 }

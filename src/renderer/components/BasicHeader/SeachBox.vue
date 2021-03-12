@@ -15,42 +15,48 @@
         @search="onSearch"
       />
       <template slot="content">
-
         <div class="search-result" v-if="keyword && suggests">
           <dl v-for="(suggest, key) in suggests" :key="key">
-            <dt>{{searchMap[key]}}</dt>
-            <dd v-for="(item, index) in suggest" :key="index" @click="suggestClick(suggest,item,key)">
-              <span v-if="key !== 'orders'">{{item.name}}</span>
+            <dt>{{ searchMap[key] }}</dt>
+            <dd
+              v-for="(item, index) in suggest"
+              :key="index"
+              @click="suggestClick(suggest, item, key)"
+            >
+              <span v-if="key !== 'orders'">{{ item.name }}</span>
             </dd>
           </dl>
         </div>
 
         <div class="search-content" v-else>
           <dl>
-            <dt>
-              热门搜索
-            </dt>
+            <dt> 热门搜索 </dt>
             <dd
               v-for="(hot, index) in hots"
               :key="index"
               @click="setKeyword(hot.first)"
-            >{{hot.first}}</dd>
+              >{{ hot.first }}</dd
+            >
           </dl>
           <dl>
             <dt class="space-between">
               <span>搜索历史</span>
-              <a-icon type="delete" @click="clearHistory"/>
+              <a-icon type="delete" @click="clearHistory" />
             </dt>
             <template v-if="searchHistory.length">
-              <dd v-for="(item, index) in searchHistory" :key="index" class="space-between" @click="setKeyword(item)">
-                <span>{{item}}</span>
-                <a-icon type="close" @click="deleteHistory(index)"/>
+              <dd
+                v-for="(item, index) in searchHistory"
+                :key="index"
+                class="space-between"
+                @click="setKeyword(item)"
+              >
+                <span>{{ item }}</span>
+                <a-icon type="close" @click="deleteHistory(index)" />
               </dd>
             </template>
             <dd v-else>无</dd>
           </dl>
         </div>
-
       </template>
     </a-popover>
   </div>
@@ -64,9 +70,7 @@ import { mapGetters } from 'vuex'
 import playMixin from '@/mixins/Play.js'
 
 export default {
-  mixins: [
-    playMixin
-  ],
+  mixins: [playMixin],
   data () {
     let keyword = this.$route.query.keyword || ''
     return {
@@ -96,7 +100,7 @@ export default {
   created () {
     this.$watch(
       'keyword',
-      debounce(newQuery => {
+      debounce((newQuery) => {
         this.search(newQuery)
       }, 500)
     )
@@ -111,7 +115,7 @@ export default {
         }
       }
       if (newVal && !this.hots.length) {
-        getSearchHot().then(res => {
+        getSearchHot().then((res) => {
           this.hots = res.result.hots
         })
       }
@@ -162,7 +166,7 @@ export default {
           break
         default:
           let tracks = []
-          suggest.forEach(song => {
+          suggest.forEach((song) => {
             tracks.push(normalSong(song))
           })
           console.log(item)

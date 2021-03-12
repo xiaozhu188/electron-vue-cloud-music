@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="title">共 {{ total }} 期</div>
-    <track-list :columns="columns" :tracks="programs" :isShowHead="false" :isShowActions="false" @dblclick="play" >
+    <track-list
+      :columns="columns"
+      :tracks="programs"
+      :isShowHead="false"
+      :isShowActions="false"
+      @dblclick="play"
+    >
       <template slot="name" slot-scope="{ row }">
         <div class="program">
           <img v-lazy="`${row.avatar}?param=40y40`" class="avatar" />
@@ -80,7 +86,7 @@ export default {
       let { programs, more, count } = await getDjProgram(options)
       this.total = count
       let arr = []
-      programs.forEach(program => {
+      programs.forEach((program) => {
         arr.push(normalSong(program.mainSong))
       })
       this.programs = arr

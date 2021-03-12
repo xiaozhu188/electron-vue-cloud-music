@@ -2,7 +2,12 @@
   <home-layout>
     <div class="page-dj">
       <div class="banners">
-        <slider ref="slider" :height="width*0.251" :list="banners" @sliderClick="onSliderClick" />
+        <slider
+          ref="slider"
+          :height="width * 0.251"
+          :list="banners"
+          @sliderClick="onSliderClick"
+        />
       </div>
       <div class="cates">
         <ul class="list">
@@ -16,7 +21,7 @@
             <div class="icon">
               <img :src="item.picMacUrl" class="img" />
             </div>
-            <div class="name">{{item.name}}</div>
+            <div class="name">{{ item.name }}</div>
           </router-link>
         </ul>
       </div>
@@ -27,18 +32,22 @@
         <ul class="list">
           <router-link
             tag="li"
-            :to="'/dj/'+item.id"
+            :to="'/dj/' + item.id"
             class="item"
-            v-for="(item,index) in djList"
+            v-for="(item, index) in djList"
             :key="index"
           >
             <div class="icon">
-              <img class="avatar" v-lazy="`${item.picUrl}?param=180y180`" :key="item.picUrl" />
+              <img
+                class="avatar"
+                v-lazy="`${item.picUrl}?param=180y180`"
+                :key="item.picUrl"
+              />
               <span class="icon-play"></span>
             </div>
             <div class="name">
-              <div class="text">{{item.name}}-{{item.id}}</div>
-              <div class="desc">{{item.rcmdtext}}</div>
+              <div class="text">{{ item.name }}-{{ item.id }}</div>
+              <div class="desc">{{ item.rcmdtext }}</div>
             </div>
           </router-link>
         </ul>
@@ -48,25 +57,32 @@
         <div class="channel" v-for="(program, index) in programs" :key="index">
           <h5 class="title">
             <span>{{ titles[index].name }}</span>
-            <router-link :to="`/dj-recommend?id=${titles[index].id}`" class="more">更多
+            <router-link
+              :to="`/dj-recommend?id=${titles[index].id}`"
+              class="more"
+              >更多
               <a-icon type="right" />
             </router-link>
           </h5>
           <ul class="list">
             <router-link
               tag="li"
-              :to="'/dj/'+item.id"
+              :to="'/dj/' + item.id"
               class="item"
-              v-for="(item,index) in program.djRadios.slice(0, 5)"
+              v-for="(item, index) in program.djRadios.slice(0, 5)"
               :key="index"
             >
               <div class="icon">
-                <img class="avatar" v-lazy="`${item.picUrl}?param=180y180`" :key="item.picUrl" />
+                <img
+                  class="avatar"
+                  v-lazy="`${item.picUrl}?param=180y180`"
+                  :key="item.picUrl"
+                />
                 <span class="icon-play"></span>
               </div>
               <div class="name">
-                <div class="text">{{item.name}}</div>
-                <div class="desc">{{item.rcmdtext}}</div>
+                <div class="text">{{ item.name }}</div>
+                <div class="desc">{{ item.rcmdtext }}</div>
               </div>
             </router-link>
           </ul>
@@ -130,30 +146,30 @@ export default {
     },
     _getDjCate () {
       let promises = []
-      getDjCatelist().then(res => {
+      getDjCatelist().then((res) => {
         this.categories = res.categories
         let cates = this.categories.slice(0, 5)
-        for ( let i = 0; i < cates.length; i++ ) {
+        for (let i = 0; i < cates.length; i++) {
           this.titles.push({
-            id: cates[ i ].id,
-            name: cates[ i ].name
+            id: cates[i].id,
+            name: cates[i].name
           })
-          promises.push(getDjByCate({ type: cates[ i ].id }))
+          promises.push(getDjByCate({ type: cates[i].id }))
         }
-        Promise.all(promises).then(res => {
+        Promise.all(promises).then((res) => {
           this.programs = Object.freeze(res)
         })
       })
     },
     _getDjByCate (type) {
-      getDjByCate({ type }).then(res => {
+      getDjByCate({ type }).then((res) => {
         this.djList = res.djRadios
         console.log(this.djList)
       })
     },
     async _getDjBanner () {
       let { data } = await getDjBanner()
-      this.banners = data.map(item => {
+      this.banners = data.map((item) => {
         return {
           src: item.pic,
           titleColor: '#c62f2f',
@@ -174,7 +190,7 @@ export default {
       this.djList = djRadios.slice(0, 5)
     },
     onSliderClick (i, item) {
-      if ( item.url ) {
+      if (item.url) {
         this.$electron.remote.shell.openExternal(item.url)
       }
     }
@@ -183,107 +199,107 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .page-dj {
-    padding-top: 20px;
-  }
+.page-dj {
+  padding-top: 20px;
+}
 
-  .cates {
-    .list {
+.cates {
+  .list {
+    overflow: hidden;
+    .item {
+      display: inline-block;
+      width: 10%;
+      margin: 20px 0 0;
+      text-align: center;
       overflow: hidden;
-      .item {
-        display: inline-block;
-        width: 10%;
-        margin: 20px 0 0;
-        text-align: center;
-        overflow: hidden;
-        border-radius: 6px;
-        &:hover {
-          background-color: #f3f5f9;
-          cursor: pointer;
-          color: @primary-color;
-          .img {
-            margin-left: -48px;
-          }
-        }
-        .icon {
-          position: relative;
-          display: inline-block;
-          width: 48px;
-          height: 48px;
-          overflow: hidden;
-          display: inline-block;
-          .img {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 96px;
-            transition: all 0.2s;
-          }
-        }
-        .name {
-          font-size: 12px;
-          line-height: 20px;
-        }
-      }
-    }
-  }
-
-  .channel {
-    margin-top: 20px;
-    .title {
-      display: flex;
-      justify-content: space-between;
-      line-height: 40px;
-      font-size: 18px;
-      border-bottom: 1px solid rgba(47, 47, 47, 0.1);
-      .more {
-        float: right;
-        color: #666;
-        font-size: 13px;
-      }
-    }
-    .list {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      .item {
-        position: relative;
-        width: 19%;
-        margin-bottom: 10px;
-        overflow: hidden;
+      border-radius: 6px;
+      &:hover {
+        background-color: #f3f5f9;
         cursor: pointer;
-        .icon {
-          position: relative;
-          .icon-play {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-            padding: 5px;
-            border: 1px solid #fff;
-            border-radius: 50%;
-            font-size: 12px;
-            color: #fff;
-            opacity: 0.85;
-          }
-          .avatar {
-            width: 100%;
-            display: block;
-          }
+        color: @primary-color;
+        .img {
+          margin-left: -48px;
         }
-        .name {
-          flex: 1;
-          line-height: 22px;
-          .text {
-            margin: 4px 0;
-            color: #111;
-          }
-          .singer,
-          .desc {
-            color: #999;
-            font-size: 12px;
-          }
+      }
+      .icon {
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 48px;
+        overflow: hidden;
+        display: inline-block;
+        .img {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 96px;
+          transition: all 0.2s;
+        }
+      }
+      .name {
+        font-size: 12px;
+        line-height: 20px;
+      }
+    }
+  }
+}
+
+.channel {
+  margin-top: 20px;
+  .title {
+    display: flex;
+    justify-content: space-between;
+    line-height: 40px;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(47, 47, 47, 0.1);
+    .more {
+      float: right;
+      color: #666;
+      font-size: 13px;
+    }
+  }
+  .list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .item {
+      position: relative;
+      width: 19%;
+      margin-bottom: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      .icon {
+        position: relative;
+        .icon-play {
+          position: absolute;
+          right: 10px;
+          bottom: 10px;
+          padding: 5px;
+          border: 1px solid #fff;
+          border-radius: 50%;
+          font-size: 12px;
+          color: #fff;
+          opacity: 0.85;
+        }
+        .avatar {
+          width: 100%;
+          display: block;
+        }
+      }
+      .name {
+        flex: 1;
+        line-height: 22px;
+        .text {
+          margin: 4px 0;
+          color: #111;
+        }
+        .singer,
+        .desc {
+          color: #999;
+          font-size: 12px;
         }
       }
     }
   }
+}
 </style>

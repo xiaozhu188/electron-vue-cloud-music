@@ -21,23 +21,25 @@ let state = {
   likedsongIds: [] // 喜欢的歌曲id列表
 }
 let getters = {
-  hasUserInfo: state => Object.keys(state.userInfo).length > 0,
-  userId: state => ((Object.keys(state.userInfo).length > 0) && state.userInfo.profile.userId) || '',
-  userPlaylists: state => state.userPlaylists,
-  subscribedList: state => {
-    return state.userPlaylists.filter(item => {
+  hasUserInfo: (state) => Object.keys(state.userInfo).length > 0,
+  userId: (state) =>
+    (Object.keys(state.userInfo).length > 0 && state.userInfo.profile.userId) ||
+    '',
+  userPlaylists: (state) => state.userPlaylists,
+  subscribedList: (state) => {
+    return state.userPlaylists.filter((item) => {
       return item.subscribed
       // return item.creator.userId !== state.userInfo.userId
     })
   },
-  createdList: state => {
-    return state.userPlaylists.filter(item => {
+  createdList: (state) => {
+    return state.userPlaylists.filter((item) => {
       return !item.subscribed
       // return item.creator.userId === state.userInfo.userId
     })
   },
-  likedPlaylistIds: state => state.userPlaylists.map(item => item.id),
-  likedsongIds: state => state.likedsongIds
+  likedPlaylistIds: (state) => state.userPlaylists.map((item) => item.id),
+  likedsongIds: (state) => state.likedsongIds
 }
 
 let mutations = {
@@ -97,7 +99,7 @@ let actions = {
         userPlaylists.unshift(playlist)
       } else if (t === 2) {
         Message.success('取消收藏成功!')
-        let index = userPlaylists.findIndex(item => item.id === pid)
+        let index = userPlaylists.findIndex((item) => item.id === pid)
         userPlaylists.splice(index, 1)
       }
       commit('SET_USER_PLAYLISTS', userPlaylists)
@@ -108,7 +110,7 @@ let actions = {
     let res = await likePlaylist(action, pid)
     if (res.code === 200) {
       let userPlaylists = state.userPlaylists.slice()
-      let index = userPlaylists.findIndex(item => item.id === pid)
+      let index = userPlaylists.findIndex((item) => item.id === pid)
       userPlaylists.splice(index, 1)
       commit('SET_USER_PLAYLISTS', userPlaylists)
       Message.success('删除成功!')
@@ -119,7 +121,7 @@ let actions = {
     let res = await deletePlaylist(id)
     if (res.code === 200) {
       let userPlaylists = state.userPlaylists.slice()
-      let index = userPlaylists.findIndex(item => item.id === id)
+      let index = userPlaylists.findIndex((item) => item.id === id)
       userPlaylists.splice(index, 1)
       commit('SET_USER_PLAYLISTS', userPlaylists)
       Message.success('删除成功!')
@@ -154,7 +156,7 @@ let actions = {
             commit('SET_LIKEDSONG_IDS', likedsongIds)
             Message.success('喜欢歌曲成功!')
           } else {
-            let index = likedsongIds.findIndex(id => id === songId)
+            let index = likedsongIds.findIndex((id) => id === songId)
             likedsongIds.splice(index, 1)
             commit('SET_LIKEDSONG_IDS', likedsongIds)
             Message.success('取消喜欢成功!')
@@ -171,14 +173,18 @@ let actions = {
   async subscribeDj ({ commit, state }, { t, dj }) {
     let res = await subDj({ t, rid: dj.id })
     if (res.code === 200) {
-      t === 1 ? Message.success(res.message || '订阅电台成功!') : Message.success('取消订阅电台成功!')
+      t === 1
+        ? Message.success(res.message || '订阅电台成功!')
+        : Message.success('取消订阅电台成功!')
     }
   },
   async subscribeAlbum ({ commit, state }, { t, album }) {
     let id = album.id
     let res = await subAlbum({ t, id })
     if (res.code === 200) {
-      t === 1 ? Message.success(`收藏专辑${album.name}成功`) : Message.success(`取消收藏专辑${album.name}成功`)
+      t === 1
+        ? Message.success(`收藏专辑${album.name}成功`)
+        : Message.success(`取消收藏专辑${album.name}成功`)
       return res.code
     }
     throw new Error(res)
@@ -187,7 +193,9 @@ let actions = {
     let id = artist.id
     let res = await subArtist({ t, id })
     if (res.code === 200) {
-      t === 1 ? Message.success(`收藏歌手${artist.name}成功`) : Message.success(`取消收藏歌手${artist.name}成功`)
+      t === 1
+        ? Message.success(`收藏歌手${artist.name}成功`)
+        : Message.success(`取消收藏歌手${artist.name}成功`)
       return res.code
     }
     throw new Error(res)
@@ -196,7 +204,9 @@ let actions = {
     let id = userId
     let res = await user_follow({ t, id })
     if (res.code === 200) {
-      t === 1 ? Message.success(res.followContent || `关注用户${nickname}成功`) : Message.success(`取消关注用户${nickname}成功`)
+      t === 1
+        ? Message.success(res.followContent || `关注用户${nickname}成功`)
+        : Message.success(`取消关注用户${nickname}成功`)
       return res
     }
     throw new Error(res)

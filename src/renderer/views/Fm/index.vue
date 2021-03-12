@@ -5,28 +5,53 @@
         <div class="cover-wrapper">
           <template v-if="tracks.length">
             <template v-for="(item, index) in tracks">
-              <img v-lazy="item.avatar" ref="avatar" v-if="current_song_index-3<index" :key="`${item.id}_${index}`" class="avatar" :class="setClass(index)" @click="prev($event, index)">
+              <img
+                v-lazy="item.avatar"
+                ref="avatar"
+                v-if="current_song_index - 3 < index"
+                :key="`${item.id}_${index}`"
+                class="avatar"
+                :class="setClass(index)"
+                @click="prev($event, index)"
+              />
             </template>
-            <a-icon :type="playIcon" class="icon-play" :class="{'right-bottom' : playing}" @click="togglePlay" />
+            <a-icon
+              :type="playIcon"
+              class="icon-play"
+              :class="{ 'right-bottom': playing }"
+              @click="togglePlay"
+            />
           </template>
           <div class="loading-wrapper" v-else>
             <loading></loading>
           </div>
         </div>
         <div class="fm-actions">
-          <a-button size="large" shape="circle" icon="heart" title="喜欢"/>
-          <a-button size="large" shape="circle" icon="delete" title="垃圾桶"/>
-          <a-button size="large" shape="circle" icon="step-forward" title="下一曲" :disabled="loading || disabled" @click="next"/>
-          <a-button size="large" shape="circle" icon="ellipsis" title="更多"  />
+          <a-button size="large" shape="circle" icon="heart" title="喜欢" />
+          <a-button size="large" shape="circle" icon="delete" title="垃圾桶" />
+          <a-button
+            size="large"
+            shape="circle"
+            icon="step-forward"
+            title="下一曲"
+            :disabled="loading || disabled"
+            @click="next"
+          />
+          <a-button size="large" shape="circle" icon="ellipsis" title="更多" />
         </div>
       </div>
       <div class="r" v-if="current_song">
-        <h2 class="song-name">{{current_song.name}}</h2>
+        <h2 class="song-name">{{ current_song.name }}</h2>
         <div class="song-info">
-          <div class="song-album">专辑: <router-link :to="`/album/${current_song.album.id}`">{{current_song.album.name}}</router-link> </div>
+          <div class="song-album"
+            >专辑:
+            <router-link :to="`/album/${current_song.album.id}`">{{
+              current_song.album.name
+            }}</router-link>
+          </div>
           <div class="song-artist">
             歌手:
-            <artists :artists="current_song.artist"/>
+            <artists :artists="current_song.artist" />
           </div>
         </div>
         <lyric-list class="default" ref="lyrics" />
@@ -61,7 +86,10 @@ export default {
     }
   },
   components: {
-    Artists, Comment, Loading, LyricList
+    Artists,
+    Comment,
+    Loading,
+    LyricList
   },
   computed: {
     ...mapState('play', ['lyric']),
@@ -81,7 +109,10 @@ export default {
     current_lyric_line (newLine) {
       const lines = this.$refs.lyrics.$refs.lyricLine
       const line_HEIGHT = lines[newLine].getBoundingClientRect().height
-      let top = lines[newLine].offsetTop > 0 ? Number(lines[newLine].offsetTop - line_HEIGHT * 4) : 0
+      let top =
+        lines[newLine].offsetTop > 0
+          ? Number(lines[newLine].offsetTop - line_HEIGHT * 4)
+          : 0
       this.$refs.lyrics.scrollTo(top, 'smooth')
     },
     current_song (newSong, oldSong) {
@@ -105,13 +136,15 @@ export default {
     },
     init () {
       this.loading = true
-      this._getFm().then(tracks => {
-        this.tracks = tracks
-        this.$store.dispatch('play/selectPlay', { tracks: tracks, index: 0 })
-        this.loading = false
-      }).catch(() => {
-        this.disabled = false
-      })
+      this._getFm()
+        .then((tracks) => {
+          this.tracks = tracks
+          this.$store.dispatch('play/selectPlay', { tracks: tracks, index: 0 })
+          this.loading = false
+        })
+        .catch(() => {
+          this.disabled = false
+        })
     },
     handleFmChange (song) {
       this.$nextTick(() => {
@@ -121,18 +154,23 @@ export default {
         }
       })
       if (this.current_song_index === this.current_play_list.length - 1) {
-        this._getFm().then(tracks => {
-          this.tracks = this.tracks.concat(tracks)
-          let list = this.current_play_list
-          list = list.concat(tracks)
-          this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
-        }).catch(err => {
-          console.log(err)
-        })
+        this._getFm()
+          .then((tracks) => {
+            this.tracks = this.tracks.concat(tracks)
+            let list = this.current_play_list
+            list = list.concat(tracks)
+            this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     },
     play () {
-      this.$store.dispatch('play/selectPlay', { tracks: this.tracks, index: 0 })
+      this.$store.dispatch('play/selectPlay', {
+        tracks: this.tracks,
+        index: 0
+      })
     },
     togglePlay () {
       this.$store.commit('play/SET_PLAY_STATUS', !this.playing)
@@ -140,7 +178,7 @@ export default {
     async _getFm () {
       try {
         let { data } = await getFm()
-        let tracks = data.map(song => {
+        let tracks = data.map((song) => {
           return normalSong(song, '290y290', true)
         })
         return tracks
@@ -176,7 +214,7 @@ export default {
       }, 1000)
     },
     getComment (id) {
-      getSongComment(id).then(res => {
+      getSongComment(id).then((res) => {
         this.commentData = res
       })
     }
@@ -216,7 +254,8 @@ export default {
       a {
         color: #215eb9;
       }
-      .song-album,.song-artist {
+      .song-album,
+      .song-artist {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -238,32 +277,35 @@ export default {
       background: #f3f5f9;
       border: 1px solid #eee;
       transform: translate3d(100%, 0, 0);
-      transition: all 1s .3s;
+      transition: all 1s 0.3s;
       opacity: 0;
       &[lazy="loaded"] {
         animation: none;
       }
       &.active {
-        transform: translate3d(0, 0, 0);opacity: 1;
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
       }
       &.prev {
-        transform: translate3d(-80px, 0, -100px);opacity: 1;
+        transform: translate3d(-80px, 0, -100px);
+        opacity: 1;
         &:hover {
           transform: translate3d(-220px, 0, -100px);
-          transition-duration: .3s;
+          transition-duration: 0.3s;
           transition-delay: 0s;
           cursor: pointer;
         }
       }
       &.hide {
-        transform: translate3d(-200px, 0, -200px);opacity: 0;
+        transform: translate3d(-200px, 0, -200px);
+        opacity: 0;
       }
     }
     .icon-play {
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
       z-index: 11;
       font-size: 44px;
       color: rgba(255, 255, 255, 0.7);
@@ -271,7 +313,7 @@ export default {
       cursor: pointer;
       transition: all.5s;
       &.right-bottom {
-        transform: translate(90px,90px);
+        transform: translate(90px, 90px);
       }
     }
   }

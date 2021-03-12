@@ -8,7 +8,10 @@
         :key="`${album.id}_${index}`"
       />
     </ul>
-    <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" @infinite="loadmore" />
+    <infinite-loading
+      forceUseInfiniteWrapper=".ant-layout-content"
+      @infinite="loadmore"
+    />
   </div>
 </template>
 
@@ -36,13 +39,13 @@ export default {
       try {
         let { albums, total } = await getTopAlbum(params)
         this.albums = this.albums.concat(albums)
-        if ( this.albums.length < total ) {
+        if (this.albums.length < total) {
           this.offset += this.limit
           $state.loaded()
         } else {
           $state.complete()
         }
-      } catch ( error ) {
+      } catch (error) {
         $state.error()
       }
     }
@@ -51,10 +54,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "./../../../styles/mixins";
+@import "./../../../styles/mixins";
 
-  .albums {
-    .grid-layout(20px, 141px);
-    padding: 20px 0;
-  }
+.albums {
+  .grid-layout(20px, 141px);
+  padding: 20px 0;
+}
 </style>

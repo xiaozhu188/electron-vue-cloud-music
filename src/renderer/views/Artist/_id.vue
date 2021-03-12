@@ -5,20 +5,36 @@
       <a-list-item>
         <a-list-item-meta>
           <div slot="title">
-            <h1>{{artist.name}}</h1>
+            <h1>{{ artist.name }}</h1>
           </div>
           <div slot="description" class="desc">
-            <div>单曲数：{{artist.musicSize}}</div>
-            <div>专辑数：{{artist.albumSize}}</div>
-            <div>MV数：{{artist.mvSize}}</div>
+            <div>单曲数：{{ artist.musicSize }}</div>
+            <div>专辑数：{{ artist.albumSize }}</div>
+            <div>MV数：{{ artist.mvSize }}</div>
           </div>
-          <img v-lazy="`${artist.img1v1Url}?param=200y200`" width="200" height="200" :key="artist.id" slot="avatar">
+          <img
+            v-lazy="`${artist.img1v1Url}?param=200y200`"
+            width="200"
+            height="200"
+            :key="artist.id"
+            slot="avatar"
+          />
         </a-list-item-meta>
         <div class="action">
-          <a-button size="small" icon="check" @click="subscribe(2, artist)" v-if="artist.followed">
+          <a-button
+            size="small"
+            icon="check"
+            @click="subscribe(2, artist)"
+            v-if="artist.followed"
+          >
             已收藏
           </a-button>
-          <a-button size="small" icon="folder-add" @click="subscribe(1, artist)" v-else>
+          <a-button
+            size="small"
+            icon="folder-add"
+            @click="subscribe(1, artist)"
+            v-else
+          >
             收藏
           </a-button>
         </div>
@@ -69,7 +85,8 @@ export default {
     }
   },
   components: {
-    TabBar, Loading
+    TabBar,
+    Loading
   },
   activated () {
     this._getArtistSongs(this.$route.params.id)
@@ -80,7 +97,7 @@ export default {
   },
   computed: {
     songs () {
-      return this.hotSongs.filter(track => {
+      return this.hotSongs.filter((track) => {
         return track.name.includes(this.searchKey)
       })
     }
@@ -91,10 +108,14 @@ export default {
     },
     async _getArtistSongs (id) {
       this.loading = true
-      let { artist, hotSongs } = await getArtistSongs({ id, limit: 50, offset: 0 })
+      let { artist, hotSongs } = await getArtistSongs({
+        id,
+        limit: 50,
+        offset: 0
+      })
       this.artist = artist
       const arr = []
-      hotSongs.forEach(song => {
+      hotSongs.forEach((song) => {
         arr.push(normalSong(song))
       })
       this.hotSongs = arr
@@ -104,9 +125,11 @@ export default {
       this.hotSongs = tracks
     },
     subscribe (t, artist) {
-      this.$store.dispatch('User/subscribeArtist', { t, artist }).then(code => {
-        this.artist.followed = !this.artist.followed
-      })
+      this.$store
+        .dispatch('User/subscribeArtist', { t, artist })
+        .then((code) => {
+          this.artist.followed = !this.artist.followed
+        })
     }
   }
 }

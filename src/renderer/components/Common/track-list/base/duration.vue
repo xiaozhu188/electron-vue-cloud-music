@@ -1,5 +1,5 @@
 <template>
-  <span title="时长">{{row[col.key] | duration}}</span>
+  <span title="时长">{{ row[col.key] | duration }}</span>
 </template>
 
 <script>

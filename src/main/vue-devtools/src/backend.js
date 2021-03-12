@@ -12,7 +12,7 @@ function handshake (e) {
     let listeners = []
     const bridge = new Bridge({
       listen (fn) {
-        var listener = evt => {
+        var listener = (evt) => {
           if (evt.data.source === 'vue-devtools-proxy' && evt.data.payload) {
             fn(evt.data.payload)
           }
@@ -21,15 +21,18 @@ function handshake (e) {
         listeners.push(listener)
       },
       send (data) {
-        window.postMessage({
-          source: 'vue-devtools-backend',
-          payload: data
-        }, '*')
+        window.postMessage(
+          {
+            source: 'vue-devtools-backend',
+            payload: data
+          },
+          '*'
+        )
       }
     })
 
     bridge.on('shutdown', () => {
-      listeners.forEach(l => {
+      listeners.forEach((l) => {
         window.removeEventListener('message', l)
       })
       listeners = []

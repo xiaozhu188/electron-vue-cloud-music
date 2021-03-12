@@ -29,7 +29,7 @@ export default {
     flex: 0 0 150px;
   }
   .content {
-     flex: 1;
+    flex: 1;
   }
   /deep/ .ant-btn {
     margin-left: 10px;

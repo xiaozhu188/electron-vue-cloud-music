@@ -3,7 +3,11 @@
     <div class="comment" v-if="commentData">
       <comment :commentData="commentData"></comment>
     </div>
-    <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="loadmore" />
+    <infinite-loading
+      forceUseInfiniteWrapper=".ant-layout-content"
+      :identifier="infiniteId"
+      @infinite="loadmore"
+    />
   </div>
 </template>
 

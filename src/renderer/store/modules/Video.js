@@ -8,9 +8,7 @@ const state = {
   speed: 1
 }
 
-const getters = {
-
-}
+const getters = {}
 
 const mutations = {
   SET_VIDEO_ID (state, id) {

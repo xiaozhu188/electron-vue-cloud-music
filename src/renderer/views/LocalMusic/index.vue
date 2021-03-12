@@ -2,27 +2,56 @@
   <div class="local-music">
     <a-card :bordered="false">
       <div slot="title">
-        <a-button icon="redo" size="small" type="primary" @click="refresh(selectedFolder)">重新检索</a-button>
-        <a-button icon="api" size="small" type="primary" :disabled="!localSongs.length || matching" @click="matchSongs">匹配歌曲</a-button>
-        <small @click="visible = true">{{ localSongs.length }}首歌曲,选择目录</small>
+        <a-button
+          icon="redo"
+          size="small"
+          type="primary"
+          @click="refresh(selectedFolder)"
+          >重新检索</a-button
+        >
+        <a-button
+          icon="api"
+          size="small"
+          type="primary"
+          :disabled="!localSongs.length || matching"
+          @click="matchSongs"
+          >匹配歌曲</a-button
+        >
+        <small @click="visible = true"
+          >{{ localSongs.length }}首歌曲,选择目录</small
+        >
       </div>
-      <track-list :columns="columns" :tracks="localSongs" :isShowActions="false" @dblclick="play">
+      <track-list
+        :columns="columns"
+        :tracks="localSongs"
+        :isShowActions="false"
+        @dblclick="play"
+      >
         <template slot="size" slot-scope="{ row }">
           <span>{{ row.size | normalSize }}</span>
         </template>
       </track-list>
     </a-card>
 
-    <a-modal centered :maskClosable="false" title="选择本地音乐文件夹" wrapClassName="bodyStyle" :width="300" v-model="visible">
+    <a-modal
+      centered
+      :maskClosable="false"
+      title="选择本地音乐文件夹"
+      wrapClassName="bodyStyle"
+      :width="300"
+      v-model="visible"
+    >
       <div>将自动扫描您勾选的目录，文件增删实时同步。</div>
       <a-checkbox-group @change="onChange" v-model="selectedFolder">
-        <div v-for="(folder) in exportFolders" :key="folder">
+        <div v-for="folder in exportFolders" :key="folder">
           <a-checkbox :value="folder">{{ folder }}</a-checkbox>
         </div>
       </a-checkbox-group>
       <template slot="footer">
         <a-button key="back" @click="onOk">确认</a-button>
-        <a-button key="submit" type="primary" @click="addFolder">添加文件夹</a-button>
+        <a-button key="submit" type="primary" @click="addFolder"
+          >添加文件夹</a-button
+        >
       </template>
     </a-modal>
   </div>
@@ -82,7 +111,8 @@ export default {
     }
   },
   components: {
-    TrackList, Loading
+    TrackList,
+    Loading
   },
   computed: {
     ...mapState('Localsong', ['exportFolders']),
@@ -131,7 +161,7 @@ export default {
 <style lang="less">
 .local-music {
   /deep/ .ant-card-body {
-    padding: 0!important;
+    padding: 0 !important;
   }
   .ant-btn {
     margin-right: 4px;

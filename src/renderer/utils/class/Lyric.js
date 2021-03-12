@@ -6,8 +6,7 @@ const TIME_REG_WY = /\[(\d{2,}):(\d{2})(\.|:)(\d{1,3})?\]/g
 const STATE_PAUSE = 0
 const STATE_PLAYING = 1
 
-function noop () {
-}
+function noop () {}
 
 export default class Lyric {
   constructor (lrc, hanlder = noop, delay = 0) {
@@ -36,7 +35,12 @@ export default class Lyric {
           const txt = line.replace(TIME_REG_WY, '').trim()
           const min = result[1] * 60 * 1000
           const sec = result[2] * 1000
-          const ms = result[4] && result[4].length ? (result[4].length == 2 ? (result[4] || 0) * 10 : (result[4] || 0) * 1) : 0
+          const ms =
+            result[4] && result[4].length
+              ? result[4].length == 2
+                ? (result[4] || 0) * 10
+                : (result[4] || 0) * 1
+              : 0
           const time = min + sec + ms
           if (txt !== '') {
             _this.lines.push({
@@ -91,7 +95,10 @@ export default class Lyric {
 
   _playRest () {
     let line = this.lines[this.curNum]
-    let delay = line.time < 0 ? 0 : line.time - (+new Date() - this.startStamp) + this.delay
+    let delay =
+      line.time < 0
+        ? 0
+        : line.time - (+new Date() - this.startStamp) + this.delay
     // console.log(delay)
     // delay = delay + 1000
     this.timer = setTimeout(() => {

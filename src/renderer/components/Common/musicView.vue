@@ -2,11 +2,16 @@
   <div>
     <canvas id="canvas" v-show="!showGlow"></canvas>
     <canvas id="wrap" height="640" width="640" v-show="showGlow"></canvas>
-    <div class="avatar-wrapper" v-show="showGlow" @click="avatarClick" v-if="Object.keys(current_song).length">
+    <div
+      class="avatar-wrapper"
+      v-show="showGlow"
+      @click="avatarClick"
+      v-if="Object.keys(current_song).length"
+    >
       <img
         :src="`${current_song.avatar}`"
         class="avatar"
-        :class="{'paused' : !playing}"
+        :class="{ paused: !playing }"
       />
     </div>
   </div>
@@ -124,16 +129,11 @@ export default {
         }
       }
       this.context = this.canvas.getContext('2d')
-      this.gradient = this.context.createLinearGradient(
-        0,
-        0,
-        0,
-        this.height
-      )
+      this.gradient = this.context.createLinearGradient(0, 0, 0, this.height)
       this.gradient.addColorStop('0', '#860000')
       this.gradient.addColorStop('1.0', '#c62f2f')
-      let _this = this;
-      (function draw () {
+      let _this = this
+      ;(function draw () {
         _this.analyser.getByteFrequencyData(_this.dataArray)
         _this.context.clearRect(0, 0, _this.width, _this.height)
         _this.context.beginPath()
@@ -162,14 +162,10 @@ export default {
           _this.context.moveTo(0, _this.height)
           let x2 = 0
           for (let j = 1; j <= length; j++) {
-            let lineHeight2 =
-                  ((_this.dataArray[j] / 256) * _this.height) / 5
+            let lineHeight2 = ((_this.dataArray[j] / 256) * _this.height) / 5
             let diffH = Math.floor(Math.random() * 20 + 1)
             if (j < length / 10) {
-              _this.context.lineTo(
-                x2,
-                _this.height - lineHeight2 / 2 - diffH
-              )
+              _this.context.lineTo(x2, _this.height - lineHeight2 / 2 - diffH)
             } else if (j > length - 1) {
               _this.context.lineTo(x2, _this.height - diffH)
             } else {
@@ -199,8 +195,8 @@ export default {
       const R = 150 // 半径
       const W = 3 // 射线的宽度
       const L = 35 // 射线的长度
-      const _this = this;
-      (function drawSpectrum () {
+      const _this = this
+      ;(function drawSpectrum () {
         _this.analyser.getByteFrequencyData(output) // 获取频域数据
         cxt.clearRect(0, 0, _this.wrap.width, _this.wrap.height)
         for (let i = 0; i < 360; i++) {
@@ -285,8 +281,12 @@ export default {
 
 <style lang="less" scoped>
 @keyframes rotate {
-  0%{transform: rotate(0)}
-  100%{transform: rotate(360deg)}
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 #wrap,
 .avatar-wrapper {

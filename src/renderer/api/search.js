@@ -4,7 +4,10 @@ import request from '@/utils/request.js'
 export function getSearch ({ keyword, limit = 30, offset = 0, type = 1 }) {
   return request.get('/search', {
     params: {
-      keywords: keyword, limit, offset, type
+      keywords: keyword,
+      limit,
+      offset,
+      type
     }
   })
 }

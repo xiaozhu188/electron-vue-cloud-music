@@ -31,19 +31,24 @@ export default {
   computed: {
     ...mapGetters('Setting', ['downloadSongsFolders']),
     defaultDownloadFolder () {
-      return this.downloadSongsFolders[ 0 ]
+      return this.downloadSongsFolders[0]
     }
   },
   methods: {
     ...mapMutations('Setting', ['mutateState']),
     checkVersion () {
       this.loading = true
-      fetch('https://api.github.com/repos/xiaozhu188/electron-vue-cloud-music/releases/latest')
-        .then(res => res.json())
-        .then(res => {
+      fetch(
+        'https://api.github.com/repos/xiaozhu188/electron-vue-cloud-music/releases/latest'
+      )
+        .then((res) => res.json())
+        .then((res) => {
           let data = res
           this.remoteVersion = data.name
-          this.$store.commit('Update/SET_UPDATE_CONTENT', this.converter.makeHtml(data.body))
+          this.$store.commit(
+            'Update/SET_UPDATE_CONTENT',
+            this.converter.makeHtml(data.body)
+          )
           this.$electron.ipcRenderer.send('update-version', this.remoteVersion)
           let shouldUpdate = semver.gt(this.remoteVersion, this.localVersion)
           if (shouldUpdate) {
@@ -52,7 +57,7 @@ export default {
             this.$message.warn('暂无更新')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$electron.ipcRenderer.send('toggle-updatewin')
           this.$message.error(err.message || '获取版本号失败')
         })

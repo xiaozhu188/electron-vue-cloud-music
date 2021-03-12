@@ -28,8 +28,10 @@ function createPanelIfHasVue () {
       clearInterval(checkVueInterval)
       created = true
       chrome.devtools.panels.create(
-        'Vue', 'icons/128.png', 'devtools.html',
-        panel => {
+        'Vue',
+        'icons/128.png',
+        'devtools.html',
+        (panel) => {
           // panel loaded
           panel.onShown.addListener(onPanelShown)
           panel.onHidden.addListener(onPanelHidden)
@@ -41,7 +43,7 @@ function createPanelIfHasVue () {
 
 // Runtime messages
 
-chrome.runtime.onMessage.addListener(request => {
+chrome.runtime.onMessage.addListener((request) => {
   if (request === 'vue-panel-load') {
     onPanelLoad()
   } else if (request.vueToast) {

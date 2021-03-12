@@ -15,7 +15,14 @@
         >
           <template slot="content">
             <ul class="cates">
-              <li v-for="(cate, index) in categories" :key="index" class="cate" :class="{'current' : currentCate === cate.name}" @click="onCateClick(cate)">{{ cate.name }}</li>
+              <li
+                v-for="(cate, index) in categories"
+                :key="index"
+                class="cate"
+                :class="{ current: currentCate === cate.name }"
+                @click="onCateClick(cate)"
+                >{{ cate.name }}</li
+              >
             </ul>
           </template>
           <a-icon type="filter" /> {{ currentCate }}
@@ -23,7 +30,13 @@
       </div>
     </header>
     <a-row type="flex" :gutter="16" class="playlist-row" v-if="!loading">
-      <a-col :xl="8" :md="12" class="playlist-col" v-for="playlist in playlists" :key="playlist.id">
+      <a-col
+        :xl="8"
+        :md="12"
+        class="playlist-col"
+        v-for="playlist in playlists"
+        :key="playlist.id"
+      >
         <router-link class="playlist-item" :to="`/playlist/${playlist.id}`">
           <div class="avatar">
             <img v-lazy="`${playlist.coverImgUrl}?param=100y100`" />
@@ -40,13 +53,21 @@
               <span class="tag">{{ playlist.tag }}</span>
               {{ playlist.name }}
             </div>
-            <router-link :to="`/user?id=${playlist.creator.userId}`" class="creator">by {{ playlist.creator.nickname }}</router-link>
+            <router-link
+              :to="`/user?id=${playlist.creator.userId}`"
+              class="creator"
+              >by {{ playlist.creator.nickname }}</router-link
+            >
             <div class="copywriter">{{ playlist.copywriter }}</div>
           </div>
         </router-link>
       </a-col>
     </a-row>
-    <infinite-loading forceUseInfiniteWrapper=".ant-layout-content" :identifier="infiniteId" @infinite="infiniteHandler"></infinite-loading>
+    <infinite-loading
+      forceUseInfiniteWrapper=".ant-layout-content"
+      :identifier="infiniteId"
+      @infinite="infiniteHandler"
+    ></infinite-loading>
   </div>
 </template>
 
@@ -73,7 +94,9 @@ export default {
       this.categories = sub
     },
     async _getHighPlaylist () {
-      let { playlists, lasttime, more, total } = await getHighPlaylist(this.options)
+      let { playlists, lasttime, more, total } = await getHighPlaylist(
+        this.options
+      )
       this.playlists = playlists
     },
     infiniteHandler ($state) {
@@ -95,7 +118,9 @@ export default {
       this.infiniteId += 1
     },
     goRoute () {
-      this.$electron.remote.shell.openExternal('https://music.163.com/#/topic?id=202001')
+      this.$electron.remote.shell.openExternal(
+        'https://music.163.com/#/topic?id=202001'
+      )
     }
   }
 }

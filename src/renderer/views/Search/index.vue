@@ -2,10 +2,10 @@
   <div>
     <div class="search-result-top">
       搜索
-      <span class="highlight">{{$route.query.keyword}}</span> 的结果
+      <span class="highlight">{{ $route.query.keyword }}</span> 的结果
     </div>
     <a-tabs
-      :tabBarStyle="{margin:0,paddingLeft:'60px'}"
+      :tabBarStyle="{ margin: 0, paddingLeft: '60px' }"
       :animated="false"
       :defaultActiveKey="activeKey"
       @change="onTabChange"
@@ -22,16 +22,28 @@
             v-for="item in val"
             :key="item.id"
           >
-            <img v-lazy="`${item.picUrl || item.cover || item.coverUrl}?param=50y50`" />
-            <div class="name">{{matchMap[key]}}: {{item.name || item.title}}</div>
+            <img
+              v-lazy="
+                `${item.picUrl || item.cover || item.coverUrl}?param=50y50`
+              "
+            />
+            <div class="name"
+              >{{ matchMap[key] }}: {{ item.name || item.title }}</div
+            >
             <a-icon type="right" />
           </router-link>
         </div>
       </template>
     </div>
     <!-- 搜索结果 -->
-    <component class="search-result" :is="componentName" :pageSize="limit" :result="result" v-if="result">
-      <div class="page-wrapper" slot-scope="{total}">
+    <component
+      class="search-result"
+      :is="componentName"
+      :pageSize="limit"
+      :result="result"
+      v-if="result"
+    >
+      <div class="page-wrapper" slot-scope="{ total }">
         <a-pagination
           size="small"
           :defaultCurrent="1"

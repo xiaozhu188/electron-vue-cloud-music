@@ -10,12 +10,12 @@
       >
         <a-col :span="12">
           <router-link :to="`/playlist/${playlist.id}`" class="playlist">
-            <img v-lazy="`${playlist.coverImgUrl}?param=50y50`">
-            <span>{{playlist.name}}</span>
+            <img v-lazy="`${playlist.coverImgUrl}?param=50y50`" />
+            <span>{{ playlist.name }}</span>
           </router-link>
         </a-col>
-        <a-col :span="4">{{playlist.trackCount}}首</a-col>
-        <a-col :span="8">by {{playlist.creator.nickname}}</a-col>
+        <a-col :span="4">{{ playlist.trackCount }}首</a-col>
+        <a-col :span="8">by {{ playlist.creator.nickname }}</a-col>
       </a-row>
     </a-spin>
     <slot :total="result.playlistCount"></slot>
@@ -26,9 +26,7 @@
 import searchMixin from '@/mixins/Search'
 import Artists from '@/components/Common/artists'
 export default {
-  mixins: [
-    searchMixin
-  ],
+  mixins: [searchMixin],
   data () {
     return {
       playlists: []

@@ -3,33 +3,37 @@ import store from './../store'
 import Message from 'ant-design-vue/es/message'
 import Toast from './../components/Toast/toast'
 
-const baseURL = process.env.NODE_ENV === 'development'
-  ? 'http://139.9.230.159:3000'
-  : 'http://139.9.230.159:3000'
+const baseURL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://139.9.230.159:3000'
+    : 'http://139.9.230.159:3000'
 
 const instance = sguoyi.create({
   baseURL
 })
 
-instance.interceptors.request.use(config => {
-  if (!store.state.App.isOnliline) {
-    return Promise.reject(new Error('offline!'))
+instance.interceptors.request.use(
+  (config) => {
+    if (!store.state.App.isOnliline) {
+      return Promise.reject(new Error('offline!'))
+    }
+    return config
+  },
+  (error) => {
+    Message.error(error)
+    Promise.reject(error)
   }
-  return config
-}, error => {
-  Message.error(error)
-  Promise.reject(error)
-})
+)
 
 instance.interceptors.response.use(
-  response => {
+  (response) => {
     if (response.code && response.code === 200) {
       return response
     }
     Message.warn(response.msg || response.statusText || 'Response error')
     return Promise.reject(response)
   },
-  error => {
+  (error) => {
     if (error.response) {
       let res = error.response
       switch (res.status) {
@@ -75,6 +79,7 @@ instance.interceptors.response.use(
       })
     }
     return Promise.reject(error.response)
-  })
+  }
+)
 
 export default instance

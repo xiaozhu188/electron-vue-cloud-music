@@ -29,7 +29,12 @@ export function getPersonalizedPlaylist () {
   return request.get('/personalized')
 }
 
-export function getTopPlaylist ({ cat = '全部', limit = 10, offset = 0, order = 'new' }) {
+export function getTopPlaylist ({
+  cat = '全部',
+  limit = 10,
+  offset = 0,
+  order = 'new'
+}) {
   return request.get('/top/playlist', {
     params: {
       cat,

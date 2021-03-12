@@ -4,14 +4,21 @@
       <li class="list-item" @click="goLink" v-if="userId">
         <div class="date">
           <div class="info">
-            <div class="week">{{getWeek()}}</div>
-            <div class="day">{{getDate()}}</div>
+            <div class="week">{{ getWeek() }}</div>
+            <div class="day">{{ getDate() }}</div>
           </div>
         </div>
         <div>每日歌曲推荐</div>
       </li>
-      <list-item class="list-item" v-for="(item) in playlist" :item="item" :key="item.id">
-        <div slot="copywriter" class="copywriter" v-if="item.copywriter">{{item.copywriter}}</div>
+      <list-item
+        class="list-item"
+        v-for="item in playlist"
+        :item="item"
+        :key="item.id"
+      >
+        <div slot="copywriter" class="copywriter" v-if="item.copywriter">{{
+          item.copywriter
+        }}</div>
       </list-item>
     </ul>
   </div>

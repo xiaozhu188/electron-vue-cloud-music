@@ -13,13 +13,25 @@
         v-for="(item, index) in list"
         :key="index"
         :class="setClass(index)"
-        @click="onClick(index,item)"
+        @click="onClick(index, item)"
         :style="`backgroundImage: url(${item.src});height: ${height}px;`"
       >
-        <div class="badge" :style="`background:${item.titleColor}`">{{ item.typeTitle }}</div>
+        <div class="badge" :style="`background:${item.titleColor}`">{{
+          item.typeTitle
+        }}</div>
       </div>
-      <a-icon type="left" v-show="arrow" class="icon-left" @click="prev()"></a-icon>
-      <a-icon type="right" v-show="arrow" class="icon-right" @click="next()"></a-icon>
+      <a-icon
+        type="left"
+        v-show="arrow"
+        class="icon-left"
+        @click="prev()"
+      ></a-icon>
+      <a-icon
+        type="right"
+        v-show="arrow"
+        class="icon-right"
+        @click="next()"
+      ></a-icon>
     </div>
     <div class="dots" v-if="dots">
       <span
@@ -95,7 +107,10 @@ export default {
       }
     },
     sliderHeight () {
-      let h = document.querySelector('.slider-container') && document.querySelector('.slider-container').getBoundingClientRect().height
+      let h =
+        document.querySelector('.slider-container') &&
+        document.querySelector('.slider-container').getBoundingClientRect()
+          .height
       return `${h * 0.37}px`
     }
   },
@@ -130,11 +145,11 @@ export default {
     setActiveDot (index) {
       return index === this.currentIndex
         ? {
-          backgroundColor: this.color
-        }
+            backgroundColor: this.color
+          }
         : {
-          backgroundColor: '#ccc'
-        }
+            backgroundColor: '#ccc'
+          }
     },
     play () {
       this.pause()
@@ -200,15 +215,16 @@ export default {
       left: 50%;
       width: 70%;
       height: 100%;
-      transition: 0.4s transform ease-out, .35s filter cubic-bezier(0.32, 0.04, 0.87, 0.65);
+      transition: 0.4s transform ease-out,
+        0.35s filter cubic-bezier(0.32, 0.04, 0.87, 0.65);
       background-color: #fff;
       background-repeat: no-repeat;
       background-position: center;
       background-size: inherit;
-      transform: translate3d(-50%, 1px, -80px) scale3d(.9, .9, 1);
+      transform: translate3d(-50%, 1px, -80px) scale3d(0.9, 0.9, 1);
       transform-origin: center bottom;
       z-index: 1;
-      filter: brightness(.3);
+      filter: brightness(0.3);
       cursor: pointer;
       .badge {
         position: absolute;
@@ -221,7 +237,7 @@ export default {
         color: #fff;
         border-radius: 9px 0 0 9px;
         font-size: 12px;
-        filter: brightness(.93);
+        filter: brightness(0.93);
       }
       &:before {
         position: absolute;
@@ -231,8 +247,8 @@ export default {
         top: 0;
         left: 0;
         background-color: rgba(0, 0, 0, 0);
-        transition-delay: .1s !important;
-        transition: all .5s;
+        transition-delay: 0.1s !important;
+        transition: all 0.5s;
       }
       &.active {
         transform: translate3d(-50%, 0, 0);
@@ -240,21 +256,18 @@ export default {
         z-index: 20;
       }
       &.prev {
-        transform: translate3d(-76.5%, 0, 0) scale3d(.9,.9,1);
+        transform: translate3d(-76.5%, 0, 0) scale3d(0.9, 0.9, 1);
         z-index: 18;
       }
       &.next {
-        transform: translate3d(-23.5%, 0,0) scale3d(.9,.9,1);
+        transform: translate3d(-23.5%, 0, 0) scale3d(0.9, 0.9, 1);
         z-index: 18;
       }
-
     }
-    &.mask
-      .slider
-        &.prev, &.next
-          &:before {
-            background-color: rgba(0, 0, 0, .5);
-          }
+    &.mask .slider &.prev,
+    &.next &:before {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
     i {
       display: none;
       position: absolute;

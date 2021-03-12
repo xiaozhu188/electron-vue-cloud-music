@@ -6,14 +6,12 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style scoped>
-  .infinite-error {
-    margin: 15px 0;
-    text-align: center;
-  }
+.infinite-error {
+  margin: 15px 0;
+  text-align: center;
+}
 </style>

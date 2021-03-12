@@ -2,22 +2,25 @@
   <a-config-provider :locale="locale">
     <a-layout class="basic-layout">
       <a-layout-header class="basic-layout-header">
-        <basic-header/>
+        <basic-header />
       </a-layout-header>
       <a-layout>
         <a-layout-sider class="basic-layout-sider" :width="siderWidth">
           <div ref="handle" class="split-handle"></div>
           <basic-sider />
         </a-layout-sider>
-        <a-layout-content class="basic-layout-content" >
-          <keep-alive :exclude="keepAliveExcludeList" v-if="isOnliline || noLimitRoutes.includes($route.name)">
+        <a-layout-content class="basic-layout-content">
+          <keep-alive
+            :exclude="keepAliveExcludeList"
+            v-if="isOnliline || noLimitRoutes.includes($route.name)"
+          >
             <router-view v-if="!refresh"></router-view>
           </keep-alive>
           <offline v-else />
         </a-layout-content>
       </a-layout>
       <a-layout-footer class="basic-layout-footer">
-        <play-bar/>
+        <play-bar />
       </a-layout-footer>
       <login />
       <player />
@@ -80,12 +83,16 @@ export default {
       this.mouse.isDown = true
       this.mouse.startX = e.pageX
     }
-    app.onmousemove = throttle((e) => {
-      if (!this.mouse.isDown) return
-      let diffX = e.pageX
-      if (diffX < SIDER_WIDTH_DEFAULT || diffX > SIDER_WIDTH_MAX) return
-      this.siderWidth = diffX
-    }, 100, { 'trailing': true, 'leading': true })
+    app.onmousemove = throttle(
+      (e) => {
+        if (!this.mouse.isDown) return
+        let diffX = e.pageX
+        if (diffX < SIDER_WIDTH_DEFAULT || diffX > SIDER_WIDTH_MAX) return
+        this.siderWidth = diffX
+      },
+      100,
+      { trailing: true, leading: true }
+    )
     app.onmouseup = () => {
       this.mouse.isDown = false
     }

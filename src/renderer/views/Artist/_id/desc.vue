@@ -2,15 +2,19 @@
   <section class="desc">
     <dl>
       <dt>简介</dt>
-      <dd>{{briefDesc}}</dd>
+      <dd>{{ briefDesc }}</dd>
     </dl>
     <dl v-for="(item, index) in introduction" :key="index">
-      <dt>{{item.ti}}</dt>
-      <dd>{{item.txt}}</dd>
+      <dt>{{ item.ti }}</dt>
+      <dd>{{ item.txt }}</dd>
     </dl>
     <dl v-for="(item, index) in topicData" :key="index">
-      <dt>{{item.mainTitle}}</dt>
-      <dd v-for="(con, index) in content" :key="index" v-html="con.content"></dd>
+      <dt>{{ item.mainTitle }}</dt>
+      <dd
+        v-for="(con, index) in content"
+        :key="index"
+        v-html="con.content"
+      ></dd>
     </dl>
   </section>
 </template>

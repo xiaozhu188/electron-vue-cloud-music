@@ -5,12 +5,18 @@
         icon="folder-add"
         :disabled="!!current_song.folder"
         @click="collect_playlist_visible = true"
-      >收藏</a-button>
+        >收藏</a-button
+      >
     </slot>
     <drap-modal centered title="新建歌单" v-model="create_playlist_visible">
       <playlist-create v-model="formData" />
       <div style="margin-top: 25px" slot="footer">
-        <a-button type="primary" :disabled="formData.name === ''" @click="createAndAddToPlaylist">创建</a-button>
+        <a-button
+          type="primary"
+          :disabled="formData.name === ''"
+          @click="createAndAddToPlaylist"
+          >创建</a-button
+        >
         <a-button @click="create_playlist_visible = false">取消</a-button>
       </div>
     </drap-modal>
@@ -21,7 +27,7 @@
       v-model="collect_playlist_visible"
       wrapClassName="collect-playlist-modal"
       :width="320"
-      :bodyStyle="{padding:'15px'}"
+      :bodyStyle="{ padding: '15px' }"
     >
       <ul class="list">
         <li @click="create_playlist_visible = true" class="item">
@@ -66,24 +72,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('play', [
-      'current_song',
-      'playing'
-    ]),
-    ...mapGetters('User', [
-      'userId',
-      'createdList',
-      'likedsongIds'
-    ])
+    ...mapGetters('play', ['current_song', 'playing']),
+    ...mapGetters('User', ['userId', 'createdList', 'likedsongIds'])
   },
   components: {
-    DrapModal, PlaylistCreate
+    DrapModal,
+    PlaylistCreate
   },
   methods: {
     // 收藏到歌单
     async collectToPlaylist (playlist, song) {
       let options = {
-        op: 'add', tracks: song.id, pid: playlist.id
+        op: 'add',
+        tracks: song.id,
+        pid: playlist.id
       }
       try {
         let { code, trackIds } = await addSongToList(options)
@@ -103,15 +105,19 @@ export default {
     // 新建并收藏到歌单
     createAndAddToPlaylist () {
       if (this.formData.name === '') return
-      this.$store.dispatch('User/createPlaylist', this.formData).then(async (playlist) => {
-        this.$message.success(`创建歌单 ${playlist.name} 成功!`)
-        this.create_playlist_visible = false
-        await this.collectToPlaylist(playlist, this.current_song)
-        setTimeout(() => {
-          this.$message.success(`添加歌曲 ${this.current_song.name} 到歌单 ${playlist.name} 成功!`)
-          this.collect_playlist_visible = false
-        }, 300)
-      })
+      this.$store
+        .dispatch('User/createPlaylist', this.formData)
+        .then(async (playlist) => {
+          this.$message.success(`创建歌单 ${playlist.name} 成功!`)
+          this.create_playlist_visible = false
+          await this.collectToPlaylist(playlist, this.current_song)
+          setTimeout(() => {
+            this.$message.success(
+              `添加歌曲 ${this.current_song.name} 到歌单 ${playlist.name} 成功!`
+            )
+            this.collect_playlist_visible = false
+          }, 300)
+        })
     }
   }
 }

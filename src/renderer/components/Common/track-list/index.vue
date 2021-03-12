@@ -11,14 +11,23 @@
               v-for="col in currentColumns"
               :key="col.key"
               class="col-item"
-              :class="[{'col-duration' : col.key === 'duration'},{'col-has-sorter' : col.sorter}]"
-              :style="col.width ? `width: ${col.width};flex: 0 0 ${col.width}` : ''"
+              :class="[
+                { 'col-duration': col.key === 'duration' },
+                { 'col-has-sorter': col.sorter },
+              ]"
+              :style="
+                col.width ? `width: ${col.width};flex: 0 0 ${col.width}` : ''
+              "
               @click="sortSongs(col)"
             >
               <span class="col-title">{{ col.title }}</span>
               <span class="sort-icons" v-show="col.sorter">
-                <a-icon type="caret-up" v-if="col.rule===0" :key="col.key" />
-                <a-icon type="caret-down" v-else-if="col.rule===1" :key="col.key" />
+                <a-icon type="caret-up" v-if="col.rule === 0" :key="col.key" />
+                <a-icon
+                  type="caret-down"
+                  v-else-if="col.rule === 1"
+                  :key="col.key"
+                />
                 <span class="col-sorter" v-else :key="col.key">
                   <a-icon type="caret-up" class="col-sorter-up" />
                   <a-icon type="caret-down" class="col-sorter-down" />
@@ -33,23 +42,39 @@
             <li
               v-for="(row, rowIndex) in songs"
               :key="rowIndex"
-              :class="{'gray' : row.matched === false}"
+              :class="{ gray: row.matched === false }"
               @dblclick="onRowdblclick(songs, rowIndex)"
             >
-              <a-dropdown :trigger="['contextmenu']" overlayClassName="sider-right-menu">
+              <a-dropdown
+                :trigger="['contextmenu']"
+                overlayClassName="sider-right-menu"
+              >
                 <div class="song-item">
                   <div class="col-item col-index" v-if="isShowPlaying">
-                    <playing :playing="playing" v-if="current_song.id === row.id && source" />
-                    <span v-else>{{ rowIndex > 8 ? rowIndex + 1 : '0' + (rowIndex + 1) }}</span>
+                    <playing
+                      :playing="playing"
+                      v-if="current_song.id === row.id && source"
+                    />
+                    <span v-else>{{
+                      rowIndex > 8 ? rowIndex + 1 : "0" + (rowIndex + 1)
+                    }}</span>
                   </div>
                   <div class="col-item col-actions" v-if="isShowActions">
                     <song-heart
-                      :disable = "row.songHeartDisable"
+                      :disable="row.songHeartDisable"
                       :isLiked="likedsongIds.includes(row.id)"
-                      @heartClick="(isLike) => {_handleLikeSong(row, { songId: row.id, isLike })}"
+                      @heartClick="
+                        (isLike) => {
+                          _handleLikeSong(row, { songId: row.id, isLike })
+                        }
+                      "
                     />
 
-                    <template v-if="downloaded.findIndex(item => item.id === row.id) >= 0">
+                    <template
+                      v-if="
+                        downloaded.findIndex((item) => item.id === row.id) >= 0
+                      "
+                    >
                       <a-icon
                         type="check-circle"
                         theme="filled"
@@ -67,17 +92,27 @@
                         type="circle"
                         :width="20"
                         :percent="row.downloadPercent"
-                        v-else-if="queueIds.includes(row.id) && row.downloadPercent > 0"
+                        v-else-if="
+                          queueIds.includes(row.id) && row.downloadPercent > 0
+                        "
                       />
-                      <z-icon type="download" @click.native="download(row)" v-else />
+                      <z-icon
+                        type="download"
+                        @click.native="download(row)"
+                        v-else
+                      />
                     </template>
                   </div>
                   <div
                     v-for="col in currentColumns"
                     :key="col.key"
                     class="col-item"
-                    :class="{'col-duration' : col.key === 'duration'}"
-                    :style="col.width ? `width: ${col.width};flex: 0 0 ${col.width}` : ''"
+                    :class="{ 'col-duration': col.key === 'duration' }"
+                    :style="
+                      col.width
+                        ? `width: ${col.width};flex: 0 0 ${col.width}`
+                        : ''
+                    "
                   >
                     <div class="ellipsis">
                       <slot
@@ -127,7 +162,10 @@
                         <span>新建歌单</span>
                       </div>
                     </a-menu-item>
-                    <a-menu-item v-for="playlist in createdList" :key="playlist.id">
+                    <a-menu-item
+                      v-for="playlist in createdList"
+                      :key="playlist.id"
+                    >
                       <div @click="collectToPlaylist(playlist, row)">
                         <z-icon type="yinleliebiaokuai" />
                         <span>{{ playlist.name }}</span>
@@ -297,13 +335,17 @@ export default {
   created () {
     ipcRenderer.on(
       'download-onProgress',
-      throttle((event, data) => {
-        let { id, progress } = data
-        let song = this.songs.find(song => song.id === id)
-        if (!song) return
-        // this.$set(song, 'isWaitting', true)
-        this.$set(song, 'downloadPercent', parseInt(progress))
-      }, 1000, { trailing: true })
+      throttle(
+        (event, data) => {
+          let { id, progress } = data
+          let song = this.songs.find((song) => song.id === id)
+          if (!song) return
+          // this.$set(song, 'isWaitting', true)
+          this.$set(song, 'downloadPercent', parseInt(progress))
+        },
+        1000,
+        { trailing: true }
+      )
     )
   },
   methods: {
@@ -322,7 +364,7 @@ export default {
       col.num++
     },
     resetCurrentIndex (list, current_song) {
-      let index = list.findIndex(item => {
+      let index = list.findIndex((item) => {
         return item.id === current_song.id
       })
       this.$store.commit('play/SET_CURRENT_INDEX', index)
@@ -358,7 +400,7 @@ export default {
       if (this.formData.name === '') return
       this.$store
         .dispatch('User/createPlaylist', this.formData)
-        .then(async playlist => {
+        .then(async (playlist) => {
           this.$message.success(`创建歌单 ${playlist.name} 成功!`)
           await this.collectToPlaylist(playlist, this.targetSong)
           setTimeout(() => {
@@ -390,7 +432,7 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .col-sorter {
   position: absolute;
   right: 0;

@@ -2,11 +2,12 @@
   <div class="downloaded">
     <a-card :bordered="false">
       <div slot="title">
-
-        <a-button type="primary" icon="play-circle" @click="play(downloaded, 0)">播放全部</a-button>
+        <a-button type="primary" icon="play-circle" @click="play(downloaded, 0)"
+          >播放全部</a-button
+        >
 
         <span>
-           存储目录：{{ defaultDownloadFolder }}
+          存储目录：{{ defaultDownloadFolder }}
           <a href="#" @click="openDownloadFolder">打开目录</a>
         </span>
       </div>
@@ -15,15 +16,20 @@
         :columns="columns"
         :tracks="downloaded"
         :isShowActions="false"
-        @dblclick="play">
+        @dblclick="play"
+      >
         <template slot="time" slot-scope="{ row }">
-          <span>{{ moment(row.createdAt).format('YYYY-MM-DD HH:mm') }}</span>
+          <span>{{ moment(row.createdAt).format("YYYY-MM-DD HH:mm") }}</span>
         </template>
         <template slot="size" slot-scope="{ row }">
           <span>{{ row.size | normalSize }}</span>
         </template>
         <template slot="actions" slot-scope="{ row }">
-          <a-icon type="folder" title="打开所在文件夹" @click="openFileInFolder(row)" />
+          <a-icon
+            type="folder"
+            title="打开所在文件夹"
+            @click="openFileInFolder(row)"
+          />
         </template>
       </track-list>
     </a-card>
@@ -116,7 +122,8 @@ export default {
     },
     openFileInFolder (song) {
       let path = `${this.defaultDownloadFolder}\\${generateName(song)}`
-      if (!fs.existsSync(path)) { // 文件不存在
+      if (!fs.existsSync(path)) {
+        // 文件不存在
         this.$message.error(`文件${path}不存在`)
         return
       }

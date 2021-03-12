@@ -1,16 +1,21 @@
 <template>
   <div class="artists">
-    <a-row type="flex" align="middle" v-for="artist in data" :key="artist.id" class="artist-item" @click.native="onClick(artist)">
+    <a-row
+      type="flex"
+      align="middle"
+      v-for="artist in data"
+      :key="artist.id"
+      class="artist-item"
+      @click.native="onClick(artist)"
+    >
       <a-col :span="14">
-        <img v-lazy="`${artist.picUrl}?param=40y40`" alt="" width="40">
-        <router-link :to="`/artist/${artist.id}`"> {{artist.name}} </router-link>
+        <img v-lazy="`${artist.picUrl}?param=40y40`" alt="" width="40" />
+        <router-link :to="`/artist/${artist.id}`">
+          {{ artist.name }}
+        </router-link>
       </a-col>
-      <a-col :span="5">
-        专辑: {{artist.albumSize}}
-      </a-col>
-      <a-col :span="5">
-        MV: {{artist.mvSize}}
-      </a-col>
+      <a-col :span="5"> 专辑: {{ artist.albumSize }} </a-col>
+      <a-col :span="5"> MV: {{ artist.mvSize }} </a-col>
     </a-row>
     <infinite-loading @infinite="loadmore" />
   </div>
@@ -58,10 +63,10 @@ export default {
 }
 .artist-item {
   padding: 10px;
-  &:nth-child(odd){
+  &:nth-child(odd) {
     background: #eee;
   }
-  &:nth-child(even){
+  &:nth-child(even) {
     background: #f3f5f7;
   }
   &:hover {

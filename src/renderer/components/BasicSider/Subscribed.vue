@@ -1,21 +1,28 @@
 <template>
-  <a-menu mode="inline" :selectable="false" :defaultOpenKeys="['playlist_subscribed']">
+  <a-menu
+    mode="inline"
+    :selectable="false"
+    :defaultOpenKeys="['playlist_subscribed']"
+  >
     <a-sub-menu key="playlist_subscribed">
       <div slot="title" class="subscribed-title">
         <span>收藏的歌单</span>
       </div>
       <a-menu-item v-for="item in subscribedList" :key="item.id">
-        <a-dropdown :trigger="['contextmenu']" overlayClassName="sider-right-menu">
+        <a-dropdown
+          :trigger="['contextmenu']"
+          overlayClassName="sider-right-menu"
+        >
           <div class="flex" :title="item.name">
             <router-link class="link" :to="`/playlist/${item.id}`">
               <z-icon type="yinleliebiaokuai" />
-              <span>{{item.name}}</span>
+              <span>{{ item.name }}</span>
             </router-link>
           </div>
 
           <a-menu slot="overlay">
             <a-menu-item :key="item.id">
-              <div @click="removePlaylist(2,item.id)">
+              <div @click="removePlaylist(2, item.id)">
                 <a-icon type="delete" />
                 <span>删除歌单(Delete)</span>
               </div>
@@ -53,8 +60,8 @@ export default {
       this.$store.dispatch('User/removePlaylist', { action, pid })
     },
     playAll (pid) {
-      getPlaylistDetail(pid).then(res => {
-        let tracks = res.playlist.tracks.map(track => {
+      getPlaylistDetail(pid).then((res) => {
+        let tracks = res.playlist.tracks.map((track) => {
           return normalSong(track)
         })
         this.$store.dispatch('play/selectPlay', { tracks, index: 0 })

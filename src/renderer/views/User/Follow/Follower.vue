@@ -5,17 +5,24 @@
     </header>
     <main class="follow-main">
       <a-row type="flex" :gutter="16">
-        <a-col :xl="8" :md="12" v-for="follower in followers" :key="follower.userId">
-          <router-link class="follower-item" :to="`/user?id=${follower.userId}`">
+        <a-col
+          :xl="8"
+          :md="12"
+          v-for="follower in followers"
+          :key="follower.userId"
+        >
+          <router-link
+            class="follower-item"
+            :to="`/user?id=${follower.userId}`"
+          >
             <div class="avatar">
               <img v-lazy="`${follower.avatarUrl}?param=60y60`" />
             </div>
 
             <div class="info">
-              <router-link
-                :to="`/user?id=${follower.userId}`"
-                class="nickname"
-              >by {{ follower.nickname }}</router-link>
+              <router-link :to="`/user?id=${follower.userId}`" class="nickname"
+                >by {{ follower.nickname }}</router-link
+              >
               <div class="signature">{{ follower.signature }}</div>
               <div class="extra">
                 <span>歌单：{{ follower.playlistCount }}</span>
@@ -54,7 +61,7 @@ export default {
         offset,
         uid: userId
       }
-      user_follower(options).then(res => {
+      user_follower(options).then((res) => {
         console.log(res)
         this.followers = res.follow
       })
@@ -107,7 +114,8 @@ export default {
         justify-content: space-evenly;
         overflow: hidden;
         padding-left: 15px;
-        .nickname,.signature {
+        .nickname,
+        .signature {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;

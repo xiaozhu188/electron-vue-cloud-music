@@ -1,6 +1,6 @@
 <template>
   <a-button
-    v-bind="{...$attrs,...$slots}"
+    v-bind="{ ...$attrs, ...$slots }"
     v-on="$listeners"
     @click="handleClick"
   >
@@ -12,19 +12,21 @@
 import debounce from 'loadsh/debounce'
 export default {
   data () {
-    return {
-
-    }
+    return {}
   },
   methods: {
-    handleClick: debounce(function () {
-      this.$emit('click')
-    }, 1000, {
-      leading: true,
-      trailing: false
-    })
+    handleClick: debounce(
+      function () {
+        this.$emit('click')
+      },
+      1000,
+      {
+        leading: true,
+        trailing: false
+      }
+    )
   }
 }
 </script>
 
-<style lang='less' scoped></style>
+<style lang="less" scoped></style>

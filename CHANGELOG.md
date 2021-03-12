@@ -1,3 +1,15 @@
+## [1.1.18](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.17...v1.1.18) (2021-03-12)
+
+范围|描述|commitId
+--|--|--
+ - | 1.1.18 | [3448728](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/3448728)
+
+
+### 🔧 测试
+范围|描述|commitId
+--|--|--
+ - | test | [b178007](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/b178007)
+
 ## [1.1.17](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.16...v1.1.17) (2021-03-12)
 
 范围|描述|commitId

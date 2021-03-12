@@ -14,7 +14,7 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "prettier": "npx prettier --write ./src ./docs",
-    "release": "vue-cli-service electron:build",
+    "release": "vue-cli-service electron:build --publish always",
     "start": "vue-cli-service electron:serve"
   },
   "main": "background.js",

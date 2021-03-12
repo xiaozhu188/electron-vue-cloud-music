@@ -117,6 +117,10 @@ export default {
     z-index: 22;
     position: relative;
   }
+  .basic-layout-header {
+    box-sizing: content-box;
+    padding-top: 20px;
+  }
   .basic-layout-footer {
     border-top: 1px solid #ddd;
   }

@@ -7,7 +7,8 @@ const state = {
   showView: false,
   showDesktoplyric: false,
   isOnliline: navigator.onLine,
-  noLimitRoutes: ['music_local', 'music_download', 'setting']
+  noLimitRoutes: ['music_local', 'music_download', 'setting'],
+  platform: process.platform
 }
 
 const getters = {

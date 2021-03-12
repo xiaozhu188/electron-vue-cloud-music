@@ -74,9 +74,10 @@ function createWindow () {
     height: 690,
     minWidth: 1000,
     minHeight: 690,
-    title: pkg.description,
+    title: process.platform === 'win32' ? pkg.description : '',
     icon: previewIcon,
-    frame: false,
+    titleBarStyle: 'hiddenInset',
+    frame: process.platform !== 'win32',
     show: false,
     webPreferences: {
       nodeIntegration: true,
@@ -123,7 +124,7 @@ function createWindow () {
   if (isDevelopment) {
     // 安装vue-devtools
     let extensions = BrowserWindow.getDevToolsExtensions()
-    if (!extensions['Vue.js devtools']) {
+    if (!extensions[ 'Vue.js devtools' ]) {
       BrowserWindow.addDevToolsExtension(
         path.resolve(__dirname, './../../src/main/vue-devtools')
       )

@@ -65,7 +65,7 @@
                       :isLiked="likedsongIds.includes(row.id)"
                       @heartClick="
                         (isLike) => {
-                          _handleLikeSong(row, { songId: row.id, isLike })
+                          _handleLikeSong(row, { songId: row.id, isLike });
                         }
                       "
                     />
@@ -195,103 +195,103 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from 'vuex'
-import cloneDeep from 'loadsh/cloneDeep'
-import ZIcon from '@/components/ZIcon'
-import Artists from '@/components/Common/artists'
-import Playing from '@/components/Common/playing'
-import Loading from '@/components/Common/loading'
-import SongHeart from '@/components/Common/song-heart'
+import { mapGetters, mapState, mapActions } from "vuex";
+import cloneDeep from "loadsh/cloneDeep";
+import ZIcon from "@/components/ZIcon";
+import Artists from "@/components/Common/artists";
+import Playing from "@/components/Common/playing";
+import Loading from "@/components/Common/loading";
+import SongHeart from "@/components/Common/song-heart";
 
-import Artist from './base/artist'
-import Album from './base/album'
-import Duration from './base/duration'
-import SongName from './base/songName'
-import DefaultComponent from './base/default'
-import ContextMenu from './base/contextMenu'
+import Artist from "./base/artist";
+import Album from "./base/album";
+import Duration from "./base/duration";
+import SongName from "./base/songName";
+import DefaultComponent from "./base/default";
+import ContextMenu from "./base/contextMenu";
 
-import DrapModal from '@/components/DrapModal/index.vue'
-import PlaylistCreate from '@/components/Playlist/Create.vue'
+import DrapModal from "@/components/DrapModal/index.vue";
+import PlaylistCreate from "@/components/Playlist/Create.vue";
 
-import { ipcRenderer } from 'electron'
-import { addSongToList } from '@/api/user'
-import throttle from 'lodash/throttle'
+import { ipcRenderer } from "electron";
+import { addSongToList } from "@/api/user";
+import throttle from "lodash/throttle";
 
-function sortSongs ({ songs, col, rule = 0 }) {
-  const key = col.key
-  let ret = songs.sort(col.sorter)
-  return rule == 0 ? ret : songs.reverse()
+function sortSongs({ songs, col, rule = 0 }) {
+  const key = col.key;
+  let ret = songs.sort(col.sorter);
+  return rule == 0 ? ret : songs.reverse();
 }
 
 export default {
-  name: 'tracklist',
+  name: "tracklist",
   props: {
     columns: {
       type: Array,
-      default () {
+      default() {
         return [
           {
-            title: '音乐标题',
-            dataIndex: 'name',
-            key: 'name',
-            sorter: (a, b) => a.name.localeCompare(b.name)
+            title: "音乐标题",
+            dataIndex: "name",
+            key: "name",
+            sorter: (a, b) => a.name.localeCompare(b.name),
           },
           {
-            title: '歌手',
-            dataIndex: 'artist',
-            key: 'artist',
-            sorter: (a, b) => a.artist[0].name.localeCompare(b.artist[0].name)
+            title: "歌手",
+            dataIndex: "artist",
+            key: "artist",
+            sorter: (a, b) => a.artist[0].name.localeCompare(b.artist[0].name),
           },
           {
-            title: '专辑',
-            dataIndex: 'album',
-            key: 'album',
-            sorter: (a, b) => a.album.name.localeCompare(b.album.name)
+            title: "专辑",
+            dataIndex: "album",
+            key: "album",
+            sorter: (a, b) => a.album.name.localeCompare(b.album.name),
           },
           {
-            title: '时长',
-            dataIndex: 'duration',
-            key: 'duration',
-            sorter: (a, b) => a.duration - b.duration
-          }
-        ]
-      }
+            title: "时长",
+            dataIndex: "duration",
+            key: "duration",
+            sorter: (a, b) => a.duration - b.duration,
+          },
+        ];
+      },
     },
     tracks: {
       type: Array,
-      default () {
-        return []
-      }
+      default() {
+        return [];
+      },
     },
     isShowHead: {
       type: Boolean,
-      default: true
+      default: true,
     },
     isShowActions: {
       type: Boolean,
-      default: true
+      default: true,
     },
     isShowPlaying: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  data () {
+  data() {
     return {
       songs: JSON.parse(JSON.stringify(this.tracks)),
       componentNames: {
-        artist: 'Artist',
-        album: 'Album',
-        duration: 'Duration',
-        name: 'SongName'
+        artist: "Artist",
+        album: "Album",
+        duration: "Duration",
+        name: "SongName",
       },
       currentColumns: cloneDeep(this.columns),
       visible: false,
       formData: {
-        name: '',
-        privacy: false
-      }
-    }
+        name: "",
+        privacy: false,
+      },
+    };
   },
   components: {
     ZIcon,
@@ -306,130 +306,130 @@ export default {
     Loading,
     SongHeart,
     DrapModal,
-    PlaylistCreate
+    PlaylistCreate,
   },
   computed: {
-    ...mapState('Download', ['downloading', 'downloaded', 'queue']),
-    ...mapGetters('Download', ['queueIds']),
-    ...mapGetters('play', [
-      'playing',
-      'current_play_list',
-      'current_song',
-      'current_song_index',
-      'source'
+    ...mapState("Download", ["downloading", "downloaded", "queue"]),
+    ...mapGetters("Download", ["queueIds"]),
+    ...mapGetters("play", [
+      "playing",
+      "current_play_list",
+      "current_song",
+      "current_song_index",
+      "source",
     ]),
-    ...mapGetters('User', ['userId', 'likedsongIds', 'createdList'])
+    ...mapGetters("User", ["userId", "likedsongIds", "createdList"]),
   },
   watch: {
-    tracks (newTranck) {
+    tracks(newTranck) {
       if (newTranck) {
-        this.currentColumns = cloneDeep(this.columns)
-        this.songs = JSON.parse(JSON.stringify(newTranck))
-        this.cacheSongs = JSON.parse(JSON.stringify(newTranck))
+        this.currentColumns = cloneDeep(this.columns);
+        this.songs = JSON.parse(JSON.stringify(newTranck));
+        this.cacheSongs = JSON.parse(JSON.stringify(newTranck));
       }
-    }
+    },
   },
-  activated () {
-    this.$store.state.App.isOnliline && this._getUserLikelist(this.userId)
+  activated() {
+    this.$store.state.App.isOnliline && this._getUserLikelist(this.userId);
   },
-  created () {
+  created() {
     ipcRenderer.on(
-      'download-onProgress',
+      "download-onProgress",
       throttle(
         (event, data) => {
-          let { id, progress } = data
-          let song = this.songs.find((song) => song.id === id)
-          if (!song) return
+          let { id, progress } = data;
+          let song = this.songs.find((song) => song.id === id);
+          if (!song) return;
           // this.$set(song, 'isWaitting', true)
-          this.$set(song, 'downloadPercent', parseInt(progress))
+          this.$set(song, "downloadPercent", parseInt(progress));
         },
         1000,
         { trailing: true }
       )
-    )
+    );
   },
   methods: {
-    ...mapActions('User', ['getUserLikedSongs', 'handleLikeSong']),
-    sortSongs (col) {
-      const songs = this.cacheSongs.slice()
-      col.num = col.num || 0
-      let rule = col.num % 3
-      this.$set(col, 'rule', rule)
+    ...mapActions("User", ["getUserLikedSongs", "handleLikeSong"]),
+    sortSongs(col) {
+      const songs = this.cacheSongs.slice();
+      col.num = col.num || 0;
+      let rule = col.num % 3;
+      this.$set(col, "rule", rule);
       if (rule === 2) {
         // 还原
-        this.songs = this.cacheSongs.slice()
+        this.songs = this.cacheSongs.slice();
       } else {
-        this.songs = sortSongs({ songs, col, rule })
+        this.songs = sortSongs({ songs, col, rule });
       }
-      col.num++
+      col.num++;
     },
-    resetCurrentIndex (list, current_song) {
+    resetCurrentIndex(list, current_song) {
       let index = list.findIndex((item) => {
-        return item.id === current_song.id
-      })
-      this.$store.commit('play/SET_CURRENT_INDEX', index)
+        return item.id === current_song.id;
+      });
+      this.$store.commit("play/SET_CURRENT_INDEX", index);
     },
-    onRowdblclick (songs, rowIndex) {
-      this.$emit('dblclick', songs, rowIndex)
+    onRowdblclick(songs, rowIndex) {
+      this.$emit("dblclick", songs, rowIndex);
     },
-    play (rowIndex) {
-      this.$store.dispatch('play/selectPlay', {
+    play(rowIndex) {
+      this.$store.dispatch("play/selectPlay", {
         tracks: this.songs,
-        index: rowIndex
-      })
+        index: rowIndex,
+      });
     },
-    nextPlay (song) {
-      this.$store.dispatch('play/nextPlay', song)
+    nextPlay(song) {
+      this.$store.dispatch("play/nextPlay", song);
     },
-    async collectToPlaylist (playlist, song) {
+    async collectToPlaylist(playlist, song) {
       let options = {
-        op: 'add',
+        op: "add",
         tracks: song.id,
-        pid: playlist.id
-      }
-      let { code, trackIds } = await addSongToList(options)
-      trackIds = JSON.parse(trackIds)
+        pid: playlist.id,
+      };
+      let { code, trackIds } = await addSongToList(options);
+      trackIds = JSON.parse(trackIds);
       if (code === 200) {
-        this.$message.success('添加成功!')
-        let likedsongIds = this.likedsongIds.slice()
-        likedsongIds.unshift(...trackIds)
-        this.$store.commit('User/SET_LIKEDSONG_IDS', likedsongIds)
+        this.$message.success("添加成功!");
+        let likedsongIds = this.likedsongIds.slice();
+        likedsongIds.unshift(...trackIds);
+        this.$store.commit("User/SET_LIKEDSONG_IDS", likedsongIds);
       }
     },
-    createAndAddToPlaylist () {
-      if (this.formData.name === '') return
+    createAndAddToPlaylist() {
+      if (this.formData.name === "") return;
       this.$store
-        .dispatch('User/createPlaylist', this.formData)
+        .dispatch("User/createPlaylist", this.formData)
         .then(async (playlist) => {
-          this.$message.success(`创建歌单 ${playlist.name} 成功!`)
-          await this.collectToPlaylist(playlist, this.targetSong)
+          this.$message.success(`创建歌单 ${playlist.name} 成功!`);
+          await this.collectToPlaylist(playlist, this.targetSong);
           setTimeout(() => {
             this.$message.success(
               `添加歌曲 ${this.targetSong.name} 到歌单 ${playlist.name} 成功!`
-            )
-            this.visible = false
-          }, 300)
-        })
+            );
+            this.visible = false;
+          }, 300);
+        });
     },
-    showModal (row) {
-      this.visible = true
-      this.targetSong = row
+    showModal(row) {
+      this.visible = true;
+      this.targetSong = row;
     },
-    _getUserLikelist (userId) {
-      this.getUserLikedSongs()
+    _getUserLikelist(userId) {
+      this.getUserLikedSongs();
     },
-    _handleLikeSong (row, { songId, isLike }) {
-      this.$set(row, 'songHeartDisable', true)
+    _handleLikeSong(row, { songId, isLike }) {
+      this.$set(row, "songHeartDisable", true);
       this.handleLikeSong({ songId, isLike }).then(() => {
-        this.$set(row, 'songHeartDisable', false)
-      })
+        this.$set(row, "songHeartDisable", false);
+      });
     },
-    download (song) {
+    download(song) {
       // this.$set(song, 'isWaitting', true)
-      this.$store.dispatch('Download/adddownloadQueue', [song])
-    }
-  }
-}
+      this.$store.dispatch("Download/adddownloadQueue", [song]);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -19,41 +19,41 @@
 
 <script>
 export default {
-  name: 'indexTopNav',
+  name: "indexTopNav",
   props: {
     topMenus: {
       type: Array,
-      default () {
+      default() {
         return [
           {
-            title: '个性推荐',
-            href: '/home'
+            title: "个性推荐",
+            href: "/home",
           },
           {
-            title: '歌单',
-            href: '/playlist'
+            title: "歌单",
+            href: "/playlist",
           },
           {
-            title: '主播电台',
-            href: '/dj'
+            title: "主播电台",
+            href: "/dj",
           },
           {
-            title: '排行榜',
-            href: '/rank'
+            title: "排行榜",
+            href: "/rank",
           },
           {
-            title: '歌手',
-            href: '/artist'
+            title: "歌手",
+            href: "/artist",
           },
           {
-            title: '最新音乐',
-            href: '/newSong'
-          }
-        ]
-      }
-    }
-  }
-}
+            title: "最新音乐",
+            href: "/newSong",
+          },
+        ];
+      },
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

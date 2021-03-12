@@ -31,51 +31,51 @@
 </template>
 
 <script>
-import searchMixin from '@/mixins/Search'
-import { normalSong } from '@/utils/song'
-import TrackList from '@/components/Common/track-list/index.js'
+import searchMixin from "@/mixins/Search";
+import { normalSong } from "@/utils/song";
+import TrackList from "@/components/Common/track-list/index.js";
 export default {
   mixins: [searchMixin],
-  data () {
+  data() {
     return {
-      songs: []
-    }
+      songs: [],
+    };
   },
   methods: {
-    normalData () {
+    normalData() {
       if (this.result && this.result.songs) {
         let songs = this.result.songs.map((song) => {
           return {
             ...normalSong(song),
             lyrics: {
-              lines: (song.lyrics && song.lyrics.txt.split('\n')) || [],
-              showAll: false
-            }
-          }
-        })
-        this.songs = Object.freeze(songs)
+              lines: (song.lyrics && song.lyrics.txt.split("\n")) || [],
+              showAll: false,
+            },
+          };
+        });
+        this.songs = Object.freeze(songs);
       }
-      this.spinning = false
+      this.spinning = false;
     },
-    async play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
+    async play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
     },
-    download (song) {
-      this.$store.dispatch('Download/download', song)
+    download(song) {
+      this.$store.dispatch("Download/download", song);
     },
-    toggleSpread (lyrics) {
-      this.$set(lyrics, 'showAll', !lyrics.showAll)
+    toggleSpread(lyrics) {
+      this.$set(lyrics, "showAll", !lyrics.showAll);
     },
-    copyLyric (lyric) {
-      this.$electron.clipboard.writeText(lyric)
+    copyLyric(lyric) {
+      this.$electron.clipboard.writeText(lyric);
       this.$toast({
-        icon: 'check',
-        content: '复制成功'
-      })
-    }
+        icon: "check",
+        content: "复制成功",
+      });
+    },
   },
-  components: { TrackList }
-}
+  components: { TrackList },
+};
 </script>
 
 <style lang="less" scoped>

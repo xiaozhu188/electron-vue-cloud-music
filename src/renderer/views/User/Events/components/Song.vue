@@ -13,29 +13,29 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Playing from '@/components/Common/playing'
-import { normalSong } from '@/utils/song'
+import { mapGetters } from "vuex";
+import Playing from "@/components/Common/playing";
+import { normalSong } from "@/utils/song";
 export default {
   props: {
     event: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   computed: {
-    ...mapGetters('play', ['current_song', 'playing', 'source'])
+    ...mapGetters("play", ["current_song", "playing", "source"]),
   },
   components: {
-    Playing
+    Playing,
   },
   methods: {
-    play () {
-      this.$emit('click')
-      let song = normalSong(this.event.song)
-      this.$store.dispatch('play/appendPlay', song)
-    }
-  }
-}
+    play() {
+      this.$emit("click");
+      let song = normalSong(this.event.song);
+      this.$store.dispatch("play/appendPlay", song);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

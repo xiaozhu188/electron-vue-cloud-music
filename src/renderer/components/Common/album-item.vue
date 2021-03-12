@@ -14,25 +14,25 @@
 </template>
 
 <script>
-import Artists from '@/components/Common/artists'
+import Artists from "@/components/Common/artists";
 export default {
-  name: 'album-item',
-  data () {
-    return {}
+  name: "album-item",
+  data() {
+    return {};
   },
   props: {
     album: {
-      type: Object
+      type: Object,
     },
     desc: {
       type: String,
-      default: 'time'
-    }
+      default: "time",
+    },
   },
   components: {
-    Artists
-  }
-}
+    Artists,
+  },
+};
 </script>
 
 <style lang="less" scoped>

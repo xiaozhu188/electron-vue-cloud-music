@@ -1,15 +1,15 @@
-import { LOAD_URL } from './../config'
+import { LOAD_URL } from "./../config";
 const miniWinURL =
-  process.env.NODE_ENV === 'development'
+  process.env.NODE_ENV === "development"
     ? `http://localhost:9080/#update`
-    : `${LOAD_URL}#update`
+    : `${LOAD_URL}#update`;
 const previewIcon =
-  process.env.NODE_ENV === 'development'
-    ? '/images/tray.ico'
-    : `${global.__images}/images/tray.ico`
-let updateWindow
+  process.env.NODE_ENV === "development"
+    ? "/images/tray.ico"
+    : `${global.__images}/images/tray.ico`;
+let updateWindow;
 const createUpdateWindow = function (BrowserWindow) {
-  if (updateWindow) return false
+  if (updateWindow) return false;
   let obj = {
     icon: previewIcon,
     height: 420,
@@ -19,25 +19,25 @@ const createUpdateWindow = function (BrowserWindow) {
     show: false,
     frame: false,
     fullscreenable: false,
-    resizable: process.env.NODE_ENV === 'development',
-    transparent: process.platform !== 'linux',
+    resizable: process.env.NODE_ENV === "development",
+    transparent: process.platform !== "linux",
     alwaysOnTop: true,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       webSecurity: false,
-      navigateOnDragDrop: true
-    }
-  }
-  updateWindow = new BrowserWindow(obj)
-  updateWindow.loadURL(miniWinURL)
+      navigateOnDragDrop: true,
+    },
+  };
+  updateWindow = new BrowserWindow(obj);
+  updateWindow.loadURL(miniWinURL);
 
-  updateWindow.on('ready-to-show', () => {
-    updateWindow.show()
-  })
-  updateWindow.on('closed', () => {
-    updateWindow = null
-  })
-  return updateWindow
-}
-export default createUpdateWindow
+  updateWindow.on("ready-to-show", () => {
+    updateWindow.show();
+  });
+  updateWindow.on("closed", () => {
+    updateWindow = null;
+  });
+  return updateWindow;
+};
+export default createUpdateWindow;

@@ -24,7 +24,7 @@
               :isLiked="likedsongIds.includes(current_song.id)"
               @heartClick="
                 (isLike) => {
-                  handleLikeSong({ songId: current_song.id, isLike })
+                  handleLikeSong({ songId: current_song.id, isLike });
                 }
               "
             />
@@ -48,45 +48,46 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ZIcon from '@/components/ZIcon'
-import Artists from '@/components/Common/artists'
-import SongHeart from '@/components/Common/song-heart'
+import { mapGetters } from "vuex";
+import ZIcon from "@/components/ZIcon";
+import Artists from "@/components/Common/artists";
+import SongHeart from "@/components/Common/song-heart";
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   components: {
     ZIcon,
     Artists,
-    SongHeart
+    SongHeart,
   },
   computed: {
-    ...mapGetters('User', ['userId', 'likedsongIds']),
-    ...mapGetters('play', ['current_song', 'fullscreen'])
+    ...mapGetters("User", ["userId", "likedsongIds"]),
+    ...mapGetters("play", ["current_song", "fullscreen"]),
   },
   methods: {
-    setFullscreen () {
-      this.$store.commit('play/SET_FULLSCREEN', true)
+    setFullscreen() {
+      this.$store.commit("play/SET_FULLSCREEN", true);
     },
-    handleLikeSong ({ songId, isLike }) {
-      this.$store.dispatch('User/handleLikeSong', { songId, isLike })
+    handleLikeSong({ songId, isLike }) {
+      this.$store.dispatch("User/handleLikeSong", { songId, isLike });
     },
-    showShareWindow () {
-      let url = `https://music.163.com/#/song?id=${this.current_song.id}`
+    showShareWindow() {
+      let url = `https://music.163.com/#/song?id=${this.current_song.id}`;
       let _shareUrl =
-        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
-      _shareUrl += 'url=' + url
-      _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
-      _shareUrl += '&desc=' + '♪我发现一首不错的歌曲-' + this.current_song.name
-      _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一首不错的歌曲-' + this.current_song.name
-      _shareUrl += '&site=' + 'https://music.163.com/'
-      _shareUrl += '&pics=' + this.current_song.avatar
-      this.$electron.remote.shell.openExternal(_shareUrl)
-    }
-  }
-}
+        "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+      _shareUrl += "url=" + url;
+      _shareUrl += "&showcount=" + 1; // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
+      _shareUrl += "&desc=" + "♪我发现一首不错的歌曲-" + this.current_song.name;
+      _shareUrl += "&summary=" + "分享摘要";
+      _shareUrl +=
+        "&title=" + "♪我发现一首不错的歌曲-" + this.current_song.name;
+      _shareUrl += "&site=" + "https://music.163.com/";
+      _shareUrl += "&pics=" + this.current_song.avatar;
+      this.$electron.remote.shell.openExternal(_shareUrl);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

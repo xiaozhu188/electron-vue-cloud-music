@@ -21,26 +21,26 @@
 </template>
 
 <script>
-import searchMixin from '@/mixins/Search'
-import Artists from '@/components/Common/artists'
-import { setTimeout } from 'timers'
+import searchMixin from "@/mixins/Search";
+import Artists from "@/components/Common/artists";
+import { setTimeout } from "timers";
 export default {
   mixins: [searchMixin],
-  data () {
+  data() {
     return {
-      artists: []
-    }
+      artists: [],
+    };
   },
   components: {
-    Artists
+    Artists,
   },
   methods: {
-    normalData () {
-      this.artists = this.result.artists
-      this.spinning = false
-    }
-  }
-}
+    normalData() {
+      this.artists = this.result.artists;
+      this.spinning = false;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

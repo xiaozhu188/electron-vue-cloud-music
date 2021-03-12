@@ -1,19 +1,19 @@
 <script>
-import PropTypes from 'vue-types'
+import PropTypes from "vue-types";
 
 export default {
-  name: 'VirtualListItem',
+  name: "VirtualListItem",
   props: {
     item: PropTypes.object.isRequired,
-    tag: PropTypes.string.def('div')
+    tag: PropTypes.string.def("div"),
   },
-  render (h) {
+  render(h) {
     return h(
       this.tag,
-      typeof this.$slots.default === 'function'
+      typeof this.$slots.default === "function"
         ? this.$slots.default(this.item)
         : this.$slots.default
-    )
-  }
-}
+    );
+  },
+};
 </script>

@@ -1,56 +1,56 @@
 let recommendRoutes = [
   {
-    path: '/home',
+    path: "/home",
     component: () =>
-      import(/* webpackChunkName: "home" */ '@/views/Home/index.vue'),
-    name: 'home',
+      import(/* webpackChunkName: "home" */ "@/views/Home/index.vue"),
+    name: "home",
     meta: {
-      title: '发现音乐',
-      icon: 'music'
-    }
+      title: "发现音乐",
+      icon: "music",
+    },
   },
   {
-    path: '/private_fm',
+    path: "/private_fm",
     component: () =>
-      import(/* webpackChunkName: "private_fm" */ '@/views/Fm/index.vue'),
-    name: 'private_fm',
+      import(/* webpackChunkName: "private_fm" */ "@/views/Fm/index.vue"),
+    name: "private_fm",
     meta: {
-      title: '私人FM',
-      icon: 'fm',
-      auth: true
-    }
+      title: "私人FM",
+      icon: "fm",
+      auth: true,
+    },
   },
   {
-    path: '/mv',
+    path: "/mv",
     component: () =>
-      import(/* webpackChunkName: "mv" */ '@/views/Video/mv.vue'),
-    name: 'mv',
+      import(/* webpackChunkName: "mv" */ "@/views/Video/mv.vue"),
+    name: "mv",
     meta: {
-      title: '视频',
-      icon: 'shipin'
-    }
+      title: "视频",
+      icon: "shipin",
+    },
   },
   {
-    path: '/events',
+    path: "/events",
     component: () =>
-      import(/* webpackChunkName: "events" */ '@/views/User/Events/index.vue'),
-    name: 'events',
+      import(/* webpackChunkName: "events" */ "@/views/User/Events/index.vue"),
+    name: "events",
     meta: {
-      title: '动态',
-      icon: 'friend',
-      auth: true
-    }
-  }
-]
+      title: "动态",
+      icon: "friend",
+      auth: true,
+    },
+  },
+];
 
-let recommendMap = []
+let recommendMap = [];
 recommendRoutes.concat().forEach((route) => {
   let map = {
     path: route.path,
     name: route.name,
-    meta: route.meta
-  }
-  recommendMap.push(map)
-})
+    meta: route.meta,
+  };
+  recommendMap.push(map);
+});
 
-export { recommendRoutes, recommendMap }
+export { recommendRoutes, recommendMap };

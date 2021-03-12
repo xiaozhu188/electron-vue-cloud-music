@@ -27,41 +27,41 @@
 </template>
 
 <script>
-import debounce from 'loadsh/debounce'
+import debounce from "loadsh/debounce";
 export default {
-  name: 'tabBar',
+  name: "tabBar",
   props: {
     tabs: {
       type: Array,
-      default () {
+      default() {
         return [
           {
-            name: 'playlist-id-tracks',
-            label: '歌曲列表'
+            name: "playlist-id-tracks",
+            label: "歌曲列表",
           },
           {
-            name: 'playlist-id-comment',
-            label: '评论'
+            name: "playlist-id-comment",
+            label: "评论",
           },
           {
-            name: 'playlist-id-subscriber',
-            label: '收藏者'
-          }
-        ]
-      }
+            name: "playlist-id-subscriber",
+            label: "收藏者",
+          },
+        ];
+      },
     },
-    showSearch: { type: Boolean, default: true }
+    showSearch: { type: Boolean, default: true },
   },
   methods: {
-    onSearch (value) {
-      this.$emit('search', value)
+    onSearch(value) {
+      this.$emit("search", value);
     },
     onChange: debounce(function (e) {
-      this.$emit('search', e.target.value)
+      this.$emit("search", e.target.value);
       // console.log(e.target.value)
-    }, 600)
-  }
-}
+    }, 600),
+  },
+};
 </script>
 
 <style scoped>

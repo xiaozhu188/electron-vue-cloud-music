@@ -21,20 +21,20 @@ export default {
   props: {
     isLiked: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disable: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
-    handleClick (isLike) {
-      if (this.disable) return
-      this.$emit('heartClick', isLike)
-    }
-  }
-}
+    handleClick(isLike) {
+      if (this.disable) return;
+      this.$emit("heartClick", isLike);
+    },
+  },
+};
 </script>
 
 <style scoped>

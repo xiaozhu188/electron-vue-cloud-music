@@ -63,122 +63,122 @@
 </template>
 
 <script>
-import { getSearchHot, getSearchSuggest } from '@/api/search'
-import { debounce } from '@/utils/dom'
-import { normalSong } from '@/utils/song'
-import { mapGetters } from 'vuex'
-import playMixin from '@/mixins/Play.js'
+import { getSearchHot, getSearchSuggest } from "@/api/search";
+import { debounce } from "@/utils/dom";
+import { normalSong } from "@/utils/song";
+import { mapGetters } from "vuex";
+import playMixin from "@/mixins/Play.js";
 
 export default {
   mixins: [playMixin],
-  data () {
-    let keyword = this.$route.query.keyword || ''
+  data() {
+    let keyword = this.$route.query.keyword || "";
     return {
       searchVisible: false,
       keyword: keyword,
       suggests: null,
       searchMap: {
-        albums: '专辑',
-        artists: '歌手',
-        songs: '单曲',
-        playlists: '歌单',
-        mvs: 'MV',
-        videos: '视频'
+        albums: "专辑",
+        artists: "歌手",
+        songs: "单曲",
+        playlists: "歌单",
+        mvs: "MV",
+        videos: "视频",
       },
-      hots: []
-    }
+      hots: [],
+    };
   },
   computed: {
-    ...mapGetters('Search', ['searchHistory']),
-    ...mapGetters('play', ['current_song']),
-    overlayStyle () {
+    ...mapGetters("Search", ["searchHistory"]),
+    ...mapGetters("play", ["current_song"]),
+    overlayStyle() {
       return this.keyword && this.suggests
-        ? { width: '200px', top: '50px' }
-        : { width: '440px', top: '50px' }
-    }
+        ? { width: "200px", top: "50px" }
+        : { width: "440px", top: "50px" };
+    },
   },
-  created () {
+  created() {
     this.$watch(
-      'keyword',
+      "keyword",
       debounce((newQuery) => {
-        this.search(newQuery)
+        this.search(newQuery);
       }, 500)
-    )
+    );
   },
   watch: {
-    searchVisible (newVal) {
-      if (this.keyword === '') {
-        this.suggests = null
+    searchVisible(newVal) {
+      if (this.keyword === "") {
+        this.suggests = null;
       } else {
         if (newVal) {
-          this.search(this.keyword)
+          this.search(this.keyword);
         }
       }
       if (newVal && !this.hots.length) {
         getSearchHot().then((res) => {
-          this.hots = res.result.hots
-        })
+          this.hots = res.result.hots;
+        });
       }
-    }
+    },
   },
   methods: {
-    onChange (e) {
-      this.keyword = e.target.value
+    onChange(e) {
+      this.keyword = e.target.value;
     },
-    async search (newQuery) {
-      if (newQuery === '') {
-        this.suggests = null
-        return
+    async search(newQuery) {
+      if (newQuery === "") {
+        this.suggests = null;
+        return;
       }
-      let { result } = await getSearchSuggest(newQuery)
-      this.suggests = result
+      let { result } = await getSearchSuggest(newQuery);
+      this.suggests = result;
     },
-    setKeyword (keyword) {
-      this.keyword = keyword
-      this.$router.push({ path: '/search', query: { keyword } })
+    setKeyword(keyword) {
+      this.keyword = keyword;
+      this.$router.push({ path: "/search", query: { keyword } });
     },
-    onSearch (keyword, event) {
-      if (!this.keyword) return
-      event.preventDefault()
-      console.log('onSearch')
-      this.$router.push({ path: '/search', query: { keyword } })
+    onSearch(keyword, event) {
+      if (!this.keyword) return;
+      event.preventDefault();
+      console.log("onSearch");
+      this.$router.push({ path: "/search", query: { keyword } });
     },
-    deleteHistory (index) {
-      this.$store.dispatch('Search/deleteKeyword', index)
+    deleteHistory(index) {
+      this.$store.dispatch("Search/deleteKeyword", index);
     },
-    clearHistory () {
-      this.$store.dispatch('Search/clearKeyword')
+    clearHistory() {
+      this.$store.dispatch("Search/clearKeyword");
     },
-    suggestClick (suggest, item, key) {
-      let path = ''
+    suggestClick(suggest, item, key) {
+      let path = "";
       switch (key) {
-        case 'albums':
-          path = `/album/${item.id}`
-          this.$router.push({ path })
-          break
-        case 'artists':
-          path = `/artist/${item.id}`
-          this.$router.push({ path })
-          break
-        case 'playlists':
-          path = `/playlist/${item.id}`
-          this.$router.push({ path })
-          break
+        case "albums":
+          path = `/album/${item.id}`;
+          this.$router.push({ path });
+          break;
+        case "artists":
+          path = `/artist/${item.id}`;
+          this.$router.push({ path });
+          break;
+        case "playlists":
+          path = `/playlist/${item.id}`;
+          this.$router.push({ path });
+          break;
         default:
-          let tracks = []
+          let tracks = [];
           suggest.forEach((song) => {
-            tracks.push(normalSong(song))
-          })
-          console.log(item)
-          let song = normalSong(item)
+            tracks.push(normalSong(song));
+          });
+          console.log(item);
+          let song = normalSong(item);
           // this.play(tracks, 0)
-          if (song.id === this.current_song.id) return
-          this.$store.dispatch('play/appendPlay', song)
-          break
+          if (song.id === this.current_song.id) return;
+          this.$store.dispatch("play/appendPlay", song);
+          break;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

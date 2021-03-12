@@ -5,23 +5,23 @@
 </template>
 
 <script>
-import TrackList from '@/components/Common/track-list/index.js'
-import playMixin from '@/mixins/Play'
+import TrackList from "@/components/Common/track-list/index.js";
+import playMixin from "@/mixins/Play";
 export default {
-  name: 'playlist_id_tracks',
+  name: "playlist_id_tracks",
   mixins: [playMixin],
   components: {
-    TrackList
+    TrackList,
   },
   props: {
     tracks: {
       type: Array,
-      default () {
-        return []
-      }
-    }
-  }
-}
+      default() {
+        return [];
+      },
+    },
+  },
+};
 </script>
 
 <style scoped>

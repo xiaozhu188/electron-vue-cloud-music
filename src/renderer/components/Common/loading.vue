@@ -11,19 +11,19 @@
 </template>
 
 <script>
-import Playing from '@/components/Common/playing'
+import Playing from "@/components/Common/playing";
 export default {
-  name: 'loading',
+  name: "loading",
   components: {
-    Playing
+    Playing,
   },
   props: {
     text: {
       type: String,
-      default: ''
-    }
-  }
-}
+      default: "",
+    },
+  },
+};
 </script>
 
 <style scoped>

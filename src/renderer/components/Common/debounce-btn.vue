@@ -9,24 +9,24 @@
 </template>
 
 <script>
-import debounce from 'loadsh/debounce'
+import debounce from "loadsh/debounce";
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   methods: {
     handleClick: debounce(
       function () {
-        this.$emit('click')
+        this.$emit("click");
       },
       1000,
       {
         leading: true,
-        trailing: false
+        trailing: false,
       }
-    )
-  }
-}
+    ),
+  },
+};
 </script>
 
 <style lang="less" scoped></style>

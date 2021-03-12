@@ -106,71 +106,71 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { user_detail, getUserPlaylist } from '@/api/user'
-import ZIcon from '@/components/ZIcon/index.vue'
+import { mapState } from "vuex";
+import { user_detail, getUserPlaylist } from "@/api/user";
+import ZIcon from "@/components/ZIcon/index.vue";
 export default {
-  data () {
+  data() {
     return {
       user: null,
       playlists: [],
       total: 0,
       pageSize: 10,
       page: 1,
-      defaultCurrent: 1
-    }
+      defaultCurrent: 1,
+    };
   },
   components: {
-    ZIcon
+    ZIcon,
   },
   computed: {
-    ...mapState('User', ['userInfo']),
-    list () {
-      let start = (this.page - 1) * this.pageSize
-      let end = this.page * this.pageSize
-      return this.playlists.slice(start, end)
-    }
+    ...mapState("User", ["userInfo"]),
+    list() {
+      let start = (this.page - 1) * this.pageSize;
+      let end = this.page * this.pageSize;
+      return this.playlists.slice(start, end);
+    },
   },
-  activated () {
-    let uid = this.$route.query.id
-    this.getUser(uid)
+  activated() {
+    let uid = this.$route.query.id;
+    this.getUser(uid);
   },
-  beforeRouteUpdate (to, from, next) {
-    this.page = 1
-    next()
-    this.getUser(to.query.id)
+  beforeRouteUpdate(to, from, next) {
+    this.page = 1;
+    next();
+    this.getUser(to.query.id);
   },
   methods: {
-    getUser (uid) {
+    getUser(uid) {
       user_detail(uid).then((res) => {
-        this.user = res
-      })
+        this.user = res;
+      });
       getUserPlaylist(uid).then((res) => {
-        this.total = res.playlist.length
-        this.playlists = res.playlist
-      })
+        this.total = res.playlist.length;
+        this.playlists = res.playlist;
+      });
     },
-    onPageChange (page) {
-      this.page = page
+    onPageChange(page) {
+      this.page = page;
     },
-    subscribe (t, user) {
+    subscribe(t, user) {
       this.$store
-        .dispatch('User/subscribeUser', {
+        .dispatch("User/subscribeUser", {
           t,
           userId: user.profile.userId,
-          nickname: user.profile.nickname
+          nickname: user.profile.nickname,
         })
         .then((res) => {
           if (res.code === 200) {
             if (res.followTimeContent) {
-              this.user.profile.followTime = res.followTimeContent
+              this.user.profile.followTime = res.followTimeContent;
             }
-            this.user.profile.followed = !this.user.profile.followed
+            this.user.profile.followed = !this.user.profile.followed;
           }
-        })
-    }
-  }
-}
+        });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

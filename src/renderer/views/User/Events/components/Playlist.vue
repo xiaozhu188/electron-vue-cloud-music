@@ -11,11 +11,11 @@
 export default {
   props: {
     event: {
-      type: Object
-    }
+      type: Object,
+    },
   },
-  methods: {}
-}
+  methods: {},
+};
 </script>
 
 <style lang="less" scoped>

@@ -58,88 +58,88 @@
 </template>
 
 <script>
-import HomeLayout from '@/layouts/HomeLayout'
-import videoItem from '@/components/Common/video-item'
-import { getVideo, getVideoCates } from '@/api/video'
-import { normalVideo } from '@/utils/video'
-import { mapGetters } from 'vuex'
+import HomeLayout from "@/layouts/HomeLayout";
+import videoItem from "@/components/Common/video-item";
+import { getVideo, getVideoCates } from "@/api/video";
+import { normalVideo } from "@/utils/video";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'videos',
-  data () {
+  name: "videos",
+  data() {
     return {
       videos: [],
       topMenus: [
         {
-          title: '视频',
-          href: '/video'
+          title: "视频",
+          href: "/video",
         },
         {
-          title: 'MV',
-          href: '/mv'
-        }
+          title: "MV",
+          href: "/mv",
+        },
       ],
       cateVisible: false,
       cates: [],
       groupId: 5100,
       infiniteId: +new Date(),
-      selected: false
-    }
+      selected: false,
+    };
   },
   computed: {
-    ...mapGetters('User', ['userId']),
-    top10cates () {
-      return this.cates.slice(0, 10)
+    ...mapGetters("User", ["userId"]),
+    top10cates() {
+      return this.cates.slice(0, 10);
     },
-    currentCatename () {
+    currentCatename() {
       return (
         (this.cates.length &&
           this.cates.find((cate) => cate.id == this.groupId).name) ||
-        ''
-      )
-    }
+        ""
+      );
+    },
   },
   components: { HomeLayout, videoItem },
-  activated () {
-    this._getVideoCates()
-    this.videos = []
-    this.infiniteId += 1
+  activated() {
+    this._getVideoCates();
+    this.videos = [];
+    this.infiniteId += 1;
   },
-  beforeRouteLeave (to, from, next) {
-    this.selected = false
-    next()
+  beforeRouteLeave(to, from, next) {
+    this.selected = false;
+    next();
   },
   methods: {
-    async loadmore ($state) {
+    async loadmore($state) {
       try {
         let groupId = this.selected
           ? this.groupId
-          : this.$route.query.groupId || this.groupId
-        let res = await getVideo(groupId)
-        $state.loaded()
+          : this.$route.query.groupId || this.groupId;
+        let res = await getVideo(groupId);
+        $state.loaded();
         if (res.datas.length || res.hasmore) {
           res.datas.forEach((item) => {
-            this.videos.push(normalVideo(item.data))
-          })
+            this.videos.push(normalVideo(item.data));
+          });
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        $state.error()
+        $state.error();
       }
     },
-    async _getVideoCates () {
-      let { data } = await getVideoCates()
-      this.cates = data
+    async _getVideoCates() {
+      let { data } = await getVideoCates();
+      this.cates = data;
     },
-    selectCate (cate) {
-      this.selected = true
-      this.groupId = cate.id
-      this.videos = []
-      this.infiniteId += 1
-    }
-  }
-}
+    selectCate(cate) {
+      this.selected = true;
+      this.groupId = cate.id;
+      this.videos = [];
+      this.infiniteId += 1;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

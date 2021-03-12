@@ -54,37 +54,37 @@
 </template>
 
 <script>
-import { remote } from 'electron'
-import { mapState } from 'vuex'
+import { remote } from "electron";
+import { mapState } from "vuex";
 
-const fs = require('fs')
-const path = require('path')
-const request = require('request')
-const progress = require('request-progress')
-const showdown = require('showdown')
+const fs = require("fs");
+const path = require("path");
+const request = require("request");
+const progress = require("request-progress");
+const showdown = require("showdown");
 
 const getDownloadInfo = function (version) {
   const BASE_URL =
-    'https://github.com/xiaozhu188/electron-vue-cloud-music/releases/download'
-  if (process.platform === 'win32') {
+    "https://github.com/xiaozhu188/electron-vue-cloud-music/releases/download";
+  if (process.platform === "win32") {
     return {
       filename: `electron-vue-cloud-music-setup-${version}.exe`,
-      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-setup-${version}.exe`
-    }
-  } else if (process.platform === 'linux') {
+      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-setup-${version}.exe`,
+    };
+  } else if (process.platform === "linux") {
     return {
       filename: `${BASE_URL}/v${version}/electron-vue-cloud-music-${version}-x86_64.AppImage`,
-      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-${version}-x86_64.AppImage`
-    }
+      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-${version}-x86_64.AppImage`,
+    };
   } else {
     return {
       filename: `electron-vue-cloud-music-${version}.dmg`,
-      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-${version}.dmg`
-    }
+      url: `${BASE_URL}/v${version}/electron-vue-cloud-music-${version}.dmg`,
+    };
   }
-}
+};
 export default {
-  data () {
+  data() {
     return {
       localVersion: remote.app.getVersion(),
       showDownload: false,
@@ -92,98 +92,98 @@ export default {
       $request: null,
       is_paused: false,
       is_abort: false,
-      remoteVersionFromApp: this.$electron.remote.getGlobal('remoteVersion')
-    }
+      remoteVersionFromApp: this.$electron.remote.getGlobal("remoteVersion"),
+    };
   },
   computed: {
-    ...mapState('Update', ['updateContent'])
+    ...mapState("Update", ["updateContent"]),
   },
   methods: {
-    hide () {
-      this.$electron.ipcRenderer.send('toggle-updatewin')
+    hide() {
+      this.$electron.ipcRenderer.send("toggle-updatewin");
     },
-    close () {
-      this.$electron.ipcRenderer.send('close-updatewin')
+    close() {
+      this.$electron.ipcRenderer.send("close-updatewin");
     },
-    goRoute () {
+    goRoute() {
       remote.shell.openExternal(
-        'https://github.com/xiaozhu188/electron-vue-cloud-music/releases'
-      )
+        "https://github.com/xiaozhu188/electron-vue-cloud-music/releases"
+      );
     },
-    download () {
+    download() {
       remote.dialog.showOpenDialog(
         {
-          title: '选择保存路径',
-          defaultPath: remote.app.getPath('home'),
-          properties: ['openDirectory']
+          title: "选择保存路径",
+          defaultPath: remote.app.getPath("home"),
+          properties: ["openDirectory"],
         },
         (dir) => {
           if (dir) {
             if (!dir && !dir.length) {
-              this.showDownload = false
-              return
+              this.showDownload = false;
+              return;
             }
-            this.showDownload = true
-            let saveDir = dir[0]
-            let { filename, url } = getDownloadInfo(this.remoteVersionFromApp)
-            console.log(filename, url)
+            this.showDownload = true;
+            let saveDir = dir[0];
+            let { filename, url } = getDownloadInfo(this.remoteVersionFromApp);
+            console.log(filename, url);
             // const downloadUrl = url
-            const downloadUrl = url
-            const $request = request(downloadUrl)
+            const downloadUrl = url;
+            const $request = request(downloadUrl);
             // console.log($request)
             const _progress = progress($request, {
-              throttle: 1000
+              throttle: 1000,
             })
-              .on('progress', (state) => {
-                this.handleProgress(state)
+              .on("progress", (state) => {
+                this.handleProgress(state);
               })
-              .on('error', (err) => {
-                this.handleErr(err)
+              .on("error", (err) => {
+                this.handleErr(err);
               })
-              .on('end', () => {
-                if (this.is_abort) return // 取消下载会触发end
-                this.state.percent = 100
+              .on("end", () => {
+                if (this.is_abort) return; // 取消下载会触发end
+                this.state.percent = 100;
                 this.$electron.ipcRenderer.send(
-                  'quit-and-open',
+                  "quit-and-open",
                   path.join(saveDir, filename)
-                )
+                );
               })
-              .pipe(fs.createWriteStream(path.join(saveDir, filename)))
+              .pipe(fs.createWriteStream(path.join(saveDir, filename)));
 
-            this.$request = $request
+            this.$request = $request;
           }
         }
-      )
+      );
     },
-    handleErr (err) {
-      this.showDownload = false
-      let networkNotification = new Notification('网易云音乐', {
-        title: '网易云音乐',
-        body: '下载失败:' + err,
-        icon: 'images/icon.ico'
-      })
+    handleErr(err) {
+      this.showDownload = false;
+      let networkNotification = new Notification("网易云音乐", {
+        title: "网易云音乐",
+        body: "下载失败:" + err,
+        icon: "images/icon.ico",
+      });
     },
-    handleProgress (state) {
-      console.log(state)
-      state.percent = Number(Math.round(state.percent * 100))
-      this.state = state
+    handleProgress(state) {
+      console.log(state);
+      state.percent = Number(Math.round(state.percent * 100));
+      this.state = state;
     },
-    pause () {
-      this.is_paused = true
-      this.$request.pause()
+    pause() {
+      this.is_paused = true;
+      this.$request.pause();
     },
-    resume () {
-      this.is_paused = false
-      this.$request.resume()
+    resume() {
+      this.is_paused = false;
+      this.$request.resume();
     },
-    abort () {
-      this.state = {}
-      this.showDownload = false
-      this.is_abort = true
-      this.$request.abort()
-    }
-  }
-}
+    abort() {
+      this.state = {};
+      this.showDownload = false;
+      this.is_abort = true;
+      this.$request.abort();
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

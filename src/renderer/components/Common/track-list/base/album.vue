@@ -25,18 +25,18 @@ export default {
   props: {
     row: {
       type: Object,
-      default () {
-        return null
-      }
+      default() {
+        return null;
+      },
     },
     col: {
       type: Object,
-      default () {
-        return null
-      }
-    }
-  }
-}
+      default() {
+        return null;
+      },
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

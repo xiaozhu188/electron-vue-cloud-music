@@ -3,25 +3,25 @@
 </template>
 
 <script>
-import { Icon } from 'ant-design-vue'
+import { Icon } from "ant-design-vue";
 
 // let iconURL = 'public/js/icon.js'
-const iconURL = 'https://at.alicdn.com/t/font_1188071_1m1k6mct6ob.js'
+const iconURL = "https://at.alicdn.com/t/font_1188071_1m1k6mct6ob.js";
 // console.log(iconURL)
 
 let MyIcon = Icon.createFromIconfontCN({
-  scriptUrl: iconURL
-})
+  scriptUrl: iconURL,
+});
 
 export default {
   components: {
-    MyIcon
+    MyIcon,
   },
   props: {
     type: {
       type: String,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>

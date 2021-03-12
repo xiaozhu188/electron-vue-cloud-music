@@ -26,25 +26,25 @@
 </template>
 
 <script>
-import searchMixin from '@/mixins/Search'
-import Artists from '@/components/Common/artists'
+import searchMixin from "@/mixins/Search";
+import Artists from "@/components/Common/artists";
 export default {
   mixins: [searchMixin],
-  data () {
+  data() {
     return {
-      djRadios: []
-    }
+      djRadios: [],
+    };
   },
   components: {
-    Artists
+    Artists,
   },
   methods: {
-    normalData () {
-      this.djRadios = this.result.djRadios
-      this.spinning = false
-    }
-  }
-}
+    normalData() {
+      this.djRadios = this.result.djRadios;
+      this.spinning = false;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

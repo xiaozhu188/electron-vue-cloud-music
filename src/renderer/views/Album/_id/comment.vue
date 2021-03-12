@@ -12,43 +12,43 @@
 </template>
 
 <script>
-import Comment from '@/components/Comment/index.vue'
-import { getAlbumComment } from '@/api/comment'
+import Comment from "@/components/Comment/index.vue";
+import { getAlbumComment } from "@/api/comment";
 
 export default {
-  name: 'album_id_comment',
-  data () {
+  name: "album_id_comment",
+  data() {
     return {
       commentData: null,
       limit: 20,
       offset: 0,
       infiniteId: +new Date(),
-      refresh: false
-    }
+      refresh: false,
+    };
   },
   components: {
-    Comment
+    Comment,
   },
   methods: {
-    async loadmore ($state) {
-      let id = this.$route.params.id
-      let res = await getAlbumComment(id, this.limit, this.offset)
+    async loadmore($state) {
+      let id = this.$route.params.id;
+      let res = await getAlbumComment(id, this.limit, this.offset);
       if (res.comments.length) {
         if (this.commentData) {
-          this.commentData.comments.push(...res.comments)
+          this.commentData.comments.push(...res.comments);
         } else {
-          this.commentData = res
+          this.commentData = res;
         }
       }
-      $state.loaded()
+      $state.loaded();
       if (res.more) {
-        this.offset += this.limit
+        this.offset += this.limit;
       } else {
-        $state.complete()
+        $state.complete();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

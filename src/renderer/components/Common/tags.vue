@@ -15,31 +15,31 @@
 
 <script>
 export default {
-  name: 'tags',
-  data () {
+  name: "tags",
+  data() {
     return {
-      currentIndex: -1
-    }
+      currentIndex: -1,
+    };
   },
   props: {
     tags: {
       type: Object,
-      default () {
-        return []
-      }
+      default() {
+        return [];
+      },
     },
     useHoverHighlight: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
-    selectTag (tag, index, i) {
-      this.currentIndex = `${index}_${i}`
-      this.$emit('change', tag)
-    }
-  }
-}
+    selectTag(tag, index, i) {
+      this.currentIndex = `${index}_${i}`;
+      this.$emit("change", tag);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

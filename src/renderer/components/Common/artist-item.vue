@@ -9,13 +9,13 @@
 
 <script>
 export default {
-  name: 'artist-item',
+  name: "artist-item",
   props: {
     artist: {
-      type: Object
-    }
-  }
-}
+      type: Object,
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

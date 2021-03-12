@@ -4,8 +4,8 @@
 
 <script>
 export default {
-  name: 'infiniteNoResults'
-}
+  name: "infiniteNoResults",
+};
 </script>
 
 <style scoped>

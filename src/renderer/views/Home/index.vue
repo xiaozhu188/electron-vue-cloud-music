@@ -59,68 +59,68 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
-import { getBanner } from '@/api/banner'
-import { getPrivateContent } from '@/api/privatecontent'
-import { getNewSong } from '@/api/song'
-import { getRecommendPlaylist } from '@/api/playlist'
-import { getPersonalizedMV } from '@/api/mv'
-import { getDjHot } from '@/api/dj'
+import { getBanner } from "@/api/banner";
+import { getPrivateContent } from "@/api/privatecontent";
+import { getNewSong } from "@/api/song";
+import { getRecommendPlaylist } from "@/api/playlist";
+import { getPersonalizedMV } from "@/api/mv";
+import { getDjHot } from "@/api/dj";
 
-import HomeLayout from '@/layouts/HomeLayout'
-import banner from './components/Banner'
-import privateContent from './components/privateContent'
-import newSong from './components/newSong'
-import playlist from './components/playlist'
-import mv from './components/mv'
-import dj from './components/dj'
-import Loading from '@/components/Common/loading.vue'
-import DrapModal from '@/components/DrapModal/index.vue'
-import ZIcon from '@/components/ZIcon/index.vue'
-import { normalMV } from '@/utils/video'
+import HomeLayout from "@/layouts/HomeLayout";
+import banner from "./components/Banner";
+import privateContent from "./components/privateContent";
+import newSong from "./components/newSong";
+import playlist from "./components/playlist";
+import mv from "./components/mv";
+import dj from "./components/dj";
+import Loading from "@/components/Common/loading.vue";
+import DrapModal from "@/components/DrapModal/index.vue";
+import ZIcon from "@/components/ZIcon/index.vue";
+import { normalMV } from "@/utils/video";
 
 const NAVS = [
   {
-    name: '独家放送',
-    key: 'privateContent',
-    hideMore: true
+    name: "独家放送",
+    key: "privateContent",
+    hideMore: true,
   },
   {
-    name: '最新音乐',
-    key: 'newSong'
+    name: "最新音乐",
+    key: "newSong",
   },
   {
-    name: '推荐歌单',
-    key: 'playlist'
+    name: "推荐歌单",
+    key: "playlist",
   },
   {
-    name: '推荐MV',
-    key: 'mv'
+    name: "推荐MV",
+    key: "mv",
   },
   {
-    name: '主播电台',
-    key: 'dj'
-  }
-]
+    name: "主播电台",
+    key: "dj",
+  },
+];
 export default {
-  name: 'home',
-  data () {
+  name: "home",
+  data() {
     return {
       data: {
         privateContent: [],
         newSong: [],
         playlist: [],
         mv: [],
-        dj: []
+        dj: [],
       },
       navs: JSON.parse(JSON.stringify(NAVS)),
       oldNav: 0,
       newNav: 0,
       banners: [],
       isRenderFinish: false,
-      visible: false
-    }
+      visible: false,
+    };
   },
   components: {
     HomeLayout,
@@ -132,37 +132,37 @@ export default {
     dj,
     Loading,
     DrapModal,
-    ZIcon
+    ZIcon,
   },
   computed: {
-    ...mapGetters('User', ['userId'])
+    ...mapGetters("User", ["userId"]),
   },
-  created () {
-    this._getData()
+  created() {
+    this._getData();
   },
-  mounted () {
-    let navCache = localStorage.getItem('nav')
+  mounted() {
+    let navCache = localStorage.getItem("nav");
     if (navCache) {
-      this.navs = JSON.parse(navCache)
+      this.navs = JSON.parse(navCache);
     }
   },
   watch: {
-    userId (newId) {
+    userId(newId) {
       if (!newId) {
-        this._getData()
+        this._getData();
       }
-    }
+    },
   },
   methods: {
-    async _getData () {
-      this.isRenderFinish = false
+    async _getData() {
+      this.isRenderFinish = false;
       Promise.all([
         getBanner(),
         getPrivateContent(),
         getNewSong(),
         getRecommendPlaylist(),
         getPersonalizedMV(),
-        getDjHot()
+        getDjHot(),
       ]).then(
         ([
           { banners },
@@ -170,54 +170,54 @@ export default {
           { result: newSong },
           { result: playlist },
           { result: mv },
-          { djRadios: dj }
+          { djRadios: dj },
         ]) => {
           banners.forEach((banner) => {
-            banner.src = banner.imageUrl
-          })
-          this.banners = banners
+            banner.src = banner.imageUrl;
+          });
+          this.banners = banners;
           mv = mv.map((item) => {
-            return normalMV(item)
-          })
+            return normalMV(item);
+          });
           this.data = {
             privateContent,
             newSong,
             playlist,
             mv,
-            dj
-          }
-          this.isRenderFinish = true
+            dj,
+          };
+          this.isRenderFinish = true;
         }
-      )
+      );
     },
-    dragstart (nav) {
-      this.oldNav = nav
+    dragstart(nav) {
+      this.oldNav = nav;
     },
-    dragenter (nav) {
-      this.newNav = nav
+    dragenter(nav) {
+      this.newNav = nav;
       if (this.oldNav.name !== this.newNav.name) {
         let oldIndex = this.navs.findIndex(
           (nav) => nav.name == this.oldNav.name
-        )
+        );
         let newIndex = this.navs.findIndex(
           (nav) => nav.name == this.newNav.name
-        )
-        let newItems = [...this.navs]
+        );
+        let newItems = [...this.navs];
         // 删除老的节点
-        newItems.splice(oldIndex, 1)
+        newItems.splice(oldIndex, 1);
         // 在列表中目标位置增加新的节点
-        newItems.splice(newIndex, 0, this.oldNav)
+        newItems.splice(newIndex, 0, this.oldNav);
         // this.navs一改变，transition-group就起了作用
-        this.navs = [...newItems]
-        window.localStorage.setItem('nav', JSON.stringify(this.navs))
+        this.navs = [...newItems];
+        window.localStorage.setItem("nav", JSON.stringify(this.navs));
       }
     },
-    resetNav () {
-      this.navs = NAVS
-      localStorage.setItem('nav', JSON.stringify(NAVS))
-    }
-  }
-}
+    resetNav() {
+      this.navs = NAVS;
+      localStorage.setItem("nav", JSON.stringify(NAVS));
+    },
+  },
+};
 </script>
 
 <style>

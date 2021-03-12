@@ -1,12 +1,12 @@
-import { LOAD_URL } from './../config'
-const electron = require('electron')
+import { LOAD_URL } from "./../config";
+const electron = require("electron");
 const winURL =
-  process.env.NODE_ENV === 'development'
+  process.env.NODE_ENV === "development"
     ? `http://localhost:9080/#desktop-lyric`
-    : `${LOAD_URL}#desktop-lyric`
+    : `${LOAD_URL}#desktop-lyric`;
 
 const createLyricWindow = function (BrowserWindow) {
-  const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
+  const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
   const obj = {
     minWidth: 650,
     width,
@@ -27,15 +27,15 @@ const createLyricWindow = function (BrowserWindow) {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       backgroundThrottling: false,
-      devTools: false
-    }
-  }
+      devTools: false,
+    },
+  };
 
-  let lyricWindow = new BrowserWindow(obj)
+  let lyricWindow = new BrowserWindow(obj);
 
-  lyricWindow.loadURL(winURL)
+  lyricWindow.loadURL(winURL);
   // lyricWindow.setIgnoreMouseEvents(true)
 
-  return lyricWindow
-}
-export default createLyricWindow
+  return lyricWindow;
+};
+export default createLyricWindow;

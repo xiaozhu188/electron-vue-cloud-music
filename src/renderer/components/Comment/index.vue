@@ -33,21 +33,21 @@
 </template>
 
 <script>
-import CommentItem from './CommentItem'
-import Loading from '@/components/Common/loading'
+import CommentItem from "./CommentItem";
+import Loading from "@/components/Common/loading";
 
 export default {
   props: {
     commentData: {
       type: Object,
-      default () {
-        return null
-      }
-    }
+      default() {
+        return null;
+      },
+    },
   },
   components: {
     Loading,
-    CommentItem
-  }
-}
+    CommentItem,
+  },
+};
 </script>

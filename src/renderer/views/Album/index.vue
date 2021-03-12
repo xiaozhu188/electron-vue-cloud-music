@@ -13,25 +13,25 @@
 </template>
 
 <script>
-import HomeLayout from '@/layouts/HomeLayout'
-import Loading from '@/components/Common/loading'
-import Newsong from './components/newsong'
-import Newalbum from './components/newalbum'
+import HomeLayout from "@/layouts/HomeLayout";
+import Loading from "@/components/Common/loading";
+import Newsong from "./components/newsong";
+import Newalbum from "./components/newalbum";
 
 export default {
-  name: 'newAlbum',
-  data () {
+  name: "newAlbum",
+  data() {
     return {
-      type: 'newsong'
-    }
+      type: "newsong",
+    };
   },
   components: {
     HomeLayout,
     Loading,
     Newsong,
-    Newalbum
-  }
-}
+    Newalbum,
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -37,103 +37,103 @@
 </template>
 
 <script>
-import fs from 'fs'
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-import { shell, remote, ipcRenderer } from 'electron'
-import { uniq } from '@/utils/calculate'
-import TrackList from '@/components/Common/track-list/index.js'
-import Loading from '@/components/Common/loading'
-import moment from 'moment'
-import { getUrl, generateName } from '@/utils/song'
+import fs from "fs";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+import { shell, remote, ipcRenderer } from "electron";
+import { uniq } from "@/utils/calculate";
+import TrackList from "@/components/Common/track-list/index.js";
+import Loading from "@/components/Common/loading";
+import moment from "moment";
+import { getUrl, generateName } from "@/utils/song";
 const columns = [
   {
-    title: '音乐标题',
-    dataIndex: 'name',
-    key: 'name',
-    sorter: (a, b) => a.name.localeCompare(b.name)
+    title: "音乐标题",
+    dataIndex: "name",
+    key: "name",
+    sorter: (a, b) => a.name.localeCompare(b.name),
   },
   {
-    title: '歌手',
-    dataIndex: 'artist',
-    key: 'artist',
-    sorter: (a, b) => a.artist[0].name.localeCompare(b.artist[0].name)
+    title: "歌手",
+    dataIndex: "artist",
+    key: "artist",
+    sorter: (a, b) => a.artist[0].name.localeCompare(b.artist[0].name),
   },
   {
-    title: '专辑',
-    dataIndex: 'album',
-    key: 'album',
-    sorter: (a, b) => a.album.name.localeCompare(b.album.name)
+    title: "专辑",
+    dataIndex: "album",
+    key: "album",
+    sorter: (a, b) => a.album.name.localeCompare(b.album.name),
   },
   {
-    title: '大小',
-    dataIndex: 'size',
-    key: 'size',
-    slot: 'size',
-    sorter: (a, b) => a.size - b.size
+    title: "大小",
+    dataIndex: "size",
+    key: "size",
+    slot: "size",
+    sorter: (a, b) => a.size - b.size,
   },
   {
-    title: '下载时间',
-    dataIndex: 'time',
-    key: 'time',
-    slot: 'time'
+    title: "下载时间",
+    dataIndex: "time",
+    key: "time",
+    slot: "time",
   },
   {
-    title: '时长',
-    dataIndex: 'duration',
-    key: 'duration',
-    sorter: (a, b) => a.duration - b.duration
+    title: "时长",
+    dataIndex: "duration",
+    key: "duration",
+    sorter: (a, b) => a.duration - b.duration,
   },
   {
-    title: '操作',
-    dataIndex: 'actions',
-    key: 'actions',
-    slot: 'actions',
-    width: '50px'
-  }
-]
+    title: "操作",
+    dataIndex: "actions",
+    key: "actions",
+    slot: "actions",
+    width: "50px",
+  },
+];
 export default {
-  data () {
+  data() {
     return {
       selectedFolder: [],
       columns,
-      moment
-    }
+      moment,
+    };
   },
   components: {
     TrackList,
-    Loading
+    Loading,
   },
   computed: {
-    ...mapState('Localsong', ['localSongs']),
-    ...mapState('Download', ['downloaded']),
-    ...mapGetters('Setting', ['downloadSongsFolders']),
-    defaultDownloadFolder () {
-      return this.downloadSongsFolders[0]
-    }
+    ...mapState("Localsong", ["localSongs"]),
+    ...mapState("Download", ["downloaded"]),
+    ...mapGetters("Setting", ["downloadSongsFolders"]),
+    defaultDownloadFolder() {
+      return this.downloadSongsFolders[0];
+    },
   },
   methods: {
-    ...mapActions('Localsong', ['refresh', 'match']),
-    ...mapMutations('Localsong', ['setExportFolders']),
-    openDownloadFolder () {
-      shell.showItemInFolder(this.defaultDownloadFolder)
+    ...mapActions("Localsong", ["refresh", "match"]),
+    ...mapMutations("Localsong", ["setExportFolders"]),
+    openDownloadFolder() {
+      shell.showItemInFolder(this.defaultDownloadFolder);
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
+    play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
     },
-    openFileInFolder (song) {
-      let path = `${this.defaultDownloadFolder}\\${generateName(song)}`
+    openFileInFolder(song) {
+      let path = `${this.defaultDownloadFolder}\\${generateName(song)}`;
       if (!fs.existsSync(path)) {
         // 文件不存在
-        this.$message.error(`文件${path}不存在`)
-        return
+        this.$message.error(`文件${path}不存在`);
+        return;
       }
-      shell.showItemInFolder(path) // 打开文件所在文件夹
-    }
+      shell.showItemInFolder(path); // 打开文件所在文件夹
+    },
   },
-  mounted () {
-    this.refresh(this.downloadSongsFolders)
-  }
-}
+  mounted() {
+    this.refresh(this.downloadSongsFolders);
+  },
+};
 </script>
 
 <style lang="less" scoped>

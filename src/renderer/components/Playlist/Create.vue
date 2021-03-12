@@ -20,32 +20,32 @@ export default {
   props: {
     value: {
       type: Object,
-      default () {
+      default() {
         return {
-          name: '',
-          privacy: false
-        }
-      }
-    }
+          name: "",
+          privacy: false,
+        };
+      },
+    },
   },
-  data () {
+  data() {
     return {
       formData: {
-        ...this.value
-      }
-    }
+        ...this.value,
+      },
+    };
   },
   methods: {
-    onNameChange (e) {
-      this.formData.name = e.target.value
-      this.$emit('input', this.formData)
+    onNameChange(e) {
+      this.formData.name = e.target.value;
+      this.$emit("input", this.formData);
     },
-    onPrivacyChange (e) {
-      this.formData.privacy = e.target.checked
-      this.$emit('input', this.formData)
-    }
-  }
-}
+    onPrivacyChange(e) {
+      this.formData.privacy = e.target.checked;
+      this.$emit("input", this.formData);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -6,18 +6,18 @@
 </template>
 
 <script>
-import SettingDownloadFolder from './components/SettingDownloadFolder'
-import SettingVersion from './components/SettingVersion'
+import SettingDownloadFolder from "./components/SettingDownloadFolder";
+import SettingVersion from "./components/SettingVersion";
 export default {
-  name: 'setting',
-  data () {
-    return {}
+  name: "setting",
+  data() {
+    return {};
   },
   components: {
     SettingDownloadFolder,
-    SettingVersion
-  }
-}
+    SettingVersion,
+  },
+};
 </script>
 
 <style lang="less" scoped></style>

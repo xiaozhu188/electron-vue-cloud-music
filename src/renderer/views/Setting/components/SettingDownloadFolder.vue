@@ -9,44 +9,44 @@
   </setting-item>
 </template>
 <script>
-import SettingItem from './SettingItem.vue'
-import { mapGetters, mapMutations } from 'vuex'
-import { remote } from 'electron'
+import SettingItem from "./SettingItem.vue";
+import { mapGetters, mapMutations } from "vuex";
+import { remote } from "electron";
 
-const { dialog } = remote
+const { dialog } = remote;
 
 export default {
   components: {
-    SettingItem
+    SettingItem,
   },
   computed: {
-    ...mapGetters('Setting', ['downloadSongsFolders']),
-    defaultDownloadFolder () {
-      return this.downloadSongsFolders[0]
-    }
+    ...mapGetters("Setting", ["downloadSongsFolders"]),
+    defaultDownloadFolder() {
+      return this.downloadSongsFolders[0];
+    },
   },
   methods: {
-    ...mapMutations('Setting', ['mutateState']),
-    select () {
+    ...mapMutations("Setting", ["mutateState"]),
+    select() {
       dialog.showOpenDialog(
         {
-          properties: ['openDirectory']
+          properties: ["openDirectory"],
         },
         (filePaths) => {
           if (filePaths && filePaths.length) {
             this.mutateState({
-              downloadSongsFolders: filePaths
-            })
+              downloadSongsFolders: filePaths,
+            });
           }
         }
-      )
+      );
     },
-    reset () {
-      let folder = [`${remote.app.getPath('music')}`]
+    reset() {
+      let folder = [`${remote.app.getPath("music")}`];
       this.mutateState({
-        downloadSongsFolders: folder
-      })
-    }
-  }
-}
+        downloadSongsFolders: folder,
+      });
+    },
+  },
+};
 </script>

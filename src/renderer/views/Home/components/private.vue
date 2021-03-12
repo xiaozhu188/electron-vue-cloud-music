@@ -14,22 +14,22 @@
 </template>
 
 <script>
-import listItem from '@/components/Common/list-item'
+import listItem from "@/components/Common/list-item";
 
 export default {
-  name: 'mv',
+  name: "mv",
   props: {
     list: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
   components: {
-    listItem
-  }
-}
+    listItem,
+  },
+};
 </script>
 
 <style lang="less" scoped>

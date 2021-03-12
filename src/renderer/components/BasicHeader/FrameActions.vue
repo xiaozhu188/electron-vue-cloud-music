@@ -12,40 +12,40 @@
 </template>
 
 <script>
-import ZIcon from '@/components/ZIcon'
+import ZIcon from "@/components/ZIcon";
 export default {
-  data () {
-    this.currentWindow = this.$electron.remote.getCurrentWindow()
+  data() {
+    this.currentWindow = this.$electron.remote.getCurrentWindow();
     return {
-      isMax: this.currentWindow.isMaximized()
-    }
+      isMax: this.currentWindow.isMaximized(),
+    };
   },
   components: {
-    ZIcon
+    ZIcon,
   },
   methods: {
-    setFrame (action) {
+    setFrame(action) {
       switch (action) {
-        case 'min':
-          this.$electron.ipcRenderer.send('window-min')
-          break
-        case 'plus':
-          this.$electron.ipcRenderer.send('window-max')
-          break
-        case 'close':
-          this.$electron.ipcRenderer.send('window-close')
-          break
-        case 'mini':
-          this.$electron.ipcRenderer.send('toggle-mini', {
+        case "min":
+          this.$electron.ipcRenderer.send("window-min");
+          break;
+        case "plus":
+          this.$electron.ipcRenderer.send("window-max");
+          break;
+        case "close":
+          this.$electron.ipcRenderer.send("window-close");
+          break;
+        case "mini":
+          this.$electron.ipcRenderer.send("toggle-mini", {
             value: true,
-            storeState: this.$store.state
-          })
-          break
+            storeState: this.$store.state,
+          });
+          break;
       }
-      this.isMax = this.currentWindow.isMaximized()
-    }
-  }
-}
+      this.isMax = this.currentWindow.isMaximized();
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

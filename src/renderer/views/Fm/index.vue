@@ -65,161 +65,161 @@
 </template>
 
 <script>
-import moment from 'moment'
-import { mapState, mapGetters } from 'vuex'
-import { getFm } from '@/api/user'
-import { normalSong, getUrl } from '@/utils/song'
-import { getSongComment } from '@/api/comment'
-import LyricList from '@/components/Lyric/index.vue'
-import Artists from '@/components/Common/artists'
-import Comment from '@/components/Comment/index.vue'
-import Loading from '@/components/Common/loading.vue'
+import moment from "moment";
+import { mapState, mapGetters } from "vuex";
+import { getFm } from "@/api/user";
+import { normalSong, getUrl } from "@/utils/song";
+import { getSongComment } from "@/api/comment";
+import LyricList from "@/components/Lyric/index.vue";
+import Artists from "@/components/Common/artists";
+import Comment from "@/components/Comment/index.vue";
+import Loading from "@/components/Common/loading.vue";
 
 export default {
-  name: 'fm',
-  data () {
+  name: "fm",
+  data() {
     return {
       tracks: [],
       disabled: false,
       commentData: null,
-      loading: false
-    }
+      loading: false,
+    };
   },
   components: {
     Artists,
     Comment,
     Loading,
-    LyricList
+    LyricList,
   },
   computed: {
-    ...mapState('play', ['lyric']),
-    ...mapGetters('play', [
-      'fullscreen',
-      'current_song',
-      'playing',
-      'current_lyric_line',
-      'current_song_index',
-      'current_play_list'
+    ...mapState("play", ["lyric"]),
+    ...mapGetters("play", [
+      "fullscreen",
+      "current_song",
+      "playing",
+      "current_lyric_line",
+      "current_song_index",
+      "current_play_list",
     ]),
-    playIcon () {
-      return this.playing ? 'pause-circle' : 'play-circle'
-    }
+    playIcon() {
+      return this.playing ? "pause-circle" : "play-circle";
+    },
   },
   watch: {
-    current_lyric_line (newLine) {
-      const lines = this.$refs.lyrics.$refs.lyricLine
-      const line_HEIGHT = lines[newLine].getBoundingClientRect().height
+    current_lyric_line(newLine) {
+      const lines = this.$refs.lyrics.$refs.lyricLine;
+      const line_HEIGHT = lines[newLine].getBoundingClientRect().height;
       let top =
         lines[newLine].offsetTop > 0
           ? Number(lines[newLine].offsetTop - line_HEIGHT * 4)
-          : 0
-      this.$refs.lyrics.scrollTo(top, 'smooth')
+          : 0;
+      this.$refs.lyrics.scrollTo(top, "smooth");
     },
-    current_song (newSong, oldSong) {
-      if (newSong.id === oldSong.id) return
-      this.handleFmChange(newSong)
-    }
+    current_song(newSong, oldSong) {
+      if (newSong.id === oldSong.id) return;
+      this.handleFmChange(newSong);
+    },
   },
-  activated () {
-    if (this.current_song.isFm && this.playing) return
-    this.init()
+  activated() {
+    if (this.current_song.isFm && this.playing) return;
+    this.init();
   },
   methods: {
-    setClass (index) {
+    setClass(index) {
       if (index === this.current_song_index) {
-        return 'active'
+        return "active";
       } else if (index === this.current_song_index - 1) {
-        return 'prev'
+        return "prev";
       } else if (index === this.current_song_index - 2) {
-        return 'hide'
+        return "hide";
       }
     },
-    init () {
-      this.loading = true
+    init() {
+      this.loading = true;
       this._getFm()
         .then((tracks) => {
-          this.tracks = tracks
-          this.$store.dispatch('play/selectPlay', { tracks: tracks, index: 0 })
-          this.loading = false
+          this.tracks = tracks;
+          this.$store.dispatch("play/selectPlay", { tracks: tracks, index: 0 });
+          this.loading = false;
         })
         .catch(() => {
-          this.disabled = false
-        })
+          this.disabled = false;
+        });
     },
-    handleFmChange (song) {
+    handleFmChange(song) {
       this.$nextTick(() => {
         // this.$refs.lyrics.scrollTo(0)
         if (song.id) {
-          this.getComment(song.id)
+          this.getComment(song.id);
         }
-      })
+      });
       if (this.current_song_index === this.current_play_list.length - 1) {
         this._getFm()
           .then((tracks) => {
-            this.tracks = this.tracks.concat(tracks)
-            let list = this.current_play_list
-            list = list.concat(tracks)
-            this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+            this.tracks = this.tracks.concat(tracks);
+            let list = this.current_play_list;
+            list = list.concat(tracks);
+            this.$store.commit("play/SET_CURRENT_PLAY_LIST", list);
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       }
     },
-    play () {
-      this.$store.dispatch('play/selectPlay', {
+    play() {
+      this.$store.dispatch("play/selectPlay", {
         tracks: this.tracks,
-        index: 0
-      })
+        index: 0,
+      });
     },
-    togglePlay () {
-      this.$store.commit('play/SET_PLAY_STATUS', !this.playing)
+    togglePlay() {
+      this.$store.commit("play/SET_PLAY_STATUS", !this.playing);
     },
-    async _getFm () {
+    async _getFm() {
       try {
-        let { data } = await getFm()
+        let { data } = await getFm();
         let tracks = data.map((song) => {
-          return normalSong(song, '290y290', true)
-        })
-        return tracks
+          return normalSong(song, "290y290", true);
+        });
+        return tracks;
       } catch (error) {
-        throw new Error(error)
+        throw new Error(error);
       }
     },
-    async prev (e, index) {
-      console.log(e)
-      if (this.disabled) return
-      this.disabled = true
-      let current_song_index = this.current_song_index
-      current_song_index--
+    async prev(e, index) {
+      console.log(e);
+      if (this.disabled) return;
+      this.disabled = true;
+      let current_song_index = this.current_song_index;
+      current_song_index--;
       if (current_song_index < 0) {
-        this.disabled = false
-        return
+        this.disabled = false;
+        return;
       }
 
-      this.$store.commit('play/SET_CURRENT_INDEX', current_song_index)
+      this.$store.commit("play/SET_CURRENT_INDEX", current_song_index);
       setTimeout(() => {
-        this.disabled = false
-      }, 1000)
+        this.disabled = false;
+      }, 1000);
     },
-    async next () {
-      if (this.disabled) return
-      this.disabled = true
-      let current_song_index = this.current_song_index
-      current_song_index++
+    async next() {
+      if (this.disabled) return;
+      this.disabled = true;
+      let current_song_index = this.current_song_index;
+      current_song_index++;
 
-      this.$store.commit('play/SET_CURRENT_INDEX', current_song_index)
+      this.$store.commit("play/SET_CURRENT_INDEX", current_song_index);
       setTimeout(() => {
-        this.disabled = false
-      }, 1000)
+        this.disabled = false;
+      }, 1000);
     },
-    getComment (id) {
+    getComment(id) {
       getSongComment(id).then((res) => {
-        this.commentData = res
-      })
-    }
-  }
-}
+        this.commentData = res;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

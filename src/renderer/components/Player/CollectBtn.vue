@@ -56,71 +56,71 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import DrapModal from '@/components/DrapModal/index.vue'
-import PlaylistCreate from '@/components/Playlist/Create.vue'
-import { addSongToList } from '@/api/user'
+import { mapState, mapGetters } from "vuex";
+import DrapModal from "@/components/DrapModal/index.vue";
+import PlaylistCreate from "@/components/Playlist/Create.vue";
+import { addSongToList } from "@/api/user";
 export default {
-  data () {
+  data() {
     return {
       create_playlist_visible: false, // 新建歌单modal
       collect_playlist_visible: false, // 收藏到歌单modal
       formData: {
-        name: '',
-        privacy: false
-      }
-    }
+        name: "",
+        privacy: false,
+      },
+    };
   },
   computed: {
-    ...mapGetters('play', ['current_song', 'playing']),
-    ...mapGetters('User', ['userId', 'createdList', 'likedsongIds'])
+    ...mapGetters("play", ["current_song", "playing"]),
+    ...mapGetters("User", ["userId", "createdList", "likedsongIds"]),
   },
   components: {
     DrapModal,
-    PlaylistCreate
+    PlaylistCreate,
   },
   methods: {
     // 收藏到歌单
-    async collectToPlaylist (playlist, song) {
+    async collectToPlaylist(playlist, song) {
       let options = {
-        op: 'add',
+        op: "add",
         tracks: song.id,
-        pid: playlist.id
-      }
+        pid: playlist.id,
+      };
       try {
-        let { code, trackIds } = await addSongToList(options)
+        let { code, trackIds } = await addSongToList(options);
 
-        trackIds = JSON.parse(trackIds)
+        trackIds = JSON.parse(trackIds);
         if (code === 200) {
-          let likedsongIds = this.likedsongIds.slice()
-          likedsongIds.unshift(...trackIds)
-          this.$store.commit('User/SET_LIKEDSONG_IDS', likedsongIds)
-          this.$message.success(`收藏到歌单 ${playlist.name} 成功!`)
-          this.collect_playlist_visible = false
+          let likedsongIds = this.likedsongIds.slice();
+          likedsongIds.unshift(...trackIds);
+          this.$store.commit("User/SET_LIKEDSONG_IDS", likedsongIds);
+          this.$message.success(`收藏到歌单 ${playlist.name} 成功!`);
+          this.collect_playlist_visible = false;
         }
       } catch (error) {
-        this.$message.error(`收藏失败!`)
+        this.$message.error(`收藏失败!`);
       }
     },
     // 新建并收藏到歌单
-    createAndAddToPlaylist () {
-      if (this.formData.name === '') return
+    createAndAddToPlaylist() {
+      if (this.formData.name === "") return;
       this.$store
-        .dispatch('User/createPlaylist', this.formData)
+        .dispatch("User/createPlaylist", this.formData)
         .then(async (playlist) => {
-          this.$message.success(`创建歌单 ${playlist.name} 成功!`)
-          this.create_playlist_visible = false
-          await this.collectToPlaylist(playlist, this.current_song)
+          this.$message.success(`创建歌单 ${playlist.name} 成功!`);
+          this.create_playlist_visible = false;
+          await this.collectToPlaylist(playlist, this.current_song);
           setTimeout(() => {
             this.$message.success(
               `添加歌曲 ${this.current_song.name} 到歌单 ${playlist.name} 成功!`
-            )
-            this.collect_playlist_visible = false
-          }, 300)
-        })
-    }
-  }
-}
+            );
+            this.collect_playlist_visible = false;
+          }, 300);
+        });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped></style>

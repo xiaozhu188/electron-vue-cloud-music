@@ -85,88 +85,88 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ZIcon from '@/components/ZIcon'
-import PlaylistCreate from '@/components/Playlist/Create.vue'
+import { mapGetters } from "vuex";
+import ZIcon from "@/components/ZIcon";
+import PlaylistCreate from "@/components/Playlist/Create.vue";
 
-import { getUserPlaylist, getUserLikeSongs } from '@/api/user'
-import { getPlaylistDetail } from '@/api/playlist'
-import { getIntelligence } from '@/api/song'
-import { normalSong } from '@/utils/song'
-import { playMode } from '@/config/config'
+import { getUserPlaylist, getUserLikeSongs } from "@/api/user";
+import { getPlaylistDetail } from "@/api/playlist";
+import { getIntelligence } from "@/api/song";
+import { normalSong } from "@/utils/song";
+import { playMode } from "@/config/config";
 export default {
-  data () {
+  data() {
     return {
       visible: false,
       loading: false,
       formData: {
-        name: '',
-        privacy: false
-      }
-    }
+        name: "",
+        privacy: false,
+      },
+    };
   },
   components: {
     ZIcon,
-    PlaylistCreate
+    PlaylistCreate,
   },
   computed: {
-    ...mapGetters('User', ['userId', 'createdList', 'likedsongIds'])
+    ...mapGetters("User", ["userId", "createdList", "likedsongIds"]),
   },
   methods: {
-    deletePlaylist (id) {
-      this.$store.dispatch('User/deletePlaylist', id)
+    deletePlaylist(id) {
+      this.$store.dispatch("User/deletePlaylist", id);
     },
-    createPlaylist () {
-      this.loading = true
-      this.$store.dispatch('User/createPlaylist', this.formData).then(() => {
+    createPlaylist() {
+      this.loading = true;
+      this.$store.dispatch("User/createPlaylist", this.formData).then(() => {
         setTimeout(() => {
-          this.loading = false
-          this.hide()
-        }, 300)
-      })
+          this.loading = false;
+          this.hide();
+        }, 300);
+      });
     },
-    playAll (pid) {
+    playAll(pid) {
       getPlaylistDetail(pid).then((res) => {
         let tracks = res.playlist.tracks.map((track) => {
-          return normalSong(track)
-        })
-        this.$store.dispatch('play/selectPlay', { tracks, index: 0 })
-      })
+          return normalSong(track);
+        });
+        this.$store.dispatch("play/selectPlay", { tracks, index: 0 });
+      });
     },
-    async xindong (pid) {
-      if (this.hideLoading) return
-      this.hideLoading = this.$message.loading('正在开启心动模式..', 0)
+    async xindong(pid) {
+      if (this.hideLoading) return;
+      this.hideLoading = this.$message.loading("正在开启心动模式..", 0);
       try {
-        let songId
+        let songId;
         if (
           this.current_song &&
           !this.current_song.folder &&
           this.current_song.id
         ) {
           // 如果当前有播放歌曲且不是本地歌曲
-          songId = this.current_song.id
+          songId = this.current_song.id;
         } else {
-          let { ids } = await getUserLikeSongs(this.userId)
-          songId = ids[0]
+          let { ids } = await getUserLikeSongs(this.userId);
+          songId = ids[0];
         }
-        let res = await getIntelligence(songId, pid)
+        let res = await getIntelligence(songId, pid);
         if (res.data.length) {
           let tracks = res.data.map((song) => {
-            return normalSong(song.songInfo)
-          })
-          this.$store.dispatch('play/selectPlay', { tracks, index: 0 })
+            return normalSong(song.songInfo);
+          });
+          this.$store.dispatch("play/selectPlay", { tracks, index: 0 });
         }
-        this.$store.commit('play/SET_MODE', playMode.xindong)
-        this.hideLoading()
-        this.hideLoading = null
+        this.$store.commit("play/SET_MODE", playMode.xindong);
+        this.hideLoading();
+        this.hideLoading = null;
       } catch (e) {
-        this.hideLoading()
-        this.hideLoading = null
+        this.hideLoading();
+        this.hideLoading = null;
       }
     },
-    hide () {
-      this.visible = false
-    }
-  }
-}
+    hide() {
+      this.visible = false;
+    },
+  },
+};
 </script>

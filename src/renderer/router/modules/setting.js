@@ -1,10 +1,10 @@
 let settingRoutes = [
   {
-    path: '/setting',
+    path: "/setting",
     component: () =>
-      import(/* webpackChunkName: "setting" */ '@/views/Setting/index.vue'),
-    name: 'setting'
-  }
-]
+      import(/* webpackChunkName: "setting" */ "@/views/Setting/index.vue"),
+    name: "setting",
+  },
+];
 
-export { settingRoutes }
+export { settingRoutes };

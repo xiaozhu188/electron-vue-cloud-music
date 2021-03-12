@@ -19,26 +19,26 @@
 </template>
 
 <script>
-import listItem from '@/components/Common/list-item'
+import listItem from "@/components/Common/list-item";
 
 export default {
   props: {
     list: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
   components: {
-    listItem
+    listItem,
   },
   methods: {
-    getType (item) {
-      return typeof item.id === 'number' ? 'mv' : 'video'
-    }
-  }
-}
+    getType(item) {
+      return typeof item.id === "number" ? "mv" : "video";
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

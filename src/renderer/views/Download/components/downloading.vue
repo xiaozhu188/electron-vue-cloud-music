@@ -69,84 +69,84 @@
 </template>
 
 <script>
-import fs from 'fs'
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-import { shell, remote, ipcRenderer } from 'electron'
-import { uniq } from '@/utils/calculate'
-import TrackList from '@/components/Common/track-list/index.js'
+import fs from "fs";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+import { shell, remote, ipcRenderer } from "electron";
+import { uniq } from "@/utils/calculate";
+import TrackList from "@/components/Common/track-list/index.js";
 const columns = [
   {
-    title: '音乐标题',
-    dataIndex: 'name',
-    key: 'name',
-    sorter: (a, b) => a.name.localeCompare(b.name)
+    title: "音乐标题",
+    dataIndex: "name",
+    key: "name",
+    sorter: (a, b) => a.name.localeCompare(b.name),
   },
   {
-    title: '进度',
-    dataIndex: 'downloadPercent',
-    key: 'downloadPercent',
-    slot: 'downloadPercent',
-    sorter: (a, b) => a.downloadPercent - b.downloadPercent
+    title: "进度",
+    dataIndex: "downloadPercent",
+    key: "downloadPercent",
+    slot: "downloadPercent",
+    sorter: (a, b) => a.downloadPercent - b.downloadPercent,
   },
   {
-    title: '操作',
-    dataIndex: 'actions',
-    key: 'actions',
-    slot: 'actions'
-  }
-]
+    title: "操作",
+    dataIndex: "actions",
+    key: "actions",
+    slot: "actions",
+  },
+];
 export default {
-  data () {
+  data() {
     return {
       loading: false,
-      columns
-    }
+      columns,
+    };
   },
   components: {
-    TrackList
+    TrackList,
   },
   computed: {
-    ...mapState('Download', ['downloading', 'queue']),
-    ...mapGetters('play', ['current_play_list']),
-    ...mapGetters('Setting', ['downloadSongsFolders']),
-    defaultDownloadFolder () {
+    ...mapState("Download", ["downloading", "queue"]),
+    ...mapGetters("play", ["current_play_list"]),
+    ...mapGetters("Setting", ["downloadSongsFolders"]),
+    defaultDownloadFolder() {
       return this.downloadSongsFolders && this.downloadSongsFolders.length
         ? this.downloadSongsFolders[0]
-        : ''
-    }
+        : "";
+    },
   },
   methods: {
-    openDownloadFolder () {
-      shell.showItemInFolder(this.defaultDownloadFolder)
+    openDownloadFolder() {
+      shell.showItemInFolder(this.defaultDownloadFolder);
     },
-    toggleDownload (song, isPaused) {
-      this.$set(song, 'isPaused', isPaused)
-      ipcRenderer.send('download-toggle', {
-        id: song.id
-      })
+    toggleDownload(song, isPaused) {
+      this.$set(song, "isPaused", isPaused);
+      ipcRenderer.send("download-toggle", {
+        id: song.id,
+      });
     },
-    cancelDownload (song) {
-      ipcRenderer.send('download-cancel', {
-        id: song.id
-      })
-      this.$store.commit('Download/REMOVE_QUEUE', song)
-      this.$store.commit('Download/REMOVE_DOWNLOADING', song)
-      let filepath = `${this.defaultDownloadFolder}\\${song.name}.mp3`
+    cancelDownload(song) {
+      ipcRenderer.send("download-cancel", {
+        id: song.id,
+      });
+      this.$store.commit("Download/REMOVE_QUEUE", song);
+      this.$store.commit("Download/REMOVE_DOWNLOADING", song);
+      let filepath = `${this.defaultDownloadFolder}\\${song.name}.mp3`;
       if (fs.existsSync(filepath)) {
-        fs.unlinkSync(filepath)
+        fs.unlinkSync(filepath);
       }
       this.$db.test.remove({ id: song.id }, {}, (err, numRemoved) => {
         if (err) {
-          console.log(err)
+          console.log(err);
         } else {
-          console.log('numRemoved', numRemoved)
+          console.log("numRemoved", numRemoved);
         }
-      })
+      });
     },
-    cancelAll () {},
-    pauseAll () {}
-  }
-}
+    cancelAll() {},
+    pauseAll() {},
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -16,31 +16,31 @@
 </template>
 
 <script>
-import videoPlayer from '@/mixins/videoPlayer'
+import videoPlayer from "@/mixins/videoPlayer";
 
 export default {
   mixins: [videoPlayer],
-  data () {
-    return {}
+  data() {
+    return {};
   },
   props: {
     row: {
-      type: Object
+      type: Object,
     },
     col: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   methods: {
-    getTitle (row, col) {
-      let title = row[col.key]
+    getTitle(row, col) {
+      let title = row[col.key];
       if (row.alia && row.alia.length) {
-        title += ` (${row.alia.join(',')})`
+        title += ` (${row.alia.join(",")})`;
       }
-      return title
-    }
-  }
-}
+      return title;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

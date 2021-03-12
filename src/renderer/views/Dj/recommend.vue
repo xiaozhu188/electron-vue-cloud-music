@@ -37,48 +37,48 @@
 </template>
 
 <script>
-import { getDjByCate } from '@/api/dj'
+import { getDjByCate } from "@/api/dj";
 export default {
-  data () {
+  data() {
     return {
       djRadios: [],
       hasMore: true,
       loading: false,
       options: { limit: 30, offset: 0 },
-      infiniteId: +new Date()
-    }
+      infiniteId: +new Date(),
+    };
   },
-  activated () {
-    this.hasMore = true
-    this.djRadios = []
-    this.options = { limit: 30, offset: 0 }
-    this.infiniteId += 1
+  activated() {
+    this.hasMore = true;
+    this.djRadios = [];
+    this.options = { limit: 30, offset: 0 };
+    this.infiniteId += 1;
   },
   methods: {
-    infiniteHandler ($state) {
-      let id = this.$route.query.id
-      this.options.type = id
+    infiniteHandler($state) {
+      let id = this.$route.query.id;
+      this.options.type = id;
       getDjByCate(this.options).then(({ djRadios, hasMore }) => {
         if (djRadios.length) {
-          this.djRadios.push(...djRadios)
-          $state.loaded()
+          this.djRadios.push(...djRadios);
+          $state.loaded();
         }
         if (!hasMore) {
-          $state.complete()
+          $state.complete();
         } else {
-          this.options.offset += this.options.limit
+          this.options.offset += this.options.limit;
         }
-      })
+      });
     },
-    _getDjByCate () {
-      let id = this.$route.query.id
+    _getDjByCate() {
+      let id = this.$route.query.id;
       getDjByCate({ type: id }).then((res) => {
-        this.djRadios = res.djRadios
-        this.hasMore = res.hasMore
-      })
-    }
-  }
-}
+        this.djRadios = res.djRadios;
+        this.hasMore = res.hasMore;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

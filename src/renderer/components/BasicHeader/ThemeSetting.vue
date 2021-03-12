@@ -32,132 +32,132 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ZIcon from '@/components/ZIcon'
-import { colorList } from '@/config/config'
-import config from '@/config/defaultSettings'
-import ls from 'store'
+import { mapGetters } from "vuex";
+import ZIcon from "@/components/ZIcon";
+import { colorList } from "@/config/config";
+import config from "@/config/defaultSettings";
+import ls from "store";
 
 export default {
-  data () {
+  data() {
     return {
       themeVisible: false,
       colorList,
-      defaultSettings: Object.assign({}, config)
-    }
+      defaultSettings: Object.assign({}, config),
+    };
   },
   components: {
-    ZIcon
+    ZIcon,
   },
   computed: {
-    ...mapGetters('App', ['primaryColor'])
+    ...mapGetters("App", ["primaryColor"]),
   },
-  created () {
-    console.log('__dirname', __dirname)
+  created() {
+    console.log("__dirname", __dirname);
     let key =
-      process.env.NODE_ENV === 'development'
+      process.env.NODE_ENV === "development"
         ? `${window.location.origin}/less/color.less`
         : Object.keys(localStorage).find((item) =>
-            item.endsWith('color.less')
-          ) || `app://./less/color.less`
+            item.endsWith("color.less")
+          ) || `app://./less/color.less`;
     // console.log(key)
-    let style = ls.get(key)
+    let style = ls.get(key);
     if (style) {
-      let styleTag = document.createElement('style')
-      styleTag.setAttribute('id', 'myTheme')
-      styleTag.innerText = style
-      document.head.appendChild(styleTag)
+      let styleTag = document.createElement("style");
+      styleTag.setAttribute("id", "myTheme");
+      styleTag.innerText = style;
+      document.head.appendChild(styleTag);
     } else {
       // 当主题色不是默认色时，才进行主题编译
       if (this.primaryColor !== config.primaryColor) {
-        this.updateTheme(this.primaryColor)
+        this.updateTheme(this.primaryColor);
       }
     }
   },
   methods: {
-    changeColor (color) {
-      this.defaultSettings.primaryColor = color
+    changeColor(color) {
+      this.defaultSettings.primaryColor = color;
       if (this.primaryColor !== color) {
-        this.$store.commit('App/CHANGE_COLOR', color)
-        this.updateTheme(color)
+        this.$store.commit("App/CHANGE_COLOR", color);
+        this.updateTheme(color);
       }
     },
-    updateTheme (primaryColor) {
+    updateTheme(primaryColor) {
       if (!primaryColor) {
-        return
+        return;
       }
-      let _this = this
+      let _this = this;
 
-      function buildIt () {
+      function buildIt() {
         if (!window.less) {
-          return
+          return;
         }
         setTimeout(() => {
           // 编译前删除之前保存的样式
           Object.keys(localStorage).forEach((item) => {
             if (
-              item.endsWith('color.less') ||
-              item.endsWith('color.less:timestamp') ||
-              item.endsWith('color.less:vars')
+              item.endsWith("color.less") ||
+              item.endsWith("color.less:timestamp") ||
+              item.endsWith("color.less:vars")
             ) {
-              localStorage.removeItem(item)
+              localStorage.removeItem(item);
             }
-          })
+          });
           window.less
             .modifyVars({
-              '@primary-color': primaryColor
+              "@primary-color": primaryColor,
             })
             .then(() => {
-              let myTheme = document.getElementById('myTheme')
+              let myTheme = document.getElementById("myTheme");
               if (myTheme) {
-                document.head.removeChild(myTheme)
+                document.head.removeChild(myTheme);
               }
             })
             .catch((e) => {
-              _this.$message.error('主题更新失败!')
-            })
-        }, 200)
+              _this.$message.error("主题更新失败!");
+            });
+        }, 200);
       }
 
       if (!this.lessNodesAppended) {
         // insert less.js and color.less
-        let lessStyleNode = document.createElement('link')
-        let lessConfigNode = document.createElement('script')
-        let lessScriptNode = document.createElement('script')
-        lessStyleNode.setAttribute('rel', 'stylesheet/less')
-        lessStyleNode.setAttribute('href', `less/color.less`)
+        let lessStyleNode = document.createElement("link");
+        let lessConfigNode = document.createElement("script");
+        let lessScriptNode = document.createElement("script");
+        lessStyleNode.setAttribute("rel", "stylesheet/less");
+        lessStyleNode.setAttribute("href", `less/color.less`);
         lessConfigNode.innerHTML = `
           window.less = {
             async: true,
             env: 'production',
             javascriptEnabled: true
           };
-        `
-        lessScriptNode.src = 'js/less.min.js'
-        lessScriptNode.async = true
+        `;
+        lessScriptNode.src = "js/less.min.js";
+        lessScriptNode.async = true;
         lessScriptNode.onload = () => {
-          buildIt()
-          lessScriptNode.onload = null
-        }
+          buildIt();
+          lessScriptNode.onload = null;
+        };
 
-        let myTheme = document.getElementById('myTheme')
+        let myTheme = document.getElementById("myTheme");
         if (myTheme) {
-          document.head.insertBefore(lessStyleNode, myTheme)
-          document.head.insertBefore(lessConfigNode, myTheme)
-          document.head.insertBefore(lessScriptNode, myTheme)
+          document.head.insertBefore(lessStyleNode, myTheme);
+          document.head.insertBefore(lessConfigNode, myTheme);
+          document.head.insertBefore(lessScriptNode, myTheme);
         } else {
-          document.head.appendChild(lessStyleNode)
-          document.head.appendChild(lessConfigNode)
-          document.head.appendChild(lessScriptNode)
+          document.head.appendChild(lessStyleNode);
+          document.head.appendChild(lessConfigNode);
+          document.head.appendChild(lessScriptNode);
         }
 
-        this.lessNodesAppended = true
+        this.lessNodesAppended = true;
       } else {
-        buildIt()
+        buildIt();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

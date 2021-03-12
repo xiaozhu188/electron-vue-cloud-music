@@ -10,61 +10,61 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      inited: false
-    }
+      inited: false,
+    };
   },
   props: {
     value: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dragOptions: {
       type: Object,
-      default () {
-        return {}
-      }
-    }
+      default() {
+        return {};
+      },
+    },
   },
   watch: {
-    value (newVal) {
+    value(newVal) {
       if (newVal) {
         this.$nextTick(() => {
-          const Draggabilly = require('draggabilly')
+          const Draggabilly = require("draggabilly");
           if (this.inited) {
-            return
+            return;
           }
-          const draggableElems = document.querySelectorAll('.ant-modal')
-          const target = draggableElems[draggableElems.length - 1]
-          const handleElem = target.querySelector('.ant-modal-header')
-          const dragOptions = {}
+          const draggableElems = document.querySelectorAll(".ant-modal");
+          const target = draggableElems[draggableElems.length - 1];
+          const handleElem = target.querySelector(".ant-modal-header");
+          const dragOptions = {};
           if (handleElem && handleElem instanceof window.Node) {
-            handleElem.style.cursor = '-webkit-grab'
-            dragOptions.handle = '.ant-modal-header'
+            handleElem.style.cursor = "-webkit-grab";
+            dragOptions.handle = ".ant-modal-header";
           } else {
-            dragOptions.handle = '.ant-modal-body'
+            dragOptions.handle = ".ant-modal-body";
           }
           const drag = new Draggabilly(
             target,
             Object.assign(dragOptions, this.dragOptions)
-          )
-          this.inited = true
-        })
+          );
+          this.inited = true;
+        });
       }
-    }
+    },
   },
   computed: {
     currentValue: {
-      get () {
-        return this.value
+      get() {
+        return this.value;
       },
-      set (val) {
-        this.$emit('input', val)
-      }
-    }
-  }
-}
+      set(val) {
+        this.$emit("input", val);
+      },
+    },
+  },
+};
 </script>
 
 <style lang="less">

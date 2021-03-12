@@ -45,31 +45,31 @@
 </template>
 
 <script>
-import videoPlayer from '@/mixins/videoPlayer'
-import Artists from '@/components/Common/artists'
+import videoPlayer from "@/mixins/videoPlayer";
+import Artists from "@/components/Common/artists";
 
 export default {
-  name: 'song-item',
+  name: "song-item",
   mixins: [videoPlayer],
   props: {
     bordered: { type: Boolean, default: false },
     showMore: { type: Boolean, default: false },
     tracks: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
   components: {
-    Artists
+    Artists,
   },
   methods: {
-    onClick (song, index) {
-      this.$emit('onclick', song, index)
-    }
-  }
-}
+    onClick(song, index) {
+      this.$emit("onclick", song, index);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

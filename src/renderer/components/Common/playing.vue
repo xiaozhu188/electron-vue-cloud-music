@@ -6,19 +6,19 @@
 
 <script>
 export default {
-  name: 'AniPlaying',
+  name: "AniPlaying",
   props: {
     playing: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
-    cdCls () {
-      return this.playing ? 'line play' : 'line play paused'
-    }
-  }
-}
+    cdCls() {
+      return this.playing ? "line play" : "line play paused";
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

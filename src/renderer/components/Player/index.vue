@@ -192,24 +192,24 @@
 </template>
 
 <script>
-import LyricList from '@/components/Lyric/index.vue'
-import debounce from 'loadsh/debounce'
-import { mapState, mapGetters } from 'vuex'
-import Lyric from '@/utils/class/Lyric.js'
-import Artists from '@/components/Common/artists'
-import Comment from '@/components/Comment/index.vue'
-import ZIcon from '@/components/ZIcon/index.vue'
-import SongHeart from '@/components/Common/song-heart'
-import CollectBtn from './CollectBtn'
-import { getSongComment } from '@/api/comment'
-import { getSimiPlaylist, getSimiSong, getSongUsers } from '@/api/song'
-import { normalSong } from '@/utils/song'
+import LyricList from "@/components/Lyric/index.vue";
+import debounce from "loadsh/debounce";
+import { mapState, mapGetters } from "vuex";
+import Lyric from "@/utils/class/Lyric.js";
+import Artists from "@/components/Common/artists";
+import Comment from "@/components/Comment/index.vue";
+import ZIcon from "@/components/ZIcon/index.vue";
+import SongHeart from "@/components/Common/song-heart";
+import CollectBtn from "./CollectBtn";
+import { getSongComment } from "@/api/comment";
+import { getSimiPlaylist, getSimiSong, getSongUsers } from "@/api/song";
+import { normalSong } from "@/utils/song";
 
-const LYRIC_LINE_HEIGHT = 34
+const LYRIC_LINE_HEIGHT = 34;
 
 export default {
-  name: 'player',
-  data () {
+  name: "player",
+  data() {
     return {
       isAddAnimation: false,
       comment: null,
@@ -223,17 +223,17 @@ export default {
       refresh: false,
       delay: 0,
       showTime: false,
-      showFreq: false
-    }
+      showFreq: false,
+    };
   },
-  mounted () {
+  mounted() {
     if (this.current_song.avatar) {
-      let img = new Image()
-      img.src = this.current_song.avatar
-      console.log('this.current_song.avatar', this.current_song.avatar)
+      let img = new Image();
+      img.src = this.current_song.avatar;
+      console.log("this.current_song.avatar", this.current_song.avatar);
       img.onload = () => {
-        this.isAddAnimation = true
-      }
+        this.isAddAnimation = true;
+      };
     }
   },
   components: {
@@ -242,219 +242,220 @@ export default {
     ZIcon,
     SongHeart,
     CollectBtn,
-    LyricList
+    LyricList,
   },
   computed: {
-    ...mapState('Download', ['downloaded', 'downloading', 'queue']),
-    ...mapState('play', ['lyric']),
-    ...mapGetters('play', [
-      'fullscreen',
-      'current_song',
-      'playing',
-      'source',
-      'current_lyric_line'
+    ...mapState("Download", ["downloaded", "downloading", "queue"]),
+    ...mapState("play", ["lyric"]),
+    ...mapGetters("play", [
+      "fullscreen",
+      "current_song",
+      "playing",
+      "source",
+      "current_lyric_line",
     ]),
-    ...mapGetters('User', ['likedsongIds', 'createdList', 'userId']),
-    isLiked () {
-      return this.likedsongIds.includes(this.current_song.id)
+    ...mapGetters("User", ["likedsongIds", "createdList", "userId"]),
+    isLiked() {
+      return this.likedsongIds.includes(this.current_song.id);
     },
-    lineCls () {
-      return this.playing ? 'track-line' : 'track-line paused'
+    lineCls() {
+      return this.playing ? "track-line" : "track-line paused";
     },
-    downloadstatus () {
+    downloadstatus() {
       return [...this.downloaded, ...this.queue].findIndex(
         (item) => item.id === this.current_song.id
       ) >= 0
-        ? { icon: 'check-circle', text: '已下载', downloaded: true }
-        : { icon: 'download', text: '下载' }
-    }
+        ? { icon: "check-circle", text: "已下载", downloaded: true }
+        : { icon: "download", text: "下载" };
+    },
   },
   watch: {
-    fixLyric (newVal) {
+    fixLyric(newVal) {
       if (!newVal) {
         // 如果取消了固定歌词,自动滚到当前歌词行
-        const lines = this.$refs.lyrics.$refs.lyricLine
+        const lines = this.$refs.lyrics.$refs.lyricLine;
         let top = Number(
           lines[this.current_lyric_line].offsetTop - LYRIC_LINE_HEIGHT * 3
-        )
-        this.$refs.lyrics.scrollTo(top, 'smooth')
+        );
+        this.$refs.lyrics.scrollTo(top, "smooth");
       }
     },
-    current_song (newSong, oldSong) {
-      if (newSong.id === oldSong.id || !this.fullscreen) return
-      this.delay = 0
-      this.$refs.lyrics.scrollTo(0)
-      this._getSimiPlaylist(newSong.id)
-      this._getSimiSong(newSong.id)
-      this._getSongUsers(newSong.id)
+    current_song(newSong, oldSong) {
+      if (newSong.id === oldSong.id || !this.fullscreen) return;
+      this.delay = 0;
+      this.$refs.lyrics.scrollTo(0);
+      this._getSimiPlaylist(newSong.id);
+      this._getSimiSong(newSong.id);
+      this._getSongUsers(newSong.id);
 
-      this.offset = 0
-      this.comment = null
-      this.refresh = true
+      this.offset = 0;
+      this.comment = null;
+      this.refresh = true;
       this.$nextTick(() => {
-        this.refresh = false
-      })
+        this.refresh = false;
+      });
     },
-    fullscreen (newVal) {
+    fullscreen(newVal) {
       this.$nextTick(() => {
         if (newVal) {
           this.unWatcher_lyric = this.$watch(
-            'current_lyric_line',
+            "current_lyric_line",
             (newLine) => {
-              if (this.fixLyric) return
-              const lines = this.$refs.lyrics.$refs.lyricLine
+              if (this.fixLyric) return;
+              const lines = this.$refs.lyrics.$refs.lyricLine;
               if (lines && lines[newLine]) {
                 let top =
                   lines[newLine].offsetTop > 0
                     ? Number(lines[newLine].offsetTop - LYRIC_LINE_HEIGHT * 3)
-                    : 0
-                this.$refs.lyrics.scrollTo(top, 'smooth')
+                    : 0;
+                this.$refs.lyrics.scrollTo(top, "smooth");
               }
             }
-          )
-          let img = new Image()
-          img.src = this.current_song.avatar
+          );
+          let img = new Image();
+          img.src = this.current_song.avatar;
           img.onload = () => {
-            this.isAddAnimation = true
-          }
+            this.isAddAnimation = true;
+          };
 
           this.$nextTick(() => {
-            this.scrollToCurrentLine()
-          })
+            this.scrollToCurrentLine();
+          });
 
-          if (this.current_song.folder) return
+          if (this.current_song.folder) return;
 
-          this.offset = 0
-          this.comment = null
-          this.refresh = true
+          this.offset = 0;
+          this.comment = null;
+          this.refresh = true;
           this.$nextTick(() => {
-            this.refresh = false
-          })
-          this._getSimiPlaylist(this.current_song.id)
-          this._getSimiSong(this.current_song.id)
-          this._getSongUsers(this.current_song.id)
+            this.refresh = false;
+          });
+          this._getSimiPlaylist(this.current_song.id);
+          this._getSimiSong(this.current_song.id);
+          this._getSongUsers(this.current_song.id);
         } else {
-          this.isAddAnimation = false
-          this.unWatcher_lyric && this.unWatcher_lyric()
+          this.isAddAnimation = false;
+          this.unWatcher_lyric && this.unWatcher_lyric();
         }
-      })
-    }
+      });
+    },
   },
   methods: {
-    scrollToCurrentLine () {
-      const lines = this.$refs.lyrics.$refs.lyricLine
+    scrollToCurrentLine() {
+      const lines = this.$refs.lyrics.$refs.lyricLine;
       if (lines && lines[this.current_lyric_line]) {
         let top = Number(
           lines[this.current_lyric_line].offsetTop - LYRIC_LINE_HEIGHT * 3
-        )
-        this.$refs.lyrics.scrollTo(top, 'smooth')
+        );
+        this.$refs.lyrics.scrollTo(top, "smooth");
       }
     },
-    backward () {
-      this.delay += 500
-      this.lyric.resetTime && this.lyric.resetTime(500)
+    backward() {
+      this.delay += 500;
+      this.lyric.resetTime && this.lyric.resetTime(500);
 
-      const currentTime = document.getElementById(this.source).currentTime
-      this.lyric.seek(currentTime * 1000)
+      const currentTime = document.getElementById(this.source).currentTime;
+      this.lyric.seek(currentTime * 1000);
       if (!this.playing) {
-        this.lyric.stop()
+        this.lyric.stop();
       }
     },
-    forward () {
-      this.delay -= 500
-      this.lyric.resetTime && this.lyric.resetTime(-500)
+    forward() {
+      this.delay -= 500;
+      this.lyric.resetTime && this.lyric.resetTime(-500);
 
-      const currentTime = document.getElementById(this.source).currentTime
-      this.lyric.seek(currentTime * 1000)
+      const currentTime = document.getElementById(this.source).currentTime;
+      this.lyric.seek(currentTime * 1000);
       if (!this.playing) {
-        this.lyric.stop()
+        this.lyric.stop();
       }
     },
-    share () {
-      let url = `https://music.163.com/#/song?id=${this.current_song.id}`
+    share() {
+      let url = `https://music.163.com/#/song?id=${this.current_song.id}`;
       let _shareUrl =
-        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
-      _shareUrl += 'url=' + url
-      _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
-      _shareUrl += '&desc=' + '♪我发现一首不错的歌曲-' + this.current_song.name
-      _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一首不错的歌曲-' + this.current_song.name
-      _shareUrl += '&site=' + 'https://music.163.com/'
-      _shareUrl += '&pics=' + this.current_song.avatar
-      this.$electron.remote.shell.openExternal(_shareUrl)
+        "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+      _shareUrl += "url=" + url;
+      _shareUrl += "&showcount=" + 1; // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
+      _shareUrl += "&desc=" + "♪我发现一首不错的歌曲-" + this.current_song.name;
+      _shareUrl += "&summary=" + "分享摘要";
+      _shareUrl +=
+        "&title=" + "♪我发现一首不错的歌曲-" + this.current_song.name;
+      _shareUrl += "&site=" + "https://music.163.com/";
+      _shareUrl += "&pics=" + this.current_song.avatar;
+      this.$electron.remote.shell.openExternal(_shareUrl);
     },
-    shrinkScreen () {
-      this.$store.commit('play/SET_FULLSCREEN', false)
+    shrinkScreen() {
+      this.$store.commit("play/SET_FULLSCREEN", false);
     },
-    toggleFixLyric () {
-      this.fixLyric = !this.fixLyric
+    toggleFixLyric() {
+      this.fixLyric = !this.fixLyric;
     },
-    _getSimiSong (id) {
-      if (this.current_song.folder) return
+    _getSimiSong(id) {
+      if (this.current_song.folder) return;
       getSimiSong(id).then((res) => {
         this.simiSongs = res.songs.map((song) => {
-          return normalSong(song)
-        })
-      })
+          return normalSong(song);
+        });
+      });
     },
-    _getSimiPlaylist (id) {
-      if (this.current_song.folder) return
+    _getSimiPlaylist(id) {
+      if (this.current_song.folder) return;
       getSimiPlaylist(id).then((res) => {
-        this.simiPlaylists = res.playlists
-      })
+        this.simiPlaylists = res.playlists;
+      });
     },
-    _getSongUsers (id) {
+    _getSongUsers(id) {
       if (!!this.current_song.folder || !this.userId) {
-        return
+        return;
       }
       getSongUsers(id).then((res) => {
-        this.users = res.userprofiles
-      })
+        this.users = res.userprofiles;
+      });
     },
-    async loadmore ($state) {
-      if (this.current_song.folder) return
+    async loadmore($state) {
+      if (this.current_song.folder) return;
       let res = await getSongComment(
         this.current_song.id,
         this.limit,
         this.offset
-      )
+      );
       if (res.comments.length) {
         if (this.comment) {
-          this.comment.comments.push(...res.comments)
+          this.comment.comments.push(...res.comments);
         } else {
-          this.comment = res
+          this.comment = res;
         }
       }
       if (res.more) {
-        this.offset += this.limit
-        $state.loaded()
+        this.offset += this.limit;
+        $state.loaded();
       } else {
-        $state.complete()
+        $state.complete();
       }
     },
-    _handleLikeSong () {
-      this.$store.dispatch('User/handleLikeSong', {
+    _handleLikeSong() {
+      this.$store.dispatch("User/handleLikeSong", {
         songId: this.current_song.id,
-        isLike: !this.isLiked
-      })
+        isLike: !this.isLiked,
+      });
     },
-    download (song) {
+    download(song) {
       // if (this.downloaded.findIndex(item => item.id === this.current_song.id) >= 0) return
-      this.$store.dispatch('Download/adddownloadQueue', [song])
+      this.$store.dispatch("Download/adddownloadQueue", [song]);
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/appendPlay', tracks[index])
+    play(tracks, index) {
+      this.$store.dispatch("play/appendPlay", tracks[index]);
     },
-    goRoute (playlist) {
-      this.shrinkScreen()
-      this.$router.push({ path: `/playlist/${playlist.id}` })
+    goRoute(playlist) {
+      this.shrinkScreen();
+      this.$router.push({ path: `/playlist/${playlist.id}` });
     },
-    goUserRoute (userId) {
-      this.shrinkScreen()
-      this.$router.push({ path: `/user?id=${userId}` })
-    }
-  }
-}
+    goUserRoute(userId) {
+      this.shrinkScreen();
+      this.$router.push({ path: `/user?id=${userId}` });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

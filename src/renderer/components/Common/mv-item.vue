@@ -21,23 +21,23 @@
 </template>
 
 <script>
-import ZIcon from '@/components/ZIcon'
-import Artists from '@/components/Common/artists'
-import videoPlayer from '@/mixins/videoPlayer'
+import ZIcon from "@/components/ZIcon";
+import Artists from "@/components/Common/artists";
+import videoPlayer from "@/mixins/videoPlayer";
 
-const { BrowserWindow } = require('electron').remote
+const { BrowserWindow } = require("electron").remote;
 export default {
   mixins: [videoPlayer],
   props: {
     mv: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   components: {
     ZIcon,
-    Artists
-  }
-}
+    Artists,
+  },
+};
 </script>
 
 <style lang="less" scoped>

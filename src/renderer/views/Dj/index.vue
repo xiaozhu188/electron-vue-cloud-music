@@ -93,8 +93,8 @@
 </template>
 
 <script>
-import Slider from '@/components/Slider'
-import HomeLayout from '@/layouts/HomeLayout'
+import Slider from "@/components/Slider";
+import HomeLayout from "@/layouts/HomeLayout";
 import {
   getDjBanner,
   getDjCatelist,
@@ -102,11 +102,11 @@ import {
   getDjCatelistRecommend,
   getDjPerfered,
   getProgramRecommend,
-  getDjByCate
-} from '@/api/dj'
+  getDjByCate,
+} from "@/api/dj";
 
 export default {
-  data () {
+  data() {
     return {
       width: 1000,
       banners: [],
@@ -114,88 +114,88 @@ export default {
       recommends: [],
       djList: [],
       programs: [],
-      titles: []
-    }
+      titles: [],
+    };
   },
   components: {
     HomeLayout,
-    Slider
+    Slider,
   },
-  deactivated () {
-    this.$refs.slider.pause()
-    window.removeEventListener('resize', this.handleResize)
+  deactivated() {
+    this.$refs.slider.pause();
+    window.removeEventListener("resize", this.handleResize);
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      var dom = this.$refs.slider.$el.parentNode
-      this.width = dom.clientWidth || 1000
-    })
-    window.addEventListener('resize', this.handleResize)
+      var dom = this.$refs.slider.$el.parentNode;
+      this.width = dom.clientWidth || 1000;
+    });
+    window.addEventListener("resize", this.handleResize);
   },
-  created () {
-    this._getDjBanner()
-    this._getDjRecommend()
-    this._getDjCate()
+  created() {
+    this._getDjBanner();
+    this._getDjRecommend();
+    this._getDjCate();
   },
   methods: {
-    handleResize () {
+    handleResize() {
       this.$nextTick(() => {
-        var dom = this.$refs.slider.$el.parentNode
-        this.width = dom.clientWidth
-      })
+        var dom = this.$refs.slider.$el.parentNode;
+        this.width = dom.clientWidth;
+      });
     },
-    _getDjCate () {
-      let promises = []
+    _getDjCate() {
+      let promises = [];
       getDjCatelist().then((res) => {
-        this.categories = res.categories
-        let cates = this.categories.slice(0, 5)
+        this.categories = res.categories;
+        let cates = this.categories.slice(0, 5);
         for (let i = 0; i < cates.length; i++) {
           this.titles.push({
             id: cates[i].id,
-            name: cates[i].name
-          })
-          promises.push(getDjByCate({ type: cates[i].id }))
+            name: cates[i].name,
+          });
+          promises.push(getDjByCate({ type: cates[i].id }));
         }
         Promise.all(promises).then((res) => {
-          this.programs = Object.freeze(res)
-        })
-      })
+          this.programs = Object.freeze(res);
+        });
+      });
     },
-    _getDjByCate (type) {
+    _getDjByCate(type) {
       getDjByCate({ type }).then((res) => {
-        this.djList = res.djRadios
-        console.log(this.djList)
-      })
+        this.djList = res.djRadios;
+        console.log(this.djList);
+      });
     },
-    async _getDjBanner () {
-      let { data } = await getDjBanner()
+    async _getDjBanner() {
+      let { data } = await getDjBanner();
       this.banners = data.map((item) => {
         return {
           src: item.pic,
-          titleColor: '#c62f2f',
+          titleColor: "#c62f2f",
           typeTitle: item.typeTitle,
-          url: item.url
-        }
-      })
+          url: item.url,
+        };
+      });
     },
-    async _getDjCatelist () {
-      let { categories } = await getDjCatelist()
-      this.categories = categories
+    async _getDjCatelist() {
+      let { categories } = await getDjCatelist();
+      this.categories = categories;
     },
-    async _getDjRecommend () {
-      let { djRadios } = await getDjRecommend()
+    async _getDjRecommend() {
+      let { djRadios } = await getDjRecommend();
       // let { data } = await getDjCatelistRecommend()
       // await getDjPerfered()
       // await getProgramRecommend()
-      this.djList = djRadios.slice(0, 5)
+      this.djList = djRadios.slice(0, 5);
     },
-    onSliderClick (i, item) {
+    onSliderClick(i, item) {
       if (item.url) {
-        this.$electron.remote.shell.openExternal(item.url)
+        this.$electron.remote.shell.openExternal(item.url);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

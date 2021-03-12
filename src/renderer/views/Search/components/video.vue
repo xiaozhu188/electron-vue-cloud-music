@@ -10,30 +10,30 @@
 </template>
 
 <script>
-import searchMixin from '@/mixins/Search'
-import VideoItem from '@/components/Common/video-item'
-import { getMv } from '@/api/sublist'
-import { normalVideo } from '@/utils/video.js'
+import searchMixin from "@/mixins/Search";
+import VideoItem from "@/components/Common/video-item";
+import { getMv } from "@/api/sublist";
+import { normalVideo } from "@/utils/video.js";
 
 export default {
   mixins: [searchMixin],
-  data () {
+  data() {
     return {
-      videos: []
-    }
+      videos: [],
+    };
   },
   methods: {
-    normalData () {
+    normalData() {
       if (this.result.videos && this.result.videos.length) {
         this.videos = this.result.videos.map((video) => {
-          return normalVideo(video)
-        })
+          return normalVideo(video);
+        });
       }
-      this.spinning = false
-    }
+      this.spinning = false;
+    },
   },
-  components: { VideoItem }
-}
+  components: { VideoItem },
+};
 </script>
 
 <style lang="less" scoped>

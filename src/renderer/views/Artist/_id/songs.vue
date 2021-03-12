@@ -6,37 +6,37 @@
 </template>
 
 <script>
-import { getSongUrl, getLyric } from '@/api/song'
-import { normalSong } from '@/utils/song'
-import { getArtistSongs } from '@/api/artist'
-import TrackList from '@/components/Common/track-list/index.js'
-import Artists from '@/components/Common/artists'
-import { setTimeout } from 'timers'
+import { getSongUrl, getLyric } from "@/api/song";
+import { normalSong } from "@/utils/song";
+import { getArtistSongs } from "@/api/artist";
+import TrackList from "@/components/Common/track-list/index.js";
+import Artists from "@/components/Common/artists";
+import { setTimeout } from "timers";
 export default {
-  name: 'artist_id_comment',
-  data () {
+  name: "artist_id_comment",
+  data() {
     return {
-      songUrl: '',
+      songUrl: "",
       currentTime: 0,
       buffered: 0,
 
       songs: [],
       limit: 10,
       offset: 10,
-      infiniteId: +new Date()
-    }
+      infiniteId: +new Date(),
+    };
   },
   components: {
     TrackList,
-    Artists
+    Artists,
   },
   props: {
     tracks: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
   // activated () {
   //   let { id } = this.$route.params
@@ -47,38 +47,38 @@ export default {
   //   })
   // },
   methods: {
-    async loadmore ($state) {
+    async loadmore($state) {
       let params = {
         id: this.$route.params.id,
         limit: this.limit,
-        offset: this.offset
-      }
+        offset: this.offset,
+      };
       try {
-        let { hotSongs, more } = await getArtistSongs(params)
-        let tracks = []
+        let { hotSongs, more } = await getArtistSongs(params);
+        let tracks = [];
         hotSongs.forEach((song) => {
-          tracks.push(normalSong(song))
-        })
-        this.songs.push(...tracks)
-        this.$emit('loadmore', this.songs)
-        $state.loaded()
+          tracks.push(normalSong(song));
+        });
+        this.songs.push(...tracks);
+        this.$emit("loadmore", this.songs);
+        $state.loaded();
         if (more) {
-          this.offset += this.limit
+          this.offset += this.limit;
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        $state.error()
+        $state.error();
       }
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
+    play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
     },
-    download (song) {
-      this.$store.dispatch('Download/download', song)
-    }
-  }
-}
+    download(song) {
+      this.$store.dispatch("Download/download", song);
+    },
+  },
+};
 </script>
 
 <style scoped>

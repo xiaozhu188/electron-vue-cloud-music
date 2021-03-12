@@ -85,104 +85,104 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import ZIcon from '@/components/ZIcon'
-import ProgressBar from '@/components/Common/progressBar'
-import ls from 'store'
-import { playMode } from '@/config/config'
+import { mapGetters, mapState } from "vuex";
+import ZIcon from "@/components/ZIcon";
+import ProgressBar from "@/components/Common/progressBar";
+import ls from "store";
+import { playMode } from "@/config/config";
 export default {
-  name: 'tray',
-  data () {
+  name: "tray",
+  data() {
     return {
-      isFixed: false
-    }
+      isFixed: false,
+    };
   },
   components: { ZIcon, ProgressBar },
   computed: {
-    ...mapGetters('play', [
-      'current_play_list',
-      'current_song_index',
-      'current_song',
-      'playing',
-      'mode',
-      'volume',
-      'isMuted',
-      'showDesktoplyric'
+    ...mapGetters("play", [
+      "current_play_list",
+      "current_song_index",
+      "current_song",
+      "playing",
+      "mode",
+      "volume",
+      "isMuted",
+      "showDesktoplyric",
     ]),
-    ...mapState('play', ['lyric']),
-    playIcon () {
-      return this.playing ? 'pause-circle' : 'play-circle'
+    ...mapState("play", ["lyric"]),
+    playIcon() {
+      return this.playing ? "pause-circle" : "play-circle";
     },
-    mutedIcon () {
-      return this.isMuted ? 'muted' : 'no-muted'
+    mutedIcon() {
+      return this.isMuted ? "muted" : "no-muted";
     },
-    modeIcon () {
+    modeIcon() {
       return this.mode === playMode.sequence
-        ? 'liebiaoxunhuan'
+        ? "liebiaoxunhuan"
         : this.mode === playMode.loop
-        ? 'danquxunhuan1'
+        ? "danquxunhuan1"
         : this.mode === playMode.random
-        ? 'suijibofang'
-        : 'FMcollect'
+        ? "suijibofang"
+        : "FMcollect";
     },
-    modeTitle () {
+    modeTitle() {
       return this.mode === playMode.sequence
-        ? '顺序播放'
+        ? "顺序播放"
         : this.mode === playMode.loop
-        ? '循环播放'
+        ? "循环播放"
         : this.mode === playMode.random
-        ? '随机播放'
-        : '心动模式'
+        ? "随机播放"
+        : "心动模式";
     },
-    playTitle () {
-      return this.playing ? '暂停' : '播放'
-    }
+    playTitle() {
+      return this.playing ? "暂停" : "播放";
+    },
   },
   methods: {
-    onMuted () {
-      this.$store.commit('play/SET_MUTED', !this.isMuted)
+    onMuted() {
+      this.$store.commit("play/SET_MUTED", !this.isMuted);
     },
-    onvolumeChanged (persent) {
-      if (persent < 0) persent = 0
-      if (persent > 1) persent = 1
-      this.$store.commit('play/SET_VOLUME', Number(persent))
+    onvolumeChanged(persent) {
+      if (persent < 0) persent = 0;
+      if (persent > 1) persent = 1;
+      this.$store.commit("play/SET_VOLUME", Number(persent));
     },
-    backward () {
-      this.$electron.ipcRenderer.send('prev-play', {
-        value: this.current_song_index
-      })
+    backward() {
+      this.$electron.ipcRenderer.send("prev-play", {
+        value: this.current_song_index,
+      });
     },
-    forward () {
-      this.$electron.ipcRenderer.send('next-play', {
-        value: this.current_song_index
-      })
+    forward() {
+      this.$electron.ipcRenderer.send("next-play", {
+        value: this.current_song_index,
+      });
     },
-    togglePlay () {
-      this.$electron.ipcRenderer.send('toggle-play', {
-        value: !this.playing
-      })
+    togglePlay() {
+      this.$electron.ipcRenderer.send("toggle-play", {
+        value: !this.playing,
+      });
     },
-    restart () {
-      this.$electron.ipcRenderer.send('restart')
+    restart() {
+      this.$electron.ipcRenderer.send("restart");
     },
-    quit () {
-      this.$electron.ipcRenderer.send('window-close')
+    quit() {
+      this.$electron.ipcRenderer.send("window-close");
     },
-    showMain () {
-      this.$electron.ipcRenderer.send('show-window')
+    showMain() {
+      this.$electron.ipcRenderer.send("show-window");
     },
-    changeMode () {
-      let mode = this.mode
-      mode = ++mode % (Object.keys(playMode).length - 1)
-      this.$store.commit('play/SET_MODE', mode)
+    changeMode() {
+      let mode = this.mode;
+      mode = ++mode % (Object.keys(playMode).length - 1);
+      this.$store.commit("play/SET_MODE", mode);
     },
-    doLyric (flag) {
-      if (!this.showDesktoplyric) return
-      this.isFixed = flag
-      this.$electron.ipcRenderer.send('fix-desktop-lyric', this.isFixed)
-    }
-  }
-}
+    doLyric(flag) {
+      if (!this.showDesktoplyric) return;
+      this.isFixed = flag;
+      this.$electron.ipcRenderer.send("fix-desktop-lyric", this.isFixed);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

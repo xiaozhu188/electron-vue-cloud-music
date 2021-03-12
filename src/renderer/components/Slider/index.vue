@@ -46,146 +46,146 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       currentIndex: 0,
       sliderDomList: [],
-      timer: null
-    }
+      timer: null,
+    };
   },
   props: {
     list: {
       type: Array,
-      default () {
-        return []
-      }
+      default() {
+        return [];
+      },
     },
     width: {
-      type: Number
+      type: Number,
     },
     height: {
       type: Number,
-      default: 200
+      default: 200,
     },
     imgType: {
       type: String,
-      default: 'percentage'
+      default: "percentage",
     },
     autoPlay: {
       type: Boolean,
-      default: true
+      default: true,
     },
     mask: {
       type: Boolean,
-      default: true
+      default: true,
     },
     interval: {
       type: Number,
-      default: 6000
+      default: 6000,
     },
     dots: {
       type: Boolean,
-      default: true
+      default: true,
     },
     arrow: {
       type: Boolean,
-      default: true
+      default: true,
     },
     color: {
       type: String,
-      default: 'rgb(248, 85, 85)'
-    }
+      default: "rgb(248, 85, 85)",
+    },
   },
   computed: {
-    sliderStyle () {
+    sliderStyle() {
       return {
-        width: this.width ? this.width + 'px' : '100%',
-        height: this.height === 0 ? '240px' : this.height + 'px',
-        perspective: this.width + 'px',
+        width: this.width ? this.width + "px" : "100%",
+        height: this.height === 0 ? "240px" : this.height + "px",
+        perspective: this.width + "px",
         backgroundSize:
-          this.imgType == 'percentage' ? '100% 100%' : this.imgType
-      }
+          this.imgType == "percentage" ? "100% 100%" : this.imgType,
+      };
     },
-    sliderHeight () {
+    sliderHeight() {
       let h =
-        document.querySelector('.slider-container') &&
-        document.querySelector('.slider-container').getBoundingClientRect()
-          .height
-      return `${h * 0.37}px`
-    }
+        document.querySelector(".slider-container") &&
+        document.querySelector(".slider-container").getBoundingClientRect()
+          .height;
+      return `${h * 0.37}px`;
+    },
   },
-  mounted () {
-    this.play()
+  mounted() {
+    this.play();
     this.$nextTick(() => {
-      this.sliderDomList = this.$refs.slider
-    })
+      this.sliderDomList = this.$refs.slider;
+    });
   },
   methods: {
-    setClass (i) {
+    setClass(i) {
       let next =
-        this.currentIndex === this.list.length - 1 ? 0 : this.currentIndex + 1
+        this.currentIndex === this.list.length - 1 ? 0 : this.currentIndex + 1;
       let prev =
-        this.currentIndex === 0 ? this.list.length - 1 : this.currentIndex - 1
+        this.currentIndex === 0 ? this.list.length - 1 : this.currentIndex - 1;
       switch (i) {
         case this.currentIndex:
-          return 'active'
+          return "active";
         case next:
-          return 'next'
+          return "next";
         case prev:
-          return 'prev'
+          return "prev";
         default:
-          return ''
+          return "";
       }
     },
-    setBGImg (src) {
+    setBGImg(src) {
       return {
-        backgroundImage: `url(${src})`
-      }
+        backgroundImage: `url(${src})`,
+      };
     },
-    setActiveDot (index) {
+    setActiveDot(index) {
       return index === this.currentIndex
         ? {
-            backgroundColor: this.color
+            backgroundColor: this.color,
           }
         : {
-            backgroundColor: '#ccc'
-          }
+            backgroundColor: "#ccc",
+          };
     },
-    play () {
-      this.pause()
+    play() {
+      this.pause();
       if (this.autoPlay) {
         this.timer = setInterval(() => {
-          this.next()
-        }, this.interval)
+          this.next();
+        }, this.interval);
       }
     },
-    pause () {
-      clearInterval(this.timer)
+    pause() {
+      clearInterval(this.timer);
     },
-    next () {
-      this.currentIndex = ++this.currentIndex % this.list.length
+    next() {
+      this.currentIndex = ++this.currentIndex % this.list.length;
     },
-    prev () {
+    prev() {
       this.currentIndex =
-        this.currentIndex === 0 ? this.list.length - 1 : this.currentIndex - 1
+        this.currentIndex === 0 ? this.list.length - 1 : this.currentIndex - 1;
     },
-    onClick (i, item) {
+    onClick(i, item) {
       if (i === this.currentIndex) {
-        this.$emit('sliderClick', i, item)
+        this.$emit("sliderClick", i, item);
       } else {
         if (!this.sliderDomList) {
-          this.sliderDomList = this.$refs.slider
+          this.sliderDomList = this.$refs.slider;
         }
-        let currentClickClassName = this.sliderDomList[i].classList[1]
-        if (currentClickClassName === 'next') {
-          this.next()
+        let currentClickClassName = this.sliderDomList[i].classList[1];
+        if (currentClickClassName === "next") {
+          this.next();
         } else {
-          this.prev()
+          this.prev();
         }
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

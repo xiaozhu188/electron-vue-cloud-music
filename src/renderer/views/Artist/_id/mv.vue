@@ -12,56 +12,56 @@
 </template>
 
 <script>
-import mvItem from '@/components/Common/mv-item'
-import { getArtistMV } from '@/api/artist'
-import { normalMV } from '@/utils/video'
+import mvItem from "@/components/Common/mv-item";
+import { getArtistMV } from "@/api/artist";
+import { normalMV } from "@/utils/video";
 
 export default {
-  name: 'artist_id_mv',
-  data () {
+  name: "artist_id_mv",
+  data() {
     return {
       mvs: [],
       limit: 20,
       offset: 0,
-      infiniteId: +new Date()
-    }
+      infiniteId: +new Date(),
+    };
   },
   components: {
-    mvItem
+    mvItem,
   },
-  activated () {
-    let { id } = this.$route.params
-    console.log(this.infiniteId)
-    this.offset = 0
-    this.mvs = []
-    this.infiniteId = id
+  activated() {
+    let { id } = this.$route.params;
+    console.log(this.infiniteId);
+    this.offset = 0;
+    this.mvs = [];
+    this.infiniteId = id;
   },
   methods: {
-    async loadmore ($state) {
-      let { id } = this.$route.params
+    async loadmore($state) {
+      let { id } = this.$route.params;
       let params = {
         id,
         limit: this.limit,
-        offset: this.offset
-      }
+        offset: this.offset,
+      };
       try {
-        let { mvs, hasMore } = await getArtistMV(params)
+        let { mvs, hasMore } = await getArtistMV(params);
         let arr = mvs.map((mv) => {
-          return normalMV(mv, '400y224')
-        })
-        this.mvs = this.mvs.concat(arr)
-        $state.loaded()
+          return normalMV(mv, "400y224");
+        });
+        this.mvs = this.mvs.concat(arr);
+        $state.loaded();
         if (hasMore) {
-          this.offset += this.limit
+          this.offset += this.limit;
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        $state.error()
+        $state.error();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

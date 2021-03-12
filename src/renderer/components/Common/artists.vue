@@ -11,24 +11,24 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  name: 'artists',
+  name: "artists",
   props: {
     artists: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
   computed: {
-    ...mapGetters('play', ['current_song']),
-    artistTitle () {
-      return this.artists.map((item) => item.name).join('/')
-    }
-  }
-}
+    ...mapGetters("play", ["current_song"]),
+    artistTitle() {
+      return this.artists.map((item) => item.name).join("/");
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

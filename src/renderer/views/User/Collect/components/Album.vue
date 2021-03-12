@@ -10,40 +10,40 @@
 </template>
 
 <script>
-import AlbumItem from '@/components/Common/album-item'
-import { getSubAlbum } from '@/api/sublist'
+import AlbumItem from "@/components/Common/album-item";
+import { getSubAlbum } from "@/api/sublist";
 export default {
-  data () {
+  data() {
     return {
       data: [],
       params: {
         limit: 20,
-        offset: 0
-      }
-    }
+        offset: 0,
+      },
+    };
   },
   components: {
-    AlbumItem
+    AlbumItem,
   },
   methods: {
-    async loadmore ($state) {
+    async loadmore($state) {
       try {
-        let res = await getSubAlbum(this.params)
+        let res = await getSubAlbum(this.params);
         if (res.data.length) {
-          this.data.push(...res.data)
-          $state.loaded()
+          this.data.push(...res.data);
+          $state.loaded();
         }
         if (res.hasMore) {
-          this.params.offset += this.params.limit
+          this.params.offset += this.params.limit;
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        $state.error()
+        $state.error();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -19,17 +19,17 @@
 
 <script>
 export default {
-  name: 'dj-list',
+  name: "dj-list",
   props: {
-    layout: { type: String, default: '' },
-    dj: { type: Object, default: null }
+    layout: { type: String, default: "" },
+    dj: { type: Object, default: null },
   },
   computed: {
-    itemCls () {
-      return this.layout == 'horizon' ? 'item horizon' : 'item'
-    }
-  }
-}
+    itemCls() {
+      return this.layout == "horizon" ? "item horizon" : "item";
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

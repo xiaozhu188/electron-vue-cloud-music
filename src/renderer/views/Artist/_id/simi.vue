@@ -10,30 +10,30 @@
 </template>
 
 <script>
-import artistItem from '@/components/Common/artist-item'
-import { getArtistSimi } from '@/api/artist'
+import artistItem from "@/components/Common/artist-item";
+import { getArtistSimi } from "@/api/artist";
 
 export default {
-  name: 'artist_id_simi',
-  data () {
+  name: "artist_id_simi",
+  data() {
     return {
-      artists: []
-    }
+      artists: [],
+    };
   },
   components: {
-    artistItem
+    artistItem,
   },
-  activated () {
-    this._getArtistSimi()
+  activated() {
+    this._getArtistSimi();
   },
   methods: {
-    async _getArtistSimi () {
-      let { id } = this.$route.params
-      let { artists } = await getArtistSimi({ id })
-      this.artists = artists
-    }
-  }
-}
+    async _getArtistSimi() {
+      let { id } = this.$route.params;
+      let { artists } = await getArtistSimi({ id });
+      this.artists = artists;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

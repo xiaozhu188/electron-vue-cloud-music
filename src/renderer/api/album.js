@@ -1,27 +1,27 @@
-import request from '@/utils/request.js'
+import request from "@/utils/request.js";
 
-export function getTopAlbum ({ limit, offset }) {
-  return request.get('/top/album', {
+export function getTopAlbum({ limit, offset }) {
+  return request.get("/top/album", {
     params: {
       limit,
-      offset
-    }
-  })
+      offset,
+    },
+  });
 }
 
-export function getNewestAlbum ({ limit, offset }) {
-  return request.get('/album/newest', {
+export function getNewestAlbum({ limit, offset }) {
+  return request.get("/album/newest", {
     params: {
       limit,
-      offset
-    }
-  })
+      offset,
+    },
+  });
 }
 
-export function getAlbum (id) {
-  return request.get('/album', {
+export function getAlbum(id) {
+  return request.get("/album", {
     params: {
-      id
-    }
-  })
+      id,
+    },
+  });
 }

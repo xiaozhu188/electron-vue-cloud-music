@@ -16,41 +16,41 @@
 </template>
 
 <script>
-import albumItem from '@/components/Common/album-item'
-import { getTopAlbum } from '@/api/album'
+import albumItem from "@/components/Common/album-item";
+import { getTopAlbum } from "@/api/album";
 
 export default {
-  data () {
+  data() {
     return {
       albums: [],
       limit: 18,
-      offset: 0
-    }
+      offset: 0,
+    };
   },
   components: {
-    albumItem
+    albumItem,
   },
   methods: {
-    async loadmore ($state) {
+    async loadmore($state) {
       let params = {
         limit: this.limit,
-        offset: this.offset
-      }
+        offset: this.offset,
+      };
       try {
-        let { albums, total } = await getTopAlbum(params)
-        this.albums = this.albums.concat(albums)
+        let { albums, total } = await getTopAlbum(params);
+        this.albums = this.albums.concat(albums);
         if (this.albums.length < total) {
-          this.offset += this.limit
-          $state.loaded()
+          this.offset += this.limit;
+          $state.loaded();
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        $state.error()
+        $state.error();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

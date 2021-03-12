@@ -14,23 +14,23 @@
 
 <script>
 const Downloaded = (resolve) => {
-  require(['./components/downloaded.vue'], resolve)
-}
+  require(["./components/downloaded.vue"], resolve);
+};
 const Downloading = (resolve) => {
-  require(['./components/downloading.vue'], resolve)
-}
+  require(["./components/downloading.vue"], resolve);
+};
 export default {
-  name: 'download',
-  data () {
+  name: "download",
+  data() {
     return {
-      value: 'downloading'
-    }
+      value: "downloading",
+    };
   },
   components: {
     Downloaded,
-    Downloading
-  }
-}
+    Downloading,
+  },
+};
 </script>
 
 <style lang="less" scoped>

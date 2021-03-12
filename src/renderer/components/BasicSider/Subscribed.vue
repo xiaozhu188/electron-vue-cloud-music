@@ -41,32 +41,32 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ZIcon from '@/components/ZIcon'
-import { getPlaylistDetail } from '@/api/playlist'
-import { normalSong } from '@/utils/song'
+import { mapGetters } from "vuex";
+import ZIcon from "@/components/ZIcon";
+import { getPlaylistDetail } from "@/api/playlist";
+import { normalSong } from "@/utils/song";
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   components: {
-    ZIcon
+    ZIcon,
   },
   computed: {
-    ...mapGetters('User', ['userId', 'subscribedList', 'likedsongIds'])
+    ...mapGetters("User", ["userId", "subscribedList", "likedsongIds"]),
   },
   methods: {
-    removePlaylist (action, pid) {
-      this.$store.dispatch('User/removePlaylist', { action, pid })
+    removePlaylist(action, pid) {
+      this.$store.dispatch("User/removePlaylist", { action, pid });
     },
-    playAll (pid) {
+    playAll(pid) {
       getPlaylistDetail(pid).then((res) => {
         let tracks = res.playlist.tracks.map((track) => {
-          return normalSong(track)
-        })
-        this.$store.dispatch('play/selectPlay', { tracks, index: 0 })
-      })
-    }
-  }
-}
+          return normalSong(track);
+        });
+        this.$store.dispatch("play/selectPlay", { tracks, index: 0 });
+      });
+    },
+  },
+};
 </script>

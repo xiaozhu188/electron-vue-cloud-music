@@ -107,16 +107,16 @@
 </template>
 
 <script>
-import moment from 'moment'
-import { getEvent, getHotTopic } from '@/api/user'
-import EventSong from './components/Song'
-import EventVideo from './components/Video'
-import Comment from '@/components/Comment/index.vue'
-import { getSongComment, getVideoComment } from '@/api/comment'
+import moment from "moment";
+import { getEvent, getHotTopic } from "@/api/user";
+import EventSong from "./components/Song";
+import EventVideo from "./components/Video";
+import Comment from "@/components/Comment/index.vue";
+import { getSongComment, getVideoComment } from "@/api/comment";
 
 export default {
-  name: 'events',
-  data () {
+  name: "events",
+  data() {
     return {
       moment,
       commentData: null,
@@ -124,104 +124,104 @@ export default {
       currentIndex: -1,
       options: {
         pagesize: 20,
-        lasttime: -1
+        lasttime: -1,
       },
       commentOptions: {
         limit: 30,
-        offset: 0
+        offset: 0,
       },
       showComment: false,
-      infiniteId: +new Date()
-    }
+      infiniteId: +new Date(),
+    };
   },
   components: {
     EventSong,
     EventVideo,
-    Comment
+    Comment,
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.events = []
-      vm.infiniteId += 1
-      vm._getHotTopic()
-    })
+      vm.events = [];
+      vm.infiniteId += 1;
+      vm._getHotTopic();
+    });
   },
   methods: {
-    _getHotTopic () {
+    _getHotTopic() {
       getHotTopic({}).then((res) => {
-        console.log(res)
-      })
+        console.log(res);
+      });
     },
-    subscribe (t, user) {
+    subscribe(t, user) {
       this.$store
-        .dispatch('User/subscribeUser', {
+        .dispatch("User/subscribeUser", {
           t,
           userId: user.userId,
-          nickname: user.nickname
+          nickname: user.nickname,
         })
         .then((res) => {
           if (res.code === 200) {
-            this.$set(user, 'followed', !user.followed)
+            this.$set(user, "followed", !user.followed);
           }
-        })
+        });
     },
-    onEventClick (event, index) {
-      console.log(Object.keys(event.json)[1])
-      if (this.currentIndex === index) return
+    onEventClick(event, index) {
+      console.log(Object.keys(event.json)[1]);
+      if (this.currentIndex === index) return;
       if (
         this.currentIndex >= 0 &&
-        Object.keys(this.events[this.currentIndex].json)[1] === 'video'
+        Object.keys(this.events[this.currentIndex].json)[1] === "video"
       ) {
         this.$refs.component[this.currentIndex].pause &&
-          this.$refs.component[this.currentIndex].pause()
+          this.$refs.component[this.currentIndex].pause();
       }
-      this.currentIndex = index
-      this.$set(event, 'currentIndex', index)
+      this.currentIndex = index;
+      this.$set(event, "currentIndex", index);
     },
-    async getComment (event) {
-      let type = Object.keys(event.json)[1]
-      let id = type === 'video' ? event.json.video.videoId : event.json.song.id
-      let res = ''
-      if (type === 'video') {
+    async getComment(event) {
+      let type = Object.keys(event.json)[1];
+      let id = type === "video" ? event.json.video.videoId : event.json.song.id;
+      let res = "";
+      if (type === "video") {
         res = await getVideoComment(
           id,
           this.commentOptions.limit,
           this.commentOptions.offset
-        )
+        );
       } else {
         res = await getSongComment(
           id,
           this.commentOptions.limit,
           this.commentOptions.offset
-        )
+        );
       }
-      res.comments = res.comments.slice(0, 5)
-      this.$set(event, 'showComment', !event.showComment)
-      this.$set(event, 'commentData', res)
+      res.comments = res.comments.slice(0, 5);
+      this.$set(event, "showComment", !event.showComment);
+      this.$set(event, "commentData", res);
     },
-    async loadmore ($state) {
+    async loadmore($state) {
       try {
-        let res = await getEvent(this.options)
+        let res = await getEvent(this.options);
         if (res.event.length) {
           res.event.forEach((item) => {
-            item.json = JSON.parse(item.json)
-            console.log(Object.keys(item.json))
-          })
-          this.events.push(...res.event)
+            item.json = JSON.parse(item.json);
+            console.log(Object.keys(item.json));
+          });
+          this.events.push(...res.event);
         }
         // console.log(this.events)
         if (res.more) {
-          this.options.lasttime = res.lasttime
-          $state.loaded()
+          this.options.lasttime = res.lasttime;
+          $state.loaded();
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

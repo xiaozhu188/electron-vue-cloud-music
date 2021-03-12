@@ -1,5 +1,5 @@
-import request from '@/utils/request.js'
+import request from "@/utils/request.js";
 
-export function getBanner () {
-  return request.get('/banner')
+export function getBanner() {
+  return request.get("/banner");
 }

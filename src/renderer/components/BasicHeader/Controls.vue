@@ -13,20 +13,20 @@
 </template>
 
 <script>
-import eventBus from '@/utils/eventBus'
+import eventBus from "@/utils/eventBus";
 export default {
   methods: {
-    back () {
-      this.$router.go(-1)
+    back() {
+      this.$router.go(-1);
     },
-    forward () {
-      this.$router.go(1)
+    forward() {
+      this.$router.go(1);
     },
-    refresh () {
-      eventBus.$emit('refresh')
-    }
-  }
-}
+    refresh() {
+      eventBus.$emit("refresh");
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

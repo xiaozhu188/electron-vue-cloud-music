@@ -72,58 +72,58 @@
 </template>
 
 <script>
-import { getHighPlaylist, getPlaylistCatlist } from '@/api/playlist'
+import { getHighPlaylist, getPlaylistCatlist } from "@/api/playlist";
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       categories: [],
       playlists: [],
-      options: { cat: '全部', limit: 30, before: '' },
-      currentCate: '全部',
-      infiniteId: +new Date()
-    }
+      options: { cat: "全部", limit: 30, before: "" },
+      currentCate: "全部",
+      infiniteId: +new Date(),
+    };
   },
-  activated () {
+  activated() {
     // this._getHighPlaylist()
-    this._getCatelist()
+    this._getCatelist();
   },
   methods: {
-    async _getCatelist () {
-      let { sub } = await getPlaylistCatlist()
-      this.categories = sub
+    async _getCatelist() {
+      let { sub } = await getPlaylistCatlist();
+      this.categories = sub;
     },
-    async _getHighPlaylist () {
+    async _getHighPlaylist() {
       let { playlists, lasttime, more, total } = await getHighPlaylist(
         this.options
-      )
-      this.playlists = playlists
+      );
+      this.playlists = playlists;
     },
-    infiniteHandler ($state) {
+    infiniteHandler($state) {
       getHighPlaylist(this.options).then(({ playlists, lasttime }) => {
         if (playlists.length) {
-          this.options.before = lasttime
-          this.playlists.push(...playlists)
-          $state.loaded()
+          this.options.before = lasttime;
+          this.playlists.push(...playlists);
+          $state.loaded();
         } else {
-          $state.complete()
+          $state.complete();
         }
-      })
+      });
     },
-    onCateClick (cate) {
-      this.options.cat = cate.name
-      this.options.before = ''
-      this.currentCate = cate.name
-      this.playlists = []
-      this.infiniteId += 1
+    onCateClick(cate) {
+      this.options.cat = cate.name;
+      this.options.before = "";
+      this.currentCate = cate.name;
+      this.playlists = [];
+      this.infiniteId += 1;
     },
-    goRoute () {
+    goRoute() {
       this.$electron.remote.shell.openExternal(
-        'https://music.163.com/#/topic?id=202001'
-      )
-    }
-  }
-}
+        "https://music.163.com/#/topic?id=202001"
+      );
+    },
+  },
+};
 </script>
 
 <style>

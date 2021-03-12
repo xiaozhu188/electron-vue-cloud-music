@@ -3,40 +3,40 @@
 </template>
 
 <script>
-import TrackList from '@/components/Common/track-list'
-import DebounceBtn from '@/components/Common/debounce-btn'
-import { getUserCloud } from '@/api/user'
-import { normalSong } from '@/utils/song'
-import { mapGetters } from 'vuex'
-import playMixin from '@/mixins/Play'
+import TrackList from "@/components/Common/track-list";
+import DebounceBtn from "@/components/Common/debounce-btn";
+import { getUserCloud } from "@/api/user";
+import { normalSong } from "@/utils/song";
+import { mapGetters } from "vuex";
+import playMixin from "@/mixins/Play";
 export default {
-  name: 'cloud',
+  name: "cloud",
   mixins: [playMixin],
-  data () {
+  data() {
     return {
-      tracks: []
-    }
+      tracks: [],
+    };
   },
   components: {
     TrackList,
-    DebounceBtn
+    DebounceBtn,
   },
   computed: {
-    ...mapGetters('User', ['userId'])
+    ...mapGetters("User", ["userId"]),
   },
-  activated () {
-    this._getUserCloud()
+  activated() {
+    this._getUserCloud();
   },
   methods: {
-    _getUserCloud () {
+    _getUserCloud() {
       getUserCloud(this.userId).then((res) => {
         this.tracks = res.data.map((song) => {
-          return normalSong(song.simpleSong)
-        })
-      })
-    }
-  }
-}
+          return normalSong(song.simpleSong);
+        });
+      });
+    },
+  },
+};
 </script>
 
 <style scoped></style>

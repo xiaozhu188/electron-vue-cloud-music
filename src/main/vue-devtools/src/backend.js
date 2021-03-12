@@ -1,43 +1,43 @@
 // this is injected to the app page when the panel is activated.
 
-import { initBackend } from 'src/backend'
-import Bridge from 'src/bridge'
+import { initBackend } from "src/backend";
+import Bridge from "src/bridge";
 
-window.addEventListener('message', handshake)
+window.addEventListener("message", handshake);
 
-function handshake (e) {
-  if (e.data.source === 'vue-devtools-proxy' && e.data.payload === 'init') {
-    window.removeEventListener('message', handshake)
+function handshake(e) {
+  if (e.data.source === "vue-devtools-proxy" && e.data.payload === "init") {
+    window.removeEventListener("message", handshake);
 
-    let listeners = []
+    let listeners = [];
     const bridge = new Bridge({
-      listen (fn) {
+      listen(fn) {
         var listener = (evt) => {
-          if (evt.data.source === 'vue-devtools-proxy' && evt.data.payload) {
-            fn(evt.data.payload)
+          if (evt.data.source === "vue-devtools-proxy" && evt.data.payload) {
+            fn(evt.data.payload);
           }
-        }
-        window.addEventListener('message', listener)
-        listeners.push(listener)
+        };
+        window.addEventListener("message", listener);
+        listeners.push(listener);
       },
-      send (data) {
+      send(data) {
         window.postMessage(
           {
-            source: 'vue-devtools-backend',
-            payload: data
+            source: "vue-devtools-backend",
+            payload: data,
           },
-          '*'
-        )
-      }
-    })
+          "*"
+        );
+      },
+    });
 
-    bridge.on('shutdown', () => {
+    bridge.on("shutdown", () => {
       listeners.forEach((l) => {
-        window.removeEventListener('message', l)
-      })
-      listeners = []
-    })
+        window.removeEventListener("message", l);
+      });
+      listeners = [];
+    });
 
-    initBackend(bridge)
+    initBackend(bridge);
   }
 }

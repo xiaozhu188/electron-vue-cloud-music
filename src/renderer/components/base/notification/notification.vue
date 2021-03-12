@@ -20,56 +20,56 @@
 </template>
 
 <script>
-import { duration } from 'moment'
-let seed = 0
-const now = Date.now()
-function getUuid () {
-  return 'ZNotification_' + now + '_' + seed++
+import { duration } from "moment";
+let seed = 0;
+const now = Date.now();
+function getUuid() {
+  return "ZNotification_" + now + "_" + seed++;
 }
 export default {
-  data () {
+  data() {
     return {
       notices: [],
-      duration: 3
-    }
+      duration: 3,
+    };
   },
   methods: {
-    create (notice) {
+    create(notice) {
       // console.log(notice)
-      const name = notice.name || getUuid()
-      let _notice
-      if (typeof notice === 'string') {
+      const name = notice.name || getUuid();
+      let _notice;
+      if (typeof notice === "string") {
         _notice = {
           content: notice,
-          name
-        }
+          name,
+        };
       } else {
         _notice = Object.assign(
           {
-            content: '',
-            name
+            content: "",
+            name,
           },
           notice
-        )
+        );
       }
 
-      this.notices.push(_notice)
-      let duration = notice.duration ? notice.duration : this.duration
+      this.notices.push(_notice);
+      let duration = notice.duration ? notice.duration : this.duration;
       setTimeout(() => {
-        this.remove(name)
-      }, duration * 1000)
+        this.remove(name);
+      }, duration * 1000);
     },
-    remove (name) {
-      const notices = this.notices
+    remove(name) {
+      const notices = this.notices;
       for (let i = 0; i < notices.length; i++) {
         if (notices[i].name === name) {
-          this.notices.splice(i, 1)
-          break
+          this.notices.splice(i, 1);
+          break;
         }
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

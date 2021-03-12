@@ -113,55 +113,55 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import { user_detail, daily_signin } from '@/api/user'
+import { mapState, mapGetters } from "vuex";
+import { user_detail, daily_signin } from "@/api/user";
 
 export default {
-  data () {
+  data() {
     return {
       loadding: false,
       visible: false,
       showPoint: false,
-      signPoint: ''
-    }
+      signPoint: "",
+    };
   },
   computed: {
-    ...mapState('User', ['userInfo']),
-    ...mapGetters('User', ['hasUserInfo']),
-    userId () {
-      return this.userInfo.userId
-    }
+    ...mapState("User", ["userInfo"]),
+    ...mapGetters("User", ["hasUserInfo"]),
+    userId() {
+      return this.userInfo.userId;
+    },
   },
   methods: {
-    showLogin () {
-      this.$store.commit('User/SET_SHOW_LOGIN', true)
+    showLogin() {
+      this.$store.commit("User/SET_SHOW_LOGIN", true);
     },
-    async pcSign () {
-      let [err, res] = await this.$errorCaptured(daily_signin(1))
+    async pcSign() {
+      let [err, res] = await this.$errorCaptured(daily_signin(1));
       if (res) {
         if (res.code === 200) {
-          this.$message.success('签到成功!')
-          this.signPoint = res.point
-          this.showPoint = true
+          this.$message.success("签到成功!");
+          this.signPoint = res.point;
+          this.showPoint = true;
         }
       }
     },
-    async refreshData (visible) {
+    async refreshData(visible) {
       if (visible) {
-        this.loadding = true
-        let [err, detail] = await this.$errorCaptured(user_detail(this.userId))
+        this.loadding = true;
+        let [err, detail] = await this.$errorCaptured(user_detail(this.userId));
         if (!err) {
-          let userInfo = { ...this.userInfo }
+          let userInfo = { ...this.userInfo };
           this.$store.commit(
-            'User/SET_USER_INFO',
+            "User/SET_USER_INFO",
             Object.assign(userInfo, { userId: this.userId, ...detail })
-          )
+          );
         }
-        this.loadding = false
+        this.loadding = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less">

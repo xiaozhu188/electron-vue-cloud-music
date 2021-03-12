@@ -37,7 +37,7 @@
         :isLiked="likedsongIds.includes(current_song.id)"
         @heartClick="
           (isLike) => {
-            _handleLikeSong({ songId: current_song.id, isLike })
+            _handleLikeSong({ songId: current_song.id, isLike });
           }
         "
         title="喜欢歌曲"
@@ -75,93 +75,93 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import ZIcon from '@/components/ZIcon'
-import SongHeart from '@/components/Common/song-heart'
-import Playing from '@/components/Common/playing'
-import Artists from '@/components/Common/artists'
+import { mapGetters, mapState } from "vuex";
+import ZIcon from "@/components/ZIcon";
+import SongHeart from "@/components/Common/song-heart";
+import Playing from "@/components/Common/playing";
+import Artists from "@/components/Common/artists";
 
 export default {
-  name: 'mini',
-  data () {
+  name: "mini",
+  data() {
     return {
-      isShowList: false
-    }
+      isShowList: false,
+    };
   },
   components: {
     ZIcon,
     SongHeart,
     Playing,
-    Artists
+    Artists,
   },
   computed: {
-    ...mapState('play', ['current_lyric', 'playing']),
-    ...mapGetters('play', [
-      'current_play_list',
-      'original_play_list',
-      'current_song_index',
-      'current_song'
+    ...mapState("play", ["current_lyric", "playing"]),
+    ...mapGetters("play", [
+      "current_play_list",
+      "original_play_list",
+      "current_song_index",
+      "current_song",
     ]),
-    ...mapGetters('User', ['likedsongIds']),
-    current_song () {
-      return this.current_play_list[this.current_song_index] || {}
+    ...mapGetters("User", ["likedsongIds"]),
+    current_song() {
+      return this.current_play_list[this.current_song_index] || {};
     },
-    playIcon () {
-      return this.playing ? 'pause-circle' : 'play-circle'
+    playIcon() {
+      return this.playing ? "pause-circle" : "play-circle";
     },
-    artistStr () {
-      return this.current_song.artist.map((item) => item.name).join(',')
-    }
+    artistStr() {
+      return this.current_song.artist.map((item) => item.name).join(",");
+    },
   },
   watch: {
-    isShowList (newVal, oldVal) {
+    isShowList(newVal, oldVal) {
       if (newVal === true && oldVal === false) {
         let index = this.current_play_list.findIndex((item) => {
-          return item.id === this.current_song.id
-        })
-        let top = index * 35
-        this.$refs.scrollWrapper.scrollTo({ top, behavior: 'smooth' })
+          return item.id === this.current_song.id;
+        });
+        let top = index * 35;
+        this.$refs.scrollWrapper.scrollTo({ top, behavior: "smooth" });
       }
-    }
+    },
   },
   methods: {
-    togglePlay () {
-      this.$electron.ipcRenderer.send('toggle-play', {
-        value: !this.playing
-      })
+    togglePlay() {
+      this.$electron.ipcRenderer.send("toggle-play", {
+        value: !this.playing,
+      });
     },
-    backward () {
-      this.$electron.ipcRenderer.send('prev-play', {
-        value: this.current_song_index
-      })
+    backward() {
+      this.$electron.ipcRenderer.send("prev-play", {
+        value: this.current_song_index,
+      });
     },
-    forward () {
-      this.$electron.ipcRenderer.send('next-play', {
-        value: this.current_song_index
-      })
+    forward() {
+      this.$electron.ipcRenderer.send("next-play", {
+        value: this.current_song_index,
+      });
     },
-    playSong (tracks, index) {
-      this.$electron.ipcRenderer.send('play-song', {
-        value: { tracks, index }
-      })
+    playSong(tracks, index) {
+      this.$electron.ipcRenderer.send("play-song", {
+        value: { tracks, index },
+      });
     },
-    setFrame () {
-      this.$electron.ipcRenderer.send('toggle-mini', {
+    setFrame() {
+      this.$electron.ipcRenderer.send("toggle-mini", {
         value: false,
-        playing: this.playing
-      })
+        playing: this.playing,
+      });
     },
-    showList () {
-      this.isShowList = !this.isShowList
-      this.$electron.ipcRenderer.send('resize-mini', {
-        height: this.isShowList ? 500 : 48
-      })
+    showList() {
+      this.isShowList = !this.isShowList;
+      this.$electron.ipcRenderer.send("resize-mini", {
+        height: this.isShowList ? 500 : 48,
+      });
     },
-    _handleLikeSong ({ songId, isLike }) {
-      this.$store.dispatch('User/handleLikeSong', { songId, isLike })
-    }
-  }
-}
+    _handleLikeSong({ songId, isLike }) {
+      this.$store.dispatch("User/handleLikeSong", { songId, isLike });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

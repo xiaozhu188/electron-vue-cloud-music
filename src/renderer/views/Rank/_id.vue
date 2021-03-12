@@ -84,119 +84,119 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import TabBar from '@/components/Common/tabBar'
-import Loading from '@/components/Common/loading'
-import { getTopDetail } from '@/api/rank'
-import { getPlaylistDetail } from '@/api/playlist'
-import { normalSong } from '@/utils/song'
-import { uniqueData } from '@/utils/assist'
+import { mapGetters } from "vuex";
+import TabBar from "@/components/Common/tabBar";
+import Loading from "@/components/Common/loading";
+import { getTopDetail } from "@/api/rank";
+import { getPlaylistDetail } from "@/api/playlist";
+import { normalSong } from "@/utils/song";
+import { uniqueData } from "@/utils/assist";
 export default {
-  name: 'rank_id',
-  data () {
+  name: "rank_id",
+  data() {
     return {
       tabs: [
         {
-          name: 'rank-id-songs',
-          label: '歌曲列表'
+          name: "rank-id-songs",
+          label: "歌曲列表",
         },
         {
-          name: 'rank-id-comment',
-          label: '评论'
-        }
+          name: "rank-id-comment",
+          label: "评论",
+        },
       ],
       rank: null,
       tracks: [],
       loading: false,
-      searchKey: ''
-    }
+      searchKey: "",
+    };
   },
   components: {
     TabBar,
-    Loading
+    Loading,
   },
-  activated () {
-    this._getPlaylistDetail()
+  activated() {
+    this._getPlaylistDetail();
   },
-  beforeRouteUpdate (to, from, next) {
-    this._getPlaylistDetail(to.params.id)
-    next()
+  beforeRouteUpdate(to, from, next) {
+    this._getPlaylistDetail(to.params.id);
+    next();
   },
   computed: {
-    ...mapGetters('User', ['likedPlaylistIds']),
-    ...mapGetters('play', ['current_play_list']),
-    songs () {
+    ...mapGetters("User", ["likedPlaylistIds"]),
+    ...mapGetters("play", ["current_play_list"]),
+    songs() {
       return this.tracks.filter((track) => {
-        return track.name.includes(this.searchKey)
-      })
+        return track.name.includes(this.searchKey);
+      });
     },
-    isLiked () {
-      return this.likedPlaylistIds.includes(this.rank.id)
-    }
+    isLiked() {
+      return this.likedPlaylistIds.includes(this.rank.id);
+    },
   },
   methods: {
-    _getPlaylistDetail () {
-      this.loading = true
-      let id = this.$route.params.id
+    _getPlaylistDetail() {
+      this.loading = true;
+      let id = this.$route.params.id;
       getPlaylistDetail(id).then((res) => {
-        this.rank = res.playlist
-        let arr = []
+        this.rank = res.playlist;
+        let arr = [];
         res.playlist.tracks.forEach((track) => {
-          arr.push(normalSong(track))
-        })
-        this.tracks = arr
-        this.loading = false
-      })
+          arr.push(normalSong(track));
+        });
+        this.tracks = arr;
+        this.loading = false;
+      });
     },
-    _getTopDetail () {
-      this.loading = true
-      let id = this.$route.params.id
+    _getTopDetail() {
+      this.loading = true;
+      let id = this.$route.params.id;
       getTopDetail(id).then((res) => {
-        this.rank = res.playlist
-        let arr = []
+        this.rank = res.playlist;
+        let arr = [];
         res.playlist.tracks.forEach((track) => {
-          arr.push(normalSong(track))
-        })
-        this.tracks = arr
-        this.loading = false
-      })
+          arr.push(normalSong(track));
+        });
+        this.tracks = arr;
+        this.loading = false;
+      });
     },
-    searchSongs (value) {
-      this.searchKey = value
+    searchSongs(value) {
+      this.searchKey = value;
     },
-    play () {
-      this.$store.dispatch('play/selectPlay', {
+    play() {
+      this.$store.dispatch("play/selectPlay", {
         tracks: this.tracks,
-        index: 0
-      })
+        index: 0,
+      });
     },
-    addToList () {
-      let current_play_list = this.current_play_list.slice()
-      let list = current_play_list.concat(this.tracks)
-      list = uniqueData(list)
-      this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+    addToList() {
+      let current_play_list = this.current_play_list.slice();
+      let list = current_play_list.concat(this.tracks);
+      list = uniqueData(list);
+      this.$store.commit("play/SET_CURRENT_PLAY_LIST", list);
     },
-    subscribe (t, playlist) {
-      this.$store.dispatch('User/subscribePlatlist', { t, playlist })
+    subscribe(t, playlist) {
+      this.$store.dispatch("User/subscribePlatlist", { t, playlist });
     },
-    share () {
-      let url = `https://music.163.com/#/discover/toplist?id=${this.rank.id}`
+    share() {
+      let url = `https://music.163.com/#/discover/toplist?id=${this.rank.id}`;
       let _shareUrl =
-        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
-      _shareUrl += 'url=' + url
-      _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
+        "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+      _shareUrl += "url=" + url;
+      _shareUrl += "&showcount=" + 1; // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
       _shareUrl +=
-        '&desc=' +
-        '♪我发现一个不错的歌单-' +
-        (this.rank.description || this.rank.name)
-      _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一个不错的歌单-' + this.rank.name
-      _shareUrl += '&site=' + 'https://music.163.com/'
-      _shareUrl += '&pics=' + this.rank.coverImgUrl
-      this.$electron.remote.shell.openExternal(_shareUrl)
-    }
-  }
-}
+        "&desc=" +
+        "♪我发现一个不错的歌单-" +
+        (this.rank.description || this.rank.name);
+      _shareUrl += "&summary=" + "分享摘要";
+      _shareUrl += "&title=" + "♪我发现一个不错的歌单-" + this.rank.name;
+      _shareUrl += "&site=" + "https://music.163.com/";
+      _shareUrl += "&pics=" + this.rank.coverImgUrl;
+      this.$electron.remote.shell.openExternal(_shareUrl);
+    },
+  },
+};
 </script>
 
 <style scoped>

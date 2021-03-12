@@ -27,79 +27,79 @@
 </template>
 
 <script>
-import TrackList from '@/components/Common/track-list/index.js'
-import { getDjProgram } from '@/api/dj'
-import { normalSong } from '@/utils/song'
+import TrackList from "@/components/Common/track-list/index.js";
+import { getDjProgram } from "@/api/dj";
+import { normalSong } from "@/utils/song";
 const columns = [
   {
-    title: '音乐标题',
-    dataIndex: 'name',
-    key: 'name',
+    title: "音乐标题",
+    dataIndex: "name",
+    key: "name",
     sorter: (a, b) => a.name.localeCompare(b.name),
-    slot: 'name'
+    slot: "name",
   },
   {
-    title: '歌手',
-    dataIndex: 'artist',
-    key: 'artist',
-    sorter: (a, b) => a.artist[0].name.localeCompare(b.artist[0].name)
+    title: "歌手",
+    dataIndex: "artist",
+    key: "artist",
+    sorter: (a, b) => a.artist[0].name.localeCompare(b.artist[0].name),
   },
   {
-    title: '专辑',
-    dataIndex: 'album',
-    key: 'album',
-    sorter: (a, b) => a.album.name.localeCompare(b.album.name)
+    title: "专辑",
+    dataIndex: "album",
+    key: "album",
+    sorter: (a, b) => a.album.name.localeCompare(b.album.name),
   },
   {
-    title: '时长',
-    dataIndex: 'duration',
-    key: 'duration',
-    sorter: (a, b) => a.duration - b.duration
-  }
-]
+    title: "时长",
+    dataIndex: "duration",
+    key: "duration",
+    sorter: (a, b) => a.duration - b.duration,
+  },
+];
 export default {
-  data () {
+  data() {
     return {
       programs: [],
       columns,
       total: 0,
       limit: 20,
       offset: 0,
-      asc: false
-    }
+      asc: false,
+    };
   },
   components: {
-    TrackList
+    TrackList,
   },
-  activated () {
-    this._getDjProgram()
+  activated() {
+    this._getDjProgram();
   },
   methods: {
-    async _getDjProgram () {
-      let id = this.$route.params.id
+    async _getDjProgram() {
+      let id = this.$route.params.id;
       let options = {
         rid: id,
         limit: this.limit,
         offset: this.offset,
-        asc: this.asc
-      }
-      let { programs, more, count } = await getDjProgram(options)
-      this.total = count
-      let arr = []
+        asc: this.asc,
+      };
+      let { programs, more, count } = await getDjProgram(options);
+      this.total = count;
+      let arr = [];
       programs.forEach((program) => {
-        arr.push(normalSong(program.mainSong))
-      })
-      this.programs = arr
+        arr.push(normalSong(program.mainSong));
+      });
+      this.programs = arr;
     },
-    onPageChange (page, pageSize) {
-      this.offset = (page - 1) * pageSize
-      this._getDjProgram()
+    onPageChange(page, pageSize) {
+      this.offset = (page - 1) * pageSize;
+      this._getDjProgram();
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
-    }
-  }
-}
+    play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -30,31 +30,31 @@
 </template>
 
 <script>
-import ZIcon from '@/components/ZIcon'
-import Artists from '@/components/Common/artists'
-import videoPlayer from '@/mixins/videoPlayer'
+import ZIcon from "@/components/ZIcon";
+import Artists from "@/components/Common/artists";
+import videoPlayer from "@/mixins/videoPlayer";
 
-const { BrowserWindow } = require('electron').remote
+const { BrowserWindow } = require("electron").remote;
 
 export default {
   mixins: [videoPlayer],
   props: {
     video: {
-      type: Object
+      type: Object,
     },
     showCreator: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  created () {
-    this.videoType = 'video'
+  created() {
+    this.videoType = "video";
   },
   components: {
     ZIcon,
-    Artists
-  }
-}
+    Artists,
+  },
+};
 </script>
 
 <style lang="less" scoped>

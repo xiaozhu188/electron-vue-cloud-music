@@ -12,15 +12,15 @@
 export default {
   props: {
     event: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   methods: {
-    onClick () {
-      this.$router.push(`/album/${this.event.album.id}`)
-    }
-  }
-}
+    onClick() {
+      this.$router.push(`/album/${this.event.album.id}`);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

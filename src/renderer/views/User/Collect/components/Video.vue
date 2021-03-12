@@ -8,43 +8,43 @@
 </template>
 
 <script>
-import VideoItem from '@/components/Common/video-item'
-import { getMv } from '@/api/sublist'
-import { normalVideo } from '@/utils/video.js'
+import VideoItem from "@/components/Common/video-item";
+import { getMv } from "@/api/sublist";
+import { normalVideo } from "@/utils/video.js";
 
 export default {
-  data () {
+  data() {
     return {
       data: [],
       params: {
         limit: 20,
-        offset: 0
-      }
-    }
+        offset: 0,
+      },
+    };
   },
   components: { VideoItem },
   methods: {
-    async loadmore ($state) {
+    async loadmore($state) {
       try {
-        let res = await getMv(this.params)
+        let res = await getMv(this.params);
         if (res.data.length) {
           let arr = res.data.map((video) => {
-            return normalVideo(video)
-          })
-          this.data.push(...arr)
-          $state.loaded()
+            return normalVideo(video);
+          });
+          this.data.push(...arr);
+          $state.loaded();
         }
         if (res.hasMore) {
-          this.params.offset += this.params.limit
+          this.params.offset += this.params.limit;
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        $state.error()
+        $state.error();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -1,25 +1,25 @@
 export default {
-  data () {
+  data() {
     return {
-      spinning: true
-    }
+      spinning: true,
+    };
   },
   props: {
     result: {
       type: Object,
-      default () {
-        return null
-      }
-    }
+      default() {
+        return null;
+      },
+    },
   },
   watch: {
-    result (newVal) {
+    result(newVal) {
       if (newVal) {
-        this.normalData()
+        this.normalData();
       }
-    }
+    },
   },
-  mounted () {
-    this.normalData()
-  }
-}
+  mounted() {
+    this.normalData();
+  },
+};

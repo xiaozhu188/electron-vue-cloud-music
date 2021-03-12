@@ -48,91 +48,91 @@
 </template>
 
 <script>
-import { getArtistSongs } from '@/api/artist'
-import { normalSong } from '@/utils/song'
-import TabBar from '@/components/Common/tabBar'
-import Loading from '@/components/Common/loading'
+import { getArtistSongs } from "@/api/artist";
+import { normalSong } from "@/utils/song";
+import TabBar from "@/components/Common/tabBar";
+import Loading from "@/components/Common/loading";
 export default {
-  name: 'artist_id',
-  data () {
+  name: "artist_id",
+  data() {
     return {
-      artist: '',
+      artist: "",
       hotSongs: [],
-      searchKey: '',
+      searchKey: "",
       loading: false,
       tabs: [
         {
-          name: 'artist-id-album',
-          label: '专辑'
+          name: "artist-id-album",
+          label: "专辑",
         },
         {
-          name: 'artist-id-songs',
-          label: '热门歌曲'
+          name: "artist-id-songs",
+          label: "热门歌曲",
         },
         {
-          name: 'artist-id-mv',
-          label: 'MV'
+          name: "artist-id-mv",
+          label: "MV",
         },
         {
-          name: 'artist-id-desc',
-          label: '歌手详情'
+          name: "artist-id-desc",
+          label: "歌手详情",
         },
         {
-          name: 'artist-id-simi',
-          label: '相似歌手'
-        }
-      ]
-    }
+          name: "artist-id-simi",
+          label: "相似歌手",
+        },
+      ],
+    };
   },
   components: {
     TabBar,
-    Loading
+    Loading,
   },
-  activated () {
-    this._getArtistSongs(this.$route.params.id)
+  activated() {
+    this._getArtistSongs(this.$route.params.id);
   },
-  beforeRouteUpdate (to, from, next) {
-    this._getArtistSongs(to.params.id)
-    next()
+  beforeRouteUpdate(to, from, next) {
+    this._getArtistSongs(to.params.id);
+    next();
   },
   computed: {
-    songs () {
+    songs() {
       return this.hotSongs.filter((track) => {
-        return track.name.includes(this.searchKey)
-      })
-    }
+        return track.name.includes(this.searchKey);
+      });
+    },
   },
   methods: {
-    searchSongs (value) {
-      this.searchKey = value
+    searchSongs(value) {
+      this.searchKey = value;
     },
-    async _getArtistSongs (id) {
-      this.loading = true
+    async _getArtistSongs(id) {
+      this.loading = true;
       let { artist, hotSongs } = await getArtistSongs({
         id,
         limit: 50,
-        offset: 0
-      })
-      this.artist = artist
-      const arr = []
+        offset: 0,
+      });
+      this.artist = artist;
+      const arr = [];
       hotSongs.forEach((song) => {
-        arr.push(normalSong(song))
-      })
-      this.hotSongs = arr
-      this.loading = false
+        arr.push(normalSong(song));
+      });
+      this.hotSongs = arr;
+      this.loading = false;
     },
-    pushSongs (tracks) {
-      this.hotSongs = tracks
+    pushSongs(tracks) {
+      this.hotSongs = tracks;
     },
-    subscribe (t, artist) {
+    subscribe(t, artist) {
       this.$store
-        .dispatch('User/subscribeArtist', { t, artist })
+        .dispatch("User/subscribeArtist", { t, artist })
         .then((code) => {
-          this.artist.followed = !this.artist.followed
-        })
-    }
-  }
-}
+          this.artist.followed = !this.artist.followed;
+        });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -5,40 +5,40 @@
 </template>
 
 <script>
-import { getSongUrl, getLyric } from '@/api/song'
+import { getSongUrl, getLyric } from "@/api/song";
 // import TrackList from '@/components/Common/track-table'
-import TrackList from '@/components/Common/track-list/index.js'
-import Artists from '@/components/Common/artists'
+import TrackList from "@/components/Common/track-list/index.js";
+import Artists from "@/components/Common/artists";
 export default {
-  name: 'rank_id_songs',
-  data () {
+  name: "rank_id_songs",
+  data() {
     return {
-      songUrl: '',
+      songUrl: "",
       currentTime: 0,
-      buffered: 0
-    }
+      buffered: 0,
+    };
   },
   components: {
     TrackList,
-    Artists
+    Artists,
   },
   props: {
     tracks: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
   methods: {
-    async play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
+    async play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
     },
-    download (song) {
-      this.$store.dispatch('Download/download', song)
-    }
-  }
-}
+    download(song) {
+      this.$store.dispatch("Download/download", song);
+    },
+  },
+};
 </script>
 
 <style scoped>

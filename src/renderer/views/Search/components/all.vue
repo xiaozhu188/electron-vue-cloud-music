@@ -19,22 +19,22 @@
 </template>
 
 <script>
-import Artists from '@/components/Common/artists'
+import Artists from "@/components/Common/artists";
 export default {
-  data () {
+  data() {
     return {
-      users: []
-    }
+      users: [],
+    };
   },
   components: {
-    Artists
+    Artists,
   },
   methods: {
-    normalData () {
-      this.users = this.result.userprofiles
-    }
-  }
-}
+    normalData() {
+      this.users = this.result.userprofiles;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

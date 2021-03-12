@@ -29,30 +29,30 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import throttle from 'loadsh/throttle'
-import eventBus from '@/utils/eventBus'
-import BasicHeader from '@/components/BasicHeader'
-import BasicSider from '@/components/BasicSider'
-import PlayBar from '@/components/PlayBar'
-import Login from '@/components/Login'
-import Player from '@/components/Player'
-import Offline from '@/components/Offline/index'
-import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-const SIDER_WIDTH_DEFAULT = 200
-const SIDER_WIDTH_MAX = 400
+import { mapGetters, mapState } from "vuex";
+import throttle from "loadsh/throttle";
+import eventBus from "@/utils/eventBus";
+import BasicHeader from "@/components/BasicHeader";
+import BasicSider from "@/components/BasicSider";
+import PlayBar from "@/components/PlayBar";
+import Login from "@/components/Login";
+import Player from "@/components/Player";
+import Offline from "@/components/Offline/index";
+import zhCN from "ant-design-vue/lib/locale-provider/zh_CN";
+const SIDER_WIDTH_DEFAULT = 200;
+const SIDER_WIDTH_MAX = 400;
 export default {
-  data () {
+  data() {
     return {
       locale: zhCN,
       refresh: false,
-      keepAliveExcludeList: ['video', 'mv', 'events'],
-      siderWidth: SIDER_WIDTH_DEFAULT
-    }
+      keepAliveExcludeList: ["video", "mv", "events"],
+      siderWidth: SIDER_WIDTH_DEFAULT,
+    };
   },
   computed: {
-    ...mapGetters('App', ['isOnliline']),
-    ...mapState('App', ['noLimitRoutes'])
+    ...mapGetters("App", ["isOnliline"]),
+    ...mapState("App", ["noLimitRoutes"]),
   },
   components: {
     BasicHeader,
@@ -60,50 +60,50 @@ export default {
     PlayBar,
     Login,
     Player,
-    Offline
+    Offline,
   },
-  created () {
-    eventBus.$on('refresh', () => {
-      const matched = this.$route.matched
-      const currentRoute = matched[matched.length - 1]
-      const name = currentRoute.components.default.name
-      this.refresh = true
-      this.keepAliveExcludeList.unshift(name)
+  created() {
+    eventBus.$on("refresh", () => {
+      const matched = this.$route.matched;
+      const currentRoute = matched[matched.length - 1];
+      const name = currentRoute.components.default.name;
+      this.refresh = true;
+      this.keepAliveExcludeList.unshift(name);
       this.$nextTick(() => {
-        this.refresh = false
-        this.keepAliveExcludeList.shift()
-      })
-    })
+        this.refresh = false;
+        this.keepAliveExcludeList.shift();
+      });
+    });
   },
-  mounted () {
-    this.mouse = {}
-    const handle = this.$refs.handle
-    const app = document.getElementById('app')
+  mounted() {
+    this.mouse = {};
+    const handle = this.$refs.handle;
+    const app = document.getElementById("app");
     handle.onmousedown = (e) => {
-      this.mouse.isDown = true
-      this.mouse.startX = e.pageX
-    }
+      this.mouse.isDown = true;
+      this.mouse.startX = e.pageX;
+    };
     app.onmousemove = throttle(
       (e) => {
-        if (!this.mouse.isDown) return
-        let diffX = e.pageX
-        if (diffX < SIDER_WIDTH_DEFAULT || diffX > SIDER_WIDTH_MAX) return
-        this.siderWidth = diffX
+        if (!this.mouse.isDown) return;
+        let diffX = e.pageX;
+        if (diffX < SIDER_WIDTH_DEFAULT || diffX > SIDER_WIDTH_MAX) return;
+        this.siderWidth = diffX;
       },
       100,
       { trailing: true, leading: true }
-    )
+    );
     app.onmouseup = () => {
-      this.mouse.isDown = false
-    }
+      this.mouse.isDown = false;
+    };
   },
-  destroy () {
-    const app = document.getElementById('app')
-    this.$refs.handle.onmousedown = null
-    app.onmousemove = null
-    app.onmouseup = null
-  }
-}
+  destroy() {
+    const app = document.getElementById("app");
+    this.$refs.handle.onmousedown = null;
+    app.onmousemove = null;
+    app.onmouseup = null;
+  },
+};
 </script>
 
 <style lang="less" scoped>

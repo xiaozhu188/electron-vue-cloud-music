@@ -58,104 +58,104 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-import { shell, remote, ipcRenderer } from 'electron'
-import { uniq } from '@/utils/calculate'
-import TrackList from '@/components/Common/track-list/index.js'
-import Loading from '@/components/Common/loading'
-const defaultDownloadFolder = `${remote.app.getPath('music')}`
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+import { shell, remote, ipcRenderer } from "electron";
+import { uniq } from "@/utils/calculate";
+import TrackList from "@/components/Common/track-list/index.js";
+import Loading from "@/components/Common/loading";
+const defaultDownloadFolder = `${remote.app.getPath("music")}`;
 const columns = [
   {
-    title: '音乐标题',
-    dataIndex: 'name',
-    key: 'name',
-    sorter: (a, b) => a.name.localeCompare(b.name)
+    title: "音乐标题",
+    dataIndex: "name",
+    key: "name",
+    sorter: (a, b) => a.name.localeCompare(b.name),
   },
   {
-    title: '歌手',
-    dataIndex: 'artist',
-    key: 'artist',
-    sorter: (a, b) => a.artist[0].name.localeCompare(b.artist[0].name)
+    title: "歌手",
+    dataIndex: "artist",
+    key: "artist",
+    sorter: (a, b) => a.artist[0].name.localeCompare(b.artist[0].name),
   },
   {
-    title: '专辑',
-    dataIndex: 'album',
-    key: 'album',
-    sorter: (a, b) => a.album.name.localeCompare(b.album.name)
+    title: "专辑",
+    dataIndex: "album",
+    key: "album",
+    sorter: (a, b) => a.album.name.localeCompare(b.album.name),
   },
   {
-    title: '时长',
-    dataIndex: 'duration',
-    key: 'duration',
-    sorter: (a, b) => a.duration - b.duration
+    title: "时长",
+    dataIndex: "duration",
+    key: "duration",
+    sorter: (a, b) => a.duration - b.duration,
   },
   {
-    title: '大小',
-    dataIndex: 'size',
-    key: 'size',
-    slot: 'size',
-    width: '80px',
-    sorter: (a, b) => a.size - b.size
-  }
-]
+    title: "大小",
+    dataIndex: "size",
+    key: "size",
+    slot: "size",
+    width: "80px",
+    sorter: (a, b) => a.size - b.size,
+  },
+];
 
 export default {
-  name: 'local_music',
-  data () {
+  name: "local_music",
+  data() {
     return {
       visible: false,
       selectedFolder: [],
       columns,
       defaultDownloadFolder,
-      matching: false
-    }
+      matching: false,
+    };
   },
   components: {
     TrackList,
-    Loading
+    Loading,
   },
   computed: {
-    ...mapState('Localsong', ['exportFolders']),
-    ...mapGetters('Localsong', ['localSongs'])
+    ...mapState("Localsong", ["exportFolders"]),
+    ...mapGetters("Localsong", ["localSongs"]),
   },
   methods: {
-    ...mapActions('Localsong', ['refresh', 'match']),
-    ...mapMutations('Localsong', ['setExportFolders']),
-    onChange () {
-      console.log('value = ', this.selectedFolder)
+    ...mapActions("Localsong", ["refresh", "match"]),
+    ...mapMutations("Localsong", ["setExportFolders"]),
+    onChange() {
+      console.log("value = ", this.selectedFolder);
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
+    play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
     },
-    addFolder () {
-      ipcRenderer.send('open-directory-dialog')
+    addFolder() {
+      ipcRenderer.send("open-directory-dialog");
     },
-    onOk () {
+    onOk() {
       if (!this.selectedFolder.length) {
-        this.$message.warn('至少选择一个文件夹')
-        return
+        this.$message.warn("至少选择一个文件夹");
+        return;
       }
-      this.refresh(this.selectedFolder)
-      this.visible = false
+      this.refresh(this.selectedFolder);
+      this.visible = false;
     },
-    matchSongs () {
+    matchSongs() {
       // this.matching=true
-      this.match()
-    }
+      this.match();
+    },
   },
-  created () {
-    this.selectedFolder = this.exportFolders.concat()
-    this.refresh(this.selectedFolder)
-    ipcRenderer.on('selectedItem', (event, path) => {
-      let folders = uniq(this.selectedFolder.concat(path))
-      this.setExportFolders(folders)
-      this.selectedFolder = folders
-    })
+  created() {
+    this.selectedFolder = this.exportFolders.concat();
+    this.refresh(this.selectedFolder);
+    ipcRenderer.on("selectedItem", (event, path) => {
+      let folders = uniq(this.selectedFolder.concat(path));
+      this.setExportFolders(folders);
+      this.selectedFolder = folders;
+    });
   },
-  activated () {
-    this.selectedFolder = this.exportFolders.concat()
-  }
-}
+  activated() {
+    this.selectedFolder = this.exportFolders.concat();
+  },
+};
 </script>
 
 <style lang="less">

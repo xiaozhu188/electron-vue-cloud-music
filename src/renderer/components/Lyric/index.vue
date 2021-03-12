@@ -16,25 +16,25 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-const LYRIC_LINE_HEIGHT = 34
+import { mapState, mapGetters } from "vuex";
+const LYRIC_LINE_HEIGHT = 34;
 export default {
   props: {
     showTime: {
       type: Boolean,
-      default: false
+      default: false,
     },
     lineHeight: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
-  data () {
-    return {}
+  data() {
+    return {};
   },
   computed: {
-    ...mapState('play', ['lyric']),
-    ...mapGetters('play', ['current_lyric_line'])
+    ...mapState("play", ["lyric"]),
+    ...mapGetters("play", ["current_lyric_line"]),
   },
   watch: {
     // current_lyric_line (newLine) {
@@ -45,14 +45,14 @@ export default {
     // }
   },
   methods: {
-    scrollTo (top, behavior = 'auto') {
-      const lyricDom = this.$refs.lyricList
+    scrollTo(top, behavior = "auto") {
+      const lyricDom = this.$refs.lyricList;
       if (lyricDom && lyricDom.scrollTo) {
-        lyricDom.scrollTo({ top, behavior })
+        lyricDom.scrollTo({ top, behavior });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

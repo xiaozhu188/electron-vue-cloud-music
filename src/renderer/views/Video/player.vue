@@ -261,47 +261,47 @@
 </template>
 
 <script>
-import ProgressBar from '@/components/Common/progressBar'
-import Comment from '@/components/Comment/index.vue'
-import Loading from '@/components/Common/loading'
-import Artists from '@/components/Common/artists'
-import ZIcon from '@/components/ZIcon'
-import { getMVInfo, getMvUrl, getSimiMV, subMV } from '@/api/mv'
+import ProgressBar from "@/components/Common/progressBar";
+import Comment from "@/components/Comment/index.vue";
+import Loading from "@/components/Common/loading";
+import Artists from "@/components/Common/artists";
+import ZIcon from "@/components/ZIcon";
+import { getMVInfo, getMvUrl, getSimiMV, subMV } from "@/api/mv";
 import {
   getVideoUrl,
   getVideoDetail,
   getRelatedVideo,
-  subVideo
-} from '@/api/video'
-import { brsMap } from '@/config/config.js'
-import { normalMV, normalVideo } from '@/utils/video'
-import { getVideoComment } from '@/api/comment'
-import { mapState } from 'vuex'
-import { debounce } from 'lodash'
+  subVideo,
+} from "@/api/video";
+import { brsMap } from "@/config/config.js";
+import { normalMV, normalVideo } from "@/utils/video";
+import { getVideoComment } from "@/api/comment";
+import { mapState } from "vuex";
+import { debounce } from "lodash";
 
-const { BrowserWindow } = require('electron').remote
-let win = BrowserWindow.getFocusedWindow()
-let normalBounds = win.getNormalBounds()
-let limit = 20
-let offset = 0
+const { BrowserWindow } = require("electron").remote;
+let win = BrowserWindow.getFocusedWindow();
+let normalBounds = win.getNormalBounds();
+let limit = 20;
+let offset = 0;
 
 export default {
-  name: 'Player',
+  name: "Player",
   filters: {
-    duration (duration, type) {
-      function _pad (num) {
-        return num < 10 ? '0' + num : num
+    duration(duration, type) {
+      function _pad(num) {
+        return num < 10 ? "0" + num : num;
       }
 
-      if (!duration) return '00:00'
-      if (type && type === 'ms') duration = duration / 1000
-      duration = Math.floor(duration)
-      let minute = _pad((duration / 60) | 0)
-      let second = _pad(duration % 60)
-      return `${minute}:${second}`
-    }
+      if (!duration) return "00:00";
+      if (type && type === "ms") duration = duration / 1000;
+      duration = Math.floor(duration);
+      let minute = _pad((duration / 60) | 0);
+      let second = _pad(duration % 60);
+      return `${minute}:${second}`;
+    },
   },
-  data () {
+  data() {
     return {
       isFullScreen: win.isFullScreen(),
       isAlwaysOnTop: win.isAlwaysOnTop(),
@@ -311,24 +311,24 @@ export default {
       currentTime: 0,
       buffered: 0,
       videoData: {
-        id: '',
-        name: '',
-        desc: '',
+        id: "",
+        name: "",
+        desc: "",
         videoGroup: [],
         duration: 0,
-        cover: '',
+        cover: "",
         artists: [],
         brs: [],
-        width: '',
-        height: '',
-        playCount: '',
-        publishTime: ''
+        width: "",
+        height: "",
+        playCount: "",
+        publishTime: "",
       },
       playing: false,
       urls: [],
       subVideoList: [], // 收藏的视频列表
       subscribing: false, // 收藏加载中
-      mvURL: '',
+      mvURL: "",
       isFixed: false,
       isShowMore: false,
       isShowBrs: false,
@@ -336,458 +336,459 @@ export default {
       speeds: [0.5, 1.0, 1.25, 1.5, 2.0],
       brsMap,
       simiList: [],
-      commentData: null
-    }
+      commentData: null,
+    };
   },
   components: {
     ProgressBar,
     Comment,
     Loading,
     Artists,
-    ZIcon
+    ZIcon,
   },
   computed: {
-    ...mapState('Video', [
-      'videoId',
-      'videoType',
-      'isMuted',
-      'volume',
-      'speed'
+    ...mapState("Video", [
+      "videoId",
+      "videoType",
+      "isMuted",
+      "volume",
+      "speed",
     ]),
-    mutedIcon () {
-      return this.isMuted ? 'muted' : 'no-muted'
+    mutedIcon() {
+      return this.isMuted ? "muted" : "no-muted";
     },
-    percent () {
-      return this.currentTime / (this.videoData.duration / 1000)
+    percent() {
+      return this.currentTime / (this.videoData.duration / 1000);
     },
-    bufferedPercent () {
-      return this.buffered / (this.videoData.duration / 1000)
+    bufferedPercent() {
+      return this.buffered / (this.videoData.duration / 1000);
     },
-    playIcon () {
-      return this.playing ? 'pause-circle' : 'play-circle'
+    playIcon() {
+      return this.playing ? "pause-circle" : "play-circle";
     },
-    showMoerIcon () {
-      return this.isShowMore ? 'vertical-left' : 'vertical-right'
-    }
+    showMoerIcon() {
+      return this.isShowMore ? "vertical-left" : "vertical-right";
+    },
   },
   watch: {
-    speed (newVal) {
-      const video = this.$refs.video
+    speed(newVal) {
+      const video = this.$refs.video;
       this.$nextTick(() => {
-        video.playbackRate = newVal
-      })
+        video.playbackRate = newVal;
+      });
     },
-    volume (newVal) {
-      const video = this.$refs.video
-      newVal = Number(newVal)
+    volume(newVal) {
+      const video = this.$refs.video;
+      newVal = Number(newVal);
       if (newVal == 0) {
-        this.$store.commit('play/SET_MUTED', true)
+        this.$store.commit("play/SET_MUTED", true);
       }
       this.$nextTick(() => {
-        video.volume = newVal
-      })
+        video.volume = newVal;
+      });
     },
-    isMuted (newVal) {
-      const video = this.$refs.video
+    isMuted(newVal) {
+      const video = this.$refs.video;
       this.$nextTick(() => {
         if (newVal) {
-          video.volume = 0
+          video.volume = 0;
         } else {
-          video.volume = this.volume
+          video.volume = this.volume;
         }
-      })
+      });
     },
-    videoId (newId) {
+    videoId(newId) {
       setTimeout(() => {
-        this.fetchData(newId)
-        this._getSimi(newId)
-        this.getComment(newId)
-      }, 10)
+        this.fetchData(newId);
+        this._getSimi(newId);
+        this.getComment(newId);
+      }, 10);
     },
-    isShowMore (newVal) {
+    isShowMore(newVal) {
       if (newVal) {
-        this._getSimi()
+        this._getSimi();
       }
     },
-    playing (newVal) {
-      const video = this.$refs.video
+    playing(newVal) {
+      const video = this.$refs.video;
       this.$nextTick(() => {
-        newVal ? video && video.play() : video && video.pause()
-      })
+        newVal ? video && video.play() : video && video.pause();
+      });
     },
-    isFullScreen (newVal) {
-      win.setFullScreen(newVal)
+    isFullScreen(newVal) {
+      win.setFullScreen(newVal);
       // if (this.isFixed) {
       //   this.isFixed = false
       // }
     },
-    isAlwaysOnTop (newVal) {
-      win.setAlwaysOnTop(newVal)
+    isAlwaysOnTop(newVal) {
+      win.setAlwaysOnTop(newVal);
     },
-    isMaximized (newVal) {
+    isMaximized(newVal) {
       if (newVal) {
-        win.maximize()
+        win.maximize();
       } else {
-        win.restore()
+        win.restore();
       }
     },
-    isFixed (newVal) {
+    isFixed(newVal) {
       if (newVal) {
-        const WIN_MIN_WIDTH = 400
+        const WIN_MIN_WIDTH = 400;
         win.setBounds({
           x: 0,
           y: 0,
           width: WIN_MIN_WIDTH,
-          height: WIN_MIN_WIDTH * (9 / 16)
-        })
-        this.isAlwaysOnTop = true
+          height: WIN_MIN_WIDTH * (9 / 16),
+        });
+        this.isAlwaysOnTop = true;
       } else {
-        const WIN_MIN_WIDTH = 800
+        const WIN_MIN_WIDTH = 800;
         // win.maximize()
-        win.setBounds(normalBounds)
-        this.isAlwaysOnTop = false
+        win.setBounds(normalBounds);
+        this.isAlwaysOnTop = false;
       }
-    }
+    },
   },
-  created () {
-    this.mouseup_click_conflict_fix = false
+  created() {
+    this.mouseup_click_conflict_fix = false;
   },
-  mounted () {
-    this.fetchData()
-    let biasX = 0
-    let biasY = 0
-    let that = this
-    let timer = null
-    let { width, height } = win.getBounds()
+  mounted() {
+    this.fetchData();
+    let biasX = 0;
+    let biasY = 0;
+    let that = this;
+    let timer = null;
+    let { width, height } = win.getBounds();
     const moveEvent = (e) => {
       win.setBounds({
         x: e.screenX - biasX,
         y: e.screenY - biasY,
         width,
-        height
-      })
-      this.mouseup_click_conflict_fix = true
-    }
+        height,
+      });
+      this.mouseup_click_conflict_fix = true;
+    };
     const overEvent = (e) => {
-      if (!this.isFullScreen) return
-      this.isMoving = true
-      timer && clearTimeout(timer)
+      if (!this.isFullScreen) return;
+      this.isMoving = true;
+      timer && clearTimeout(timer);
       timer = setTimeout(() => {
-        this.isMoving = false
-      }, 1500)
-    }
+        this.isMoving = false;
+      }, 1500);
+    };
 
-    this.$refs.videoWrapper.addEventListener('mousemove', overEvent)
+    this.$refs.videoWrapper.addEventListener("mousemove", overEvent);
 
-    document.addEventListener('mousedown', function (e) {
-      if (document.querySelector('.controls-wrapper').contains(e.target)) return
-      win = BrowserWindow.getFocusedWindow()
-      width = win.getBounds().width
-      height = win.getBounds().height
+    document.addEventListener("mousedown", function (e) {
+      if (document.querySelector(".controls-wrapper").contains(e.target))
+        return;
+      win = BrowserWindow.getFocusedWindow();
+      width = win.getBounds().width;
+      height = win.getBounds().height;
       switch (e.button) {
         case 0:
-          biasX = e.x
-          biasY = e.y
-          document.addEventListener('mousemove', moveEvent)
-          break
+          biasX = e.x;
+          biasY = e.y;
+          document.addEventListener("mousemove", moveEvent);
+          break;
         case 2:
-          break
+          break;
       }
-    })
+    });
 
-    document.addEventListener('mouseup', (e) => {
-      biasX = 0
-      biasY = 0
+    document.addEventListener("mouseup", (e) => {
+      biasX = 0;
+      biasY = 0;
       setTimeout(() => {
-        this.mouseup_click_conflict_fix = false
-      }, 200)
-      document.removeEventListener('mousemove', moveEvent)
-    })
+        this.mouseup_click_conflict_fix = false;
+      }, 200);
+      document.removeEventListener("mousemove", moveEvent);
+    });
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener("keydown", (e) => {
       if (e.keyCode === 27) {
-        this.isFullScreen = false
+        this.isFullScreen = false;
       }
-    })
+    });
 
     this.$refs.videoIntro.addEventListener(
-      'transitionend',
+      "transitionend",
       debounce(this.handleResize, 300)
-    )
+    );
 
-    win.on('resize', debounce(this.handleResize, 300))
+    win.on("resize", debounce(this.handleResize, 300));
   },
   methods: {
-    showMoreList (type) {
-      if (type === 'br') {
-        this.isShowBrs = !this.isShowBrs
+    showMoreList(type) {
+      if (type === "br") {
+        this.isShowBrs = !this.isShowBrs;
         if (this.isShowSpeed) {
-          this.isShowSpeed = false
+          this.isShowSpeed = false;
         }
-      } else if (type === 'speed') {
-        this.isShowSpeed = !this.isShowSpeed
+      } else if (type === "speed") {
+        this.isShowSpeed = !this.isShowSpeed;
         if (this.isShowBrs) {
-          this.isShowBrs = false
+          this.isShowBrs = false;
         }
       }
     },
-    handleSpeedChange (speed) {
-      if (this.speed === speed) return
-      this.$store.commit('Video/SET_SPEED', speed)
-      this.isShowSpeed = false
+    handleSpeedChange(speed) {
+      if (this.speed === speed) return;
+      this.$store.commit("Video/SET_SPEED", speed);
+      this.isShowSpeed = false;
       if (this.isShowBrs) {
-        this.isShowBrs = false
+        this.isShowBrs = false;
       }
     },
-    selectBrs (br) {
-      if (this.mvURL.url === br.url) return
-      this.$refs.video.pause()
-      let currentTime = this.$refs.video.currentTime
-      this.mvURL = br
-      this.isShowBrs = false
+    selectBrs(br) {
+      if (this.mvURL.url === br.url) return;
+      this.$refs.video.pause();
+      let currentTime = this.$refs.video.currentTime;
+      this.mvURL = br;
+      this.isShowBrs = false;
       if (this.isShowSpeed) {
-        this.isShowSpeed = false
+        this.isShowSpeed = false;
       }
       this.$nextTick(() => {
-        this.$refs.video.currentTime = currentTime
-        this.$refs.video.play()
-      })
+        this.$refs.video.currentTime = currentTime;
+        this.$refs.video.play();
+      });
     },
-    handleVolumeChanged (persent) {
-      if (persent < 0) persent = 0
-      if (persent > 1) persent = 1
-      this.$store.commit('Video/SET_VOLUME', Number(persent))
+    handleVolumeChanged(persent) {
+      if (persent < 0) persent = 0;
+      if (persent > 1) persent = 1;
+      this.$store.commit("Video/SET_VOLUME", Number(persent));
     },
-    onMuted () {
-      this.$store.commit('Video/SET_MUTED', !this.isMuted)
+    onMuted() {
+      this.$store.commit("Video/SET_MUTED", !this.isMuted);
     },
-    handleResize () {
-      let titleDom = document.querySelector('.js-video-title')
-      let titleInnerDom = titleDom.querySelector('.js-video-title-inner')
-      let titleDomWidth = titleDom.getBoundingClientRect().width
-      let titleInnerDomWidth = titleInnerDom.getBoundingClientRect().width
+    handleResize() {
+      let titleDom = document.querySelector(".js-video-title");
+      let titleInnerDom = titleDom.querySelector(".js-video-title-inner");
+      let titleDomWidth = titleDom.getBoundingClientRect().width;
+      let titleInnerDomWidth = titleInnerDom.getBoundingClientRect().width;
       if (titleDom && titleInnerDom) {
         if (titleInnerDomWidth > titleDomWidth && titleDomWidth > 10) {
-          titleDom.style.setProperty('--diff', titleDomWidth + 'px')
+          titleDom.style.setProperty("--diff", titleDomWidth + "px");
           titleDom.style.setProperty(
-            '--duration',
-            (titleInnerDomWidth / titleDomWidth) * 8 + 's'
-          )
+            "--duration",
+            (titleInnerDomWidth / titleDomWidth) * 8 + "s"
+          );
         } else {
-          titleDom.style.setProperty('--diff', titleDomWidth + 'px')
-          titleDom.style.setProperty('--duration', 0)
+          titleDom.style.setProperty("--diff", titleDomWidth + "px");
+          titleDom.style.setProperty("--duration", 0);
         }
       }
     },
-    handlePageChange (val) {
-      offset = (val - 1) * limit
-      this.getComment()
+    handlePageChange(val) {
+      offset = (val - 1) * limit;
+      this.getComment();
     },
-    handleTabChange (val) {
-      if (val === 'comment') {
-        this.getComment()
+    handleTabChange(val) {
+      if (val === "comment") {
+        this.getComment();
       }
     },
-    async getComment (videoId) {
-      let id = videoId || this.videoId
-      let res = await getVideoComment(id, limit, offset)
+    async getComment(videoId) {
+      let id = videoId || this.videoId;
+      let res = await getVideoComment(id, limit, offset);
       if (res.comments.length) {
         if (this.commentData) {
-          this.commentData.comments = res.comments
+          this.commentData.comments = res.comments;
         } else {
-          this.commentData = res
+          this.commentData = res;
         }
       }
     },
-    ChangeVideo (item, type) {
-      this.$store.commit('Video/SET_VIDEO_TYPE', type)
-      this.$store.commit('Video/SET_VIDEO_ID', item.id)
+    ChangeVideo(item, type) {
+      this.$store.commit("Video/SET_VIDEO_TYPE", type);
+      this.$store.commit("Video/SET_VIDEO_ID", item.id);
     },
-    showMain () {
-      this.$electron.ipcRenderer.send('show-window')
+    showMain() {
+      this.$electron.ipcRenderer.send("show-window");
     },
-    toggleShowMore () {
-      this.isShowMore = !this.isShowMore
+    toggleShowMore() {
+      this.isShowMore = !this.isShowMore;
     },
-    async fetchData (videoId) {
-      this.playing = false
-      let id = videoId || this.videoId
-      let type = this.videoType
-      if (type === 'video') {
+    async fetchData(videoId) {
+      this.playing = false;
+      let id = videoId || this.videoId;
+      let type = this.videoType;
+      if (type === "video") {
         getVideoDetail(id).then((res) => {
-          this.videoData.name = res.data.title
-          this.videoData.desc = res.data.description
-          this.videoData.duration = res.data.durationms
-          this.videoData.creator = res.data.creator
-          this.videoData.width = res.data.width
-          this.videoData.height = res.data.height
-          this.videoData.playCount = res.data.playTime
-          this.videoData.videoGroup = res.data.videoGroup
-          this.videoData.publishTime = res.data.publishTime
+          this.videoData.name = res.data.title;
+          this.videoData.desc = res.data.description;
+          this.videoData.duration = res.data.durationms;
+          this.videoData.creator = res.data.creator;
+          this.videoData.width = res.data.width;
+          this.videoData.height = res.data.height;
+          this.videoData.playCount = res.data.playTime;
+          this.videoData.videoGroup = res.data.videoGroup;
+          this.videoData.publishTime = res.data.publishTime;
           this.$nextTick(() => {
-            this.handleResize()
-          })
-        })
+            this.handleResize();
+          });
+        });
         getVideoUrl(id).then((res) => {
           this.videoData.urls = res.urls.map((item) => {
             return {
               key: item.r,
-              url: item.url
-            }
-          })
-          this.mvURL = this.videoData.urls[0]
-          this.isLoading = false
-        })
+              url: item.url,
+            };
+          });
+          this.mvURL = this.videoData.urls[0];
+          this.isLoading = false;
+        });
       } else {
         getMVInfo(id).then((res) => {
           if (!Object.keys(res.data.brs).length) {
             this.$toast({
-              content: '暂无资源!'
-            })
-            return
+              content: "暂无资源!",
+            });
+            return;
           }
-          let urls = []
+          let urls = [];
           for (let k in res.data.brs) {
-            let item = {}
-            item.key = k
-            item.url = res.data.brs[k]
-            urls.push(item)
+            let item = {};
+            item.key = k;
+            item.url = res.data.brs[k];
+            urls.push(item);
           }
 
-          this.videoData.name = res.data.name
-          this.videoData.desc = res.data.desc
-          this.videoData.duration = res.data.duration
-          this.videoData.artists = res.data.artists
-          this.videoData.urls = urls
-          this.videoData.playCount = res.data.playCount
+          this.videoData.name = res.data.name;
+          this.videoData.desc = res.data.desc;
+          this.videoData.duration = res.data.duration;
+          this.videoData.artists = res.data.artists;
+          this.videoData.urls = urls;
+          this.videoData.playCount = res.data.playCount;
 
-          this.mvURL = urls[urls.length - 1]
+          this.mvURL = urls[urls.length - 1];
           // console.log(urls)
-          this.isLoading = false
+          this.isLoading = false;
           this.$nextTick(() => {
-            this.handleResize()
-          })
-        })
+            this.handleResize();
+          });
+        });
       }
-      win && win.show()
+      win && win.show();
     },
-    _getSimi (videoId) {
-      let id = videoId || this.videoId
-      let type = this.videoType
-      if (type === 'video') {
+    _getSimi(videoId) {
+      let id = videoId || this.videoId;
+      let type = this.videoType;
+      if (type === "video") {
         getRelatedVideo(id).then((res) => {
-          this.simiList = res.data.map((item) => normalVideo(item))
-        })
+          this.simiList = res.data.map((item) => normalVideo(item));
+        });
       } else {
         getSimiMV(id).then((res) => {
-          this.simiList = res.mvs.map((item) => normalMV(item))
-        })
+          this.simiList = res.mvs.map((item) => normalMV(item));
+        });
       }
     },
-    handleDblclick (e) {
-      e.preventDefault()
+    handleDblclick(e) {
+      e.preventDefault();
     },
-    toggleFullscreen () {
-      this.isShowMore = false
+    toggleFullscreen() {
+      this.isShowMore = false;
       if (this.isFixed) {
-        this.isFixed = false
+        this.isFixed = false;
       }
       // if (this.isMaximized) {
       //   this.isMaximized = false
       // }
-      this.isFullScreen = !this.isFullScreen
+      this.isFullScreen = !this.isFullScreen;
     },
-    toggleAlwaysOnTop () {
-      this.isAlwaysOnTop = !this.isAlwaysOnTop
+    toggleAlwaysOnTop() {
+      this.isAlwaysOnTop = !this.isAlwaysOnTop;
     },
-    close () {
-      win.close()
+    close() {
+      win.close();
     },
-    minimize () {
-      win.minimize()
+    minimize() {
+      win.minimize();
     },
-    maximize () {
+    maximize() {
       if (this.isFixed) {
-        this.isFixed = false
+        this.isFixed = false;
       }
       if (this.isFullScreen) {
-        this.isFullScreen = false
+        this.isFullScreen = false;
       }
-      this.isMaximized = !this.isMaximized
+      this.isMaximized = !this.isMaximized;
     },
-    shrinkWin () {
+    shrinkWin() {
       if (this.isFullScreen) {
-        this.isFullScreen = false
+        this.isFullScreen = false;
       }
       if (this.isMaximized) {
-        this.isMaximized = false
+        this.isMaximized = false;
       }
-      this.isFixed = true
-      this.isShowMore = false
+      this.isFixed = true;
+      this.isShowMore = false;
     },
-    restoreWin () {
+    restoreWin() {
       if (this.isFullScreen) {
-        this.isFullScreen = false
+        this.isFullScreen = false;
       }
       if (this.isMaximized) {
-        this.isMaximized = false
+        this.isMaximized = false;
       }
-      this.isFixed = false
+      this.isFixed = false;
     },
-    togglePlay () {
-      if (this.mouseup_click_conflict_fix) return
-      this.playing = !this.playing
+    togglePlay() {
+      if (this.mouseup_click_conflict_fix) return;
+      this.playing = !this.playing;
     },
-    play () {
-      this.playing = true
-      this.$store.commit('play/SET_PLAY_STATUS', false)
+    play() {
+      this.playing = true;
+      this.$store.commit("play/SET_PLAY_STATUS", false);
       // 如果设置静音将音频音量设置为0
-      const video = this.$refs.video
+      const video = this.$refs.video;
       this.$nextTick(() => {
-        video.playbackRate = this.speed
+        video.playbackRate = this.speed;
         if (this.isMuted) {
-          video.volume = 0
+          video.volume = 0;
         } else {
-          video.volume = this.volume
+          video.volume = this.volume;
         }
-      })
+      });
     },
-    onEnd () {
-      this.playing = false
+    onEnd() {
+      this.playing = false;
     },
-    updateTime (e) {
-      this.currentTime = e.target.currentTime
-      const video = this.$refs.video
+    updateTime(e) {
+      this.currentTime = e.target.currentTime;
+      const video = this.$refs.video;
       if (video) {
-        const timeRanges = video.buffered
+        const timeRanges = video.buffered;
         if (timeRanges.length !== 0) {
-          this.buffered = timeRanges.end(timeRanges.length - 1)
+          this.buffered = timeRanges.end(timeRanges.length - 1);
         }
       }
     },
-    onWaiting () {
-      this.waiting = true
+    onWaiting() {
+      this.waiting = true;
     },
-    onPlaying () {
-      this.waiting = false
+    onPlaying() {
+      this.waiting = false;
     },
-    onError () {
-      this.waiting = false
+    onError() {
+      this.waiting = false;
     },
-    togglePlaying () {
-      if (!this.videoData.name) return
-      this.playing = !this.playing
+    togglePlaying() {
+      if (!this.videoData.name) return;
+      this.playing = !this.playing;
     },
-    onProgressBarChange (percent) {
-      const currentTime = (this.videoData.duration / 1000) * percent
-      this.currentTime = this.$refs.video.currentTime = currentTime
+    onProgressBarChange(percent) {
+      const currentTime = (this.videoData.duration / 1000) * percent;
+      this.currentTime = this.$refs.video.currentTime = currentTime;
     },
-    onProgressBarChanging (percent) {
-      const currentTime = (this.videoData.duration / 1000) * percent
-      this.currentTime = this.$refs.video.currentTime = currentTime
-    }
-  }
-}
+    onProgressBarChanging(percent) {
+      const currentTime = (this.videoData.duration / 1000) * percent;
+      this.currentTime = this.$refs.video.currentTime = currentTime;
+    },
+  },
+};
 </script>
 
 <style>

@@ -116,103 +116,103 @@
 </template>
 
 <script>
-import { getPlaylistDetail } from '@/api/playlist'
-import { getSongDetail } from '@/api/song'
-import TabBar from '@/components/Common/tabBar'
-import Loading from '@/components/Common/loading'
-import ZIcon from '@/components/ZIcon/index.vue'
-import { normalSong } from '@/utils/song'
-import { uniqueData } from '@/utils/assist'
-import { mapGetters } from 'vuex'
+import { getPlaylistDetail } from "@/api/playlist";
+import { getSongDetail } from "@/api/song";
+import TabBar from "@/components/Common/tabBar";
+import Loading from "@/components/Common/loading";
+import ZIcon from "@/components/ZIcon/index.vue";
+import { normalSong } from "@/utils/song";
+import { uniqueData } from "@/utils/assist";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'playlist_id',
-  data () {
+  name: "playlist_id",
+  data() {
     return {
       playlist: null,
       tracks: [],
       loading: false,
-      searchKey: ''
-    }
+      searchKey: "",
+    };
   },
   components: {
     TabBar,
     Loading,
-    ZIcon
+    ZIcon,
   },
-  activated () {
-    this.getDetail(this.$route.params.id)
+  activated() {
+    this.getDetail(this.$route.params.id);
   },
-  beforeRouteUpdate (to, from, next) {
-    this.getDetail(to.params.id)
-    next()
+  beforeRouteUpdate(to, from, next) {
+    this.getDetail(to.params.id);
+    next();
   },
   computed: {
-    ...mapGetters('User', ['likedPlaylistIds']),
-    ...mapGetters('play', ['current_play_list']),
-    isLiked () {
-      return this.likedPlaylistIds.includes(this.playlist.id)
+    ...mapGetters("User", ["likedPlaylistIds"]),
+    ...mapGetters("play", ["current_play_list"]),
+    isLiked() {
+      return this.likedPlaylistIds.includes(this.playlist.id);
     },
-    songs () {
+    songs() {
       return this.tracks.filter((track) => {
-        return track.name.includes(this.searchKey)
-      })
-    }
+        return track.name.includes(this.searchKey);
+      });
+    },
   },
   methods: {
-    async getDetail (id) {
+    async getDetail(id) {
       try {
-        this.loading = true
-        let res = await getPlaylistDetail(id)
-        this.playlist = res.playlist
-        this.tracks = res.playlist.tracks.map((track) => normalSong(track))
+        this.loading = true;
+        let res = await getPlaylistDetail(id);
+        this.playlist = res.playlist;
+        this.tracks = res.playlist.tracks.map((track) => normalSong(track));
       } catch (error) {
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
-    searchSongs (value) {
-      this.searchKey = value
+    searchSongs(value) {
+      this.searchKey = value;
     },
-    subscribe (t, playlist) {
-      this.$store.dispatch('User/subscribePlatlist', { t, playlist })
+    subscribe(t, playlist) {
+      this.$store.dispatch("User/subscribePlatlist", { t, playlist });
     },
-    play () {
-      this.$store.dispatch('play/selectPlay', {
+    play() {
+      this.$store.dispatch("play/selectPlay", {
         tracks: this.tracks,
-        index: 0
-      })
+        index: 0,
+      });
     },
-    addToList () {
-      let current_play_list = this.current_play_list.slice()
-      let list = current_play_list.concat(this.tracks)
-      list = uniqueData(list)
-      this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+    addToList() {
+      let current_play_list = this.current_play_list.slice();
+      let list = current_play_list.concat(this.tracks);
+      list = uniqueData(list);
+      this.$store.commit("play/SET_CURRENT_PLAY_LIST", list);
     },
-    share () {
-      let url = `https://music.163.com/#/playlist?id=${this.$route.params.id}`
+    share() {
+      let url = `https://music.163.com/#/playlist?id=${this.$route.params.id}`;
       let _shareUrl =
-        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
-      _shareUrl += 'url=' + url
-      _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
+        "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+      _shareUrl += "url=" + url;
+      _shareUrl += "&showcount=" + 1; // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
       _shareUrl +=
-        '&desc=' +
-        '♪我发现一个不错的歌单-' +
-        (this.playlist.description || this.playlist.name)
-      _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一个不错的歌单-' + this.playlist.name
-      _shareUrl += '&site=' + 'https://music.163.com/'
-      _shareUrl += '&pics=' + this.playlist.coverImgUrl
-      this.$electron.remote.shell.openExternal(_shareUrl)
+        "&desc=" +
+        "♪我发现一个不错的歌单-" +
+        (this.playlist.description || this.playlist.name);
+      _shareUrl += "&summary=" + "分享摘要";
+      _shareUrl += "&title=" + "♪我发现一个不错的歌单-" + this.playlist.name;
+      _shareUrl += "&site=" + "https://music.163.com/";
+      _shareUrl += "&pics=" + this.playlist.coverImgUrl;
+      this.$electron.remote.shell.openExternal(_shareUrl);
     },
-    downloadAll () {
+    downloadAll() {
       this.tracks.forEach((song) => {
-        this.$set(song, 'isWaitting', true)
-      })
-      this.$store.dispatch('Download/adddownloadQueue', this.tracks)
-    }
-  }
-}
+        this.$set(song, "isWaitting", true);
+      });
+      this.$store.dispatch("Download/adddownloadQueue", this.tracks);
+    },
+  },
+};
 </script>
 
 <style scoped>

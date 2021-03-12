@@ -1,62 +1,62 @@
 let userRoutes = [
   {
-    path: '/user',
+    path: "/user",
     component: () =>
-      import(/* webpackChunkName: "user-detail" */ '@/views/User/index.vue'),
-    name: 'user-detail',
+      import(/* webpackChunkName: "user-detail" */ "@/views/User/index.vue"),
+    name: "user-detail",
     meta: {
-      title: '个人信息',
-      auth: true
-    }
+      title: "个人信息",
+      auth: true,
+    },
   },
   {
-    path: '/recomment_songs',
+    path: "/recomment_songs",
     component: () =>
       import(
-        /* webpackChunkName: "recomment_songs" */ '@/views/Daily/index.vue'
+        /* webpackChunkName: "recomment_songs" */ "@/views/Daily/index.vue"
       ),
-    name: 'recomment_songs',
+    name: "recomment_songs",
     meta: {
-      title: '每日推荐',
-      auth: true
-    }
+      title: "每日推荐",
+      auth: true,
+    },
   },
   {
-    path: '/user-event',
+    path: "/user-event",
     component: () =>
       import(
-        /* webpackChunkName: "user_event" */ '@/views/User/Events/UserEvent.vue'
+        /* webpackChunkName: "user_event" */ "@/views/User/Events/UserEvent.vue"
       ),
-    name: 'user_event',
+    name: "user_event",
     meta: {
-      title: '用户动态',
-      auth: true
-    }
+      title: "用户动态",
+      auth: true,
+    },
   },
   {
-    path: '/follower',
+    path: "/follower",
     component: () =>
       import(
-        /* webpackChunkName: "follower" */ '@/views/User/Follow/Follower.vue'
+        /* webpackChunkName: "follower" */ "@/views/User/Follow/Follower.vue"
       ),
-    name: 'follower',
+    name: "follower",
     meta: {
-      title: '我的关注',
-      auth: true
-    }
+      title: "我的关注",
+      auth: true,
+    },
   },
   {
-    path: '/followed',
+    path: "/followed",
     component: () =>
       import(
-        /* webpackChunkName: "followed" */ '@/views/User/Follow/Followed.vue'
+        /* webpackChunkName: "followed" */ "@/views/User/Follow/Followed.vue"
       ),
-    name: 'followed',
+    name: "followed",
     meta: {
-      title: '我的粉丝',
-      auth: true
-    }
-  }
-]
+      title: "我的粉丝",
+      auth: true,
+    },
+  },
+];
 
-export { userRoutes }
+export { userRoutes };

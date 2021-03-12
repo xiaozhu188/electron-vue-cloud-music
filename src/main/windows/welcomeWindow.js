@@ -2,9 +2,9 @@
 //   ? `http://localhost:9080/welcome.html`
 //   : `file://${__dirname}/welcome.html`
 const welcomeWinURL =
-  process.env.NODE_ENV === 'development'
+  process.env.NODE_ENV === "development"
     ? `http://localhost:9080/welcome.html`
-    : `file://${__dirname}/welcome.html`
+    : `file://${__dirname}/welcome.html`;
 
 const createWelcomeWindow = function (BrowserWindow) {
   const obj = {
@@ -19,19 +19,19 @@ const createWelcomeWindow = function (BrowserWindow) {
     resizable: false,
     alwaysOnTop: true,
     // parent: global.mainWindow,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     skipTaskbar: true,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       backgroundThrottling: false,
-      webSecurity: false
+      webSecurity: false,
       // devTools: false
-    }
-  }
+    },
+  };
 
-  global.welcomeWindow = new BrowserWindow(obj)
+  global.welcomeWindow = new BrowserWindow(obj);
 
-  global.welcomeWindow.loadURL(welcomeWinURL)
-}
-export default createWelcomeWindow
+  global.welcomeWindow.loadURL(welcomeWinURL);
+};
+export default createWelcomeWindow;

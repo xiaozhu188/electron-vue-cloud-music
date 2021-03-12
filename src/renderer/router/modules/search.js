@@ -1,10 +1,10 @@
 let searchRoutes = [
   {
-    path: '/search',
+    path: "/search",
     component: () =>
-      import(/* webpackChunkName: "search" */ '@/views/Search/index.vue'),
-    name: 'search'
-  }
-]
+      import(/* webpackChunkName: "search" */ "@/views/Search/index.vue"),
+    name: "search",
+  },
+];
 
-export { searchRoutes }
+export { searchRoutes };

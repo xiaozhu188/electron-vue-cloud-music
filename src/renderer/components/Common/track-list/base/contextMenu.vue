@@ -38,21 +38,21 @@
 
 <script>
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   props: {
     row: {
-      type: Object
+      type: Object,
     },
     col: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   methods: {
-    deletePlaylist (id) {
-      console.log(id)
-    }
-  }
-}
+    deletePlaylist(id) {
+      console.log(id);
+    },
+  },
+};
 </script>

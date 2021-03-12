@@ -93,23 +93,23 @@
 </template>
 
 <script>
-import moment from 'moment'
-import { mapGetters } from 'vuex'
-import { getUserEvent } from '@/api/user'
-import EventSong from './components/Song'
-import EventVideo from './components/Video'
-import EventPlaylist from './components/Playlist'
-import EventAlbum from './components/Album'
-import Comment from '@/components/Comment/index.vue'
+import moment from "moment";
+import { mapGetters } from "vuex";
+import { getUserEvent } from "@/api/user";
+import EventSong from "./components/Song";
+import EventVideo from "./components/Video";
+import EventPlaylist from "./components/Playlist";
+import EventAlbum from "./components/Album";
+import Comment from "@/components/Comment/index.vue";
 import {
   getSongComment,
   getVideoComment,
-  getPlaylistComment
-} from '@/api/comment'
+  getPlaylistComment,
+} from "@/api/comment";
 
 export default {
-  name: 'events',
-  data () {
+  name: "events",
+  data() {
     return {
       moment,
       commentData: null,
@@ -117,109 +117,110 @@ export default {
       currentIndex: -1,
       options: {
         limit: 10,
-        lasttime: -1
+        lasttime: -1,
       },
       commentOptions: {
         limit: 30,
-        offset: 0
+        offset: 0,
       },
       showComment: false,
       infiniteId: +new Date(),
-      nickname: ''
-    }
+      nickname: "",
+    };
   },
   components: {
     EventSong,
     EventVideo,
     EventPlaylist,
     EventAlbum,
-    Comment
+    Comment,
   },
   computed: {
-    ...mapGetters('User', ['userId'])
+    ...mapGetters("User", ["userId"]),
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.events = []
-      vm.infiniteId += 1
-    })
+      vm.events = [];
+      vm.infiniteId += 1;
+    });
   },
-  beforeRouteUpdate (to, from, next) {
-    this.events = []
-    this.infiniteId += 1
-    this.options.lasttime = -1
-    this.currentIndex = -1
-    this.commentData = null
-    this.commentOptions.offset = 0
-    this.nickname = to.query.nickname
-    next()
+  beforeRouteUpdate(to, from, next) {
+    this.events = [];
+    this.infiniteId += 1;
+    this.options.lasttime = -1;
+    this.currentIndex = -1;
+    this.commentData = null;
+    this.commentOptions.offset = 0;
+    this.nickname = to.query.nickname;
+    next();
   },
-  created () {
-    this.nickname = this.$route.query.nickname
+  created() {
+    this.nickname = this.$route.query.nickname;
   },
   methods: {
-    onEventClick (event, index) {
-      if (this.currentIndex === index) return
+    onEventClick(event, index) {
+      if (this.currentIndex === index) return;
       if (
         this.currentIndex >= 0 &&
-        Object.keys(this.events[this.currentIndex].json)[1] === 'video'
+        Object.keys(this.events[this.currentIndex].json)[1] === "video"
       ) {
-        console.log(this.$refs.component[this.currentIndex])
+        console.log(this.$refs.component[this.currentIndex]);
         this.$refs.component[this.currentIndex].pause &&
-          this.$refs.component[this.currentIndex].pause()
+          this.$refs.component[this.currentIndex].pause();
       }
-      this.currentIndex = index
-      this.$set(event, 'currentIndex', index)
+      this.currentIndex = index;
+      this.$set(event, "currentIndex", index);
     },
-    async getComment (event) {
-      let type = Object.keys(event.json)[1]
-      let id = type === 'video' ? event.json.video.videoId : event.json[type].id
-      let res = ''
-      if (type === 'video') {
+    async getComment(event) {
+      let type = Object.keys(event.json)[1];
+      let id =
+        type === "video" ? event.json.video.videoId : event.json[type].id;
+      let res = "";
+      if (type === "video") {
         res = await getVideoComment(
           id,
           this.commentOptions.limit,
           this.commentOptions.offset
-        )
-      } else if (type === 'song') {
+        );
+      } else if (type === "song") {
         res = await getSongComment(
           id,
           this.commentOptions.limit,
           this.commentOptions.offset
-        )
+        );
       } else {
         res = await getPlaylistComment(
           id,
           this.commentOptions.limit,
           this.commentOptions.offset
-        )
+        );
       }
-      res.comments = res.comments.slice(0, 5)
-      this.$set(event, 'showComment', !event.showComment)
-      this.$set(event, 'commentData', res)
+      res.comments = res.comments.slice(0, 5);
+      this.$set(event, "showComment", !event.showComment);
+      this.$set(event, "commentData", res);
     },
-    async loadmore ($state) {
-      let uid = this.$route.query.uid || this.userId
+    async loadmore($state) {
+      let uid = this.$route.query.uid || this.userId;
       let options = {
         ...this.options,
-        uid
-      }
-      let res = await getUserEvent(options)
+        uid,
+      };
+      let res = await getUserEvent(options);
       if (res.events.length) {
         res.events.forEach((item) => {
-          item.json = JSON.parse(item.json)
-        })
-        this.events.push(...res.events)
+          item.json = JSON.parse(item.json);
+        });
+        this.events.push(...res.events);
       }
-      $state.loaded()
+      $state.loaded();
       if (res.more) {
-        this.options.lasttime = res.lasttime
+        this.options.lasttime = res.lasttime;
       } else {
-        $state.complete()
+        $state.complete();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

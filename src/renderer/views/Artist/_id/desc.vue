@@ -20,32 +20,32 @@
 </template>
 
 <script>
-import { getArtistDesc } from '@/api/artist'
+import { getArtistDesc } from "@/api/artist";
 export default {
-  name: 'artist_id_desc',
-  data () {
+  name: "artist_id_desc",
+  data() {
     return {
       introduction: [],
-      briefDesc: '',
+      briefDesc: "",
       topicData: [],
-      loading: false
-    }
+      loading: false,
+    };
   },
-  activated () {
-    this._getArtistDesc()
+  activated() {
+    this._getArtistDesc();
   },
   methods: {
-    async _getArtistDesc () {
-      this.loading = true
-      let { id } = this.$route.params
-      let { introduction, briefDesc, topicData } = await getArtistDesc({ id })
-      this.introduction = introduction
-      this.briefDesc = briefDesc
-      this.topicData = topicData
-      this.loading = false
-    }
-  }
-}
+    async _getArtistDesc() {
+      this.loading = true;
+      let { id } = this.$route.params;
+      let { introduction, briefDesc, topicData } = await getArtistDesc({ id });
+      this.introduction = introduction;
+      this.briefDesc = briefDesc;
+      this.topicData = topicData;
+      this.loading = false;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

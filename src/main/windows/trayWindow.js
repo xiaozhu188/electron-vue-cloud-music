@@ -1,11 +1,11 @@
-import { LOAD_URL } from './../config'
+import { LOAD_URL } from "./../config";
 const trayWinURL =
-  process.env.NODE_ENV === 'development'
+  process.env.NODE_ENV === "development"
     ? `http://localhost:9080/#tray`
-    : `${LOAD_URL}#tray`
-let trayWindow = null
+    : `${LOAD_URL}#tray`;
+let trayWindow = null;
 const createTrayWindow = function (BrowserWindow, bounds) {
-  if (trayWindow) return
+  if (trayWindow) return;
   const obj = {
     height: 350,
     width: 200,
@@ -17,8 +17,8 @@ const createTrayWindow = function (BrowserWindow, bounds) {
     movable: false,
     minimizable: false,
     maximizable: false,
-    resizable: process.env.NODE_ENV === 'development',
-    transparent: process.platform !== 'linux',
+    resizable: process.env.NODE_ENV === "development",
+    transparent: process.platform !== "linux",
     alwaysOnTop: true,
     skipTaskbar: true,
     // parent: global.mainWindow,
@@ -26,21 +26,21 @@ const createTrayWindow = function (BrowserWindow, bounds) {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       backgroundThrottling: false,
-      devTools: false
-    }
-  }
+      devTools: false,
+    },
+  };
 
-  trayWindow = new BrowserWindow(obj)
+  trayWindow = new BrowserWindow(obj);
 
-  trayWindow.loadURL(trayWinURL)
+  trayWindow.loadURL(trayWinURL);
 
-  trayWindow.on('blur', () => {
-    trayWindow.hide()
-  })
+  trayWindow.on("blur", () => {
+    trayWindow.hide();
+  });
 
-  trayWindow.on('closed', () => {
-    trayWindow = null
-  })
-  return trayWindow
-}
-export default createTrayWindow
+  trayWindow.on("closed", () => {
+    trayWindow = null;
+  });
+  return trayWindow;
+};
+export default createTrayWindow;

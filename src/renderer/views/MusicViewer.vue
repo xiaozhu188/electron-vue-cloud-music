@@ -18,84 +18,84 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from 'vuex'
-import MusicView from '@/components/Common/musicView.vue'
-import LyricList from '@/components/Lyric/index.vue'
-const LINE_HEIGHT = 42
+import { mapGetters, mapState, mapActions } from "vuex";
+import MusicView from "@/components/Common/musicView.vue";
+import LyricList from "@/components/Lyric/index.vue";
+const LINE_HEIGHT = 42;
 export default {
-  data () {
+  data() {
     return {
       songs: [],
       currentLine: 6,
-      showLyric: true
-    }
+      showLyric: true,
+    };
   },
   computed: {
-    ...mapState('play', ['lyric']),
-    ...mapGetters('play', [
-      'current_song',
-      'current_play_list',
-      'current_song_index',
-      'playing',
-      'current_lyric_line',
-      'source'
+    ...mapState("play", ["lyric"]),
+    ...mapGetters("play", [
+      "current_song",
+      "current_play_list",
+      "current_song_index",
+      "playing",
+      "current_lyric_line",
+      "source",
     ]),
-    ...mapGetters('App', ['showView'])
+    ...mapGetters("App", ["showView"]),
   },
   components: {
     MusicView,
-    LyricList
+    LyricList,
   },
   watch: {
-    showView (newVal) {
+    showView(newVal) {
       if (newVal) {
         this.$nextTick(() => {
-          const lines = this.$refs.lyrics.$refs.lyricLine
+          const lines = this.$refs.lyrics.$refs.lyricLine;
           if (lines && lines[this.current_lyric_line]) {
             let top = Number(
               lines[this.current_lyric_line].offsetTop -
                 LINE_HEIGHT * this.currentLine
-            )
-            this.$refs.lyrics.scrollTo(top)
+            );
+            this.$refs.lyrics.scrollTo(top);
           }
-        })
-        this.unWatcher = this.$watch('current_lyric_line', (newLine) => {
-          this.handleLineChange(newLine)
-        })
+        });
+        this.unWatcher = this.$watch("current_lyric_line", (newLine) => {
+          this.handleLineChange(newLine);
+        });
       } else {
-        this.unWatcher()
+        this.unWatcher();
       }
-    }
+    },
   },
   methods: {
-    handleLineChange (newLine) {
-      const lines = this.$refs.lyrics.$refs.lyricLine
+    handleLineChange(newLine) {
+      const lines = this.$refs.lyrics.$refs.lyricLine;
       if (lines && lines[newLine]) {
         let top =
           lines[newLine].offsetTop > 0
             ? Number(lines[newLine].offsetTop - LINE_HEIGHT * this.currentLine)
-            : 0
-        this.$refs.lyrics.scrollTo(top, 'smooth')
+            : 0;
+        this.$refs.lyrics.scrollTo(top, "smooth");
       }
     },
-    closeMusicView () {
-      this.$store.commit('App/SHOW_VIEW', false)
+    closeMusicView() {
+      this.$store.commit("App/SHOW_VIEW", false);
     },
-    scrollToCurrentline (top, behavior = 'auto') {
-      const lyricDom = this.$refs.lyricList
+    scrollToCurrentline(top, behavior = "auto") {
+      const lyricDom = this.$refs.lyricList;
       if (lyricDom && lyricDom.scrollTo) {
-        lyricDom.scrollTo({ top, behavior })
+        lyricDom.scrollTo({ top, behavior });
       }
     },
-    toggleViewer () {
-      this.$refs.viewer.toggleGlow()
-      this.showLyric = !this.showLyric
+    toggleViewer() {
+      this.$refs.viewer.toggleGlow();
+      this.showLyric = !this.showLyric;
     },
-    handleAvatarClick () {
-      this.showLyric = !this.showLyric
-    }
-  }
-}
+    handleAvatarClick() {
+      this.showLyric = !this.showLyric;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

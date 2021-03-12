@@ -31,205 +31,205 @@
 </template>
 
 <script>
-import HomeLayout from '@/layouts/HomeLayout'
-import artistItem from '@/components/Common/artist-item'
-import tags from '@/components/Common/tags'
-import { getArtistList } from '@/api/artist'
+import HomeLayout from "@/layouts/HomeLayout";
+import artistItem from "@/components/Common/artist-item";
+import tags from "@/components/Common/tags";
+import { getArtistList } from "@/api/artist";
 
-let INITIAL = ''
+let INITIAL = "";
 let cates = {
   男歌手: [
     {
       id: 1001,
-      name: '华语男歌手'
+      name: "华语男歌手",
     },
     {
       id: 2001,
-      name: '欧美男歌手'
+      name: "欧美男歌手",
     },
     {
       id: 6001,
-      name: '日本男歌手'
+      name: "日本男歌手",
     },
     {
       id: 7001,
-      name: '韩国男歌手'
+      name: "韩国男歌手",
     },
     {
       id: 4001,
-      name: '其他男歌手'
-    }
+      name: "其他男歌手",
+    },
   ],
   女歌手: [
     {
       id: 1002,
-      name: '华语女歌手'
+      name: "华语女歌手",
     },
     {
       id: 2002,
-      name: '欧美女歌手'
+      name: "欧美女歌手",
     },
     {
       id: 6002,
-      name: '日本女歌手'
+      name: "日本女歌手",
     },
     {
       id: 7002,
-      name: '韩国女歌手'
+      name: "韩国女歌手",
     },
     {
       id: 4002,
-      name: '其他女歌手'
-    }
+      name: "其他女歌手",
+    },
   ],
-  '组合/乐队': [
+  "组合/乐队": [
     {
       id: 1003,
-      name: '华语组合/乐队'
+      name: "华语组合/乐队",
     },
     {
       id: 2003,
-      name: '欧美组合/乐队'
+      name: "欧美组合/乐队",
     },
     {
       id: 6003,
-      name: '日本组合/乐队'
+      name: "日本组合/乐队",
     },
     {
       id: 7003,
-      name: '韩国组合/乐队'
+      name: "韩国组合/乐队",
     },
     {
       id: 4003,
-      name: '其他组合/乐队'
-    }
+      name: "其他组合/乐队",
+    },
   ],
   入驻歌手: [
     {
       id: 5001,
-      name: '入驻歌手'
-    }
-  ]
-}
+      name: "入驻歌手",
+    },
+  ],
+};
 let names = {
   名称: [
     {
-      id: 'A',
-      name: 'A'
+      id: "A",
+      name: "A",
     },
     {
-      id: 'B',
-      name: 'B'
+      id: "B",
+      name: "B",
     },
     {
-      id: 'C',
-      name: 'C'
+      id: "C",
+      name: "C",
     },
     {
-      id: 'D',
-      name: 'D'
+      id: "D",
+      name: "D",
     },
     {
-      id: 'E',
-      name: 'E'
+      id: "E",
+      name: "E",
     },
     {
-      id: 'F',
-      name: 'F'
+      id: "F",
+      name: "F",
     },
     {
-      id: 'G',
-      name: 'G'
-    },
-
-    {
-      id: 'H',
-      name: 'H'
-    },
-    {
-      id: 'I',
-      name: 'I'
-    },
-    {
-      id: 'J',
-      name: 'J'
-    },
-    {
-      id: 'K',
-      name: 'K'
-    },
-    {
-      id: 'L',
-      name: 'L'
-    },
-    {
-      id: 'M',
-      name: 'M'
-    },
-    {
-      id: 'N',
-      name: 'N'
+      id: "G",
+      name: "G",
     },
 
     {
-      id: 'O',
-      name: 'O'
+      id: "H",
+      name: "H",
     },
     {
-      id: 'P',
-      name: 'P'
+      id: "I",
+      name: "I",
     },
     {
-      id: 'Q',
-      name: 'Q'
+      id: "J",
+      name: "J",
     },
     {
-      id: 'R',
-      name: 'R'
+      id: "K",
+      name: "K",
     },
     {
-      id: 'S',
-      name: 'S'
+      id: "L",
+      name: "L",
     },
     {
-      id: 'T',
-      name: 'T'
+      id: "M",
+      name: "M",
+    },
+    {
+      id: "N",
+      name: "N",
     },
 
     {
-      id: 'U',
-      name: 'U'
+      id: "O",
+      name: "O",
     },
     {
-      id: 'V',
-      name: 'V'
+      id: "P",
+      name: "P",
     },
     {
-      id: 'W',
-      name: 'W'
+      id: "Q",
+      name: "Q",
     },
     {
-      id: 'X',
-      name: 'X'
+      id: "R",
+      name: "R",
     },
     {
-      id: 'Y',
-      name: 'Y'
+      id: "S",
+      name: "S",
     },
     {
-      id: 'Z',
-      name: 'Z'
+      id: "T",
+      name: "T",
+    },
+
+    {
+      id: "U",
+      name: "U",
+    },
+    {
+      id: "V",
+      name: "V",
+    },
+    {
+      id: "W",
+      name: "W",
+    },
+    {
+      id: "X",
+      name: "X",
+    },
+    {
+      id: "Y",
+      name: "Y",
+    },
+    {
+      id: "Z",
+      name: "Z",
     },
 
     {
       id: INITIAL,
-      name: INITIAL
-    }
-  ]
-}
+      name: INITIAL,
+    },
+  ],
+};
 export default {
-  name: 'artist',
-  data () {
+  name: "artist",
+  data() {
     return {
       cates,
       names,
@@ -238,53 +238,53 @@ export default {
         limit: 11,
         offset: 0,
         cat: 1001,
-        initial: INITIAL // a-z
-      }
-    }
+        initial: INITIAL, // a-z
+      },
+    };
   },
   components: {
     HomeLayout,
     tags,
-    artistItem
+    artistItem,
   },
   methods: {
-    async getArtists () {
-      this.options.initial = encodeURIComponent(this.options.initial)
+    async getArtists() {
+      this.options.initial = encodeURIComponent(this.options.initial);
       try {
-        let res = await getArtistList(this.options)
-        this.artists = res.artists
+        let res = await getArtistList(this.options);
+        this.artists = res.artists;
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     },
-    async loadmore ($state) {
-      let res = await getArtistList(this.options)
+    async loadmore($state) {
+      let res = await getArtistList(this.options);
       if (res.artists.length) {
-        this.options.offset += this.options.limit
-        this.artists.push(...res.artists)
-        $state.loaded()
+        this.options.offset += this.options.limit;
+        this.artists.push(...res.artists);
+        $state.loaded();
       } else {
-        $state.complete()
+        $state.complete();
       }
     },
-    onTagChange (tag) {
-      this.options.offset = 0
-      this.options.cat = tag.id
-      this.getArtists()
+    onTagChange(tag) {
+      this.options.offset = 0;
+      this.options.cat = tag.id;
+      this.getArtists();
     },
-    onNameChange (tag) {
-      this.options.offset = 0
-      this.options.initial = tag.name
-      this.getArtists()
-    }
-  }
+    onNameChange(tag) {
+      this.options.offset = 0;
+      this.options.initial = tag.name;
+      this.getArtists();
+    },
+  },
   /* async asyncData({$axios}) {
       let {data: {artists}} = await $axios.get('/api/artist/list')
       return {
         artists
       }
     } */
-}
+};
 </script>
 
 <style lang="less" scoped>

@@ -8,34 +8,34 @@
 </template>
 
 <script>
-import searchMixin from '@/mixins/Search'
-import { normalSong } from '@/utils/song'
-import TrackList from '@/components/Common/track-list/index.js'
+import searchMixin from "@/mixins/Search";
+import { normalSong } from "@/utils/song";
+import TrackList from "@/components/Common/track-list/index.js";
 export default {
   mixins: [searchMixin],
-  data () {
+  data() {
     return {
-      songs: []
-    }
+      songs: [],
+    };
   },
   methods: {
-    normalData () {
+    normalData() {
       if (this.result.songs && this.result.songs.length) {
         this.songs = this.result.songs.map((song) => {
-          return normalSong(song)
-        })
+          return normalSong(song);
+        });
       }
-      this.spinning = false
+      this.spinning = false;
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
+    play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
     },
-    download (song) {
-      this.$store.dispatch('Download/download', song)
-    }
+    download(song) {
+      this.$store.dispatch("Download/download", song);
+    },
   },
-  components: { TrackList }
-}
+  components: { TrackList },
+};
 </script>
 
 <style scoped></style>

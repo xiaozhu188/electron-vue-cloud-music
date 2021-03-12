@@ -59,74 +59,74 @@
 
 <script>
 // 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频 ,1018: 综合
-import { getSearch, getSearchMultimatch } from '@/api/search'
-import Loading from '@/components/Common/loading'
-const SearchSong = () => import('./components/song')
-const SearchArtist = () => import('./components/artist')
-const SearchAlbum = () => import('./components/album')
-const SearchVideo = () => import('./components/video')
-const SearchPlaylist = () => import('./components/playlist')
-const SearchLyric = () => import('./components/lyric')
-const SearchDj = () => import('./components/dj')
-const SearchUser = () => import('./components/user')
-const SearchAll = () => import('./components/all')
+import { getSearch, getSearchMultimatch } from "@/api/search";
+import Loading from "@/components/Common/loading";
+const SearchSong = () => import("./components/song");
+const SearchArtist = () => import("./components/artist");
+const SearchAlbum = () => import("./components/album");
+const SearchVideo = () => import("./components/video");
+const SearchPlaylist = () => import("./components/playlist");
+const SearchLyric = () => import("./components/lyric");
+const SearchDj = () => import("./components/dj");
+const SearchUser = () => import("./components/user");
+const SearchAll = () => import("./components/all");
 
 const tabs = [
   {
-    name: 'search-song_1',
-    label: '单曲',
-    type: 1
+    name: "search-song_1",
+    label: "单曲",
+    type: 1,
   },
   {
-    name: 'search-artist_100',
-    label: '歌手',
-    type: 100
+    name: "search-artist_100",
+    label: "歌手",
+    type: 100,
   },
   {
-    name: 'search-album_10',
-    label: '专辑',
-    type: 10
+    name: "search-album_10",
+    label: "专辑",
+    type: 10,
   },
   {
-    name: 'search-video_1014',
-    label: '视频',
-    type: 1014
+    name: "search-video_1014",
+    label: "视频",
+    type: 1014,
   },
   {
-    name: 'search-playlist_1000',
-    label: '歌单',
-    type: 1000
+    name: "search-playlist_1000",
+    label: "歌单",
+    type: 1000,
   },
   {
-    name: 'search-lyric_1006',
-    label: '歌词',
-    type: 1006
+    name: "search-lyric_1006",
+    label: "歌词",
+    type: 1006,
   },
   {
-    name: 'search-dj_1009',
-    label: '主播电台',
-    type: 1009
+    name: "search-dj_1009",
+    label: "主播电台",
+    type: 1009,
   },
   {
-    name: 'search-user_1002',
-    label: '用户',
-    type: 1002
-  }
+    name: "search-user_1002",
+    label: "用户",
+    type: 1002,
+  },
   // {
   //   name: 'search-all_1018',
   //   label: '综合',
   //   type: 1018
   // }
-]
+];
 
 export default {
-  name: 'search',
-  data () {
-    let keyword = this.$route.query.keyword || ''
+  name: "search",
+  data() {
+    let keyword = this.$route.query.keyword || "";
     return {
       tabs,
       activeKey: tabs[0].name,
-      componentName: 'search-song',
+      componentName: "search-song",
       keyword,
       limit: 30,
       offset: 0,
@@ -134,45 +134,45 @@ export default {
       result: null,
       matchRes: null,
       matchMap: {
-        album: '专辑',
-        artist: '歌手',
-        mv: 'MV',
-        video: '视频'
-      }
-    }
+        album: "专辑",
+        artist: "歌手",
+        mv: "MV",
+        video: "视频",
+      },
+    };
   },
   watch: {
-    '$route.query.keyword': '_search'
+    "$route.query.keyword": "_search",
   },
-  created () {
-    this._search()
+  created() {
+    this._search();
   },
   methods: {
-    onTabChange (key) {
-      this.componentName = key.split('_')[0]
-      this.searchType = key.split('_')[1]
-      this._search()
+    onTabChange(key) {
+      this.componentName = key.split("_")[0];
+      this.searchType = key.split("_")[1];
+      this._search();
     },
-    async _search () {
-      this.keyword = this.$route.query.keyword || ''
-      if (this.keyword == '') return
-      let { keyword, limit, offset, searchType } = this
+    async _search() {
+      this.keyword = this.$route.query.keyword || "";
+      if (this.keyword == "") return;
+      let { keyword, limit, offset, searchType } = this;
       let params = {
         keyword,
         limit,
         offset,
-        type: searchType
-      }
-      let { result } = await getSearch(params)
-      let matches = await getSearchMultimatch(keyword)
-      this.matchRes = matches.result
-      this.result = result
-      this.$store.dispatch('Search/saveKeyword', keyword)
+        type: searchType,
+      };
+      let { result } = await getSearch(params);
+      let matches = await getSearchMultimatch(keyword);
+      this.matchRes = matches.result;
+      this.result = result;
+      this.$store.dispatch("Search/saveKeyword", keyword);
     },
-    onPageChange (page, pageSize) {
-      this.offset = (page - 1) * this.limit
-      this._search()
-    }
+    onPageChange(page, pageSize) {
+      this.offset = (page - 1) * this.limit;
+      this._search();
+    },
   },
   components: {
     SearchSong,
@@ -184,9 +184,9 @@ export default {
     SearchDj,
     SearchUser,
     SearchAll,
-    Loading
-  }
-}
+    Loading,
+  },
+};
 </script>
 
 <style lang="less" scoped>

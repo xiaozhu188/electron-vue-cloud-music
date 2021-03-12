@@ -147,24 +147,24 @@
 </template>
 
 <script>
-import { getMVInfo, getMvUrl, getSimiMV, subMV } from '@/api/mv'
-import { getMVComment } from '@/api/comment'
-import ProgressBar from '@/components/Common/progressBar'
-import Comment from '@/components/Comment/index.vue'
-import Loading from '@/components/Common/loading'
-import Artists from '@/components/Common/artists'
-import { normalMV, normalVideo } from '@/utils/video'
-import { getMv } from '@/api/sublist'
-import { brsMap } from '@/config/config.js'
-import { mapGetters, mapMutations } from 'vuex'
+import { getMVInfo, getMvUrl, getSimiMV, subMV } from "@/api/mv";
+import { getMVComment } from "@/api/comment";
+import ProgressBar from "@/components/Common/progressBar";
+import Comment from "@/components/Comment/index.vue";
+import Loading from "@/components/Common/loading";
+import Artists from "@/components/Common/artists";
+import { normalMV, normalVideo } from "@/utils/video";
+import { getMv } from "@/api/sublist";
+import { brsMap } from "@/config/config.js";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-  name: 'mv_id',
-  data () {
+  name: "mv_id",
+  data() {
     return {
-      title: 'mv详情',
-      mv: '',
-      mvURL: '',
+      title: "mv详情",
+      mv: "",
+      mvURL: "",
       brsMap,
       simiList: [],
       currentTime: 0,
@@ -180,89 +180,89 @@ export default {
       commentData: null,
       limit: 20,
       offset: 0,
-      infiniteId: +new Date()
-    }
+      infiniteId: +new Date(),
+    };
   },
   components: {
     ProgressBar,
     Comment,
     Loading,
-    Artists
+    Artists,
   },
   computed: {
-    ...mapGetters('User', ['userId']),
-    ...mapGetters('play', ['videoPlaying', 'playing']),
-    percent () {
-      return this.currentTime / (this.mv.duration / 1000)
+    ...mapGetters("User", ["userId"]),
+    ...mapGetters("play", ["videoPlaying", "playing"]),
+    percent() {
+      return this.currentTime / (this.mv.duration / 1000);
     },
-    bufferedPercent () {
-      return this.buffered / (this.mv.duration / 1000)
+    bufferedPercent() {
+      return this.buffered / (this.mv.duration / 1000);
     },
-    playIcon () {
-      return this.videoPlaying ? 'pause-circle' : 'play-circle'
+    playIcon() {
+      return this.videoPlaying ? "pause-circle" : "play-circle";
     },
-    screenIcon () {
-      return this.fullScreenFlag ? 'fullscreen-exit' : 'fullscreen'
+    screenIcon() {
+      return this.fullScreenFlag ? "fullscreen-exit" : "fullscreen";
     },
     isLiked: {
-      get () {
-        return this.subVideoList.some((item) => item.id == this.mv.id)
-      }
-    }
+      get() {
+        return this.subVideoList.some((item) => item.id == this.mv.id);
+      },
+    },
   },
   watch: {
-    videoPlaying (newVal) {
-      const mv = this.$refs.mv
+    videoPlaying(newVal) {
+      const mv = this.$refs.mv;
       this.$nextTick(() => {
-        newVal ? mv.play() : mv.pause()
-      })
+        newVal ? mv.play() : mv.pause();
+      });
     },
-    mvURL (newURL) {
+    mvURL(newURL) {
       if (this.mvURL == newURL) {
-        return
+        return;
       }
-      this.buffered = 0
-      this.$refs.mv.currentTime = this.currentTime
-      this.$refs.mv.play()
-    }
+      this.buffered = 0;
+      this.$refs.mv.currentTime = this.currentTime;
+      this.$refs.mv.play();
+    },
   },
-  activated () {
-    this.isLoading = true
-    this.waiting = true
-    this.buffered = 0
-    this.currentTime = 0
-    this.offset = 0
-    this.commentData = null
-    this.infiniteId++
-    this._getMv(this.$route.params.id)
-    this.getSubVideo()
+  activated() {
+    this.isLoading = true;
+    this.waiting = true;
+    this.buffered = 0;
+    this.currentTime = 0;
+    this.offset = 0;
+    this.commentData = null;
+    this.infiniteId++;
+    this._getMv(this.$route.params.id);
+    this.getSubVideo();
   },
-  beforeRouteUpdate (to, from, next) {
-    this.isLoading = true
-    this.waiting = true
-    this.buffered = 0
-    this.currentTime = 0
-    this.offset = 0
-    this.commentData = null
-    this.infiniteId++
-    this._getMv(to.params.id)
-    this.getSubVideo()
-    next()
+  beforeRouteUpdate(to, from, next) {
+    this.isLoading = true;
+    this.waiting = true;
+    this.buffered = 0;
+    this.currentTime = 0;
+    this.offset = 0;
+    this.commentData = null;
+    this.infiniteId++;
+    this._getMv(to.params.id);
+    this.getSubVideo();
+    next();
   },
-  beforeRouteLeave (to, from, next) {
-    this.mvURL = ''
-    next()
+  beforeRouteLeave(to, from, next) {
+    this.mvURL = "";
+    next();
   },
   methods: {
-    ...mapMutations('play', ['SET_VIDEO_PLAY_STATUS']),
-    open () {
-      this.pause()
+    ...mapMutations("play", ["SET_VIDEO_PLAY_STATUS"]),
+    open() {
+      this.pause();
       const winURL =
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV === "development"
           ? `http://localhost:9080/#fullscreen`
-          : `file://${__dirname}/index.html#fullscreen`
-      const { BrowserWindow, globalShortcut } = this.$electron.remote
-      console.log(this.$electron)
+          : `file://${__dirname}/index.html#fullscreen`;
+      const { BrowserWindow, globalShortcut } = this.$electron.remote;
+      console.log(this.$electron);
       let win = new BrowserWindow({
         width: 1000,
         height: 600,
@@ -271,164 +271,164 @@ export default {
         webPreferences: {
           nodeIntegration: true,
           nodeIntegrationInWorker: true,
-          webSecurity: false
+          webSecurity: false,
           // devTools: false
-        }
-      })
+        },
+      });
       // win.setFullScreen(true)
-      globalShortcut.register('Alt+ESC', () => {
+      globalShortcut.register("Alt+ESC", () => {
         // BrowserWindow.get
-        this.$electron.remote.getCurrentWindow.close()
-      })
-      win.loadURL(winURL)
+        this.$electron.remote.getCurrentWindow.close();
+      });
+      win.loadURL(winURL);
     },
-    _getMv (id) {
+    _getMv(id) {
       getMVInfo(id).then((res) => {
-        this.mv = res.data
-        let urls = []
+        this.mv = res.data;
+        let urls = [];
         for (let k in res.data.brs) {
-          let item = {}
-          item.key = k
-          item.url = res.data.brs[k]
-          urls.push(item)
+          let item = {};
+          item.key = k;
+          item.url = res.data.brs[k];
+          urls.push(item);
         }
-        this.urls = urls
-        this.mvURL = urls[urls.length - 1]
-        console.log(this.urls)
-        this.isLoading = false
-      })
+        this.urls = urls;
+        this.mvURL = urls[urls.length - 1];
+        console.log(this.urls);
+        this.isLoading = false;
+      });
       getSimiMV(id).then((res) => {
-        let arr = []
+        let arr = [];
         res.mvs.forEach((item) => {
-          arr.push(normalMV(item))
-        })
-        this.simiList = arr
-      })
+          arr.push(normalMV(item));
+        });
+        this.simiList = arr;
+      });
       // getMVComment(id).then(res => {
       //   this.comment = res
       // })
     },
-    async loadmore ($state) {
-      let id = this.$route.params.id
-      let res = await getMVComment(id, this.limit, this.offset)
+    async loadmore($state) {
+      let id = this.$route.params.id;
+      let res = await getMVComment(id, this.limit, this.offset);
       if (res.comments.length) {
         if (this.commentData) {
-          this.commentData.comments.push(...res.comments)
+          this.commentData.comments.push(...res.comments);
         } else {
-          this.commentData = res
+          this.commentData = res;
         }
       }
-      $state.loaded()
+      $state.loaded();
       if (res.more) {
-        this.offset += this.limit
+        this.offset += this.limit;
       } else {
-        $state.complete()
+        $state.complete();
       }
     },
-    getSubVideo () {
-      if (!this.userId) return
+    getSubVideo() {
+      if (!this.userId) return;
       getMv({}).then((res) => {
-        let arr = []
+        let arr = [];
         res.data.forEach((video) => {
-          arr.push(normalVideo(video))
-        })
-        this.subVideoList = arr
-      })
+          arr.push(normalVideo(video));
+        });
+        this.subVideoList = arr;
+      });
     },
-    async subscribe (videoId, t = '') {
+    async subscribe(videoId, t = "") {
       try {
-        this.subscribing = true
-        let res = await subMV(videoId, t)
+        this.subscribing = true;
+        let res = await subMV(videoId, t);
         if (res.code == 200) {
           if (t == 1) {
-            this.$message.success('收藏成功!')
-            this.$set(this.mv, 'isSubscribed', true)
+            this.$message.success("收藏成功!");
+            this.$set(this.mv, "isSubscribed", true);
           } else {
-            this.$message.success('取消收藏成功!')
-            this.$set(this.mv, 'isSubscribed', false)
+            this.$message.success("取消收藏成功!");
+            this.$set(this.mv, "isSubscribed", false);
             let index = this.subVideoList.findIndex(
               (item) => item.id == videoId
-            )
-            this.subVideoList.splice(index, 1)
+            );
+            this.subVideoList.splice(index, 1);
           }
         }
-        this.subscribing = false
+        this.subscribing = false;
       } catch (error) {
-        this.subscribing = false
+        this.subscribing = false;
       }
     },
-    onplay () {
-      this.SET_VIDEO_PLAY_STATUS(true)
+    onplay() {
+      this.SET_VIDEO_PLAY_STATUS(true);
       if (this.playing) {
-        this.$store.commit('play/SET_PLAY_STATUS', false)
+        this.$store.commit("play/SET_PLAY_STATUS", false);
       }
     },
-    onEnd () {
-      this.SET_VIDEO_PLAY_STATUS(false)
+    onEnd() {
+      this.SET_VIDEO_PLAY_STATUS(false);
     },
-    updateTime (e) {
-      this.currentTime = e.target.currentTime
-      const video = this.$refs.mv
+    updateTime(e) {
+      this.currentTime = e.target.currentTime;
+      const video = this.$refs.mv;
       if (video) {
-        const timeRanges = video.buffered
+        const timeRanges = video.buffered;
         if (timeRanges.length != 0) {
-          this.buffered = timeRanges.end(timeRanges.length - 1)
+          this.buffered = timeRanges.end(timeRanges.length - 1);
         }
       }
     },
-    onWaiting () {
-      this.waiting = true
+    onWaiting() {
+      this.waiting = true;
     },
-    onPlaying () {
-      this.waiting = false
+    onPlaying() {
+      this.waiting = false;
     },
-    onError () {
-      this.waiting = false
+    onError() {
+      this.waiting = false;
     },
-    togglePlaying () {
-      this.SET_VIDEO_PLAY_STATUS(!this.videoPlaying)
+    togglePlaying() {
+      this.SET_VIDEO_PLAY_STATUS(!this.videoPlaying);
     },
-    pause () {
-      this.SET_VIDEO_PLAY_STATUS(false)
+    pause() {
+      this.SET_VIDEO_PLAY_STATUS(false);
     },
-    onProgressBarChange (percent) {
-      const currentTime = (this.mv.duration / 1000) * percent
-      console.log(currentTime)
-      this.currentTime = this.$refs.mv.currentTime = currentTime
+    onProgressBarChange(percent) {
+      const currentTime = (this.mv.duration / 1000) * percent;
+      console.log(currentTime);
+      this.currentTime = this.$refs.mv.currentTime = currentTime;
     },
-    onProgressBarChanging (percent) {
-      const currentTime = (this.mv.duration / 1000) * percent
-      this.currentTime = this.$refs.mv.currentTime = currentTime
+    onProgressBarChanging(percent) {
+      const currentTime = (this.mv.duration / 1000) * percent;
+      this.currentTime = this.$refs.mv.currentTime = currentTime;
     },
-    toggleFullScreen () {
-      this.fullScreenFlag = !this.fullScreenFlag
-      this.$refs.mv.webkitRequestFullScreen()
+    toggleFullScreen() {
+      this.fullScreenFlag = !this.fullScreenFlag;
+      this.$refs.mv.webkitRequestFullScreen();
     },
-    selectBrs (br) {
-      if (this.mvURL.url == br.url) return
-      this.$refs.mv.pause()
-      let currentTime = this.$refs.mv.currentTime
-      this.mvURL = br
-      this.isShowBrs = false
+    selectBrs(br) {
+      if (this.mvURL.url == br.url) return;
+      this.$refs.mv.pause();
+      let currentTime = this.$refs.mv.currentTime;
+      this.mvURL = br;
+      this.isShowBrs = false;
       this.$nextTick(() => {
-        this.$refs.mv.currentTime = currentTime
-      })
+        this.$refs.mv.currentTime = currentTime;
+      });
     },
-    share () {
-      let url = `https://music.163.com/#/mv?id=${this.$route.params.id}`
+    share() {
+      let url = `https://music.163.com/#/mv?id=${this.$route.params.id}`;
       let _shareUrl =
-        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
-      _shareUrl += 'url=' + url
-      _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
-      _shareUrl += '&desc=' + '♪我发现一个不错的视频-' + this.mv.name
-      _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一个不错的视频-' + this.mv.name
-      _shareUrl += '&site=' + 'https://music.163.com/'
-      _shareUrl += '&pics=' + this.mv.cover
-      this.$electron.remote.shell.openExternal(_shareUrl)
-    }
-  }
-}
+        "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+      _shareUrl += "url=" + url;
+      _shareUrl += "&showcount=" + 1; // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
+      _shareUrl += "&desc=" + "♪我发现一个不错的视频-" + this.mv.name;
+      _shareUrl += "&summary=" + "分享摘要";
+      _shareUrl += "&title=" + "♪我发现一个不错的视频-" + this.mv.name;
+      _shareUrl += "&site=" + "https://music.163.com/";
+      _shareUrl += "&pics=" + this.mv.cover;
+      this.$electron.remote.shell.openExternal(_shareUrl);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

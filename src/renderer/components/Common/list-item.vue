@@ -31,7 +31,7 @@
 <script>
 export default {
   props: {
-    layout: { type: String, default: '' },
+    layout: { type: String, default: "" },
     ratio: { type: Number, default: 1 }, // 图片高宽比
     item: { type: Object, default: null },
     itemType: {
@@ -41,46 +41,46 @@ export default {
       //   return [ 'playlist', 'video', 'mv' ].includes(value)
       // }
     },
-    imgParam: { type: String, default: '200y200' }
+    imgParam: { type: String, default: "200y200" },
   },
   methods: {
-    goRoute () {
+    goRoute() {
       if (this.item.url) {
-        window.open(this.item.url)
-      } else if (this.itemType == 'mv' && typeof this.item.id == 'number') {
-        this.$router.push(`/mv/${this.item.id}`)
-      } else if (this.itemType == 'video') {
-        this.$router.push(`/video/${this.item.videoId}`)
+        window.open(this.item.url);
+      } else if (this.itemType == "mv" && typeof this.item.id == "number") {
+        this.$router.push(`/mv/${this.item.id}`);
+      } else if (this.itemType == "video") {
+        this.$router.push(`/video/${this.item.videoId}`);
       } else {
-        this.$router.push(`/playlist/${this.item.id}`)
+        this.$router.push(`/playlist/${this.item.id}`);
       }
-    }
+    },
   },
   computed: {
-    itemCls () {
-      return this.layout == 'horizon' ? 'item horizon' : 'item'
+    itemCls() {
+      return this.layout == "horizon" ? "item horizon" : "item";
     },
-    styleObj () {
-      let style = {}
-      style.paddingTop = (this.ratio / 1) * 100 + '%'
-      return style
+    styleObj() {
+      let style = {};
+      style.paddingTop = (this.ratio / 1) * 100 + "%";
+      return style;
     },
-    toPath () {
-      if (this.item.url !== '') {
-        return this.item.url
+    toPath() {
+      if (this.item.url !== "") {
+        return this.item.url;
       }
-      let path
-      if (this.itemType == 'mv' && typeof this.item.id == 'number') {
-        path = `/mv/${this.item.id}`
-      } else if (this.itemType == 'video') {
-        path = `/video/${this.item.videoId}`
+      let path;
+      if (this.itemType == "mv" && typeof this.item.id == "number") {
+        path = `/mv/${this.item.id}`;
+      } else if (this.itemType == "video") {
+        path = `/video/${this.item.videoId}`;
       } else {
-        path = `/playlist/${this.item.id}`
+        path = `/playlist/${this.item.id}`;
       }
-      return path
-    }
-  }
-}
+      return path;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

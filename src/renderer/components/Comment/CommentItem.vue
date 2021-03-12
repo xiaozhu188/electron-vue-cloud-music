@@ -37,19 +37,19 @@
 </template>
 
 <script>
-import moment from 'moment'
+import moment from "moment";
 export default {
-  data () {
+  data() {
     return {
-      moment
-    }
+      moment,
+    };
   },
   props: {
     comment: {
-      type: Object
-    }
-  }
-}
+      type: Object,
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -6,15 +6,15 @@
 </template>
 
 <script>
-import ZIcon from '@/components/ZIcon'
+import ZIcon from "@/components/ZIcon";
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   components: {
-    ZIcon
-  }
-}
+    ZIcon,
+  },
+};
 </script>
 
 <style lang="less" scoped>

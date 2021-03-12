@@ -67,21 +67,21 @@
 </template>
 
 <script>
-import HomeLayout from '@/layouts/HomeLayout'
-import listItem from '@/components/Common/list-item'
-import tags from '@/components/Common/tags'
+import HomeLayout from "@/layouts/HomeLayout";
+import listItem from "@/components/Common/list-item";
+import tags from "@/components/Common/tags";
 import {
   getTopPlaylist,
   getHighPlaylist,
   getPlaylistCatlist,
-  getPlaylistTags
-} from '@/api/playlist'
-import { normalPlaylistCard } from '@/utils/card'
+  getPlaylistTags,
+} from "@/api/playlist";
+import { normalPlaylistCard } from "@/utils/card";
 
-let ALL = '全部'
+let ALL = "全部";
 export default {
-  name: 'playlist',
-  data () {
+  name: "playlist",
+  data() {
     return {
       tags: [],
       cates: null,
@@ -93,66 +93,66 @@ export default {
         limit: 29,
         offset: 0,
         cat: ALL,
-        order: 'hot' // new or hot
+        order: "hot", // new or hot
       },
-      total: 0
-    }
+      total: 0,
+    };
   },
   components: {
     HomeLayout,
     listItem,
-    tags
+    tags,
   },
-  activated () {
-    this.getPlaylist(true)
-    this._getTags()
-    this._getCatelist()
+  activated() {
+    this.getPlaylist(true);
+    this._getTags();
+    this._getCatelist();
   },
   methods: {
-    async getPlaylist (checkQuery) {
+    async getPlaylist(checkQuery) {
       if (checkQuery) {
-        this.options.cat = this.$route.query.cat || ALL
+        this.options.cat = this.$route.query.cat || ALL;
       }
-      let res = await getTopPlaylist(this.options)
-      let arr = []
+      let res = await getTopPlaylist(this.options);
+      let arr = [];
       res.playlists.forEach((playlist) => {
-        arr.push(normalPlaylistCard(playlist))
-      })
-      this.playlists = arr
-      this.total = res.total
+        arr.push(normalPlaylistCard(playlist));
+      });
+      this.playlists = arr;
+      this.total = res.total;
     },
-    onPageChange (page, pageSize) {
-      console.log(page, pageSize)
-      this.options.offset = (page - 1) * pageSize
-      this.getPlaylist()
+    onPageChange(page, pageSize) {
+      console.log(page, pageSize);
+      this.options.offset = (page - 1) * pageSize;
+      this.getPlaylist();
     },
-    onTagChange (tag) {
-      this.options.cat = tag.name
-      this.options.offset = 0
-      this.getPlaylist()
+    onTagChange(tag) {
+      this.options.cat = tag.name;
+      this.options.offset = 0;
+      this.getPlaylist();
     },
-    fetchAll () {
-      this.options.cat = ALL
-      this.options.offset = 0
-      this.getPlaylist()
+    fetchAll() {
+      this.options.cat = ALL;
+      this.options.offset = 0;
+      this.getPlaylist();
     },
-    async _getTags () {
-      let { tags } = await getPlaylistTags()
-      this.tags = tags
+    async _getTags() {
+      let { tags } = await getPlaylistTags();
+      this.tags = tags;
     },
-    async _getCatelist () {
-      let { categories, sub } = await getPlaylistCatlist()
-      let map = {}
+    async _getCatelist() {
+      let { categories, sub } = await getPlaylistCatlist();
+      let map = {};
       sub.forEach((item) => {
         map[item.category]
           ? map[item.category].push(item)
-          : (map[item.category] = [])
-      })
-      this.cates = map
-      this.categories = categories
-    }
-  }
-}
+          : (map[item.category] = []);
+      });
+      this.cates = map;
+      this.categories = categories;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -8,63 +8,63 @@
   </setting-item>
 </template>
 <script>
-import SettingItem from './SettingItem.vue'
-import { mapGetters, mapMutations } from 'vuex'
-import { remote } from 'electron'
-import semver from 'semver'
+import SettingItem from "./SettingItem.vue";
+import { mapGetters, mapMutations } from "vuex";
+import { remote } from "electron";
+import semver from "semver";
 
-const showdown = require('showdown')
-const { dialog } = remote
+const showdown = require("showdown");
+const { dialog } = remote;
 export default {
-  data () {
+  data() {
     return {
       localVersion: remote.app.getVersion(),
-      remoteVersion: '',
+      remoteVersion: "",
       loading: false,
-      updateContent: '',
-      converter: new showdown.Converter()
-    }
+      updateContent: "",
+      converter: new showdown.Converter(),
+    };
   },
   components: {
-    SettingItem
+    SettingItem,
   },
   computed: {
-    ...mapGetters('Setting', ['downloadSongsFolders']),
-    defaultDownloadFolder () {
-      return this.downloadSongsFolders[0]
-    }
+    ...mapGetters("Setting", ["downloadSongsFolders"]),
+    defaultDownloadFolder() {
+      return this.downloadSongsFolders[0];
+    },
   },
   methods: {
-    ...mapMutations('Setting', ['mutateState']),
-    checkVersion () {
-      this.loading = true
+    ...mapMutations("Setting", ["mutateState"]),
+    checkVersion() {
+      this.loading = true;
       fetch(
-        'https://api.github.com/repos/xiaozhu188/electron-vue-cloud-music/releases/latest'
+        "https://api.github.com/repos/xiaozhu188/electron-vue-cloud-music/releases/latest"
       )
         .then((res) => res.json())
         .then((res) => {
-          let data = res
-          this.remoteVersion = data.name
+          let data = res;
+          this.remoteVersion = data.name;
           this.$store.commit(
-            'Update/SET_UPDATE_CONTENT',
+            "Update/SET_UPDATE_CONTENT",
             this.converter.makeHtml(data.body)
-          )
-          this.$electron.ipcRenderer.send('update-version', this.remoteVersion)
-          let shouldUpdate = semver.gt(this.remoteVersion, this.localVersion)
+          );
+          this.$electron.ipcRenderer.send("update-version", this.remoteVersion);
+          let shouldUpdate = semver.gt(this.remoteVersion, this.localVersion);
           if (shouldUpdate) {
-            this.$electron.ipcRenderer.send('toggle-updatewin')
+            this.$electron.ipcRenderer.send("toggle-updatewin");
           } else {
-            this.$message.warn('暂无更新')
+            this.$message.warn("暂无更新");
           }
         })
         .catch((err) => {
-          this.$electron.ipcRenderer.send('toggle-updatewin')
-          this.$message.error(err.message || '获取版本号失败')
+          this.$electron.ipcRenderer.send("toggle-updatewin");
+          this.$message.error(err.message || "获取版本号失败");
         })
         .finally(() => {
-          this.loading = false
-        })
-    }
-  }
-}
+          this.loading = false;
+        });
+    },
+  },
+};
 </script>

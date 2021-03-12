@@ -25,40 +25,40 @@
 </template>
 
 <script>
-import listItem from '@/components/Common/list-item'
-import { mapGetters } from 'vuex'
+import listItem from "@/components/Common/list-item";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'playlist',
+  name: "playlist",
   props: {
     list: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
   computed: {
-    ...mapGetters('User', ['userId']),
-    playlist () {
-      return this.userId ? this.list.slice(0, 9) : this.list.slice(0, 10)
-    }
+    ...mapGetters("User", ["userId"]),
+    playlist() {
+      return this.userId ? this.list.slice(0, 9) : this.list.slice(0, 10);
+    },
   },
   components: {
-    listItem
+    listItem,
   },
   methods: {
-    getWeek () {
-      return '星期' + '日一二三四五六'.charAt(new Date().getDay())
+    getWeek() {
+      return "星期" + "日一二三四五六".charAt(new Date().getDay());
     },
-    getDate () {
-      return new Date().getDate()
+    getDate() {
+      return new Date().getDate();
     },
-    goLink () {
-      this.$router.push({ path: '/recomment_songs' })
-    }
-  }
-}
+    goLink() {
+      this.$router.push({ path: "/recomment_songs" });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

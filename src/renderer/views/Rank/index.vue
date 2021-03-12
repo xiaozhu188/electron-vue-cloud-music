@@ -86,92 +86,92 @@
 </template>
 
 <script>
-import HomeLayout from '@/layouts/HomeLayout'
-import Loading from '@/components/Common/loading'
-import Artists from '@/components/Common/artists'
-import { getToplist, getTopDetail } from '@/api/rank'
-import { getTopArtist } from '@/api/artist'
-import { normalSong } from '@/utils/song'
+import HomeLayout from "@/layouts/HomeLayout";
+import Loading from "@/components/Common/loading";
+import Artists from "@/components/Common/artists";
+import { getToplist, getTopDetail } from "@/api/rank";
+import { getTopArtist } from "@/api/artist";
+import { normalSong } from "@/utils/song";
 
 const ToplistType = {
   N: {
-    idx: 0
+    idx: 0,
   }, // 云音乐新歌榜
   H: {
-    idx: 1
+    idx: 1,
   }, //  云音乐热歌榜
   O: {
-    idx: 2
+    idx: 2,
   }, //  网易原创歌曲榜
   S: {
-    idx: 3
-  } //  云音乐飙升榜
-}
+    idx: 3,
+  }, //  云音乐飙升榜
+};
 export default {
-  name: 'rank',
-  data () {
+  name: "rank",
+  data() {
     return {
       loading: false,
       list: [],
       imgs: {
-        A: require('./../../assets/images/rank/rankA_bg.jpg'),
-        H: require('./../../assets/images/rank/rankH_bg.jpg'),
-        N: require('./../../assets/images/rank/rankN_bg.jpg'),
-        O: require('./../../assets/images/rank/rankO_bg.jpg'),
-        S: require('./../../assets/images/rank/rankS_bg.jpg')
+        A: require("./../../assets/images/rank/rankA_bg.jpg"),
+        H: require("./../../assets/images/rank/rankH_bg.jpg"),
+        N: require("./../../assets/images/rank/rankN_bg.jpg"),
+        O: require("./../../assets/images/rank/rankO_bg.jpg"),
+        S: require("./../../assets/images/rank/rankS_bg.jpg"),
       },
-      topArtist: ''
-    }
+      topArtist: "",
+    };
   },
   computed: {
-    firstFour () {
-      return this.list.slice(0, 4)
+    firstFour() {
+      return this.list.slice(0, 4);
     },
-    rest () {
-      return this.list.slice(4)
-    }
+    rest() {
+      return this.list.slice(4);
+    },
   },
   components: {
     HomeLayout,
     Loading,
-    Artists
+    Artists,
   },
-  activated () {
-    this._getToplist()
-    this._getTopArtist()
+  activated() {
+    this._getToplist();
+    this._getTopArtist();
   },
   methods: {
-    async _getToplist () {
-      this.loading = true
+    async _getToplist() {
+      this.loading = true;
       try {
-        let { list } = await getToplist()
-        this.list = list
+        let { list } = await getToplist();
+        this.list = list;
         list.forEach(async (item) => {
           if (item.ToplistType) {
             let { playlist } = await getTopDetail(
               ToplistType[item.ToplistType].idx
-            )
+            );
             item.tracks = playlist.tracks.slice(0, 8).map((track) => {
-              return normalSong(track)
-            })
+              return normalSong(track);
+            });
           }
-        })
-        this.loading = false
+        });
+        this.loading = false;
       } catch (error) {
-        this.$toast('加载失败')
-        this.loading = false
+        this.$toast("加载失败");
+        this.loading = false;
       }
     },
-    _getTopArtist () {
+    _getTopArtist() {
       getTopArtist().then((res) => {
-        this.topArtist = res.list
-      })
+        this.topArtist = res.list;
+      });
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
-    }
-  }
-}
+    play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

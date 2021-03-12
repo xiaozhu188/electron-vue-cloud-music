@@ -75,126 +75,126 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import TabBar from '@/components/Common/tabBar'
-import Artists from '@/components/Common/artists'
-import Loading from '@/components/Common/loading'
-import { normalSong } from '@/utils/song'
-import { getAlbum } from '@/api/album'
-import { uniqueData } from '@/utils/assist'
-import { getSubAlbum } from '@/api/sublist'
+import { mapGetters } from "vuex";
+import TabBar from "@/components/Common/tabBar";
+import Artists from "@/components/Common/artists";
+import Loading from "@/components/Common/loading";
+import { normalSong } from "@/utils/song";
+import { getAlbum } from "@/api/album";
+import { uniqueData } from "@/utils/assist";
+import { getSubAlbum } from "@/api/sublist";
 export default {
-  name: 'album_id',
-  data () {
+  name: "album_id",
+  data() {
     return {
       album: null,
       songs: [],
-      searchKey: '',
+      searchKey: "",
       loading: false,
       sublist: [],
       tabs: [
         {
-          name: 'album-id-songs',
-          label: '歌曲列表'
+          name: "album-id-songs",
+          label: "歌曲列表",
         },
         {
-          name: 'album-id-comment',
-          label: '评论'
-        }
-      ]
-    }
+          name: "album-id-comment",
+          label: "评论",
+        },
+      ],
+    };
   },
   components: {
     Artists,
     TabBar,
-    Loading
+    Loading,
   },
-  activated () {
-    this._getAlbum(this.$route.params.id)
+  activated() {
+    this._getAlbum(this.$route.params.id);
   },
-  beforeRouteUpdate (to, from, next) {
-    this._getAlbum(to.params.id)
-    next()
+  beforeRouteUpdate(to, from, next) {
+    this._getAlbum(to.params.id);
+    next();
   },
   computed: {
-    tracks () {
+    tracks() {
       return this.songs.filter((track) => {
-        return track.name.includes(this.searchKey)
-      })
+        return track.name.includes(this.searchKey);
+      });
     },
-    isSubscribed () {
-      return this.sublist.findIndex((item) => item.id === this.album.id) >= 0
+    isSubscribed() {
+      return this.sublist.findIndex((item) => item.id === this.album.id) >= 0;
     },
-    ...mapGetters('play', ['current_play_list'])
+    ...mapGetters("play", ["current_play_list"]),
   },
   methods: {
-    searchSongs (value) {
-      this.searchKey = value
+    searchSongs(value) {
+      this.searchKey = value;
     },
-    _getSubAlbum () {
+    _getSubAlbum() {
       getSubAlbum({ limit: 1000 }).then((res) => {
-        this.sublist = res.data
-      })
+        this.sublist = res.data;
+      });
     },
-    _getAlbum (id) {
-      this.loading = true
+    _getAlbum(id) {
+      this.loading = true;
       getAlbum(id).then((res) => {
-        this.album = res.album
+        this.album = res.album;
         this.songs = res.songs.map((song) => {
-          return normalSong(song)
-        })
-        this.loading = false
-        this._getSubAlbum()
-      })
+          return normalSong(song);
+        });
+        this.loading = false;
+        this._getSubAlbum();
+      });
     },
-    downloadAll () {
+    downloadAll() {
       this.songs.forEach((song) => {
-        this.$set(song, 'isWaitting', true)
-      })
-      this.$store.dispatch('Download/adddownloadQueue', this.songs)
+        this.$set(song, "isWaitting", true);
+      });
+      this.$store.dispatch("Download/adddownloadQueue", this.songs);
     },
-    play () {
-      this.$store.dispatch('play/selectPlay', {
+    play() {
+      this.$store.dispatch("play/selectPlay", {
         tracks: this.tracks,
-        index: 0
-      })
+        index: 0,
+      });
     },
-    addToList () {
-      let current_play_list = this.current_play_list.slice()
-      let list = current_play_list.concat(this.tracks)
-      list = uniqueData(list)
-      this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+    addToList() {
+      let current_play_list = this.current_play_list.slice();
+      let list = current_play_list.concat(this.tracks);
+      list = uniqueData(list);
+      this.$store.commit("play/SET_CURRENT_PLAY_LIST", list);
     },
-    subscribe (t, album) {
-      this.$store.dispatch('User/subscribeAlbum', { t, album }).then((code) => {
+    subscribe(t, album) {
+      this.$store.dispatch("User/subscribeAlbum", { t, album }).then((code) => {
         if (code === 200) {
           if (t === 1) {
-            this.sublist.push(album)
+            this.sublist.push(album);
           } else {
-            let index = this.sublist.findIndex((item) => item.id === album.id)
-            this.sublist.splice(index, 1)
+            let index = this.sublist.findIndex((item) => item.id === album.id);
+            this.sublist.splice(index, 1);
           }
         }
-      })
+      });
     },
-    share () {
-      let url = `https://music.163.com/#/discover/toplist?id=${this.$route.params.id}`
+    share() {
+      let url = `https://music.163.com/#/discover/toplist?id=${this.$route.params.id}`;
       let _shareUrl =
-        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
-      _shareUrl += 'url=' + url
-      _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
+        "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+      _shareUrl += "url=" + url;
+      _shareUrl += "&showcount=" + 1; // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
       _shareUrl +=
-        '&desc=' +
-        '♪我发现一个不错的网易云专辑-' +
-        (this.album.description || this.album.name)
-      _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一个不错的网易云专辑-' + this.album.name
-      _shareUrl += '&site=' + 'https://music.163.com/'
-      _shareUrl += '&pics=' + this.album.picUrl
-      this.$electron.remote.shell.openExternal(_shareUrl)
-    }
-  }
-}
+        "&desc=" +
+        "♪我发现一个不错的网易云专辑-" +
+        (this.album.description || this.album.name);
+      _shareUrl += "&summary=" + "分享摘要";
+      _shareUrl += "&title=" + "♪我发现一个不错的网易云专辑-" + this.album.name;
+      _shareUrl += "&site=" + "https://music.163.com/";
+      _shareUrl += "&pics=" + this.album.picUrl;
+      this.$electron.remote.shell.openExternal(_shareUrl);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

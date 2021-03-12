@@ -72,67 +72,67 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import TabBar from '@/components/Common/tabBar'
-import Loading from '@/components/Common/loading'
-import { getDjDetail } from '@/api/dj'
-import { normalSong } from '@/utils/song'
-import { uniqueData } from '@/utils/assist'
+import { mapGetters } from "vuex";
+import TabBar from "@/components/Common/tabBar";
+import Loading from "@/components/Common/loading";
+import { getDjDetail } from "@/api/dj";
+import { normalSong } from "@/utils/song";
+import { uniqueData } from "@/utils/assist";
 export default {
-  name: 'dj_id',
-  data () {
+  name: "dj_id",
+  data() {
     return {
       tabs: [
         {
-          name: 'dj-id-programs',
-          label: '节目'
+          name: "dj-id-programs",
+          label: "节目",
         },
         {
-          name: 'dj-id-sublist',
-          label: '订阅者'
-        }
+          name: "dj-id-sublist",
+          label: "订阅者",
+        },
       ],
       dj: null,
-      loading: false
-    }
+      loading: false,
+    };
   },
   computed: {
-    ...mapGetters('play', ['current_play_list'])
+    ...mapGetters("play", ["current_play_list"]),
   },
   components: {
     TabBar,
-    Loading
+    Loading,
   },
-  activated () {
-    this._getDjDetail()
+  activated() {
+    this._getDjDetail();
   },
   // beforeRouteUpdate (to, from, next) {
   //   this._getDjDetail(to.params.id)
   //   next()
   // },
   methods: {
-    _getDjDetail () {
-      this.loading = true
-      let id = this.$route.params.id
+    _getDjDetail() {
+      this.loading = true;
+      let id = this.$route.params.id;
       getDjDetail(id).then((res) => {
-        this.dj = res.djRadio
-        this.loading = false
-      })
+        this.dj = res.djRadio;
+        this.loading = false;
+      });
     },
-    searchSongs (value) {
-      this.searchKey = value
+    searchSongs(value) {
+      this.searchKey = value;
     },
-    play () {
-      this.$store.dispatch('play/selectPlay', {
+    play() {
+      this.$store.dispatch("play/selectPlay", {
         tracks: this.tracks,
-        index: 0
-      })
+        index: 0,
+      });
     },
-    subscribe (t, dj) {
-      this.$store.dispatch('User/subscribeDj', { t, dj })
-    }
-  }
-}
+    subscribe(t, dj) {
+      this.$store.dispatch("User/subscribeDj", { t, dj });
+    },
+  },
+};
 </script>
 
 <style scoped>

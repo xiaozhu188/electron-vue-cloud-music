@@ -37,37 +37,37 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { user_followed } from '@/api/user'
+import { mapGetters } from "vuex";
+import { user_followed } from "@/api/user";
 export default {
-  data () {
+  data() {
     return {
       followeds: [],
       limit: 30,
-      offset: 0
-    }
+      offset: 0,
+    };
   },
   computed: {
-    ...mapGetters('User', ['userId'])
+    ...mapGetters("User", ["userId"]),
   },
-  created () {
-    this.getData()
+  created() {
+    this.getData();
   },
   methods: {
-    getData () {
-      let { limit, offset, userId } = this
+    getData() {
+      let { limit, offset, userId } = this;
       let options = {
         limit,
         offset,
-        uid: userId
-      }
+        uid: userId,
+      };
       user_followed(options).then((res) => {
-        console.log(res)
-        this.followeds = res.followeds
-      })
-    }
-  }
-}
+        console.log(res);
+        this.followeds = res.followeds;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

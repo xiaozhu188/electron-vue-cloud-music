@@ -47,107 +47,107 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import albumItem from '@/components/Common/album-item'
-import TrackList from '@/components/Common/track-list/index.js'
-import { normalSong } from '@/utils/song'
-import { getTopSong } from '@/api/song'
-import { uniqueData } from '@/utils/assist'
+import { mapGetters } from "vuex";
+import albumItem from "@/components/Common/album-item";
+import TrackList from "@/components/Common/track-list/index.js";
+import { normalSong } from "@/utils/song";
+import { getTopSong } from "@/api/song";
+import { uniqueData } from "@/utils/assist";
 
 const columns = [
   {
-    title: '音乐标题',
-    dataIndex: 'name',
-    key: 'name',
-    slot: 'name'
+    title: "音乐标题",
+    dataIndex: "name",
+    key: "name",
+    slot: "name",
   },
   {
-    title: '歌手',
-    dataIndex: 'artist',
-    key: 'artist'
+    title: "歌手",
+    dataIndex: "artist",
+    key: "artist",
   },
   {
-    title: '专辑',
-    dataIndex: 'album',
-    key: 'album'
+    title: "专辑",
+    dataIndex: "album",
+    key: "album",
   },
   {
-    title: '时长',
-    dataIndex: 'duration',
-    key: 'duration'
-  }
-]
+    title: "时长",
+    dataIndex: "duration",
+    key: "duration",
+  },
+];
 export default {
-  data () {
+  data() {
     return {
       columns,
       songs: [],
       loading: false,
       songType: 0,
       cateMap: {
-        0: '全部',
-        7: '华语',
-        96: '欧美',
-        8: '日本',
-        16: '韩国'
-      }
-    }
+        0: "全部",
+        7: "华语",
+        96: "欧美",
+        8: "日本",
+        16: "韩国",
+      },
+    };
   },
   components: {
     albumItem,
-    TrackList
+    TrackList,
   },
   computed: {
-    ...mapGetters('play', [
-      'mode',
-      'current_song_index',
-      'current_play_list',
-      'playing',
-      'current_song',
-      'history_play_list',
-      'fullscreen',
-      'current_lyric'
+    ...mapGetters("play", [
+      "mode",
+      "current_song_index",
+      "current_play_list",
+      "playing",
+      "current_song",
+      "history_play_list",
+      "fullscreen",
+      "current_lyric",
     ]),
-    ...mapGetters('User', ['userPlaylists', 'likedsongIds']),
-    subIcon () {
-      return this.likedsongIds.includes(this.pid) ? 'folder-add' : 'check'
-    }
+    ...mapGetters("User", ["userPlaylists", "likedsongIds"]),
+    subIcon() {
+      return this.likedsongIds.includes(this.pid) ? "folder-add" : "check";
+    },
   },
-  created () {
-    this.getData(this.songType)
+  created() {
+    this.getData(this.songType);
   },
   watch: {
-    songType (newVal) {
-      this.getData(newVal)
-    }
+    songType(newVal) {
+      this.getData(newVal);
+    },
   },
   methods: {
-    async getData (songType) {
-      this.loading = true
+    async getData(songType) {
+      this.loading = true;
       try {
-        let { data } = await getTopSong(songType)
+        let { data } = await getTopSong(songType);
         this.songs = data.map((song) => {
-          return normalSong(song, '40y40')
-        })
-        this.loading = false
+          return normalSong(song, "40y40");
+        });
+        this.loading = false;
       } catch (error) {
-        this.loading = false
+        this.loading = false;
       }
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
+    play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
     },
-    addToList () {
-      let current_play_list = this.current_play_list.slice()
-      let list = current_play_list.concat(this.songs)
-      list = uniqueData(list)
-      this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+    addToList() {
+      let current_play_list = this.current_play_list.slice();
+      let list = current_play_list.concat(this.songs);
+      list = uniqueData(list);
+      this.$store.commit("play/SET_CURRENT_PLAY_LIST", list);
     },
-    changeType (type) {
-      this.songType = type
-    }
-  }
-}
+    changeType(type) {
+      this.songType = type;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -13,50 +13,50 @@
 </template>
 
 <script>
-import albumItem from '@/components/Common/album-item'
-import { getArtistAlbum } from '@/api/artist'
-import { normalSong } from '@/utils/song'
+import albumItem from "@/components/Common/album-item";
+import { getArtistAlbum } from "@/api/artist";
+import { normalSong } from "@/utils/song";
 
 export default {
-  name: 'artist_id_album',
-  data () {
+  name: "artist_id_album",
+  data() {
     return {
       albums: [],
       limit: 50,
       offset: 0,
-      infiniteId: +new Date()
-    }
+      infiniteId: +new Date(),
+    };
   },
   components: {
-    albumItem
+    albumItem,
   },
-  activated () {
-    this.offset = 0
-    this.albums = []
-    this.infiniteId++
+  activated() {
+    this.offset = 0;
+    this.albums = [];
+    this.infiniteId++;
   },
   methods: {
-    async loadmore ($state) {
+    async loadmore($state) {
       let params = {
         id: this.$route.params.id,
         limit: this.limit,
-        offset: this.offset
-      }
+        offset: this.offset,
+      };
       try {
-        let { hotAlbums, more } = await getArtistAlbum(params)
-        this.albums = this.albums.concat(hotAlbums)
-        $state.loaded()
+        let { hotAlbums, more } = await getArtistAlbum(params);
+        this.albums = this.albums.concat(hotAlbums);
+        $state.loaded();
         if (more) {
-          this.offset += this.limit
+          this.offset += this.limit;
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        $state.error()
+        $state.error();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

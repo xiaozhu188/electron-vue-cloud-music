@@ -12,48 +12,48 @@
 </template>
 
 <script>
-import Comment from '@/components/Comment/index.vue'
-import { getPlaylistComment } from '@/api/comment'
+import Comment from "@/components/Comment/index.vue";
+import { getPlaylistComment } from "@/api/comment";
 
 export default {
-  name: 'playlist_id_comment',
-  data () {
+  name: "playlist_id_comment",
+  data() {
     return {
       commentData: null,
       limit: 20,
       offset: 0,
       infiniteId: +new Date(),
-      refresh: false
-    }
+      refresh: false,
+    };
   },
-  activated () {
-    this.offset = 0
-    this.commentData = null
-    this.infiniteId++
+  activated() {
+    this.offset = 0;
+    this.commentData = null;
+    this.infiniteId++;
   },
   components: {
-    Comment
+    Comment,
   },
   methods: {
-    async loadmore ($state) {
-      let id = this.$route.params.id
-      let res = await getPlaylistComment(id, this.limit, this.offset)
+    async loadmore($state) {
+      let id = this.$route.params.id;
+      let res = await getPlaylistComment(id, this.limit, this.offset);
       if (res.comments.length) {
         if (this.commentData) {
-          this.commentData.comments.push(...res.comments)
+          this.commentData.comments.push(...res.comments);
         } else {
-          this.commentData = res
+          this.commentData = res;
         }
       }
       if (res.more) {
-        this.offset += this.limit
-        $state.loaded()
+        this.offset += this.limit;
+        $state.loaded();
       } else {
-        $state.complete()
+        $state.complete();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

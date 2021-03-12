@@ -168,35 +168,35 @@ import {
   getVideoUrl,
   getVideoDetail,
   getRelatedVideo,
-  subVideo
-} from '@/api/video'
-import { getVideoComment } from '@/api/comment'
-import ProgressBar from '@/components/Common/progressBar'
-import Comment from '@/components/Comment/index.vue'
-import Loading from '@/components/Common/loading'
-import Artists from '@/components/Common/artists'
-import { normalVideo } from '@/utils/video'
-import { getMv } from '@/api/sublist'
-import { mapGetters, mapMutations } from 'vuex'
-function ajax (url, cb) {
-  const xhr = new XMLHttpRequest()
-  xhr.open('get', url)
-  xhr.responseType = 'blob' // ""|"text"-字符串 "blob"-Blob对象 "arraybuffer"-ArrayBuffer对象
+  subVideo,
+} from "@/api/video";
+import { getVideoComment } from "@/api/comment";
+import ProgressBar from "@/components/Common/progressBar";
+import Comment from "@/components/Comment/index.vue";
+import Loading from "@/components/Common/loading";
+import Artists from "@/components/Common/artists";
+import { normalVideo } from "@/utils/video";
+import { getMv } from "@/api/sublist";
+import { mapGetters, mapMutations } from "vuex";
+function ajax(url, cb) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("get", url);
+  xhr.responseType = "blob"; // ""|"text"-字符串 "blob"-Blob对象 "arraybuffer"-ArrayBuffer对象
   xhr.onload = function () {
-    console.log(xhr.response)
-    var src = URL.createObjectURL(xhr.response)
-    console.log(src)
-    cb(src)
-  }
-  xhr.send()
+    console.log(xhr.response);
+    var src = URL.createObjectURL(xhr.response);
+    console.log(src);
+    cb(src);
+  };
+  xhr.send();
 }
 export default {
-  name: 'video_id',
-  data () {
+  name: "video_id",
+  data() {
     return {
-      title: '视频详情',
-      mv: '',
-      mvURL: '',
+      title: "视频详情",
+      mv: "",
+      mvURL: "",
       simiList: [],
       currentTime: 0,
       buffered: 0,
@@ -210,214 +210,214 @@ export default {
       commentData: null,
       limit: 20,
       offset: 0,
-      infiniteId: +new Date()
-    }
+      infiniteId: +new Date(),
+    };
   },
   components: {
     ProgressBar,
     Comment,
     Loading,
-    Artists
+    Artists,
   },
   computed: {
-    ...mapGetters('play', ['videoPlaying', 'playing']),
-    percent () {
-      return this.currentTime / (this.mv.durationms / 1000)
+    ...mapGetters("play", ["videoPlaying", "playing"]),
+    percent() {
+      return this.currentTime / (this.mv.durationms / 1000);
     },
-    bufferedPercent () {
-      return this.buffered / (this.mv.durationms / 1000)
+    bufferedPercent() {
+      return this.buffered / (this.mv.durationms / 1000);
     },
-    playIcon () {
-      return this.videoPlaying ? 'pause-circle' : 'play-circle'
+    playIcon() {
+      return this.videoPlaying ? "pause-circle" : "play-circle";
     },
-    screenIcon () {
-      return this.fullScreenFlag ? 'fullscreen-exit' : 'fullscreen'
+    screenIcon() {
+      return this.fullScreenFlag ? "fullscreen-exit" : "fullscreen";
     },
     isLiked: {
-      get () {
-        return this.subVideoList.some((item) => item.id == this.mv.vid)
-      }
-    }
+      get() {
+        return this.subVideoList.some((item) => item.id == this.mv.vid);
+      },
+    },
   },
   watch: {
-    videoPlaying (newVideoPlaying) {
-      const video = this.$refs.video
+    videoPlaying(newVideoPlaying) {
+      const video = this.$refs.video;
       this.$nextTick(() => {
-        newVideoPlaying ? video.play() : video.pause()
-      })
+        newVideoPlaying ? video.play() : video.pause();
+      });
     },
-    mvURL (newURL) {
+    mvURL(newURL) {
       if (this.mvURL == newURL) {
-        return
+        return;
       }
-      this.buffered = 0
-      this.$refs.video.currentTime = this.currentTime
-      this.$refs.video.play()
-    }
+      this.buffered = 0;
+      this.$refs.video.currentTime = this.currentTime;
+      this.$refs.video.play();
+    },
   },
-  activated () {
-    this.isLoading = true
-    this.waiting = true
-    this.buffered = 0
-    this.currentTime = 0
-    this.offset = 0
-    this.commentData = null
-    this.infiniteId++
-    this._getVideo(this.$route.params.id)
-    this.getSubVideo()
+  activated() {
+    this.isLoading = true;
+    this.waiting = true;
+    this.buffered = 0;
+    this.currentTime = 0;
+    this.offset = 0;
+    this.commentData = null;
+    this.infiniteId++;
+    this._getVideo(this.$route.params.id);
+    this.getSubVideo();
   },
-  beforeRouteUpdate (to, from, next) {
-    this.isLoading = true
-    this.waiting = true
-    this.buffered = 0
-    this.currentTime = 0
-    this.offset = 0
-    this.commentData = null
-    this.infiniteId++
-    this._getVideo(to.params.id)
-    this.getSubVideo()
-    next()
+  beforeRouteUpdate(to, from, next) {
+    this.isLoading = true;
+    this.waiting = true;
+    this.buffered = 0;
+    this.currentTime = 0;
+    this.offset = 0;
+    this.commentData = null;
+    this.infiniteId++;
+    this._getVideo(to.params.id);
+    this.getSubVideo();
+    next();
   },
-  beforeRouteLeave (to, from, next) {
-    this.buffered = 0
-    this.urls = []
-    next()
+  beforeRouteLeave(to, from, next) {
+    this.buffered = 0;
+    this.urls = [];
+    next();
   },
   methods: {
-    ...mapMutations('play', ['SET_VIDEO_PLAY_STATUS']),
-    _getVideo (id) {
+    ...mapMutations("play", ["SET_VIDEO_PLAY_STATUS"]),
+    _getVideo(id) {
       getVideoDetail(id).then((res) => {
-        this.mv = res.data
-      })
+        this.mv = res.data;
+      });
       getVideoUrl(id).then((res) => {
         // this.mv = res.data
-        this.urls = res.urls
-        this.mvURL = res.urls[0]
-        this.isLoading = false
-      })
+        this.urls = res.urls;
+        this.mvURL = res.urls[0];
+        this.isLoading = false;
+      });
       getRelatedVideo(id).then((res) => {
-        let arr = []
+        let arr = [];
         res.data.forEach((item) => {
-          arr.push(normalVideo(item))
-        })
-        this.simiList = arr
+          arr.push(normalVideo(item));
+        });
+        this.simiList = arr;
         // console.log(this.simiList)
-      })
+      });
     },
-    async loadmore ($state) {
-      let id = this.$route.params.id
-      let res = await getVideoComment(id, this.limit, this.offset)
+    async loadmore($state) {
+      let id = this.$route.params.id;
+      let res = await getVideoComment(id, this.limit, this.offset);
       if (res.comments.length) {
         if (this.commentData) {
-          this.commentData.comments.push(...res.comments)
+          this.commentData.comments.push(...res.comments);
         } else {
-          this.commentData = res
+          this.commentData = res;
         }
       }
-      $state.loaded()
+      $state.loaded();
       if (res.more) {
-        this.offset += this.limit
+        this.offset += this.limit;
       } else {
-        $state.complete()
+        $state.complete();
       }
     },
-    getSubVideo () {
+    getSubVideo() {
       getMv({}).then((res) => {
-        let arr = []
+        let arr = [];
         res.data.forEach((video) => {
-          arr.push(normalVideo(video))
-        })
-        this.subVideoList = arr
+          arr.push(normalVideo(video));
+        });
+        this.subVideoList = arr;
         // console.log(this.subVideoList)
-      })
+      });
     },
-    async subscribe (videoId, t = '') {
+    async subscribe(videoId, t = "") {
       try {
-        this.subscribing = true
-        let res = await subVideo(videoId, t)
+        this.subscribing = true;
+        let res = await subVideo(videoId, t);
         if (res.code == 200) {
           if (t == 1) {
-            this.$message.success('收藏成功!')
-            this.$set(this.mv, 'isSubscribed', true)
+            this.$message.success("收藏成功!");
+            this.$set(this.mv, "isSubscribed", true);
           } else {
-            this.$message.success('取消收藏成功!')
-            this.$set(this.mv, 'isSubscribed', false)
+            this.$message.success("取消收藏成功!");
+            this.$set(this.mv, "isSubscribed", false);
             let index = this.subVideoList.findIndex(
               (item) => item.id == videoId
-            )
-            this.subVideoList.splice(index, 1)
+            );
+            this.subVideoList.splice(index, 1);
           }
         }
-        this.subscribing = false
+        this.subscribing = false;
       } catch (e) {
-        this.subscribing = false
+        this.subscribing = false;
       }
     },
-    play () {
-      this.SET_VIDEO_PLAY_STATUS(true)
+    play() {
+      this.SET_VIDEO_PLAY_STATUS(true);
       if (this.playing) {
-        this.$store.commit('play/SET_PLAY_STATUS', false)
+        this.$store.commit("play/SET_PLAY_STATUS", false);
       }
     },
-    onEnd () {
-      this.SET_VIDEO_PLAY_STATUS(false)
+    onEnd() {
+      this.SET_VIDEO_PLAY_STATUS(false);
     },
-    updateTime (e) {
-      this.currentTime = e.target.currentTime
-      const video = this.$refs.video
+    updateTime(e) {
+      this.currentTime = e.target.currentTime;
+      const video = this.$refs.video;
       if (video) {
-        const timeRanges = video.buffered
+        const timeRanges = video.buffered;
         if (timeRanges.length != 0) {
-          this.buffered = timeRanges.end(timeRanges.length - 1)
+          this.buffered = timeRanges.end(timeRanges.length - 1);
         }
       }
     },
-    onWaiting () {
-      this.waiting = true
+    onWaiting() {
+      this.waiting = true;
     },
-    onPlaying () {
-      this.waiting = false
+    onPlaying() {
+      this.waiting = false;
     },
-    onError () {
-      this.waiting = false
+    onError() {
+      this.waiting = false;
     },
-    togglePlaying () {
-      this.SET_VIDEO_PLAY_STATUS(!this.videoPlaying)
+    togglePlaying() {
+      this.SET_VIDEO_PLAY_STATUS(!this.videoPlaying);
     },
-    onProgressBarChange (percent) {
-      const currentTime = (this.mv.durationms / 1000) * percent
-      console.log(currentTime)
-      this.currentTime = this.$refs.video.currentTime = currentTime
+    onProgressBarChange(percent) {
+      const currentTime = (this.mv.durationms / 1000) * percent;
+      console.log(currentTime);
+      this.currentTime = this.$refs.video.currentTime = currentTime;
     },
-    onProgressBarChanging (percent) {
-      const currentTime = (this.mv.durationms / 1000) * percent
-      this.currentTime = this.$refs.video.currentTime = currentTime
+    onProgressBarChanging(percent) {
+      const currentTime = (this.mv.durationms / 1000) * percent;
+      this.currentTime = this.$refs.video.currentTime = currentTime;
     },
-    toggleFullScreen () {
-      this.fullScreenFlag = !this.fullScreenFlag
-      this.$refs.video.webkitRequestFullScreen()
+    toggleFullScreen() {
+      this.fullScreenFlag = !this.fullScreenFlag;
+      this.$refs.video.webkitRequestFullScreen();
     },
-    selectBrs (val) {
-      if (this.mvURL == val) return
-      this.$refs.video.pause()
-      this.currentTime = this.$refs.video.currentTime
-      this.mvURL = val
+    selectBrs(val) {
+      if (this.mvURL == val) return;
+      this.$refs.video.pause();
+      this.currentTime = this.$refs.video.currentTime;
+      this.mvURL = val;
     },
-    share () {
-      let url = `https://music.163.com/#/video?id=${this.$route.params.id}`
+    share() {
+      let url = `https://music.163.com/#/video?id=${this.$route.params.id}`;
       let _shareUrl =
-        'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?'
-      _shareUrl += 'url=' + url
-      _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
-      _shareUrl += '&desc=' + '♪我发现一个不错的视频-' + this.mv.description
-      _shareUrl += '&summary=' + '分享摘要'
-      _shareUrl += '&title=' + '♪我发现一个不错的视频-' + this.mv.title
-      _shareUrl += '&site=' + 'https://music.163.com/'
-      _shareUrl += '&pics=' + this.mv.coverUrl
-      this.$electron.remote.shell.openExternal(_shareUrl)
-    }
-  }
-}
+        "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+      _shareUrl += "url=" + url;
+      _shareUrl += "&showcount=" + 1; // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
+      _shareUrl += "&desc=" + "♪我发现一个不错的视频-" + this.mv.description;
+      _shareUrl += "&summary=" + "分享摘要";
+      _shareUrl += "&title=" + "♪我发现一个不错的视频-" + this.mv.title;
+      _shareUrl += "&site=" + "https://music.163.com/";
+      _shareUrl += "&pics=" + this.mv.coverUrl;
+      this.$electron.remote.shell.openExternal(_shareUrl);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -22,39 +22,39 @@
 </template>
 
 <script>
-import { getArtist } from '@/api/sublist'
+import { getArtist } from "@/api/sublist";
 export default {
-  data () {
+  data() {
     return {
       data: [],
       params: {
         limit: 20,
-        offset: 0
-      }
-    }
+        offset: 0,
+      },
+    };
   },
   methods: {
-    async loadmore ($state) {
+    async loadmore($state) {
       try {
-        let res = await getArtist(this.params)
+        let res = await getArtist(this.params);
         if (res.data.length) {
-          this.data.push(...res.data)
-          $state.loaded()
+          this.data.push(...res.data);
+          $state.loaded();
         }
         if (res.hasMore) {
-          this.params.offset += this.params.limit
+          this.params.offset += this.params.limit;
         } else {
-          $state.complete()
+          $state.complete();
         }
       } catch (error) {
-        $state.error()
+        $state.error();
       }
     },
-    onClick (artist) {
-      this.$router.push({ path: `/artist/${artist.id}/album` })
-    }
-  }
-}
+    onClick(artist) {
+      this.$router.push({ path: `/artist/${artist.id}/album` });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -45,74 +45,74 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import ZIcon from '@/components/ZIcon'
-import { recommendMap } from '../../router/modules/recommend.js'
-import { myMusicMap } from '../../router/modules/myMusic.js'
-import MusicView from '@/components/Common/musicView.vue'
-import MiniCard from './MiniCard'
-import Created from './Created'
-import Subscribed from './Subscribed'
+import { mapGetters, mapActions } from "vuex";
+import ZIcon from "@/components/ZIcon";
+import { recommendMap } from "../../router/modules/recommend.js";
+import { myMusicMap } from "../../router/modules/myMusic.js";
+import MusicView from "@/components/Common/musicView.vue";
+import MiniCard from "./MiniCard";
+import Created from "./Created";
+import Subscribed from "./Subscribed";
 
 export default {
-  data () {
+  data() {
     return {
       current: [],
       recommendMap,
       myMusicMap,
-      playlist: []
-    }
+      playlist: [],
+    };
   },
   components: {
     ZIcon,
     MusicView,
     MiniCard,
     Created,
-    Subscribed
+    Subscribed,
   },
   computed: {
-    ...mapGetters('User', [
-      'userId',
-      'userPlaylists',
-      'subscribedList',
-      'createdList',
-      'likedsongIds'
+    ...mapGetters("User", [
+      "userId",
+      "userPlaylists",
+      "subscribedList",
+      "createdList",
+      "likedsongIds",
     ]),
-    ...mapGetters('play', ['current_song', 'source', 'playing', 'fullscreen'])
+    ...mapGetters("play", ["current_song", "source", "playing", "fullscreen"]),
   },
   watch: {
-    userId (newVal) {
-      if (newVal !== '') {
+    userId(newVal) {
+      if (newVal !== "") {
         if (this.$store.state.App.isOnliline) {
-          this._getUserPlaylist(newVal)
-          this.$store.dispatch('User/getUserLikedSongs')
+          this._getUserPlaylist(newVal);
+          this.$store.dispatch("User/getUserLikedSongs");
         }
       } else {
-        this.$store.commit('User/SET_USER_PLAYLISTS', [])
+        this.$store.commit("User/SET_USER_PLAYLISTS", []);
       }
-    }
+    },
   },
-  created () {
+  created() {
     if (this.userId && this.$store.state.App.isOnliline) {
-      this._getUserPlaylist(this.userId)
+      this._getUserPlaylist(this.userId);
     }
   },
   methods: {
-    async _getUserPlaylist (userId) {
-      this.$store.dispatch('User/getUserPlaylists')
+    async _getUserPlaylist(userId) {
+      this.$store.dispatch("User/getUserPlaylists");
     },
-    goLink (item) {
-      this.$router.push({ path: `/playlist/${item.id}` })
+    goLink(item) {
+      this.$router.push({ path: `/playlist/${item.id}` });
     },
-    cancelSubscribe (t, playlist) {
-      this.$store.dispatch('User/subscribePlatlist', { t, playlist })
+    cancelSubscribe(t, playlist) {
+      this.$store.dispatch("User/subscribePlatlist", { t, playlist });
     },
-    downloadAll (pid) {},
-    showMusicView () {
-      this.$store.commit('App/SHOW_VIEW', true)
-    }
-  }
-}
+    downloadAll(pid) {},
+    showMusicView() {
+      this.$store.commit("App/SHOW_VIEW", true);
+    },
+  },
+};
 </script>
 
 <style lang="less">

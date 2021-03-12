@@ -21,25 +21,25 @@
 </template>
 
 <script>
-import { getTopArtist } from '@/api/artist'
+import { getTopArtist } from "@/api/artist";
 export default {
-  data () {
+  data() {
     return {
-      artists: []
-    }
+      artists: [],
+    };
   },
-  created () {
-    this._getTopArtist()
+  created() {
+    this._getTopArtist();
   },
   methods: {
-    _getTopArtist () {
+    _getTopArtist() {
       getTopArtist().then((res) => {
-        console.log(res)
-        this.artists = res.list.artists
-      })
-    }
-  }
-}
+        console.log(res);
+        this.artists = res.list.artists;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

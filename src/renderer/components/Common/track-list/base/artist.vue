@@ -9,23 +9,23 @@
 </template>
 
 <script>
-import Artists from '@/components/Common/artists'
+import Artists from "@/components/Common/artists";
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   props: {
     row: {
-      type: Object
+      type: Object,
     },
     col: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   components: {
-    Artists
-  }
-}
+    Artists,
+  },
+};
 </script>
 
 <style scoped></style>

@@ -10,55 +10,55 @@
 </template>
 
 <script>
-import Slider from '@/components/Slider'
+import Slider from "@/components/Slider";
 export default {
-  name: 'banner',
+  name: "banner",
   props: {
     banners: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
-  data () {
+  data() {
     return {
-      width: 1000
-    }
+      width: 1000,
+    };
   },
   components: {
-    Slider
+    Slider,
   },
-  deactivated () {
-    this.$refs.slider.pause()
-    window.removeEventListener('resize', this.handleResize)
+  deactivated() {
+    this.$refs.slider.pause();
+    window.removeEventListener("resize", this.handleResize);
   },
-  activated () {
+  activated() {
     this.$nextTick(() => {
-      var dom = this.$refs.slider.$el.parentNode
-      this.width = dom.clientWidth || 1000
-    })
-    window.addEventListener('resize', this.handleResize)
+      var dom = this.$refs.slider.$el.parentNode;
+      this.width = dom.clientWidth || 1000;
+    });
+    window.addEventListener("resize", this.handleResize);
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      var dom = this.$refs.slider.$el.parentNode
-      this.width = dom.clientWidth || 1000
-    })
-    window.addEventListener('resize', this.handleResize)
+      var dom = this.$refs.slider.$el.parentNode;
+      this.width = dom.clientWidth || 1000;
+    });
+    window.addEventListener("resize", this.handleResize);
   },
   methods: {
-    onSliderClick (i, item) {
+    onSliderClick(i, item) {
       if (item.url) {
-        this.$electron.remote.shell.openExternal(item.url)
+        this.$electron.remote.shell.openExternal(item.url);
       }
     },
-    handleResize () {
+    handleResize() {
       this.$nextTick(() => {
-        var dom = this.$refs.slider.$el.parentNode
-        this.width = dom.clientWidth
-      })
-    }
-  }
-}
+        var dom = this.$refs.slider.$el.parentNode;
+        this.width = dom.clientWidth;
+      });
+    },
+  },
+};
 </script>

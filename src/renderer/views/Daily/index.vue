@@ -46,106 +46,106 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { getRecommendSongs, createPlaylist, addSongToList } from '@/api/user'
-import { normalSong } from '@/utils/song'
-import TrackList from '@/components/Common/track-list/index.js'
-import { uniqueData } from '@/utils/assist'
+import { mapGetters } from "vuex";
+import { getRecommendSongs, createPlaylist, addSongToList } from "@/api/user";
+import { normalSong } from "@/utils/song";
+import TrackList from "@/components/Common/track-list/index.js";
+import { uniqueData } from "@/utils/assist";
 export default {
-  name: 'daily',
-  data () {
+  name: "daily",
+  data() {
     return {
       songs: [],
       loading: false,
-      pid: ''
-    }
+      pid: "",
+    };
   },
   computed: {
-    ...mapGetters('play', [
-      'mode',
-      'current_song_index',
-      'current_play_list',
-      'playing',
-      'current_song',
-      'history_play_list',
-      'fullscreen',
-      'current_lyric'
+    ...mapGetters("play", [
+      "mode",
+      "current_song_index",
+      "current_play_list",
+      "playing",
+      "current_song",
+      "history_play_list",
+      "fullscreen",
+      "current_lyric",
     ]),
-    ...mapGetters('User', ['userPlaylists', 'likedsongIds']),
-    subIcon () {
-      return this.likedsongIds.includes(this.pid) ? 'check' : 'folder-add'
-    }
+    ...mapGetters("User", ["userPlaylists", "likedsongIds"]),
+    subIcon() {
+      return this.likedsongIds.includes(this.pid) ? "check" : "folder-add";
+    },
   },
   components: {
-    TrackList
+    TrackList,
   },
-  activated () {
+  activated() {
     if (!this.songs.length) {
-      this.getSongs()
+      this.getSongs();
     }
   },
   methods: {
-    getSongs () {
+    getSongs() {
       getRecommendSongs().then((res) => {
         this.songs = res.data.dailySongs.map((song) => {
-          return normalSong(song)
-        })
-      })
+          return normalSong(song);
+        });
+      });
     },
-    async subscribe (op, tracks, pid) {
+    async subscribe(op, tracks, pid) {
       try {
-        this.loading = true
-        const date = new Date()
+        this.loading = true;
+        const date = new Date();
         const name = `每日歌曲推荐(${date.getFullYear()}.${this._pad(
           date.getMonth() + 1
-        )}.${this._pad(date.getDate())})`
-        let { code, playlist } = await createPlaylist({ name })
+        )}.${this._pad(date.getDate())})`;
+        let { code, playlist } = await createPlaylist({ name });
         if (code) {
-          let op = 'add'
-          let pid = playlist.id
+          let op = "add";
+          let pid = playlist.id;
           let tracks = this.songs.map((song) => {
-            return song.id
-          })
-          let res = await addSongToList({ op, tracks: tracks.join(','), pid })
-          console.log(res)
-          this.pid = pid
-          this.$message.success('收藏成功')
-          this.$store.dispatch('User/getUserPlaylists')
+            return song.id;
+          });
+          let res = await addSongToList({ op, tracks: tracks.join(","), pid });
+          console.log(res);
+          this.pid = pid;
+          this.$message.success("收藏成功");
+          this.$store.dispatch("User/getUserPlaylists");
           // let userPlaylists = this.userPlaylists.slice()
           // userPlaylists.push(playlist)
           // this.$store.commit('User/SET_USER_PLAYLISTS', userPlaylists)
         }
-        this.loading = false
+        this.loading = false;
       } catch (error) {
-        console.log(error)
-        this.loading = false
-        this.$message.error('收藏失败')
+        console.log(error);
+        this.loading = false;
+        this.$message.error("收藏失败");
       }
       // createPlaylist()
     },
-    _pad (num) {
-      return num < 10 ? '0' + num : num
+    _pad(num) {
+      return num < 10 ? "0" + num : num;
     },
-    play (tracks, index) {
-      this.$store.dispatch('play/selectPlay', { tracks, index })
+    play(tracks, index) {
+      this.$store.dispatch("play/selectPlay", { tracks, index });
     },
-    addToList () {
-      let current_play_list = this.current_play_list.slice()
-      let list = current_play_list.concat(this.songs)
-      list = uniqueData(list)
-      this.$store.commit('play/SET_CURRENT_PLAY_LIST', list)
+    addToList() {
+      let current_play_list = this.current_play_list.slice();
+      let list = current_play_list.concat(this.songs);
+      list = uniqueData(list);
+      this.$store.commit("play/SET_CURRENT_PLAY_LIST", list);
     },
-    download (song) {
-      this.$store.dispatch('Download/download', song)
+    download(song) {
+      this.$store.dispatch("Download/download", song);
     },
-    getWeek () {
-      return '星期' + '日一二三四五六'.charAt(new Date().getDay())
+    getWeek() {
+      return "星期" + "日一二三四五六".charAt(new Date().getDay());
     },
-    getDate () {
-      return new Date().getDate()
-    }
-  }
-}
+    getDate() {
+      return new Date().getDate();
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

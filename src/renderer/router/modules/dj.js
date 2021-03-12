@@ -1,47 +1,47 @@
 let djRoutes = [
   {
-    path: '/dj',
+    path: "/dj",
     component: () =>
-      import(/* webpackChunkName: "dj" */ '@/views/Dj/index.vue'),
-    name: 'dj',
+      import(/* webpackChunkName: "dj" */ "@/views/Dj/index.vue"),
+    name: "dj",
     meta: {
-      title: '主播电台'
-    }
+      title: "主播电台",
+    },
   },
   {
-    path: '/dj-recommend',
+    path: "/dj-recommend",
     component: () =>
-      import(/* webpackChunkName: "dj-recommend" */ '@/views/Dj/recommend.vue'),
-    name: 'dj-recommend',
+      import(/* webpackChunkName: "dj-recommend" */ "@/views/Dj/recommend.vue"),
+    name: "dj-recommend",
     meta: {
-      title: '推荐电台'
-    }
+      title: "推荐电台",
+    },
   },
   {
-    path: '/dj/:id',
+    path: "/dj/:id",
     component: () =>
-      import(/* webpackChunkName: "dj-id" */ '@/views/Dj/_id.vue'),
-    name: 'dj-id',
-    redirect: '/dj/:id/programs',
+      import(/* webpackChunkName: "dj-id" */ "@/views/Dj/_id.vue"),
+    name: "dj-id",
+    redirect: "/dj/:id/programs",
     children: [
       {
-        path: '/dj/:id/programs',
+        path: "/dj/:id/programs",
         component: () =>
           import(
-            /* webpackChunkName: "dj-id-programs" */ '@/views/Dj/_id/programs.vue'
+            /* webpackChunkName: "dj-id-programs" */ "@/views/Dj/_id/programs.vue"
           ),
-        name: 'dj-id-programs'
+        name: "dj-id-programs",
       },
       {
-        path: '/dj/:id/sublist',
+        path: "/dj/:id/sublist",
         component: () =>
           import(
-            /* webpackChunkName: "dj-id-sublist" */ '@/views/Dj/_id/sublist.vue'
+            /* webpackChunkName: "dj-id-sublist" */ "@/views/Dj/_id/sublist.vue"
           ),
-        name: 'dj-id-sublist'
-      }
-    ]
-  }
-]
+        name: "dj-id-sublist",
+      },
+    ],
+  },
+];
 
-export { djRoutes }
+export { djRoutes };

@@ -9,11 +9,11 @@
 export default {
   props: {
     row: {
-      type: Object
+      type: Object,
     },
     col: {
-      type: Object
-    }
-  }
-}
+      type: Object,
+    },
+  },
+};
 </script>

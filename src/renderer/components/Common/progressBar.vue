@@ -31,140 +31,140 @@
 </template>
 
 <script>
-import { debounce } from '@/utils/dom'
+import { debounce } from "@/utils/dom";
 
 export default {
-  name: 'progressBar',
-  data () {
-    this.mouse = {} // 记录鼠标位置，是否按下等信息
+  name: "progressBar",
+  data() {
+    this.mouse = {}; // 记录鼠标位置，是否按下等信息
     return {
       bufferedOffsetWidth: 0,
       progressOffsetWidth: 0,
-      progressbarTranslateX: 0
-    }
+      progressbarTranslateX: 0,
+    };
   },
   props: {
     percent: {
       type: Number,
-      default: 0
+      default: 0,
     },
     bufferedPercent: {
       type: Number,
-      default: 0
+      default: 0,
     },
     size: {
       type: String,
-      default: 'default',
-      validator (value) {
-        return ['default', 'small'].includes(value)
-      }
+      default: "default",
+      validator(value) {
+        return ["default", "small"].includes(value);
+      },
     },
     waiting: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  destroy () {
-    window.removeEventListener('resize', debounce(this.handleResize, 50))
+  destroy() {
+    window.removeEventListener("resize", debounce(this.handleResize, 50));
   },
-  mounted () {
-    this.changeProgressbarWidth(this.percent)
-    let _this = this
-    window.addEventListener('resize', debounce(this.handleResize, 50))
-    const virtualBar = this.$refs.virtualBar
+  mounted() {
+    this.changeProgressbarWidth(this.percent);
+    let _this = this;
+    window.addEventListener("resize", debounce(this.handleResize, 50));
+    const virtualBar = this.$refs.virtualBar;
     virtualBar.addEventListener(
-      'mousemove',
+      "mousemove",
       debounce(function (e) {
-        e.stopPropagation()
-        const progressBar = _this.$refs.progressBar
-        let pageX = e.pageX
-        let diff = pageX - progressBar.getBoundingClientRect().left
-        let percent = (diff / progressBar.clientWidth).toFixed(2)
-        _this.$emit('virtualBarMove', { pageX, percent })
+        e.stopPropagation();
+        const progressBar = _this.$refs.progressBar;
+        let pageX = e.pageX;
+        let diff = pageX - progressBar.getBoundingClientRect().left;
+        let percent = (diff / progressBar.clientWidth).toFixed(2);
+        _this.$emit("virtualBarMove", { pageX, percent });
       }, 200)
-    )
+    );
     virtualBar.addEventListener(
-      'mouseleave',
+      "mouseleave",
       debounce(function (e) {
-        _this.$emit('virtualBarLeave')
+        _this.$emit("virtualBarLeave");
       }, 200)
-    )
+    );
   },
   computed: {
-    handleCls () {
-      return this.size === 'small' ? 'handle small' : 'handle'
-    }
+    handleCls() {
+      return this.size === "small" ? "handle small" : "handle";
+    },
   },
   watch: {
-    percent (newPercent) {
+    percent(newPercent) {
       if (newPercent >= 0 && !this.mouse.isDown) {
-        this.changeProgressbarWidth(newPercent)
+        this.changeProgressbarWidth(newPercent);
       }
     },
-    bufferedPercent (newPercent) {
-      this.changeBufferedWidth(newPercent)
-    }
+    bufferedPercent(newPercent) {
+      this.changeBufferedWidth(newPercent);
+    },
   },
   methods: {
-    handleResize () {
-      this.changeBufferedWidth(this.bufferedPercent)
-      this.changeProgressbarWidth(this.percent)
+    handleResize() {
+      this.changeBufferedWidth(this.bufferedPercent);
+      this.changeProgressbarWidth(this.percent);
     },
-    onMouseDown (e) {
-      e.preventDefault()
-      this.mouse.startX = e.pageX
-      this.mouse.isDown = true
-      this.mouse.left = this.$refs.progress.clientWidth
+    onMouseDown(e) {
+      e.preventDefault();
+      this.mouse.startX = e.pageX;
+      this.mouse.isDown = true;
+      this.mouse.left = this.$refs.progress.clientWidth;
       document.onmousemove = (e) => {
-        e.preventDefault()
-        if (!this.mouse.isDown) return
-        const progressBar = this.$refs.progressBar
-        const progress = this.$refs.progress
-        const progressBarWidth = progressBar.getBoundingClientRect().width
-        this.mouse.moveX = e.pageX
-        let diffX = this.mouse.moveX - this.mouse.startX + this.mouse.left
+        e.preventDefault();
+        if (!this.mouse.isDown) return;
+        const progressBar = this.$refs.progressBar;
+        const progress = this.$refs.progress;
+        const progressBarWidth = progressBar.getBoundingClientRect().width;
+        this.mouse.moveX = e.pageX;
+        let diffX = this.mouse.moveX - this.mouse.startX + this.mouse.left;
         if (diffX < 0) {
-          diffX = 0
+          diffX = 0;
         }
         if (diffX > progressBarWidth) {
-          diffX = progressBarWidth
+          diffX = progressBarWidth;
         }
-        this.progressOffsetWidth = diffX
-        this.progressbarTranslateX = diffX
-        this.$emit('percentChanging', this.calcPercent())
-      }
+        this.progressOffsetWidth = diffX;
+        this.progressbarTranslateX = diffX;
+        this.$emit("percentChanging", this.calcPercent());
+      };
       document.onmouseup = (e) => {
-        if (!this.mouse.isDown) return
-        this.mouse.isDown = false
-        document.onmousemove = null
-        this.$emit('percentChanged', this.calcPercent())
-      }
+        if (!this.mouse.isDown) return;
+        this.mouse.isDown = false;
+        document.onmousemove = null;
+        this.$emit("percentChanged", this.calcPercent());
+      };
     },
-    progressClick (e) {
-      const rect = this.$refs.progressBar.getBoundingClientRect()
-      const offsetWidth = e.pageX - rect.left
-      this.progressOffsetWidth = offsetWidth
-      this.progressbarTranslateX = offsetWidth
-      this.$emit('percentChanged', this.calcPercent())
+    progressClick(e) {
+      const rect = this.$refs.progressBar.getBoundingClientRect();
+      const offsetWidth = e.pageX - rect.left;
+      this.progressOffsetWidth = offsetWidth;
+      this.progressbarTranslateX = offsetWidth;
+      this.$emit("percentChanged", this.calcPercent());
     },
-    calcPercent () {
+    calcPercent() {
       return (
         this.progressOffsetWidth / this.$refs.progressBar.clientWidth
-      ).toFixed(2)
+      ).toFixed(2);
     },
-    changeProgressbarWidth (percent) {
-      const barWidth = this.$refs.progressBar.getBoundingClientRect().width
-      const offsetWidth = percent * barWidth
-      this.progressOffsetWidth = offsetWidth
-      this.progressbarTranslateX = offsetWidth
+    changeProgressbarWidth(percent) {
+      const barWidth = this.$refs.progressBar.getBoundingClientRect().width;
+      const offsetWidth = percent * barWidth;
+      this.progressOffsetWidth = offsetWidth;
+      this.progressbarTranslateX = offsetWidth;
     },
-    changeBufferedWidth (percent) {
-      const barWidth = this.$refs.progressBar.getBoundingClientRect().width
-      const offsetWidth = percent * barWidth
-      this.bufferedOffsetWidth = offsetWidth
-    }
-  }
-}
+    changeBufferedWidth(percent) {
+      const barWidth = this.$refs.progressBar.getBoundingClientRect().width;
+      const offsetWidth = percent * barWidth;
+      this.bufferedOffsetWidth = offsetWidth;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

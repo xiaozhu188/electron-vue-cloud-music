@@ -1,2 +1,2 @@
-import TrackList from './index.vue'
-export default TrackList
+import TrackList from "./index.vue";
+export default TrackList;

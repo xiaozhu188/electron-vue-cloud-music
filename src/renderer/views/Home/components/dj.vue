@@ -12,22 +12,22 @@
 </template>
 
 <script>
-import djItem from '@/components/Common/dj-item'
+import djItem from "@/components/Common/dj-item";
 
 export default {
-  name: 'dj',
+  name: "dj",
   props: {
     list: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
   components: {
-    djItem
-  }
-}
+    djItem,
+  },
+};
 </script>
 
 <style lang="less" scoped>

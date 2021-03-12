@@ -1,5 +1,5 @@
-import request from '@/utils/request.js'
+import request from "@/utils/request.js";
 
-export function getPrivateContent () {
-  return request.get('/personalized/privatecontent')
+export function getPrivateContent() {
+  return request.get("/personalized/privatecontent");
 }

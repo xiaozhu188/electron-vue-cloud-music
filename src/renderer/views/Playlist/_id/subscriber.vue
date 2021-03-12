@@ -15,32 +15,32 @@
 </template>
 
 <script>
-import { getPlaylistSubscribers } from '@/api/playlist'
+import { getPlaylistSubscribers } from "@/api/playlist";
 
 export default {
-  name: 'playlist_id_subscriber',
-  data () {
+  name: "playlist_id_subscriber",
+  data() {
     return {
       subscribers: [],
       options: {
         limit: 30,
-        offset: 0
-      }
-    }
+        offset: 0,
+      },
+    };
   },
-  activated () {
-    this._getPlaylistSubscribers()
+  activated() {
+    this._getPlaylistSubscribers();
   },
   methods: {
-    _getPlaylistSubscribers () {
-      let id = this.$route.params.id
-      let options = { ...this.options, id }
+    _getPlaylistSubscribers() {
+      let id = this.$route.params.id;
+      let options = { ...this.options, id };
       getPlaylistSubscribers(options).then((res) => {
-        this.subscribers = res.subscribers
-      })
-    }
-  }
-}
+        this.subscribers = res.subscribers;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

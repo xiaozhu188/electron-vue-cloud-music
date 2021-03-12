@@ -62,75 +62,75 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { login_cellphone, user_detail } from '@/api/user'
-import eventBus from '@/utils/eventBus'
-import { setTimeout } from 'timers'
+import { mapState } from "vuex";
+import { login_cellphone, user_detail } from "@/api/user";
+import eventBus from "@/utils/eventBus";
+import { setTimeout } from "timers";
 export default {
-  data () {
+  data() {
     return {
-      loading: false
-    }
+      loading: false,
+    };
   },
   computed: {
-    ...mapState('App', ['redirect']),
+    ...mapState("App", ["redirect"]),
     showLogin: {
-      get () {
-        return this.$store.state.User.showLogin
+      get() {
+        return this.$store.state.User.showLogin;
       },
-      set (value) {
-        this.$store.commit('User/SET_SHOW_LOGIN', value)
-      }
-    }
+      set(value) {
+        this.$store.commit("User/SET_SHOW_LOGIN", value);
+      },
+    },
   },
   watch: {
-    showLogin (newVal) {
+    showLogin(newVal) {
       if (newVal) {
-        this.loading = false
+        this.loading = false;
       }
-    }
+    },
   },
-  beforeCreate () {
-    this.form = this.$form.createForm(this)
+  beforeCreate() {
+    this.form = this.$form.createForm(this);
   },
   methods: {
-    handleSubmit (e) {
-      e.preventDefault()
-      this.loading = true
+    handleSubmit(e) {
+      e.preventDefault();
+      this.loading = true;
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
-            let { code, account } = await login_cellphone(values)
+            let { code, account } = await login_cellphone(values);
             if (code === 200) {
-              const { id } = account
-              localStorage.setItem('userId', id)
-              this.$store.commit('User/SET_SHOW_LOGIN', false)
-              const detail = await user_detail(id)
-              this.$store.commit('User/SET_USER_INFO', {
+              const { id } = account;
+              localStorage.setItem("userId", id);
+              this.$store.commit("User/SET_SHOW_LOGIN", false);
+              const detail = await user_detail(id);
+              this.$store.commit("User/SET_USER_INFO", {
                 userId: id,
                 account,
-                ...detail
-              })
+                ...detail,
+              });
               setTimeout(() => {
-                if (this.$route.name === 'home') {
-                  eventBus.$emit('refresh')
+                if (this.$route.name === "home") {
+                  eventBus.$emit("refresh");
                 } else {
-                  let redirect = this.redirect || '/home'
-                  this.$router.push({ path: redirect })
+                  let redirect = this.redirect || "/home";
+                  this.$router.push({ path: redirect });
                 }
-                this.loading = false
-              }, 100)
+                this.loading = false;
+              }, 100);
             } else {
-              this.loading = false
+              this.loading = false;
             }
           } catch (error) {
-            this.loading = false
+            this.loading = false;
           }
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 <style>
 .ant-modal-wrap.login {

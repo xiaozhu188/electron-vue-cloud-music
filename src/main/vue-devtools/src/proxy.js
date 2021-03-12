@@ -4,32 +4,32 @@
 // backend and the Vue devtools panel.
 
 const port = chrome.runtime.connect({
-  name: 'content-script'
-})
+  name: "content-script",
+});
 
-port.onMessage.addListener(sendMessageToBackend)
-window.addEventListener('message', sendMessageToDevtools)
-port.onDisconnect.addListener(handleDisconnect)
+port.onMessage.addListener(sendMessageToBackend);
+window.addEventListener("message", sendMessageToDevtools);
+port.onDisconnect.addListener(handleDisconnect);
 
-sendMessageToBackend('init')
+sendMessageToBackend("init");
 
-function sendMessageToBackend (payload) {
+function sendMessageToBackend(payload) {
   window.postMessage(
     {
-      source: 'vue-devtools-proxy',
-      payload: payload
+      source: "vue-devtools-proxy",
+      payload: payload,
     },
-    '*'
-  )
+    "*"
+  );
 }
 
-function sendMessageToDevtools (e) {
-  if (e.data && e.data.source === 'vue-devtools-backend') {
-    port.postMessage(e.data.payload)
+function sendMessageToDevtools(e) {
+  if (e.data && e.data.source === "vue-devtools-backend") {
+    port.postMessage(e.data.payload);
   }
 }
 
-function handleDisconnect () {
-  window.removeEventListener('message', sendMessageToDevtools)
-  sendMessageToBackend('shutdown')
+function handleDisconnect() {
+  window.removeEventListener("message", sendMessageToDevtools);
+  sendMessageToBackend("shutdown");
 }

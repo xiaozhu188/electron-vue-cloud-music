@@ -1,29 +1,29 @@
 let videoRoutes = [
   {
-    path: '/video',
+    path: "/video",
     component: () =>
-      import(/* webpackChunkName: "video" */ '@/views/Video/index.vue'),
-    name: 'video',
+      import(/* webpackChunkName: "video" */ "@/views/Video/index.vue"),
+    name: "video",
     meta: {
-      title: '视频',
-      icon: 'shipin',
-      auth: true
-    }
+      title: "视频",
+      icon: "shipin",
+      auth: true,
+    },
   },
   {
-    path: '/video/:id',
+    path: "/video/:id",
     component: () =>
       import(
-        /* webpackChunkName: "video-detail" */ '@/views/Video/_id/index.vue'
+        /* webpackChunkName: "video-detail" */ "@/views/Video/_id/index.vue"
       ),
-    name: 'video-detail'
+    name: "video-detail",
   },
   {
-    path: '/mv/:id',
+    path: "/mv/:id",
     component: () =>
-      import(/* webpackChunkName: "mv-detail" */ '@/views/Video/_id/mv.vue'),
-    name: 'mv-detail'
-  }
-]
+      import(/* webpackChunkName: "mv-detail" */ "@/views/Video/_id/mv.vue"),
+    name: "mv-detail",
+  },
+];
 
-export { videoRoutes }
+export { videoRoutes };

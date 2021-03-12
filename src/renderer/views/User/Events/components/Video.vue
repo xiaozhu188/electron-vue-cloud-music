@@ -65,26 +65,26 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import ProgressBar from '@/components/Common/progressBar'
-import { getVideoUrl } from '@/api/video'
-import { truncate } from 'fs'
+import { mapGetters, mapMutations } from "vuex";
+import ProgressBar from "@/components/Common/progressBar";
+import { getVideoUrl } from "@/api/video";
+import { truncate } from "fs";
 
 export default {
   props: {
     event: {
       type: Object,
-      default () {
-        return null
-      }
-    }
+      default() {
+        return null;
+      },
+    },
   },
   components: {
-    ProgressBar
+    ProgressBar,
   },
-  data () {
+  data() {
     return {
-      source: '',
+      source: "",
       autoplay: false,
       isClick: false,
       controls: false,
@@ -92,97 +92,97 @@ export default {
       currentTime: 0,
       buffered: 0,
       fullScreenFlag: false,
-      videoPlaying: false
-    }
+      videoPlaying: false,
+    };
   },
   computed: {
-    percent () {
-      return this.currentTime / this.event.video.duration
+    percent() {
+      return this.currentTime / this.event.video.duration;
     },
-    bufferedPercent () {
-      return this.buffered / this.event.video.duration
+    bufferedPercent() {
+      return this.buffered / this.event.video.duration;
     },
-    playIcon () {
-      return this.videoPlaying ? 'pause-circle' : 'play-circle'
+    playIcon() {
+      return this.videoPlaying ? "pause-circle" : "play-circle";
     },
-    screenIcon () {
-      return this.fullScreenFlag ? 'fullscreen-exit' : 'fullscreen'
-    }
+    screenIcon() {
+      return this.fullScreenFlag ? "fullscreen-exit" : "fullscreen";
+    },
   },
   watch: {
-    videoPlaying (newVal) {
-      const video = this.$refs.eventVideo
+    videoPlaying(newVal) {
+      const video = this.$refs.eventVideo;
       this.$nextTick(() => {
-        newVal ? video.play() : video.pause()
-      })
-    }
+        newVal ? video.play() : video.pause();
+      });
+    },
   },
   methods: {
-    pause () {
-      this.videoPlaying = false
+    pause() {
+      this.videoPlaying = false;
     },
-    handleClick () {
-      this.isClick = true
-      this.$emit('click')
+    handleClick() {
+      this.isClick = true;
+      this.$emit("click");
       if (this.source) {
-        this.videoPlaying = true
-        return
+        this.videoPlaying = true;
+        return;
       }
-      let videoId = this.event.video.videoId
+      let videoId = this.event.video.videoId;
       getVideoUrl(videoId).then((res) => {
         if (res.urls[0].url) {
-          this.source = res.urls[0].url
-          this.videoPlaying = true
-          this.$store.commit('play/SET_PLAY_STATUS', false)
+          this.source = res.urls[0].url;
+          this.videoPlaying = true;
+          this.$store.commit("play/SET_PLAY_STATUS", false);
         }
-      })
+      });
     },
-    togglePlaying () {
-      this.videoPlaying = !this.videoPlaying
+    togglePlaying() {
+      this.videoPlaying = !this.videoPlaying;
     },
-    toggleFullScreen () {
-      this.fullScreenFlag = !this.fullScreenFlag
-      this.$refs.eventVideo.webkitRequestFullScreen()
+    toggleFullScreen() {
+      this.fullScreenFlag = !this.fullScreenFlag;
+      this.$refs.eventVideo.webkitRequestFullScreen();
     },
-    play () {
-      this.videoPlaying = true
+    play() {
+      this.videoPlaying = true;
       if (this.playing) {
         // 暂停音频
-        this.$store.commit('play/SET_PLAY_STATUS', false)
+        this.$store.commit("play/SET_PLAY_STATUS", false);
       }
     },
-    onEnd () {
-      this.videoPlaying = false
+    onEnd() {
+      this.videoPlaying = false;
     },
-    updateTime (e) {
-      this.currentTime = e.target.currentTime
-      const video = this.$refs.eventVideo
+    updateTime(e) {
+      this.currentTime = e.target.currentTime;
+      const video = this.$refs.eventVideo;
       if (video) {
-        const timeRanges = video.buffered
+        const timeRanges = video.buffered;
         if (timeRanges.length != 0) {
-          this.buffered = timeRanges.end(timeRanges.length - 1)
+          this.buffered = timeRanges.end(timeRanges.length - 1);
         }
       }
     },
-    onWaiting () {
-      this.waiting = true
+    onWaiting() {
+      this.waiting = true;
     },
-    onPlaying () {
-      this.waiting = false
+    onPlaying() {
+      this.waiting = false;
     },
-    onError () {
-      this.waiting = false
+    onError() {
+      this.waiting = false;
     },
-    onProgressBarChange (percent) {
-      const currentTime = this.event.video.duration * percent
-      this.currentTime = this.$refs.eventVideo.currentTime = currentTime
+    onProgressBarChange(percent) {
+      const currentTime = this.event.video.duration * percent;
+      this.currentTime = this.$refs.eventVideo.currentTime = currentTime;
     },
-    onProgressBarChanging (percent) {
-      const currentTime = this.event.video.duration * percent
-      this.currentTime = this.$refs.eventVideo.currentTime = currentTime
-    }
-  }
-}
+    onProgressBarChanging(percent) {
+      const currentTime = this.event.video.duration * percent;
+      this.currentTime = this.$refs.eventVideo.currentTime = currentTime;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

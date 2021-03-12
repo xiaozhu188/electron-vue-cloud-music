@@ -15,27 +15,27 @@
 
 <script>
 const CollectAlbum = (resolve) => {
-  require(['./components/Album.vue'], resolve)
-}
+  require(["./components/Album.vue"], resolve);
+};
 const CollectArtist = (resolve) => {
-  require(['./components/Artist.vue'], resolve)
-}
+  require(["./components/Artist.vue"], resolve);
+};
 const CollectVideo = (resolve) => {
-  require(['./components/Video.vue'], resolve)
-}
+  require(["./components/Video.vue"], resolve);
+};
 export default {
-  name: 'collect',
-  data () {
+  name: "collect",
+  data() {
     return {
-      value: 'collect-album'
-    }
+      value: "collect-album",
+    };
   },
   components: {
     CollectAlbum,
     CollectArtist,
-    CollectVideo
-  }
-}
+    CollectVideo,
+  },
+};
 </script>
 
 <style lang="less" scoped>

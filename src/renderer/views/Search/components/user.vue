@@ -21,25 +21,25 @@
 </template>
 
 <script>
-import searchMixin from '@/mixins/Search'
-import Artists from '@/components/Common/artists'
+import searchMixin from "@/mixins/Search";
+import Artists from "@/components/Common/artists";
 export default {
   mixins: [searchMixin],
-  data () {
+  data() {
     return {
-      users: []
-    }
+      users: [],
+    };
   },
   components: {
-    Artists
+    Artists,
   },
   methods: {
-    normalData () {
-      this.users = this.result.userprofiles
-      this.spinning = false
-    }
-  }
-}
+    normalData() {
+      this.users = this.result.userprofiles;
+      this.spinning = false;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

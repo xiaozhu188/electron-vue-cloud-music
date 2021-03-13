@@ -52,7 +52,7 @@
     "commitizen": "^4.0.3",
     "commitlint": "^8.2.0",
     "conventional-changelog-cli": "^2.0.28",
-    "electron": "^6.0.0",
+    "electron": "^9.4.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "husky": "^5.1.3",

@@ -1,3 +1,26 @@
+## [1.1.21](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.18...v1.1.21) (2021-03-12)
+
+范围|描述|commitId
+--|--|--
+ - | 1.1.21 | [cf1ca74](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/cf1ca74)
+ - | test ci2 | [3749af3](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/3749af3)
+ - | test ci2 | [3d48c7b](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/3d48c7b)
+ - | test ci | [94dc358](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/94dc358)
+ - | test ci | [ae97deb](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/ae97deb)
+ - | test ci | [d527768](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/d527768)
+
+
+### 📦 持续集成
+范围|描述|commitId
+--|--|--
+ - | test ci | [3370041](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/3370041)
+
+
+### 🔧 测试
+范围|描述|commitId
+--|--|--
+ - | test | [2182914](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/2182914)
+
 ## [1.1.18](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.17...v1.1.18) (2021-03-12)
 
 范围|描述|commitId

@@ -1,3 +1,18 @@
+# [1.2.0](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.22...v1.2.0) (2021-03-14)
+## [1.1.22](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.21...v1.1.22) (2021-03-13)
+
+范围|描述|commitId
+--|--|--
+ - | 1.1.22 | [7f003e5](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/7f003e5)
+ - | delete lock | [d7681f8](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/d7681f8)
+ - | create main.yml | [7609f69](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/7609f69)
+
+
+### 📦 持续集成
+范围|描述|commitId
+--|--|--
+ - | add actions | [db088e4](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/db088e4)
+
 ## [1.1.21](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.18...v1.1.21) (2021-03-12)
 
 范围|描述|commitId

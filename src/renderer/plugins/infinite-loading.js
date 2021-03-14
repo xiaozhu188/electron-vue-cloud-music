@@ -7,10 +7,10 @@ import InfiniteError from "@/components/Common/infiniteError";
 
 // Vue.component('infinite-loading', InfiniteLoading);
 Vue.use(InfiniteLoading, {
-  slots: {
-    spinner: Loading,
-    noResults: InfiniteNoResults,
-    noMore: InfiniteNoMore,
-    error: InfiniteError,
-  },
+    slots: {
+        spinner: Loading,
+        noResults: InfiniteNoResults,
+        noMore: InfiniteNoMore,
+        error: InfiniteError,
+    },
 });

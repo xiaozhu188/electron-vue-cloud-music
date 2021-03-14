@@ -1,12 +1,12 @@
 <template>
-  <div class="sublist">开发中...</div>
+    <div class="sublist">开发中...</div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {};
-  },
+    data() {
+        return {};
+    },
 };
 </script>
 

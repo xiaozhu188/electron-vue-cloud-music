@@ -19,11 +19,11 @@ Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
-  components: { App },
-  router,
-  store,
-  created() {
-    createdInit();
-  },
-  template: "<App/>",
+    components: { App },
+    router,
+    store,
+    created() {
+        createdInit();
+    },
+    template: "<App/>",
 }).$mount("#app");

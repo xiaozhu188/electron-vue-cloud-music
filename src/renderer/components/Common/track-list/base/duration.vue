@@ -1,20 +1,20 @@
 <template>
-  <span title="时长">{{ row[col.key] | duration }}</span>
+    <span title="时长">{{ row[col.key] | duration }}</span>
 </template>
 
 <script>
 export default {
-  data() {
-    return {};
-  },
-  props: {
-    row: {
-      type: Object,
+    data() {
+        return {};
     },
-    col: {
-      type: Object,
+    props: {
+        row: {
+            type: Object,
+        },
+        col: {
+            type: Object,
+        },
     },
-  },
 };
 </script>
 

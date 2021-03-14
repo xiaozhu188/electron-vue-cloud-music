@@ -1,4 +1,15 @@
-# [1.2.0](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.22...v1.2.0) (2021-03-14)
+## [1.2.1](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.22...v1.2.1) (2021-03-14)
+
+范围|描述|commitId
+--|--|--
+ - | 1.2.1 | [bc65cdc](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/bc65cdc)
+
+
+### 🌟 新功能
+范围|描述|commitId
+--|--|--
+ - | 升级至electron12;逐渐适配Mac;修复部分BUG | [de5cd5d](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/de5cd5d)
+
 ## [1.1.22](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.21...v1.1.22) (2021-03-13)
 
 范围|描述|commitId

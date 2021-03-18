@@ -1,3 +1,15 @@
+## [1.2.2](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.2.1...v1.2.2) (2021-03-14)
+
+范围|描述|commitId
+--|--|--
+ - | 1.2.2 | [1139699](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/1139699)
+
+
+### 🐛 Bug 修复
+范围|描述|commitId
+--|--|--
+ - | 修复windows打包缺失图标导致失败并启用asar | [e322843](https://github.com/xiaozhu188/electron-vue-cloud-music/commit/e322843)
+
 ## [1.2.1](https://github.com/xiaozhu188/electron-vue-cloud-music/compare/v1.1.22...v1.2.1) (2021-03-14)
 
 范围|描述|commitId

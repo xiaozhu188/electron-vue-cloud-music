@@ -14,7 +14,11 @@
                         <a-button size="small" @click="showMain"
                             >打开主界面</a-button
                         >
-                        <div class="title js-video-title" v-if="videoData.name">
+                        <div
+                            class="title js-video-title"
+                            v-resize="onResize"
+                            v-if="videoData.name"
+                        >
                             <div class="inner js-video-title-inner"
                                 >{{ videoData.name }} {{ videoData.desc }}</div
                             >
@@ -414,7 +418,7 @@ export default {
         volume(newVal) {
             const video = this.$refs.video;
             newVal = Number(newVal);
-            if (newVal == 0) {
+            if (newVal === 0) {
                 this.$store.commit("play/SET_MUTED", true);
             }
             this.$nextTick(() => {
@@ -544,15 +548,11 @@ export default {
                 this.isFullScreen = false;
             }
         });
-
-        this.$refs.videoIntro.addEventListener(
-            "transitionend",
-            debounce(this.handleResize, 300)
-        );
-
-        win.on("resize", debounce(this.handleResize, 300));
     },
     methods: {
+        onResize(data) {
+            this.handleResize();
+        },
         showMoreList(type) {
             if (type === "br") {
                 this.isShowBrs = !this.isShowBrs;

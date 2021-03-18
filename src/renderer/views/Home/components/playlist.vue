@@ -1,14 +1,19 @@
 <template>
     <div class="playlist">
         <ul class="list">
-            <li class="list-item" @click="goLink" v-if="userId">
+            <li
+                class="list-item"
+                @click="goLink"
+                v-resize:[throttleOption].throttle="onResize"
+                v-if="userId"
+            >
                 <div class="date">
                     <div class="info">
                         <div class="week">{{ getWeek() }}</div>
                         <div class="day">{{ getDate() }}</div>
                     </div>
                 </div>
-                <div>每日歌曲推荐</div>
+                <div class="name">每日歌曲推荐</div>
             </li>
             <list-item
                 class="list-item"
@@ -41,6 +46,10 @@ export default {
             },
         },
     },
+    data() {
+        this.throttleOption = { wait: 100 };
+        return {};
+    },
     computed: {
         ...mapGetters("User", ["userId"]),
         playlist() {
@@ -51,6 +60,9 @@ export default {
         listItem,
     },
     methods: {
+        onResize({ target }) {
+            target.style.fontSize = `${target.clientWidth}px`;
+        },
         getWeek() {
             return "星期" + "日一二三四五六".charAt(new Date().getDay());
         },
@@ -91,16 +103,20 @@ export default {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                line-height: 1.1;
+                line-height: 1;
                 background: #fff;
                 .week {
-                    font-size: 22px;
+                    font-size: 0.15em;
                 }
                 .day {
-                    font-size: 90px;
+                    font-size: 0.56em;
                     color: @primary-color;
                 }
             }
+        }
+        .name {
+            padding: 4px;
+            font-size: 13px;
         }
         &:hover {
             .copywriter {

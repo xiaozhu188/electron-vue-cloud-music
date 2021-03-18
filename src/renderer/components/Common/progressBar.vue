@@ -2,6 +2,7 @@
     <div
         class="progress-bar"
         ref="progressBar"
+        v-resize:[debounceOptions].debounce="handleResize"
         @click.prevent.stop="progressClick"
     >
         <div
@@ -36,6 +37,7 @@ import { debounce } from "@/utils/dom";
 export default {
     name: "progressBar",
     data() {
+        this.debounceOptions = { wait: 50 };
         this.mouse = {}; // 记录鼠标位置，是否按下等信息
         return {
             bufferedOffsetWidth: 0,
@@ -64,29 +66,25 @@ export default {
             default: false,
         },
     },
-    destroy() {
-        window.removeEventListener("resize", debounce(this.handleResize, 50));
-    },
     mounted() {
         this.changeProgressbarWidth(this.percent);
-        let _this = this;
-        window.addEventListener("resize", debounce(this.handleResize, 50));
+
         const virtualBar = this.$refs.virtualBar;
         virtualBar.addEventListener(
             "mousemove",
-            debounce(function (e) {
+            debounce((e) => {
                 e.stopPropagation();
-                const progressBar = _this.$refs.progressBar;
+                const progressBar = this.$refs.progressBar;
                 let pageX = e.pageX;
                 let diff = pageX - progressBar.getBoundingClientRect().left;
                 let percent = (diff / progressBar.clientWidth).toFixed(2);
-                _this.$emit("virtualBarMove", { pageX, percent });
+                this.$emit("virtualBarMove", { pageX, percent });
             }, 200)
         );
         virtualBar.addEventListener(
             "mouseleave",
-            debounce(function (e) {
-                _this.$emit("virtualBarLeave");
+            debounce(() => {
+                this.$emit("virtualBarLeave");
             }, 200)
         );
     },

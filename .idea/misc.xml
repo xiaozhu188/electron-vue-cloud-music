@@ -3,7 +3,4 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="JSX" />
   </component>
-  <component name="WebPackConfiguration">
-    <option name="path" value="$PROJECT_DIR$/node_modules/@vue/cli-service/webpack.config.js" />
-  </component>
 </project>

@@ -3,5 +3,6 @@ coverage
 dist
 docs
 node_modules
+tests
 .idea
 .github

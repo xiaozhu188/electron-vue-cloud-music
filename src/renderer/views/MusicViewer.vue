@@ -1,7 +1,7 @@
 <template>
     <div>
         <transition name="viewSlideTop">
-            <div class="music-view" v-show="showView">
+            <div class="music-view" v-show="isShowVisual">
                 <div
                     class="bg-player"
                     :style="'backgroundImage: url(' + current_song.avatar + ')'"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import MusicView from "@/components/Common/musicView.vue";
 import LyricList from "@/components/Lyric/index.vue";
 const LINE_HEIGHT = 42;
@@ -44,14 +44,14 @@ export default {
             "current_lyric_line",
             "source",
         ]),
-        ...mapGetters("App", ["showView"]),
+        ...mapState("App", ["isShowVisual"]),
     },
     components: {
         MusicView,
         LyricList,
     },
     watch: {
-        showView(newVal) {
+        isShowVisual(newVal) {
             if (newVal) {
                 this.$nextTick(() => {
                     const lines = this.$refs.lyrics.$refs.lyricLine;

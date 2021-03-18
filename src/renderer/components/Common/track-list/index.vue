@@ -389,7 +389,7 @@ export default {
         },
     },
     activated() {
-        this.$store.state.App.isOnliline && this._getUserLikelist(this.userId);
+        this.$store.state.App.isOnline && this._getUserLikelist(this.userId);
     },
     created() {
         ipcRenderer.on(
@@ -485,7 +485,7 @@ export default {
         },
         download(song) {
             // this.$set(song, 'isWaitting', true)
-            this.$store.dispatch("Download/adddownloadQueue", [song]);
+            this.$store.dispatch("Download/addDownloadQueue", [song]);
         },
     },
 };

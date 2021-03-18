@@ -15,7 +15,7 @@
                 <a-layout-content class="basic-layout-content">
                     <keep-alive
                         :exclude="keepAliveExcludeList"
-                        v-if="isOnliline || noLimitRoutes.includes($route.name)"
+                        v-if="isOnline || noLimitRoutes.includes($route.name)"
                     >
                         <router-view v-if="!refresh"></router-view>
                     </keep-alive>
@@ -55,8 +55,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("App", ["isOnliline"]),
-        ...mapState("App", ["noLimitRoutes", "platform"]),
+        ...mapState("App", ["noLimitRoutes", "platform", "isOnline"]),
     },
     components: {
         BasicHeader,

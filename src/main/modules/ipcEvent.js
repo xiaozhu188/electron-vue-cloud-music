@@ -2,7 +2,6 @@ import { ipcMain, dialog, app, BrowserWindow, shell } from "electron";
 import path from "path";
 import createMiniWindow from "../windows/miniWindow";
 import createUpdateWindow from "./../windows/updateWindow";
-import { defaultDownloadFolder } from "../../renderer/config/downloadSettings";
 let { download } = require("electron-dl");
 let downloads = {};
 let updateWindow;
@@ -138,21 +137,18 @@ export default function () {
         }
     });
 
-    ipcMain.on("open-directory-dialog", (event) => {
-        dialog.showOpenDialog(
+    ipcMain.on("open-directory-dialog", async (event) => {
+        let res = await dialog.showOpenDialog(
             {
-                defaultPath: defaultDownloadFolder,
                 properties: ["openDirectory", "multiSelections"],
                 // filters: [
                 //   { name: 'Audio', extensions: ['mp3', 'wma'] }
                 // ]
-            },
-            function (files) {
-                if (files) {
-                    event.sender.send("selectedItem", files);
-                }
             }
         );
+        if (res.filePaths) {
+          event.sender.send("selectedItem", res.filePaths);
+        }
     });
 
     ipcMain.on("ondragstart", (event, e) => {

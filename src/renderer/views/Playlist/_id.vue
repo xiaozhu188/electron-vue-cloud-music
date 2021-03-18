@@ -221,7 +221,7 @@ export default {
             this.tracks.forEach((song) => {
                 this.$set(song, "isWaitting", true);
             });
-            this.$store.dispatch("Download/adddownloadQueue", this.tracks);
+            this.$store.dispatch("Download/addDownloadQueue", this.tracks);
         },
     },
 };

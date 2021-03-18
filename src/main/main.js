@@ -99,7 +99,7 @@ async function createWindow() {
         frame: process.platform !== "win32",
         show: true,
         backgroundColor: "#2e2c29",
-        hasShadow: process.platform === "darwin" ? false : true,
+        hasShadow: process.platform !== "darwin",
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,
@@ -114,11 +114,9 @@ async function createWindow() {
         // 去除原生顶部菜单栏
         mainWindow.setMenu(null);
         // 如果是windows系统模拟托盘菜单
-        if (process.platform === "win32") {
-            global.tray = createTray(Tray);
-            let trayBounds = global.tray.getBounds();
-            global.trayWindow = createTrayWindow(BrowserWindow, trayBounds);
-        }
+        global.tray = createTray(Tray);
+        let trayBounds = global.tray.getBounds();
+        global.trayWindow = createTrayWindow(BrowserWindow, trayBounds);
     }
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {

@@ -5,9 +5,6 @@ let search = {
         searchHistory:
             JSON.parse(localStorage.getItem("__searchHistory__")) || [],
     },
-    getters: {
-        searchHistory: (state) => state.searchHistory,
-    },
     mutations: {
         update: (state, val) => {
             state.searchHistory = val;

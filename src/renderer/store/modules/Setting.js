@@ -2,9 +2,6 @@ import { remote } from "electron";
 let state = {
     downloadSongsFolders: [`${remote.app.getPath("music")}`],
 };
-let getters = {
-    downloadSongsFolders: (state) => state.downloadSongsFolders,
-};
 
 let mutations = {
     add(state, folders) {
@@ -21,4 +18,8 @@ let mutations = {
     },
 };
 
-export default { namespaced: true, state, getters, mutations };
+export default {
+    namespaced: true,
+    state,
+    mutations,
+};

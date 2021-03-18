@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import ZIcon from "@/components/ZIcon";
 import { colorList } from "@/config/config";
 import config from "@/config/defaultSettings";
@@ -50,7 +50,7 @@ export default {
         ZIcon,
     },
     computed: {
-        ...mapGetters("App", ["primaryColor"]),
+        ...mapState("App", ["primaryColor"]),
     },
     created() {
         console.log("__dirname", __dirname);

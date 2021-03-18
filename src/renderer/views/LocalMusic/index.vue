@@ -1,6 +1,6 @@
 <template>
     <div class="local-music">
-        <a-card :bordered="false">
+        <a-card :bordered="false" :bodyStyle="{ padding: 0 }">
             <div slot="title">
                 <a-button
                     icon="redo"
@@ -59,11 +59,10 @@
 
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
-import { shell, remote, ipcRenderer } from "electron";
+import { remote, ipcRenderer } from "electron";
 import { uniq } from "@/utils/calculate";
 import TrackList from "@/components/Common/track-list/index.js";
 import Loading from "@/components/Common/loading";
-const defaultDownloadFolder = `${remote.app.getPath("music")}`;
 const columns = [
     {
         title: "音乐标题",
@@ -106,7 +105,6 @@ export default {
             visible: false,
             selectedFolder: [],
             columns,
-            defaultDownloadFolder,
             matching: false,
         };
     },
@@ -115,8 +113,7 @@ export default {
         Loading,
     },
     computed: {
-        ...mapState("Localsong", ["exportFolders"]),
-        ...mapGetters("Localsong", ["localSongs"]),
+        ...mapState("Localsong", ["exportFolders", "localSongs"]),
     },
     methods: {
         ...mapActions("Localsong", ["refresh", "match"]),
@@ -147,6 +144,7 @@ export default {
         this.selectedFolder = this.exportFolders.concat();
         this.refresh(this.selectedFolder);
         ipcRenderer.on("selectedItem", (event, path) => {
+            console.log(path);
             let folders = uniq(this.selectedFolder.concat(path));
             this.setExportFolders(folders);
             this.selectedFolder = folders;

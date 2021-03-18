@@ -116,7 +116,7 @@ export default {
     computed: {
         ...mapState("Download", ["downloading", "queue"]),
         ...mapGetters("play", ["current_play_list"]),
-        ...mapGetters("Setting", ["downloadSongsFolders"]),
+        ...mapState("Setting", ["downloadSongsFolders"]),
         defaultDownloadFolder() {
             return this.downloadSongsFolders && this.downloadSongsFolders.length
                 ? this.downloadSongsFolders[0]

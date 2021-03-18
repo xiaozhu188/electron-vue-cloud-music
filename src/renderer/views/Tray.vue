@@ -36,7 +36,7 @@
                 <progress-bar
                     :percent="volume"
                     size="small"
-                    @percentChanged="onvolumeChanged"
+                    @percentChanged="onVolumeChanged"
                     class="bar-volume"
                 />
             </div>
@@ -60,7 +60,7 @@
                 </li>
                 <li
                     class="menu-item"
-                    :class="{ disabled: !showDesktoplyric }"
+                    :class="{ disabled: !isShowDesktoplyric }"
                     @click="doLyric(false)"
                     v-if="isFixed"
                 >
@@ -69,7 +69,7 @@
                 </li>
                 <li
                     class="menu-item"
-                    :class="{ disabled: !showDesktoplyric }"
+                    :class="{ disabled: !isShowDesktoplyric }"
                     @click="doLyric(true)"
                     v-else
                 >
@@ -112,7 +112,7 @@ export default {
             "mode",
             "volume",
             "isMuted",
-            "showDesktoplyric",
+            "isShowDesktoplyric",
         ]),
         ...mapState("play", ["lyric"]),
         playIcon() {
@@ -147,7 +147,7 @@ export default {
         onMuted() {
             this.$store.commit("play/SET_MUTED", !this.isMuted);
         },
-        onvolumeChanged(persent) {
+        onVolumeChanged(persent) {
             if (persent < 0) persent = 0;
             if (persent > 1) persent = 1;
             this.$store.commit("play/SET_VOLUME", Number(persent));
@@ -182,7 +182,7 @@ export default {
             this.$store.commit("play/SET_MODE", mode);
         },
         doLyric(flag) {
-            if (!this.showDesktoplyric) return;
+            if (!this.isShowDesktoplyric) return;
             this.isFixed = flag;
             this.$electron.ipcRenderer.send("fix-desktop-lyric", this.isFixed);
         },

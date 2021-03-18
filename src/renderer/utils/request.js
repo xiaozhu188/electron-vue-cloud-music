@@ -14,7 +14,7 @@ const instance = sguoyi.create({
 
 instance.interceptors.request.use(
     (config) => {
-        if (!store.state.App.isOnliline) {
+        if (!store.state.App.isOnline) {
             return Promise.reject(new Error("offline!"));
         }
         return config;

@@ -111,7 +111,7 @@ export default {
     computed: {
         ...mapState("Localsong", ["localSongs"]),
         ...mapState("Download", ["downloaded"]),
-        ...mapGetters("Setting", ["downloadSongsFolders"]),
+        ...mapState("Setting", ["downloadSongsFolders"]),
         defaultDownloadFolder() {
             return this.downloadSongsFolders[0];
         },

@@ -17,7 +17,8 @@
     "major": "npm version major && git push origin master && git push origin --tags",
     "release": "vue-cli-service electron:build --publish always",
     "lint": "vue-cli-service lint",
-    "prettier": "npx prettier --write ./src ./test"
+    "prettier": "npx prettier --write ./src ./test",
+    "doc": "docsify serve docs"
   },
   "appId": "com.xiaozhu.cloudmusic",
   "main": "background.js",

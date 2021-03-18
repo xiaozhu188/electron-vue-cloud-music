@@ -9,7 +9,7 @@
 </template>
 <script>
 import SettingItem from "./SettingItem.vue";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 import { remote } from "electron";
 import semver from "semver";
 
@@ -29,7 +29,7 @@ export default {
         SettingItem,
     },
     computed: {
-        ...mapGetters("Setting", ["downloadSongsFolders"]),
+        ...mapState("Setting", ["downloadSongsFolders"]),
         defaultDownloadFolder() {
             return this.downloadSongsFolders[0];
         },

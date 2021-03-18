@@ -163,7 +163,7 @@ export default {
             this.songs.forEach((song) => {
                 this.$set(song, "isWaitting", true);
             });
-            this.$store.dispatch("Download/adddownloadQueue", this.songs);
+            this.$store.dispatch("Download/addDownloadQueue", this.songs);
         },
         play() {
             this.$store.dispatch("play/selectPlay", {

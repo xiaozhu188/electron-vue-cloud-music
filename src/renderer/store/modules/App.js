@@ -4,24 +4,13 @@ const state = {
     isChangingColor: false,
     redirect: "/home",
     partRefreshFlag: false,
-    showView: false,
-    showDesktoplyric: false,
-    isOnliline: navigator.onLine,
+    isShowVisual: false,
+    isOnline: navigator.onLine,
     noLimitRoutes: ["music_local", "music_download", "setting"],
     platform: process.platform,
 };
 
-const getters = {
-    primaryColor: (state) => state.primaryColor,
-    showView: (state) => state.showView,
-    showDesktoplyric: (state) => state.showDesktoplyric,
-    isOnliline: (state) => state.isOnliline,
-};
-
 const mutations = {
-    SET_SHOW_DESKTOP_LYRIC(state, flag) {
-        state.showDesktoplyric = flag;
-    },
     CHANGE_COLOR(state, color) {
         state.primaryColor = color;
         ls.set("DEFAULT_COLOR", color);
@@ -33,10 +22,10 @@ const mutations = {
         state.redirect = url;
     },
     SHOW_VIEW(state, flag) {
-        state.showView = flag;
+        state.isShowVisual = flag;
     },
     SET_ONLINE(state, flag) {
-        state.isOnliline = flag;
+        state.isOnline = flag;
     },
 };
 
@@ -49,7 +38,6 @@ const actions = {
 export default {
     namespaced: true,
     state,
-    getters,
     mutations,
     actions,
 };

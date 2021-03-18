@@ -508,7 +508,7 @@ export default {
         },
         download(song) {
             // if (this.downloaded.findIndex(item => item.id === this.current_song.id) >= 0) return
-            this.$store.dispatch("Download/adddownloadQueue", [song]);
+            this.$store.dispatch("Download/addDownloadQueue", [song]);
         },
         play(tracks, index) {
             this.$store.dispatch("play/appendPlay", tracks[index]);

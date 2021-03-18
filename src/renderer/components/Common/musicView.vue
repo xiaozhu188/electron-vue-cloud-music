@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { setInterval } from "timers";
+import { mapGetters, mapState } from "vuex";
 export default {
     data() {
         return {
@@ -43,7 +42,7 @@ export default {
     },
     computed: {
         ...mapGetters("play", ["source", "current_song", "playing"]),
-        ...mapGetters("App", ["showView"]),
+        ...mapState("App", ["isShowVisual"]),
     },
     watch: {
         source(newVal) {
@@ -65,7 +64,7 @@ export default {
                 });
             }
         },
-        showView(newVal) {
+        isShowVisual(newVal) {
             if (newVal) {
                 this.$nextTick(() => {
                     this.audioDom = document.getElementById(this.source);

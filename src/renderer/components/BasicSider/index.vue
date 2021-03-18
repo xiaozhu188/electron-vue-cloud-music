@@ -88,7 +88,7 @@ export default {
     watch: {
         userId(newVal) {
             if (newVal !== "") {
-                if (this.$store.state.App.isOnliline) {
+                if (this.$store.state.App.isOnline) {
                     this._getUserPlaylist(newVal);
                     this.$store.dispatch("User/getUserLikedSongs");
                 }
@@ -98,7 +98,7 @@ export default {
         },
     },
     created() {
-        if (this.userId && this.$store.state.App.isOnliline) {
+        if (this.userId && this.$store.state.App.isOnline) {
             this._getUserPlaylist(this.userId);
         }
     },

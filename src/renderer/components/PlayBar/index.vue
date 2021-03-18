@@ -16,8 +16,8 @@
                 :percent="percent"
                 :bufferedPercent="bufferedPercent"
                 :waiting="waiting"
-                @percentChanged="onpercentChanged"
-                @percentChanging="onpercentChanged"
+                @percentChanged="onPercentChanged"
+                @percentChanging="onPercentChanged"
                 @virtualBarMove="onVirtualBarMove"
                 @virtualBarLeave="onVirtualBarLeave"
             />
@@ -33,7 +33,7 @@
             <progress-bar
                 :percent="0.5"
                 size="small"
-                @percentChanged="onvolumeChanged"
+                @percentChanged="onVolumeChanged"
                 class="bar-volume"
             />
             <audio
@@ -59,7 +59,7 @@
             <z-icon
                 type="geci"
                 class="lrc"
-                :class="{ active: showDesktoplyric }"
+                :class="{ active: isShowDesktoplyric }"
                 @click.native="toggleCurrentLyric"
             />
             <span class="count-wrapper" @click="showDrawer">
@@ -94,12 +94,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { playMode } from "@/config/config";
 import { getUrl } from "@/utils/song";
 import { getLyric } from "@/api/song";
 import Lyric from "@/utils/class/Lyric.js";
-import { shuffle } from "@/utils/calculate.js";
 import ProgressBar from "@/components/Common/progressBar";
 import TrackList from "@/components/Common/track-list/index.js";
 import ZIcon from "@/components/ZIcon";
@@ -145,9 +144,9 @@ export default {
             "source",
             "volume",
             "isMuted",
-            "showDesktoplyric",
+            "isShowDesktoplyric",
         ]),
-        ...mapGetters("App", ["isOnliline"]),
+        ...mapState("App", ["isOnline"]),
         playIcon() {
             return this.playing ? "pause-circle" : "play-circle";
         },
@@ -250,7 +249,7 @@ export default {
             if (this.current_song.folder && this.current_song.url) {
                 this.$refs.audio.src = this.current_song.url;
             } else {
-                if (!this.isOnliline) return;
+                if (!this.isOnline) return;
                 this.getOnlineSong(this.current_song)
                     .then((songUrl) => {
                         if (songUrl) {
@@ -297,6 +296,7 @@ export default {
                             this.$store.commit("play/SET_PLAY_STATUS", false);
                             this.isSongReady = true;
                             this.lyricInstance && this.resetLyric();
+                            this.buffered = 0;
                         }
                     })
                     .catch((error) => {
@@ -304,7 +304,7 @@ export default {
                         this.isSongReady = true;
                     })
                     .finally(() => {
-                        this.waiting = true;
+                        this.waiting = false;
                     });
             }
         },
@@ -516,7 +516,7 @@ export default {
             }
             this.$store.commit("play/SET_PLAY_STATUS", !this.playing);
         },
-        onpercentChanged(percent) {
+        onPercentChanged(percent) {
             if (!this.isSongReady) {
                 return;
             }
@@ -529,10 +529,10 @@ export default {
                     this.lyricInstance.seek(this.currentTime * 1000);
             }
         },
-        onvolumeChanged(persent) {
-            if (persent < 0) persent = 0;
-            if (persent > 1) persent = 1;
-            this.$store.commit("play/SET_VOLUME", Number(persent));
+        onVolumeChanged(percent) {
+            if (percent < 0) percent = 0;
+            if (percent > 1) percent = 1;
+            this.$store.commit("play/SET_VOLUME", Number(percent));
         },
         onVirtualBarMove({ pageX, percent }) {
             if (!this.lyricInstance) return;
@@ -546,7 +546,7 @@ export default {
                 this.lyricInstance.findLyricByTime(targetTime * 1000) || "";
             const dom = document.getElementById("progress-lyric");
             dom.style.left = `${pageX}px`;
-            if (dom.style.display == "none") {
+            if (dom.style.display === "none") {
                 dom.style.display = "block";
             }
             if (current_lyric) {
@@ -563,7 +563,7 @@ export default {
             this.visible = !this.visible;
         },
         toggleCurrentLyric() {
-            let flag = !this.showDesktoplyric;
+            let flag = !this.isShowDesktoplyric;
             this.$electron.ipcRenderer.send("toggle-desktop-lyric", flag);
             this.$store.commit("play/SET_SHOW_DESKTOP_LYRIC", flag);
         },
@@ -593,7 +593,7 @@ export default {
         }
     }
     .ant-drawer-body {
-        padding: 60px 0 0;
+        padding: 0;
     }
 }
 </style>

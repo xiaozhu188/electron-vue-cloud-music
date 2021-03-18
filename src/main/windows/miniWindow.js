@@ -20,6 +20,7 @@ const createMiniWindow = function (BrowserWindow) {
         closable: false,
         resizable: process.env.NODE_ENV === "development",
         // transparent: process.platform !== "linux",
+        hasShadow: process.platform !== "darwin",
         alwaysOnTop: true,
         webPreferences: {
             webSecurity: false,

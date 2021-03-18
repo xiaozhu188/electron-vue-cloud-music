@@ -161,7 +161,7 @@ let actions = {
             dispatch("download");
         }
     },
-    adddownloadQueue({ commit, dispatch, state }, songs) {
+    addDownloadQueue({ commit, dispatch, state }, songs) {
         let queue = [...state.queue];
         songs = songs.filter((song) => {
             return !queue.some((item) => item.id === song.id);

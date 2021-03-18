@@ -50,8 +50,7 @@ export default {
         FrameActions,
     },
     computed: {
-        ...mapState("App", ["platform"]),
-        ...mapGetters("App", ["primaryColor"]),
+        ...mapState("App", ["platform", "primaryColor"]),
         ...mapGetters("User", ["userId"]),
         ...mapGetters("play", [
             "current_song",

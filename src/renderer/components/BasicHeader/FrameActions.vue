@@ -53,7 +53,6 @@ export default {
                 case "mini":
                     this.$electron.ipcRenderer.send("toggle-mini", {
                         value: true,
-                        storeState: this.$store.state,
                     });
                     break;
             }

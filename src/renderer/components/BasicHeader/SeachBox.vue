@@ -69,7 +69,7 @@
 import { getSearchHot, getSearchSuggest } from "@/api/search";
 import { debounce } from "@/utils/dom";
 import { normalSong } from "@/utils/song";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import playMixin from "@/mixins/Play.js";
 
 export default {
@@ -92,7 +92,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Search", ["searchHistory"]),
+        ...mapState("Search", ["searchHistory"]),
         ...mapGetters("play", ["current_song"]),
         overlayStyle() {
             return this.keyword && this.suggests

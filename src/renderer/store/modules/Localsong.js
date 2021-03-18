@@ -17,9 +17,6 @@ export default {
         localSongs: [],
         exportFolders: [`${remote.app.getPath("music")}`],
     },
-    getters: {
-        localSongs: (state) => state.localSongs,
-    },
     mutations: {
         clear(state) {
             state.localSongs = [];
